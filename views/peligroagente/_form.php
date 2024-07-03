@@ -12,11 +12,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_sub2_agente')->textInput() ?>
+    <?= $form->field($model, 'id_sub2_clas_pel')->textInput() ?>
 
-    <?= $form->field($model, 'id_sub_agente')->textInput() ?>
+    <?= $form->field($model, 'id_sub_cla_pel')->textInput() ?>
 
-    <?= $form->field($model, 'id_agente')->textInput() ?>
+    <?= $form->field($model, 'id_cla_pel')->textInput() ?>
 
     <?= $form->field($model, 'id_peligro')->textInput() ?>
 
@@ -24,11 +24,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'codigo')->textInput() ?>
 
-    <?= $form->field($model, 'id_estatus')->textInput() ?>
-
     <?= $form->field($model, 'created_at')->textInput() ?>
 
     <?= $form->field($model, 'updated_at')->textInput() ?>
+
+    <?= $form->field($model, 'id_estatus')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

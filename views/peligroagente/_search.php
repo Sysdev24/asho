@@ -17,11 +17,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_pel_agen') ?>
 
-    <?= $form->field($model, 'id_sub2_agente') ?>
+    <?= $form->field($model, 'id_sub2_clas_pel') ?>
 
-    <?= $form->field($model, 'id_sub_agente') ?>
+    <?= $form->field($model, 'id_sub_cla_pel') ?>
 
-    <?= $form->field($model, 'id_agente') ?>
+    <?= $form->field($model, 'id_cla_pel') ?>
 
     <?= $form->field($model, 'id_peligro') ?>
 
@@ -29,11 +29,11 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'codigo') ?>
 
-    <?php // echo $form->field($model, 'id_estatus') ?>
-
     <?php // echo $form->field($model, 'created_at') ?>
 
     <?php // echo $form->field($model, 'updated_at') ?>
+
+    <?php // echo $form->field($model, 'id_estatus') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
