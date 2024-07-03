@@ -17,7 +17,7 @@ class PeligroagenteSearch extends PeligroAgente
     public function rules()
     {
         return [
-            [['id_pel_agen', 'id_sub2_agente', 'id_sub_agente', 'id_agente', 'id_peligro', 'id_estatus'], 'integer'],
+            [['id_pel_agen', 'id_sub2_clas_pel', 'id_sub_cla_pel', 'id_cla_pel', 'id_peligro', 'id_estatus'], 'integer'],
             [['descripcion', 'codigo', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -59,13 +59,13 @@ class PeligroagenteSearch extends PeligroAgente
         // grid filtering conditions
         $query->andFilterWhere([
             'id_pel_agen' => $this->id_pel_agen,
-            'id_sub2_agente' => $this->id_sub2_agente,
-            'id_sub_agente' => $this->id_sub_agente,
-            'id_agente' => $this->id_agente,
+            'id_sub2_clas_pel' => $this->id_sub2_clas_pel,
+            'id_sub_cla_pel' => $this->id_sub_cla_pel,
+            'id_cla_pel' => $this->id_cla_pel,
             'id_peligro' => $this->id_peligro,
-            'id_estatus' => $this->id_estatus,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'id_estatus' => $this->id_estatus,
         ]);
 
         $query->andFilterWhere(['ilike', 'descripcion', $this->descripcion])
