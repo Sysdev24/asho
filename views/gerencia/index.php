@@ -1,0 +1,47 @@
+<?php
+
+use app\models\Gerencia;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
+
+/** @var yii\web\View $this */
+/** @var app\models\GerenciaSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+
+$this->title = 'Gerencias';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="gerencia-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('Create Gerencia', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id_gerencia',
+            'descripcion',
+            'id_estatus',
+            'created_at',
+            'updated_at',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Gerencia $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id_gerencia' => $model->id_gerencia]);
+                 }
+            ],
+        ],
+    ]); ?>
+
+
+</div>
