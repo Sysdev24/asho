@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\TipotrabajoSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Tipo Trabajos';
+$this->title = 'TIPO DE TRABAJOS';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tipo-trabajo-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Tipo Trabajo', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Tipo Trabajo', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,14 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+        'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
-            'id_tipo_trabajo',
+            //'id_tipo_trabajo',
             'descripcion',
-            'created_at',
-            'updated_at',
-            'id_estatus',
-            //'codigo',
+            //'created_at',
+            //'updated_at',
+            //'id_estatus',
+            'codigo',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, TipoTrabajo $model, $key, $index, $column) {

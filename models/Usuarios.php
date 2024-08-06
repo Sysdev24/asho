@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\base\NotSupportedException;
+use yii\models\LoginForm;
 
 /**
  * This is the model class for table "usuarios".
@@ -24,7 +26,7 @@ use Yii;
  * @property Gerencia $gerencia
  * @property Roles $roles
  */
-class Usuarios extends \yii\db\ActiveRecord
+class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     /**
      * {@inheritdoc}
@@ -109,4 +111,47 @@ class Usuarios extends \yii\db\ActiveRecord
     {
         return new UsuariosQuery(get_called_class());
     }
+
+
+
+    //Insertar para el login
+
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getAuthKey()
+    {
+        return $this->authKey;
+    }
+
+    public function validateAuthKey($authKey)
+    {
+        //return $this->authKey === $authKey;
+        throw new NotSupportedException();
+    }
+
+    //Para el login
+
+
+    public static function findByUsuario($usuario){
+        return self::findOne(['usuarios' => $usuario]);
+    }
+
+
+    public function validatePassword($password){
+        return $this->password === $password;
+    }
+    
 }

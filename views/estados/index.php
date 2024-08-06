@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 /** @var app\models\EstadosSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Estados';
+$this->title = 'ESTADOS';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="estados-index">

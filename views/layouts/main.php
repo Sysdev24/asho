@@ -30,11 +30,17 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <?php $this->beginBody() ?>
 
 <header id="header">
+    <!-- Para poner el banner -->
+    <div class="row">
+        <div class="col-md-12"><img src="<?= yii::getAlias('@web')?>/img/banner_superior.png" alt="banner superior" class="img-fluid"></div>
+    </div>
+
     <?php
     NavBar::begin([
         //'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
-        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top'],
+        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark'],
+        //'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top'],
     ]);
 
     $menuItems = [
@@ -51,13 +57,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ['label' => 'Roles', 'url' => ['/roles/index']],
                 ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']],
                 ['label' => 'Cargo', 'url' => ['/cargo/index']],
-                ['label' => 'Clasificacion Incidente', 'url' => ['/clasificacionincidente/index']],
+                //['label' => 'Clasificacion Incidente', 'url' => ['/clasificacionincidente/index']],
                 ['label' => 'Sujeto Afectacion', 'url' => ['/sujetoafectacion/index']],
                 ['label' => 'Tipo Accidente', 'url' => ['/tipoaccidente/index']],
                 ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']],
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
                 ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
-                ['label' => 'Peligro Agente', 'url' => ['/peligroagente/index']],
+                //['label' => 'Peligro Agente', 'url' => ['/peligroagente/index']],
+                ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
+                
                 
     ];
 
@@ -84,7 +92,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 </header>
 
 <main id="main" class="flex-shrink-0" role="main">
-    <div class="container">
+    <div class="container"  >
         <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
         <?php endif ?>

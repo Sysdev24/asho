@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\AfectacionpersonaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Afectacion Personas';
+$this->title = 'AFECTACION DE PERSONA';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="afectacion-persona-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Afectacion Persona', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Afectacion Persona', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,11 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+            'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera
+            
 
-            'id_area_afectada',
-            'id_sub_area_afect',
-            'id_sub2_area_afect',
+            //'id_area_afectada',
+            //'id_sub_area_afect',
+            //'id_sub2_area_afect',
             'descripcion',
             'codigo',
             //'created_at',

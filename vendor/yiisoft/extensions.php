@@ -49,4 +49,58 @@ return array (
       '@yii/symfonymailer' => $vendorDir . '/yiisoft/yii2-symfonymailer/src',
     ),
   ),
+  'yiisoft/yii2-jui' => 
+  array (
+    'name' => 'yiisoft/yii2-jui',
+    'version' => '2.0.7.0',
+    'alias' => 
+    array (
+      '@yii/jui' => $vendorDir . '/yiisoft/yii2-jui',
+    ),
+  ),
+  '2amigos/yii2-arrayquery-component' => 
+  array (
+    'name' => '2amigos/yii2-arrayquery-component',
+    'version' => '1.0.3.0',
+    'alias' => 
+    array (
+      '@dosamigos/arrayquery' => $vendorDir . '/2amigos/yii2-arrayquery-component/src',
+    ),
+  ),
+  'yii2mod/yii2-rbac' => 
+  array (
+    'name' => 'yii2mod/yii2-rbac',
+    'version' => '2.3.0.0',
+    'alias' => 
+    array (
+      '@yii2mod/rbac' => $vendorDir . '/yii2mod/yii2-rbac',
+    ),
+  ),
+  'pceuropa/yii2-menu' => 
+  array (
+    'name' => 'pceuropa/yii2-menu',
+    'version' => 'dev-master',
+    'alias' => 
+    array (
+      '@pceuropa/menu' => $vendorDir . '/pceuropa/yii2-menu',
+    ),
+  ),
+  'kartik-v/yii2-widget-select2' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-select2',
+    'version' => '2.2.5.0',
+    'alias' => 
+    array (
+      '@kartik/select2' => $vendorDir . '/kartik-v/yii2-widget-select2/src',
+    ),
+  ),
+  'kartik-v/yii2-krajee-base' => 
+  array (
+    'name' => 'kartik-v/yii2-krajee-base',
+    'version' => '3.0.5.0',
+    'alias' => 
+    array (
+      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base/src',
+    ),
+  ),
 );

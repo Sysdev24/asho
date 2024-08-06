@@ -29,16 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_pel_agen',
-            'id_sub2_clas_pel',
-            'id_sub_cla_pel',
-            'id_cla_pel',
-            'id_peligro',
-            //'descripcion',
-            //'codigo',
+            //'id_pel_agen',
+            //'id_sub2_clas_pel',
+            //'id_sub_cla_pel',
+            //'id_cla_pel',
+            //'id_peligro',
+            'descripcion',
+            'codigo',
             //'created_at',
             //'updated_at',
-            //'id_estatus',
+            'id_estatus',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, PeligroAgente $model, $key, $index, $column) {

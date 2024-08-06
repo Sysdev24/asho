@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\MagnitudSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Magnituds';
+$this->title = 'MAGNITUDES';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="magnitud-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Magnitud', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Magnitud', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,13 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+        'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
-            'id_magnitud',
+            //'id_magnitud',
             'descripcion',
             'codigo',
-            'id_estatus',
-            'created_at',
+            //'id_estatus',
+            //'created_at',
             //'updated_at',
             [
                 'class' => ActionColumn::className(),

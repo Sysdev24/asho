@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\TipoaccidenteSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Tipo Accidentes';
+$this->title = 'TIPO DE ACCIDENTES';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tipo-accidente-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Tipo Accidente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Tipo Accidente', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,15 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+        'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
-            'id_tipo_accidente',
-            'id_sub2_tipo_accid',
-            'id_sub_tipo_accid',
-            'id_tipo_accid1',
-            'id_tipo_accid',
-            //'descripcion',
-            //'codigo',
+            //'id_tipo_accidente',
+            //'id_sub2_tipo_accid',
+            //'id_sub_tipo_accid',
+            //'id_tipo_accid1',
+            //'id_tipo_accid',
+            'descripcion',
+            'codigo',
             //'id_estatus',
             //'created_at',
             //'updated_at',

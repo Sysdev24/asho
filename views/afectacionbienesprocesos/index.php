@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\AfectacionbienesprocesosSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Afectacion Bienes Procesos';
+$this->title = 'AFECTACION BIENES Y PROCESOS';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="afectacion-bienes-procesos-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Afectacion Bienes Procesos', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Afectacion Bienes Procesos', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,13 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+        'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
-            'id_afec_bien_pro',
+            //'id_afec_bien_pro',
             'afectacion',
             'valor',
-            'created_at',
-            'updated_at',
+            //'created_at',
+            //'updated_at',
             //'id_estatus',
             [
                 'class' => ActionColumn::className(),

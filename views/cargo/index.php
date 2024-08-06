@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\CargoSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Cargos';
+$this->title = 'CARGOS';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cargo-index">
@@ -27,7 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+        'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
             //'id_cargo',
             //'descripcion',

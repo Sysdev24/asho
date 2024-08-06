@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\GerenciaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Gerencias';
+$this->title = 'GERENCIA';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="gerencia-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Gerencia', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Gerencia', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,13 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+        'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
-            'id_gerencia',
+            //'id_gerencia',
             'descripcion',
-            'id_estatus',
-            'created_at',
-            'updated_at',
+            //'id_estatus',
+            //'created_at',
+            //'updated_at',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Gerencia $model, $key, $index, $column) {

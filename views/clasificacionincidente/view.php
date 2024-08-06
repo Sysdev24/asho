@@ -32,7 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_clasif_accid_lab_ope_amb',
             'descripcion',
             'codigo',
-            'id_estatus',
+            //'id_estatus',
+            [   
+                'attribute' => 'id_estatus',
+                'label' => 'Estatus',
+                'value' => function($model){
+                    return   $model->estatus->descripcion;},
+            ],
             'created_at',
             'updated_at',
         ],

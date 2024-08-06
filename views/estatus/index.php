@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\EstatusSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Estatus';
+$this->title = 'ESTATUS';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="estatus-index">

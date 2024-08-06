@@ -16,7 +16,7 @@ use Yii;
  * @property AfectacionBienesProcesos[] $afectacionBienesProcesos
  * @property AfectacionPersona[] $afectacionPersonas
  * @property Cargo[] $cargos
- * @property ClaAcLabOpeAmb[] $claAcLabOpeAmbs
+ * @property ClasificacionAccidente[] $clasificacionAccidentes
  * @property Estados[] $estados
  * @property Gerencia[] $gerencias
  * @property Magnitud[] $magnituds
@@ -72,21 +72,21 @@ class Estatus extends \yii\db\ActiveRecord
     /**
      * Gets query for [[AfectacionBienesProcesos]].
      *
-     * @return \yii\db\ActiveQuery|AfectacionBienesProcesosQuery
+     * @return \yii\db\ActiveQuery|AfectacionbienesprocesosQuery
      */
     public function getAfectacionBienesProcesos()
     {
-        return $this->hasMany(AfectacionBienesProcesos::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(AfectacionBienesProcesos::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
      * Gets query for [[AfectacionPersonas]].
      *
-     * @return \yii\db\ActiveQuery|AfectacionPersonaQuery
+     * @return \yii\db\ActiveQuery|AfectacionpersonaQuery
      */
     public function getAfectacionPersonas()
     {
-        return $this->hasMany(AfectacionPersona::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(AfectacionPersona::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -96,17 +96,17 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getCargos()
     {
-        return $this->hasMany(Cargo::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(Cargo::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
-     * Gets query for [[ClaAcLabOpeAmbs]].
+     * Gets query for [[ClasificacionAccidentes]].
      *
-     * @return \yii\db\ActiveQuery|ClaAcLabOpeAmbQuery
+     * @return \yii\db\ActiveQuery|ClasificacionaccidenteQuery
      */
-    public function getClaAcLabOpeAmbs()
+    public function getClasificacionAccidentes()
     {
-        return $this->hasMany(ClaAcLabOpeAmb::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(ClasificacionAccidente::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -116,7 +116,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getEstados()
     {
-        return $this->hasMany(Estados::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(Estados::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -126,7 +126,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getGerencias()
     {
-        return $this->hasMany(Gerencia::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(Gerencia::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -136,7 +136,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getMagnituds()
     {
-        return $this->hasMany(Magnitud::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(Magnitud::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -146,17 +146,17 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getNaturalezaAccidentes()
     {
-        return $this->hasMany(NaturalezaAccidente::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(NaturalezaAccidente::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
      * Gets query for [[PeligroAgentes]].
      *
-     * @return \yii\db\ActiveQuery|PeligroAgenteQuery
+     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
      */
     public function getPeligroAgentes()
     {
-        return $this->hasMany(PeligroAgente::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(PeligroAgente::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -166,7 +166,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getPersonals()
     {
-        return $this->hasMany(Personal::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(Personal::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -176,7 +176,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getRegiones()
     {
-        return $this->hasMany(Regiones::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(Regiones::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -186,7 +186,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getRegistroReglaOros()
     {
-        return $this->hasMany(RegistroReglaOro::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(RegistroReglaOro::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -196,7 +196,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getRegistros()
     {
-        return $this->hasMany(Registro::class, ['id_estatus_proceso' => 'id_estatus']);
+        return $this->hasMany(Registro::class, ['id_estatus_proceso' => 'id_estatus'])->inverseOf('estatusProceso');
     }
 
     /**
@@ -206,7 +206,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getRegistros0()
     {
-        return $this->hasMany(Registro::class, ['id_requerimiento_trabajo_24h' => 'id_estatus']);
+        return $this->hasMany(Registro::class, ['id_requerimiento_trabajo_24h' => 'id_estatus'])->inverseOf('requerimientoTrabajo24h');
     }
 
     /**
@@ -216,7 +216,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getReglaOros()
     {
-        return $this->hasMany(ReglaOro::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(ReglaOro::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -226,37 +226,37 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getRoles()
     {
-        return $this->hasMany(Roles::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(Roles::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
      * Gets query for [[SujetoAfectacions]].
      *
-     * @return \yii\db\ActiveQuery|SujetoAfectacionQuery
+     * @return \yii\db\ActiveQuery|SujetoafectacionQuery
      */
     public function getSujetoAfectacions()
     {
-        return $this->hasMany(SujetoAfectacion::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(SujetoAfectacion::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
      * Gets query for [[TipoAccidentes]].
      *
-     * @return \yii\db\ActiveQuery|TipoAccidenteQuery
+     * @return \yii\db\ActiveQuery|TipoaccidenteQuery
      */
     public function getTipoAccidentes()
     {
-        return $this->hasMany(TipoAccidente::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(TipoAccidente::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
      * Gets query for [[TipoTrabajos]].
      *
-     * @return \yii\db\ActiveQuery|TipoTrabajoQuery
+     * @return \yii\db\ActiveQuery|TipotrabajoQuery
      */
     public function getTipoTrabajos()
     {
-        return $this->hasMany(TipoTrabajo::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(TipoTrabajo::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**
@@ -266,7 +266,7 @@ class Estatus extends \yii\db\ActiveRecord
      */
     public function getUsuarios()
     {
-        return $this->hasMany(Usuarios::class, ['id_estatus' => 'id_estatus']);
+        return $this->hasMany(Usuarios::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
     }
 
     /**

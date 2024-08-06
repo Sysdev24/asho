@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\NaturalezaaccidenteSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Naturaleza Accidentes';
+$this->title = 'NATURALEZA DE ACCIDENTES';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="naturaleza-accidente-index">

@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\SujetoAfectacionSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Sujeto Afectacions';
+$this->title = 'SUJETO DE AFECTACION';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sujeto-afectacion-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Sujeto Afectacion', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Sujeto Afectacion', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,15 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+        'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
-            'id_sujeto_afect',
-            'id_clasif_con_afect',
-            'id_con_afectacion',
-            'id_afectacion',
+            //'id_sujeto_afect',
+            //'id_clasif_con_afect',
+            //'id_con_afectacion',
+            //'id_afectacion',
             'descripcion',
-            //'codigo',
-            //'id_estatus',
+            'codigo',
+            'id_estatus',
             //'created_at',
             //'updated_at',
             [

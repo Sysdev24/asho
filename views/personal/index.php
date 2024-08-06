@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\PersonalSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Personals';
+$this->title = 'PERSONAL';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="personal-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Personal', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Personal', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,13 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+        'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
             'ci',
             'nombre',
             'apellido',
             'nro_empleado',
-            'id_gerencia',
+            //'id_gerencia',
             //'id_estado',
             //'id_estatus',
             //'id_cargo',
