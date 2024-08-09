@@ -32,8 +32,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id_roles',
             'descripcion',
-            'guard_name',
+            //'guard_name',
             //'id_estatus',
+
+//Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+[   
+    'attribute' => 'id_estatus',
+    'label' => 'Estatus',
+    'filterInputOptions' => [
+        'class' => 'form-control',
+        'placeholder' => 'Busqueda',
+    ],
+    
+    'value' => function($model){
+        return   $model->estatus->descripcion;},
+],
+
+
+
             //'created_at',
             //'updated_at',
             [

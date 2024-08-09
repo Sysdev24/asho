@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Crear Sujeto Afectacion', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Sujeto de Afectacion', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -36,7 +36,19 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_afectacion',
             'descripcion',
             'codigo',
-            'id_estatus',
+            //'id_estatus',
+             //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
+             [   
+                'attribute' => 'id_estatus',
+                'label' => 'Estatus',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->estatus->descripcion;},
+            ],
             //'created_at',
             //'updated_at',
             [

@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Peligro Agente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Peligro de Agente', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,8 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        
+        
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+
+            ['class' => 'yii\grid\SerialColumn',
+            'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera
+
 
             //'id_pel_agen',
             //'id_sub2_clas_pel',
@@ -38,7 +43,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'codigo',
             //'created_at',
             //'updated_at',
-            'id_estatus',
+            //'id_estatus',
+
+            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+            [   
+            'attribute' => 'id_estatus',
+            'label' => 'Estatus',
+            'filterInputOptions' => [
+            'class' => 'form-control',
+            'placeholder' => 'Busqueda',
+            ],
+    
+    'value' => function($model){
+        return   $model->estatus->descripcion;},
+],
+
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, PeligroAgente $model, $key, $index, $column) {

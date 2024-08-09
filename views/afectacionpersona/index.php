@@ -38,7 +38,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'codigo',
             //'created_at',
             //'updated_at',
+           
             //'id_estatus',
+
+            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+            [   
+                'attribute' => 'id_estatus',
+                'label' => 'Estatus',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->estatus->descripcion;},
+            ],
+
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, AfectacionPersona $model, $key, $index, $column) {

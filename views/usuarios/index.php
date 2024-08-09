@@ -33,13 +33,40 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_usuario',
             'ci',
             'usuario',
-            'password',
+            //'password', ojo
             'nombre',
             'apellido',
-            //'email:email',
+            'email:email',
             //'id_estatus',
+
+//Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+[   
+    'attribute' => 'id_estatus',
+    'label' => 'Estatus',
+    'filterInputOptions' => [
+        'class' => 'form-control',
+        'placeholder' => 'Busqueda',
+    ],
+    
+    'value' => function($model){
+        return   $model->estatus->descripcion;},
+],
+
+[   
+    'attribute' => 'id_gerencia',
+    'label' => 'Gerencia',
+    'filterInputOptions' => [
+        'class' => 'form-control',
+        'placeholder' => 'Busqueda',
+    ],
+    
+    'value' => function($model){
+        return   $model->gerencia->descripcion;},
+],
+
+
             //'id_gerencia',
-            //'id_roles',
+            'id_roles',
             //'created_at',
             //'updated_at',
             [

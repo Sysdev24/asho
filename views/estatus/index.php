@@ -31,8 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'header' => 'Nº'],
 
             //'id_estatus',
-            'siglas',
             'descripcion',
+            'siglas',
             //'created_at',
             //'updated_at',
             [

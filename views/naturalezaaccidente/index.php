@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Crear Naturaleza Accidente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Naturaleza de Accidente', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -52,6 +52,22 @@ $this->params['breadcrumbs'][] = $this->title;
             //'created_at',
             //'updated_at',
             //'id_estatus',
+
+//Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+[   
+    'attribute' => 'id_estatus',
+    'label' => 'Estatus',
+    'filterInputOptions' => [
+        'class' => 'form-control',
+        'placeholder' => 'Busqueda',
+    ],
+    
+    'value' => function($model){
+        return   $model->estatus->descripcion;},
+],
+
+
+
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, NaturalezaAccidente $model, $key, $index, $column) {
