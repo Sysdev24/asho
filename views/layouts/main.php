@@ -32,7 +32,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <header id="header">
     <!-- Para poner el banner -->
     <div class="row">
-        <div class="col-md-12"><img src="<?= yii::getAlias('@web')?>/img/banner_superior.png" alt="banner superior" class="img-fluid"></div>
+        <div class="col-md-12"><img src="<?= yii::getAlias('@web')?>/img/cintillo-superior2.png" alt="banner superior" class="img-fluid"></div>
     </div>
 
     <?php
@@ -42,12 +42,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark'],
         //'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top'],
     ]);
-
     $menuItems = [
-        //['label' => 'Inicio', 'url' => ['/site/index']],
-        //['label' => 'About', 'url' => ['/site/about']],
-        //['label' => 'Contact', 'url' => ['/site/contact']],
-              
+        [
+            'label' => 'Administración',
+            'items' => [
                 ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
                 ['label' => 'Afectacion Persona', 'url' => ['/afectacionpersona/index']],
                 ['label' => 'Cargo', 'url' => ['/cargo/index']],
@@ -61,7 +59,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ['label' => 'Peligro Agente', 'url' => ['/peligroagente/index']],
                 ['label' => 'Personal', 'url' => ['/personal/index']],
                 ['label' => 'Regiones', 'url' => ['/regiones/index']],
-                ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
                 ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']],
                 ['label' => 'Roles', 'url' => ['/roles/index']],
                 ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']],
@@ -69,11 +66,18 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ['label' => 'Tipo Accidente', 'url' => ['/tipoaccidente/index']],
                 ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']],
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
-                ['label' => 'Registrar', 'url' => ['/registro/index']],
                 
-                
-               
-                
+            ],
+            
+        
+        ],
+        [
+            'label' => 'Registrar',
+        'items' => [
+            ['label' => 'Registro', 'url' => ['/registro/index']],
+        ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
+        ],
+        ]
     ];
 
     if (Yii::$app->user->isGuest) {

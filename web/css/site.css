@@ -7,7 +7,7 @@ main > .container {
 /*Ajustar el tamaño de la imagen del banner*/
 .img-fluid{
     width: 100%;
-    height: 110px;
+    height: 80px;
 }
 
 /*.navbar-expand-md {
