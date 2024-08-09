@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\ClasificacionIncidente $model */
 
-$this->title = $model->id_clasif_accid_lab_ope_amb;
+$this->title = $model->descripcion;
 $this->params['breadcrumbs'][] = ['label' => 'Clasificacion Incidentes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -16,11 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb], [
+        <?= Html::a('Actualizar', ['update', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Estas seguro que desea eliminar?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_clasif_accid_lab_ope_amb',
+            //'id_clasif_accid_lab_ope_amb',
             'descripcion',
             'codigo',
             //'id_estatus',
@@ -39,8 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model){
                     return   $model->estatus->descripcion;},
             ],
-            'created_at',
-            'updated_at',
+            //'created_at',
+           //'updated_at',
         ],
     ]) ?>
 

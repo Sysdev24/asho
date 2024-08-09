@@ -47,25 +47,32 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         //['label' => 'Inicio', 'url' => ['/site/index']],
         //['label' => 'About', 'url' => ['/site/about']],
         //['label' => 'Contact', 'url' => ['/site/contact']],
+              
+                ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
                 ['label' => 'Afectacion Persona', 'url' => ['/afectacionpersona/index']],
+                ['label' => 'Cargo', 'url' => ['/cargo/index']],
+                ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
                 ['label' => 'Estados', 'url' => ['/estados/index']],
                 ['label' => 'Estatus', 'url' => ['/estatus/index']],
+                ['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']],
                 ['label' => 'Gerencia', 'url' => ['/gerencia/index']],
                 ['label' => 'Magnitud', 'url' => ['/magnitud/index']],
+                ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']],
+                ['label' => 'Peligro Agente', 'url' => ['/peligroagente/index']],
                 ['label' => 'Personal', 'url' => ['/personal/index']],
                 ['label' => 'Regiones', 'url' => ['/regiones/index']],
+                ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
+                ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']],
                 ['label' => 'Roles', 'url' => ['/roles/index']],
-                ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']],
-                ['label' => 'Cargo', 'url' => ['/cargo/index']],
-                //['label' => 'Clasificacion Incidente', 'url' => ['/clasificacionincidente/index']],
+                ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']],
                 ['label' => 'Sujeto Afectacion', 'url' => ['/sujetoafectacion/index']],
                 ['label' => 'Tipo Accidente', 'url' => ['/tipoaccidente/index']],
                 ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']],
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
-                ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
-                //['label' => 'Peligro Agente', 'url' => ['/peligroagente/index']],
-                ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
+                ['label' => 'Registrar', 'url' => ['/registro/index']],
                 
+                
+               
                 
     ];
 
@@ -114,3 +121,4 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 </body>
 </html>
 <?php $this->endPage() ?>
+

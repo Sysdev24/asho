@@ -16,11 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'ci' => $model->ci], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'ci' => $model->ci], [
+        <?= Html::a('Actualizar', ['update', 'ci' => $model->ci], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'ci' => $model->ci], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Estas seguro que desea eliminar?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -33,12 +33,32 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombre',
             'apellido',
             'nro_empleado',
-            'id_gerencia',
-            'id_estado',
-            'id_estatus',
-            'id_cargo',
-            'created_at',
-            'updated_at',
+            //'id_gerencia',
+            [   
+                'attribute' => 'id_gerencia',
+                'label' => 'Gerencia',
+                'value' => function($model){
+                    return   $model->gerencia->descripcion;},
+            ],
+
+            //'id_estado',
+            [   
+                'attribute' => 'id_estado',
+                'label' => 'Estado',
+                'value' => function($model){
+                    return   $model->estado->descripcion;},
+            ],
+            //'id_estatus',
+            [   
+                'attribute' => 'id_estatus',
+                'label' => 'Estatus',
+                'value' => function($model){
+                    return   $model->estatus->descripcion;},
+            ],
+
+            //'id_cargo',
+            //'created_at',
+            //'updated_at',
             'telefono',
             'fecha_nac',
             'id_registro',
