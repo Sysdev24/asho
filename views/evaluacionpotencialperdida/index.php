@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Crear Evaluacion Potencial Perdida', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Evaluacion de Potencial y Perdida', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -34,7 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
             
            
             //'id_eva_pot_per',
-            'descripcion',
+            //'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
             //'created_at',
             //'updated_at',
             

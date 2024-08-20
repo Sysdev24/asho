@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\AfectacionBienesProcesos $model */
 
-$this->title = 'Editar Afectacion Bienes Procesos: ' . $model->valor;
-$this->params['breadcrumbs'][] = ['label' => 'Afectacion Bienes Procesos', 'url' => ['index']];
+$this->title = 'Editar Afectacion de Bienes y Procesos: ' . $model->valor;
+$this->params['breadcrumbs'][] = ['label' => 'Afectacion de Bienes y Procesos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->valor, 'url' => ['view', 'id_afec_bien_pro' => $model->id_afec_bien_pro]];
 $this->params['breadcrumbs'][] = 'Editar';
 ?>

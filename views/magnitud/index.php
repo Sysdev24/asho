@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\MagnitudSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'MAGNITUDES';
+$this->title = 'Magnitudes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="magnitud-index">
@@ -31,8 +31,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
             //'id_magnitud',
-            'descripcion',
-            'codigo',
+           // 'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
+            //'codigo',
+            [   
+                'attribute' => 'codigo',
+                'label' => 'Codigo',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
             //'id_estatus',
 
 //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados

@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\PersonalSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'PERSONAL';
+$this->title = 'Personal';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="personal-index">
@@ -30,26 +30,62 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn',
         'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
-            'ci',
-            'nombre',
-            'apellido',
-            'nro_empleado',
+            //'ci',
+            [   
+                'attribute' => 'ci',
+                'label' => 'Cedula',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+
+            //'nombre',
+            [   
+                'attribute' => 'nombre',
+                'label' => 'Nombre',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+
+            //'apellido',
+            [   
+                'attribute' => 'apellido',
+                'label' => 'apellido',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+            
+            //'nro_empleado',
+            [   
+                'attribute' => 'nro_empleado',
+                'label' => 'Nro de empleado',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+
             //'id_gerencia',
             //'id_estado',
             //'id_estatus',
 
-//Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
-[   
-    'attribute' => 'id_estatus',
-    'label' => 'Estatus',
-    'filterInputOptions' => [
-        'class' => 'form-control',
-        'placeholder' => 'Busqueda',
-    ],
-    
-    'value' => function($model){
-        return   $model->estatus->descripcion;},
-],
+            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+            [   
+                'attribute' => 'id_estatus',
+                'label' => 'Estatus',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->estatus->descripcion;},
+            ],
 
 
 

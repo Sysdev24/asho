@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\SeveridadPotencialPerdida $model */
 
-$this->title = 'Update Severidad Potencial Perdida: ' . $model->id_sev_pot_per;
-$this->params['breadcrumbs'][] = ['label' => 'Severidad Potencial Perdidas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_sev_pot_per, 'url' => ['view', 'id_sev_pot_per' => $model->id_sev_pot_per]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Actualizar Severidad Potencial de Perdida: ' . $model->descripcion;
+$this->params['breadcrumbs'][] = ['label' => 'Severidad Potencial de Perdidas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->descripcion, 'url' => ['view', 'id_sev_pot_per' => $model->id_sev_pot_per]];
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="severidad-potencial-perdida-update">
 

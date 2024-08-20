@@ -34,7 +34,8 @@ class AfectacionBienesProcesos extends \yii\db\ActiveRecord
     {
         return [
             [['afectacion', 'valor'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['afectacion', 'valor'], 'required'],
+            [['created_at', 'updated_at',], 'safe'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
@@ -52,7 +53,7 @@ class AfectacionBienesProcesos extends \yii\db\ActiveRecord
             'valor' => 'Valor',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
         ];
     }
 

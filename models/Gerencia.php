@@ -35,6 +35,7 @@ class Gerencia extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion'], 'string'],
+            [['descripcion'], 'required'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
@@ -48,9 +49,9 @@ class Gerencia extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_gerencia' => 'Id Gerencia',
+            'id_gerencia' => 'Gerencia',
             'descripcion' => 'Descripcion',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

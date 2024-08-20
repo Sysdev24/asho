@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\RolesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'ROLES';
+$this->title = 'Roles';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="roles-index">
@@ -31,22 +31,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
             //'id_roles',
-            'descripcion',
+            //'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             //'guard_name',
             //'id_estatus',
 
-//Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
-[   
-    'attribute' => 'id_estatus',
-    'label' => 'Estatus',
-    'filterInputOptions' => [
-        'class' => 'form-control',
-        'placeholder' => 'Busqueda',
-    ],
-    
-    'value' => function($model){
-        return   $model->estatus->descripcion;},
-],
+        //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+        [   
+            'attribute' => 'id_estatus',
+            'label' => 'Estatus',
+            'filterInputOptions' => [
+                'class' => 'form-control',
+                'placeholder' => 'Busqueda',
+            ],
+            
+            'value' => function($model){
+                return   $model->estatus->descripcion;},
+        ],
 
 
 

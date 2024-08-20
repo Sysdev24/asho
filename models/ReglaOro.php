@@ -32,6 +32,7 @@ class ReglaOro extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion'], 'string'],
+            [['descripcion'], 'required'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
@@ -45,9 +46,9 @@ class ReglaOro extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_regla_oro' => 'Id Regla Oro',
+            'id_regla_oro' => 'Regla de Oro',
             'descripcion' => 'Descripcion',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

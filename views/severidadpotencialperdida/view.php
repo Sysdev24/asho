@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\SeveridadPotencialPerdida $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Severidad Potencial Perdidas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Severidad Potencial de Perdida', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -31,23 +31,31 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             //'id_sev_pot_per',
             //'id_eva_pot_per',
-            'descripcion',
+            //'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Estatus',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             //'created_at',
             //'updated_at',
             //'id_estatus',
 
-//Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
-[   
-    'attribute' => 'id_estatus',
-    'label' => 'Estatus',
-    'filterInputOptions' => [
-        'class' => 'form-control',
-        'placeholder' => 'Busqueda',
-    ],
-    
-    'value' => function($model){
-        return   $model->estatus->descripcion;},
-],
+        //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+        [   
+            'attribute' => 'id_estatus',
+            'label' => 'Estatus',
+            'filterInputOptions' => [
+                'class' => 'form-control',
+                'placeholder' => 'Busqueda',
+            ],
+            
+            'value' => function($model){
+                return   $model->estatus->descripcion;},
+        ],
 
         ],
     ]) ?>

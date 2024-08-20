@@ -50,14 +50,14 @@ class RegistroReglaOro extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_registro_regla_oro' => 'Id Registro Regla Oro',
-            'id_nro_accidente' => 'Id Nro Accidente',
-            'id_opcion1' => 'Id Opcion1',
-            'id_opcion2' => 'Id Opcion2',
-            'id_opcion3' => 'Id Opcion3',
-            'id_opcion4' => 'Id Opcion4',
-            'id_opcion_5' => 'Id Opcion 5',
-            'id_estatus' => 'Id Estatus',
+            'id_registro_regla_oro' => 'Registro Regla Oro',
+            'id_nro_accidente' => 'Nro Accidente',
+            'id_opcion1' => 'Opcion1',
+            'id_opcion2' => 'Opcion2',
+            'id_opcion3' => 'Opcion3',
+            'id_opcion4' => 'Opcion4',
+            'id_opcion_5' => 'Opcion 5',
+            'id_estatus' => 'Estatus',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

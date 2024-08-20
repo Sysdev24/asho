@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\RegistroreglaoroSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Registro Regla Oros';
+$this->title = 'Registro de Regla de Oro';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="registro-regla-oro-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Crear Registro Regla Oro', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Registro de Regla de Oro', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -34,11 +34,67 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id_registro_regla_oro',
             //'id_nro_accidente:boolean',
+
             //'id_opcion1:boolean',
+            [   
+                'attribute' => 'id_opcion1',
+                'label' => 'Nro de accidente',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->id_opcion1->descripcion;},
+            ],
             //'id_opcion2:boolean',
+            [   
+                'attribute' => 'id_opcion2',
+                'label' => 'Nro de accidente',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->id_opcion2->descripcion;},
+            ],
             //'id_opcion3:boolean',
-            //'id_opcion4:boolean',
+            [   
+                'attribute' => 'id_opcion3',
+                'label' => 'Nro de accidente',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->id_opcion3->descripcion;},
+            ],
+           // 'id_opcion4:boolean',
+            [   
+                'attribute' => 'id_opcion4',
+                'label' => 'Nro de accidente',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->id_opcion4->descripcion;},
+            ],
             //'id_opcion_5:boolean',
+            [   
+                'attribute' => 'id_opcion5',
+                'label' => 'Nro de accidente',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->id_opcion5->descripcion;},
+            ],
             //'id_estatus',
 
              //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados

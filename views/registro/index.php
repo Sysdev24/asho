@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Registro', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Registro', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,11 +29,47 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_registro',
-            'id_estado',
-            'fecha_hora',
-            'lugar',
-            'nro_accidente',
+            //'id_registro',
+            //'id_estado',
+            [   
+                'attribute' => 'id_estado',
+                'label' => 'Estado',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
+
+            //'fecha_hora',
+            [   
+                'attribute' => 'fecha_hora',
+                'label' => 'Fecha y hora',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
+
+            //'lugar',
+            [   
+                'attribute' => 'lugar',
+                'label' => 'Lugar',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
+
+            //'nro_accidente',
+            [   
+                'attribute' => 'nro_accidente',
+                'label' => 'Nro Accidente',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
+
             //'cedula_supervisor_60min',
             //'observaciones_60min',
             //'autorizado_60m:boolean',

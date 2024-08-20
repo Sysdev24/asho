@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\Personal $model */
 
 $this->title = $model->ci;
-$this->params['breadcrumbs'][] = ['label' => 'Personals', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Personal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'updated_at',
             'telefono',
             'fecha_nac',
-            'id_registro',
+            //'id_registro',
         ],
     ]) ?>
 

@@ -25,19 +25,19 @@ use app\models\Cargo;
 
     <?= $form->field($model, 'nro_empleado')->textInput() ?>
 
-    <?= $form->field($model, 'gerencia')->dropDownList(
+    <?= $form->field($model, 'id_gerencia')->dropDownList(
         ArrayHelper::map(Gerencia::find()->all(),'id_gerencia','descripcion'),
         ['prompt'=> 'seleccionar gerencia']);?>
 
-    <?= $form->field($model, 'estado')->dropDownList(
+    <?= $form->field($model, 'id_estado')->dropDownList(
         ArrayHelper::map(Estados::find()->all(),'id_estado','descripcion'),
         ['prompt'=> 'seleccionar estado']);?>
 
-    <?= $form->field($model, 'estatus')->dropDownList(
+    <?= $form->field($model, 'id_estatus')->dropDownList(
         ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
         ['prompt'=> 'seleccionar status']);?>
 
-    <?= $form->field($model, 'cargo')->dropDownList(
+    <?= $form->field($model, 'id_cargo')->dropDownList(
         ArrayHelper::map(cargo::find()->all(),'id_cargo','descripcion'),
         ['prompt'=> 'seleccionar id_cargo']);?>
 
@@ -46,10 +46,6 @@ use app\models\Cargo;
 
     <?= $form->field($model, 'fecha_nac')->textInput() ?>
 
-   
-   
-    
-    <?= $form->field($model, 'id_registro')->textInput() ?>
 
    <!-- En la tabla de registro Falta Algo Verificar OJO-->
     

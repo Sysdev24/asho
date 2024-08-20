@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\Regiones $model */
 
 $this->title = 'Editar Regiones: ' . $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Regiones', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Region', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->descripcion, 'url' => ['view', 'id_regiones' => $model->id_regiones]];
 $this->params['breadcrumbs'][] = 'Editar';
 ?>

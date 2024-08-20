@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\NaturalezaAccidente $model */
 
-$this->title = 'Crear Naturaleza Accidente';
-$this->params['breadcrumbs'][] = ['label' => 'Naturaleza Accidentes', 'url' => ['index']];
+$this->title = 'Crear Naturaleza de Accidente';
+$this->params['breadcrumbs'][] = ['label' => 'Naturaleza de Accidentes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="naturaleza-accidente-create">

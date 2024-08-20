@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\PeligroAgente $model */
 
 $this->title = 'Editar Peligro Agente: ' . $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Peligro Agentes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Peligro Agente', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->descripcion, 'url' => ['view', 'id_pel_agen' => $model->id_pel_agen]];
 $this->params['breadcrumbs'][] = 'Editar';
 ?>

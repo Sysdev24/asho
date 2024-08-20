@@ -39,6 +39,7 @@ class PeligroAgente extends \yii\db\ActiveRecord
             [['id_sub2_clas_pel', 'id_sub_cla_pel', 'id_cla_pel', 'id_peligro', 'id_estatus'], 'default', 'value' => null],
             [['id_sub2_clas_pel', 'id_sub_cla_pel', 'id_cla_pel', 'id_peligro', 'id_estatus'], 'integer'],
             [['descripcion', 'codigo'], 'string'],
+            [['descripcion', 'codigo'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
         ];
@@ -54,12 +55,12 @@ class PeligroAgente extends \yii\db\ActiveRecord
             'id_sub2_clas_pel' => 'Id Sub2 Clas Pel',
             'id_sub_cla_pel' => 'Id Sub Cla Pel',
             'id_cla_pel' => 'Id Cla Pel',
-            'id_peligro' => 'Id Peligro',
+            'id_peligro' => 'Peligro',
             'descripcion' => 'Descripcion',
             'codigo' => 'Codigo',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
         ];
     }
 

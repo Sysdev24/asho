@@ -53,7 +53,7 @@ class SeveridadPotencialPerdida extends \yii\db\ActiveRecord
             'descripcion' => 'Descripcion',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
         ];
     }
 

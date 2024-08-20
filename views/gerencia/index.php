@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\GerenciaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'GERENCIA';
+$this->title = 'Gerencia';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="gerencia-index">
@@ -31,7 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
             //'id_gerencia',
-            'descripcion',
+            //'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
             //'id_estatus',
 
             //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados

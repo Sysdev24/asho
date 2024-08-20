@@ -50,7 +50,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model){
                     return   $model->estatus->descripcion;},
             ],
-            'id_roles',
+            //'id_roles',
+            [   
+                'attribute' => 'id_roles',
+                'label' => 'Roles',
+                'value' => function($model){
+                    return   $model->roles->descripcion;},
+            ],
             //'created_at',
             //'updated_at',
         ],

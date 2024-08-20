@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\UsuariosSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'USUARIOS';
+$this->title = 'Usuario';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuarios-index">
@@ -39,34 +39,45 @@ $this->params['breadcrumbs'][] = $this->title;
             'email:email',
             //'id_estatus',
 
-//Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
-[   
-    'attribute' => 'id_estatus',
-    'label' => 'Estatus',
-    'filterInputOptions' => [
-        'class' => 'form-control',
-        'placeholder' => 'Busqueda',
-    ],
-    
-    'value' => function($model){
-        return   $model->estatus->descripcion;},
-],
+            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+            [   
+                'attribute' => 'id_estatus',
+                'label' => 'Estatus',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->estatus->descripcion;},
+            ],
 
-[   
-    'attribute' => 'id_gerencia',
-    'label' => 'Gerencia',
-    'filterInputOptions' => [
-        'class' => 'form-control',
-        'placeholder' => 'Busqueda',
-    ],
-    
-    'value' => function($model){
-        return   $model->gerencia->descripcion;},
-],
+            [   
+                'attribute' => 'id_gerencia',
+                'label' => 'Gerencia',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->gerencia->descripcion;},
+            ],
 
 
             //'id_gerencia',
-            'id_roles',
+            //'id_roles',
+            [   
+                'attribute' => 'id_roles',
+                'label' => 'Roles',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->roles->descripcion;},
+            ],
             //'created_at',
             //'updated_at',
             [

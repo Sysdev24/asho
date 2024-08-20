@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\PeligroagenteSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Peligro Agentes';
+$this->title = 'Peligro Agente';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="peligro-agente-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Crear Peligro de Agente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Peligro Agente', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -39,8 +39,24 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_sub_cla_pel',
             //'id_cla_pel',
             //'id_peligro',
-            'descripcion',
-            'codigo',
+            //'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
+            //'codigo',
+            [   
+                'attribute' => 'codigo',
+                'label' => 'Codigo',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
             //'created_at',
             //'updated_at',
             //'id_estatus',

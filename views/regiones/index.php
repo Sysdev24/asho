@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\RegionesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'REGIONES';
+$this->title = 'Regiones';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="regiones-index">

@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\Magnitud $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Magnituds', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Magnitud', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

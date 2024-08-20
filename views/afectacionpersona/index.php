@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\AfectacionpersonaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'AFECTACION DE PERSONA';
+$this->title = 'Afectacion Persona';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="afectacion-persona-index">
@@ -34,8 +34,32 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_area_afectada',
             //'id_sub_area_afect',
             //'id_sub2_area_afect',
-            'descripcion',
-            'codigo',
+           // 'descripcion', 
+
+            // para que muestre indicaciones en el campo de busqueda
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                
+            ],
+
+            //'codigo',
+            [   
+                'attribute' => 'codigo',
+                'label' => 'Codigo',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                
+            ],
+
             //'created_at',
             //'updated_at',
            

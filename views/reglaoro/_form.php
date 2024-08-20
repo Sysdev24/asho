@@ -16,13 +16,13 @@ use app\models\Estatus;
 
     <?= $form->field($model, 'descripcion')->textInput() ?>
 
-    <?= $form->field($model, 'estatus')->dropDownList(
+    <?= $form->field($model, 'id_estatus')->dropDownList(
         ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
         ['prompt'=> 'seleccionar status']);?>
 
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

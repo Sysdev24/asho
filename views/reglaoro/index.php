@@ -32,21 +32,29 @@ $this->params['breadcrumbs'][] = $this->title;
             'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera
 
             //'id_regla_oro',
-            'descripcion',
+            //'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             //'id_estatus',
 
- //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
- [   
-    'attribute' => 'id_estatus',
-    'label' => 'Estatus',
-    'filterInputOptions' => [
-        'class' => 'form-control',
-        'placeholder' => 'Busqueda',
-    ],
-    
-    'value' => function($model){
-        return   $model->estatus->descripcion;},
-],
+            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+            [   
+                'attribute' => 'id_estatus',
+                'label' => 'Estatus',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                'value' => function($model){
+                    return   $model->estatus->descripcion;},
+            ],
 
 
             //'created_at',

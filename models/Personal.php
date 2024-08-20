@@ -51,7 +51,9 @@ class Personal extends \yii\db\ActiveRecord
             [['ci'], 'required'],
             [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo', 'id_registro'], 'default', 'value' => null],
             [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo', 'id_registro'], 'integer'],
+            [['nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'required'],
             [['nombre', 'apellido', 'telefono'], 'string'],
+            [['nombre', 'apellido', 'telefono'], 'required'],
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
             [['ci'], 'unique'],
             [['id_cargo'], 'exist', 'skipOnError' => true, 'targetClass' => Cargo::class, 'targetAttribute' => ['id_cargo' => 'id_cargo']],
@@ -67,19 +69,19 @@ class Personal extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ci' => 'Ci',
+            'ci' => 'C.I.',
             'nombre' => 'Nombre',
             'apellido' => 'Apellido',
-            'nro_empleado' => 'Nro Empleado',
-            'id_gerencia' => 'Id Gerencia',
-            'id_estado' => 'Id Estado',
-            'id_estatus' => 'Id Estatus',
-            'id_cargo' => 'Id Cargo',
+            'nro_empleado' => 'Nro de Empleado',
+            'id_gerencia' => 'Gerencia',
+            'id_estado' => 'Estado',
+            'id_estatus' => 'Estatus',
+            'id_cargo' => 'Cargo',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'telefono' => 'Telefono',
-            'fecha_nac' => 'Fecha Nac',
-            'id_registro' => 'Id Registro',
+            'fecha_nac' => 'Fecha de Nacimiento',
+            'id_registro' => 'Registro',
         ];
     }
 

@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\ClasificacionaccidenteSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'CLASIFICACION DE ACCIDENTES';
+$this->title = 'Clasificacion de Accidente';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="clasificacion-accidente-index">
@@ -31,8 +31,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
             //'id_clasif_accid_lab_ope_amb',
-            'descripcion',
-            'codigo',
+           // 'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                
+            ],
+
+           // 'codigo',
+            [   
+                'attribute' => 'codigo',
+                'label' => 'Codigo',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                
+            ],
+
             //'id_estatus',
 
 //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados

@@ -31,42 +31,44 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 <header id="header">
 
-    <!-- Para poner el banner -->
-    <div class="row">
-        <div class="col-md-12"><img src="<?= yii::getAlias('@web')?>/img/banner_superior.png" alt="banner superior" class="img-fluid"></div>
+        <!-- Para poner el banner -->
+        <div class="row">
+        <div class="col-md-12"><img src="<?= yii::getAlias('@web')?>/img/cintillo-superior2.png" alt="banner superior" class="img-fluid"></div>
     </div>
 
     <?php
     NavBar::begin([
         //'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
-        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
-
+        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark'],
+        //'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top'],
     ]);
+
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-                //['label' => 'Inicio', 'url' => ['/site/index']],
-                //['label' => 'About', 'url' => ['/site/about']],
-                //['label' => 'Contact', 'url' => ['/site/contact']],
-                ['label' => 'Afectacion Persona', 'url' => ['/afectacionpersona/index']],
+        ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
+        [
+            'label' => 'Afectacion Persona',
+            'items' => [
+                ['label' => 'Submenu 1', 'url' => ['/afectacionpersona/submenu1']],
+                ['label' => 'Submenu 2', 'url' => ['/afectacionpersona/submenu2']],
+            ],
+        ],
+        ['label' => 'Cargo', 'url' => ['/cargo/index']],
+        ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
+        [
+            'label' => 'Estado y Estatus',
+            'items' => [
                 ['label' => 'Estados', 'url' => ['/estados/index']],
                 ['label' => 'Estatus', 'url' => ['/estatus/index']],
-                ['label' => 'Gerencia', 'url' => ['/gerencia/index']],
-                ['label' => 'Magnitud', 'url' => ['/magnitud/index']],
-                ['label' => 'Personal', 'url' => ['/personal/index']],
-                ['label' => 'Regiones', 'url' => ['/regiones/index']],
-                ['label' => 'Roles', 'url' => ['/roles/index']],
-                ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']],
-                ['label' => 'Cargo', 'url' => ['/cargo/index']],
-                ['label' => 'Clasificacion Incidente', 'url' => ['/clasificacionincidente/index']],
-                ['label' => 'Sujeto Afectacion', 'url' => ['/sujetoafectacion/index']],
-                ['label' => 'Tipo Accidente', 'url' => ['/tipoaccidente/index']],
-                ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']],
-                ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
-                ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
-                //['label' => 'Peligro Agente', 'url' => ['/peligroagente/index']],
-                ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
+            ],
+        ],
+        ['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']],
+        ['label' => 'Gerencia', 'url' => ['/gerencia/index']],
+        ['label' => 'Magnitud', 'url' => ['/magnitud/index']],
+        ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']],
 
                 Yii::$app->user->isGuest
                     ? ['label' => 'Login', 'url' => ['/site/login']]

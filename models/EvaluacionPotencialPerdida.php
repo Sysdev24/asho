@@ -33,6 +33,7 @@ class EvaluacionPotencialPerdida extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion'], 'string'],
+            [['descripcion'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
@@ -50,7 +51,7 @@ class EvaluacionPotencialPerdida extends \yii\db\ActiveRecord
             'descripcion' => 'Descripcion',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
         ];
     }
 

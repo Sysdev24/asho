@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\TipoaccidenteSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'TIPO DE ACCIDENTES';
+$this->title = 'Tipo de Accidente';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tipo-accidente-index">
@@ -35,22 +35,38 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_sub_tipo_accid',
             //'id_tipo_accid1',
             //'id_tipo_accid',
-            'descripcion',
-            'codigo',
+            //'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+            //'codigo',
+            [   
+                'attribute' => 'codigo',
+                'label' => 'Codigo',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             //'id_estatus',
 
-//Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
-[   
-    'attribute' => 'id_estatus',
-    'label' => 'Estatus',
-    'filterInputOptions' => [
-        'class' => 'form-control',
-        'placeholder' => 'Busqueda',
-    ],
-    
-    'value' => function($model){
-        return   $model->estatus->descripcion;},
-],
+        //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+        [   
+            'attribute' => 'id_estatus',
+            'label' => 'Estatus',
+            'filterInputOptions' => [
+                'class' => 'form-control',
+                'placeholder' => 'Busqueda',
+            ],
+            
+            'value' => function($model){
+                return   $model->estatus->descripcion;},
+        ],
 
 
 

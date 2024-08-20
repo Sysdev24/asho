@@ -51,6 +51,7 @@ class Estatus extends \yii\db\ActiveRecord
     {
         return [
             [['siglas', 'descripcion'], 'string'],
+            [['siglas', 'descripcion'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
         ];
     }

@@ -34,6 +34,7 @@ class Regiones extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion'], 'string'],
+            [['descripcion'], 'required'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],

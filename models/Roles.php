@@ -34,6 +34,7 @@ class Roles extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion', 'guard_name'], 'string'],
+            [['descripcion', 'guard_name'], 'required'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
@@ -48,10 +49,10 @@ class Roles extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_roles' => 'Id Roles',
+            'id_roles' => 'Roles',
             'descripcion' => 'Descripcion',
             'guard_name' => 'Guard Name',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

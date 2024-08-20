@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\SujetoAfectacionSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'SUJETO DE AFECTACION';
+$this->title = 'Sujeto de Afectacion';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sujeto-afectacion-index">
@@ -34,8 +34,24 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_clasif_con_afect',
             //'id_con_afectacion',
             //'id_afectacion',
-            'descripcion',
-            'codigo',
+            //'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+            //'codigo',
+            [   
+                'attribute' => 'codigo',
+                'label' => 'Codigo',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             //'id_estatus',
              //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
              [   

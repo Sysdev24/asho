@@ -11,7 +11,7 @@ use yii\grid\GridView;
 /** @var app\models\AfectacionbienesprocesosSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'AFECTACION BIENES Y PROCESOS';
+$this->title = 'Afectacion de Bienes y Procesos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="afectacion-bienes-procesos-index">
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Crear Afectacion de Bienes de Procesos', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Afectacion de Bienes y Procesos', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -43,14 +43,36 @@ $this->params['breadcrumbs'][] = $this->title;
         'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
             //'id_afec_bien_pro',
-            'afectacion',
-            'valor',
+            //'afectacion',
+            [   
+                'attribute' => 'afectacion',
+                'label' => 'Afectacion',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                
+            ],
+         
+            //   'valor',
+            [   
+                'attribute' => 'valor',
+                'label' => 'Valor',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+                
+                
+            ],
+            
             //'created_at',
             //'updated_at',
             //'id_estatus',
 
-//Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
-[   
+ //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+ [   
     'attribute' => 'id_estatus',
     'label' => 'Estatus',
     'filterInputOptions' => [

@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Gerencia $model */
 
-$this->title = 'Create Gerencia';
-$this->params['breadcrumbs'][] = ['label' => 'Gerencias', 'url' => ['index']];
+$this->title = 'Crear Gerencia';
+$this->params['breadcrumbs'][] = ['label' => 'Gerencia', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="gerencia-create">

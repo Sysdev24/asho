@@ -37,6 +37,7 @@ class AfectacionPersona extends \yii\db\ActiveRecord
             [['id_sub_area_afect', 'id_sub2_area_afect', 'id_estatus'], 'default', 'value' => null],
             [['id_sub_area_afect', 'id_sub2_area_afect', 'id_estatus'], 'integer'],
             [['descripcion', 'codigo'], 'string'],
+            [['descripcion', 'codigo'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
         ];
@@ -55,7 +56,7 @@ class AfectacionPersona extends \yii\db\ActiveRecord
             'codigo' => 'Codigo',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
         ];
     }
 

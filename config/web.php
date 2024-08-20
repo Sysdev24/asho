@@ -23,6 +23,7 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
+            //'identityClass' => 'app\models\Usuarios',
             'enableAutoLogin' => true,
             'loginUrl' => ['site/login'],
         ],
@@ -54,6 +55,22 @@ $config = [
         ],
         */
     ],
+/**
+    'as access' => [
+    'class' => \yii\filters\AccessControl::className(),//AccessControl::className(),
+    'rules' => [
+        [
+            'actions' => ['login', 'error'],
+            'allow' => true,
+        ],
+        [
+            'actions' => ['logout', 'index'], // add all actions to take guest to login page
+            'allow' => true,
+            'roles' => ['@'],
+        ],
+    ],
+ ],
+*/
     'params' => $params,
 ];
 

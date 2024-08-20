@@ -41,6 +41,36 @@ main > .container {
     z-index: 1;
 }*/
 
+/*.navbar-nav .dropdown-menu {
+    display: none;
+}
+
+.navbar-nav .dropdown:hover .dropdown-menu {
+    display: block;
+}
+.dropdown-menu {
+    z-index: 1000;
+}*/
+
+
+/* Estilos básicos para el menú */
+.dropdown-item {
+    position: relative;
+}
+
+.dropdown-item .submenu {
+    display: none;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+/* Mostrar el submenú cuando el elemento padre tiene la clase 'active' */
+.dropdown-item.active .submenu {
+    display: block;
+}
+
+
 
 
 

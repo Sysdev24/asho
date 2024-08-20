@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\Magnitud $model */
 
 $this->title = 'Editar Magnitud: ' . $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Magnituds', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Magnitud', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->descripcion, 'url' => ['view', 'id_magnitud' => $model->id_magnitud]];
 $this->params['breadcrumbs'][] = 'Editar';
 ?>

@@ -40,6 +40,7 @@ class TipoAccidente extends \yii\db\ActiveRecord
             [['id_sub2_tipo_accid', 'id_sub_tipo_accid', 'id_tipo_accid1', 'id_tipo_accid', 'id_estatus'], 'default', 'value' => null],
             [['id_sub2_tipo_accid', 'id_sub_tipo_accid', 'id_tipo_accid1', 'id_tipo_accid', 'id_estatus'], 'integer'],
             [['descripcion', 'codigo'], 'string'],
+            [['descripcion', 'codigo'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
         ];
@@ -58,7 +59,7 @@ class TipoAccidente extends \yii\db\ActiveRecord
             'id_tipo_accid' => 'Id Tipo Accid',
             'descripcion' => 'Descripcion',
             'codigo' => 'Codigo',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

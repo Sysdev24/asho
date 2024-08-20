@@ -56,7 +56,7 @@ class SujetoAfectacion extends \yii\db\ActiveRecord
             'id_afectacion' => 'Id Afectacion',
             'descripcion' => 'Descripcion',
             'codigo' => 'Codigo',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

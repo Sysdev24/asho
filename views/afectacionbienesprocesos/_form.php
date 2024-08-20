@@ -15,16 +15,14 @@ use app\models\Estatus;
     <?= $form->field($model, 'afectacion')->textInput() ?>
 
  
-        <?= $form->field($model, 'estatus')->dropDownList(
-            ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
-            ['prompt'=> 'seleccionar status']);?>
+    <?= $form->field($model, 'id_estatus')->dropDownList(ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),['prompt'=> 'seleccionar status']);?>
 
 
-        <?= $form->field($model, 'valor')->textInput() ?>
+    <?= $form->field($model, 'valor')->textInput() ?>
 
 
-        <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+    <div class="form-group">
+    <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

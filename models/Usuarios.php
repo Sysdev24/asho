@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\models\LoginForm;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "usuarios".
@@ -58,16 +60,16 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function attributeLabels()
     {
         return [
-            'id_usuario' => 'Id Usuario',
+            'id_usuario' => 'Usuario',
             'ci' => 'Ci',
             'usuario' => 'Usuario',
             'password' => 'Password',
             'nombre' => 'Nombre',
             'apellido' => 'Apellido',
             'email' => 'Email',
-            'id_estatus' => 'Id Estatus',
-            'id_gerencia' => 'Id Gerencia',
-            'id_roles' => 'Id Roles',
+            'id_estatus' => 'Estatus',
+            'id_gerencia' => 'Gerencia',
+            'id_roles' => 'Roles',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -128,7 +130,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
     public function getId()
     {
-        return $this->id;
+        return $this->id_usuario;
     }
 
     public function getAuthKey()
@@ -145,8 +147,15 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     //Para el login
 
 
-    public static function findByUsuario($usuario){
-        return self::findOne(['usuarios' => $usuario]);
+    /**public static function findByUsername($username){
+        return self::findOne(['usuario' => $username]); 
+    }*/
+
+
+    //Cambio en la funcion para utilizar el modelo de nuestra BD 
+    public static function findByUsername($username)
+    {
+        return static::findOne(['usuario' => $username]);
     }
 
 

@@ -34,7 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id_sev_pot_per',
             //'id_eva_pot_per',
-            'descripcion',
+            //'descripcion',
+            [   
+                'attribute' => 'descripcion',
+                'label' => 'Descripcion',
+                'filterInputOptions' => [
+                'class' => 'form-control',
+                'placeholder' => 'Busqueda',
+               ],
+            ],
             //'created_at',
             //'updated_at',
             //'id_estatus',
@@ -48,9 +56,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'placeholder' => 'Busqueda',
            ],
     
-    'value' => function($model){
-        return   $model->estatus->descripcion;},
-],
+            'value' => function($model){
+            return   $model->estatus->descripcion;},
+            ],
 
 
 

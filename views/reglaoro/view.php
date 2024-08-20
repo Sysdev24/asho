@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\ReglaOro $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Regla Oros', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Regla de Oro', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

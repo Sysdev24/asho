@@ -18,6 +18,9 @@ $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, 
 $this->registerMetaTag(['name' => 'description', 'content' => $this->params['meta_description'] ?? '']);
 $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
+
+//Js de menu
+$this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -45,10 +48,19 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     $menuItems = [
         [
             'label' => 'Administración',
-            'items' => [
-                ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
-                ['label' => 'Afectacion Persona', 'url' => ['/afectacionpersona/index']],
-                ['label' => 'Cargo', 'url' => ['/cargo/index']],
+        'items' => [
+            ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
+           // ['label' => 'Afectacion Persona', 'url' => ['/afectacionpersona/index']],
+            [
+                'label' => 'Afectacion Persona',
+                'options' => ['class' => 'dropdown-item'],
+                'items' => [
+                    ['label' => 'Submenu 1', 'url' => ['/afectacionpersona/index']],
+                    ['label' => 'Submenu 2', 'url' => ['/afectacionpersona/index']],
+                    ['label' => 'Submenu 3', 'url' => ['/afectacionpersona/index']],
+                ],
+            ],
+            ['label' => 'Cargo', 'url' => ['/cargo/index']],
                 ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
                 ['label' => 'Estados', 'url' => ['/estados/index']],
                 ['label' => 'Estatus', 'url' => ['/estatus/index']],
@@ -68,15 +80,14 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
                 
             ],
-            
-        
+
         ],
         [
             'label' => 'Registrar',
-        'items' => [
+            'items' => [
             ['label' => 'Registro', 'url' => ['/registro/index']],
-        ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
-        ],
+            ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
+            ],
         ]
     ];
 

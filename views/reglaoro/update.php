@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\ReglaOro $model */
 
-$this->title = 'Editar Regla Oro: ' . $model->id_regla_oro;
-$this->params['breadcrumbs'][] = ['label' => 'Regla Oros', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_regla_oro, 'url' => ['view', 'id_regla_oro' => $model->id_regla_oro]];
+$this->title = 'Editar Regla Oro: ' . $model->descripcion;
+$this->params['breadcrumbs'][] = ['label' => 'Regla de Oro', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->descripcion, 'url' => ['view', 'id_regla_oro' => $model->id_regla_oro]];
 $this->params['breadcrumbs'][] = 'Editar';
 ?>
 <div class="regla-oro-update">

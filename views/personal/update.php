@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\Personal $model */
 
 $this->title = 'Editar Personal: ' . $model->ci;
-$this->params['breadcrumbs'][] = ['label' => 'Personals', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Personal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->ci, 'url' => ['view', 'ci' => $model->ci]];
 $this->params['breadcrumbs'][] = 'Editar';
 ?>
