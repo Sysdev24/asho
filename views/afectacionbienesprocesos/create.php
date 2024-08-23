@@ -17,4 +17,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
     ]) ?>
 
-</div>
+    <!-- BOTON DE VOLVER-->
+    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goBack()']) ?>
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+
+    </div>

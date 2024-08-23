@@ -44,7 +44,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
-            [['ci', 'usuario', 'password', 'nombre', 'apellido', 'email'], 'string'],
+            [['ci', 'username', 'password', 'nombre', 'apellido', 'email'], 'string'],
             [['id_estatus', 'id_gerencia', 'id_roles'], 'default', 'value' => null],
             [['id_estatus', 'id_gerencia', 'id_roles'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
