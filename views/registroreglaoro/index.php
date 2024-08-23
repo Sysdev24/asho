@@ -11,7 +11,6 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Registro de Regla de Oro';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="registro-regla-oro-index">
 
@@ -26,6 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'options' => ['class'=> 'pagination'],
+            'firstPageCssClass' => 'page-item',
+            'lastPageCssClass' => 'page-item', 
+            'nextPageCssClass' => 'page-item',
+            'prevPageCssClass' => 'page-item',
+            'pageCssClass' => 'page-item',
+            'disabledPageCssClass' => 'disabled d-none',
+            'linkOptions' => ['style' => 'text-decoration: none;', 'class' => 'page-link'],
+        ],
         'columns' => [
 
             ['class' => 'yii\grid\SerialColumn',
@@ -38,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_opcion1:boolean',
             [   
                 'attribute' => 'id_opcion1',
-                'label' => 'Nro de accidente',
+                'label' => 'Opcion 1',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -50,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_opcion2:boolean',
             [   
                 'attribute' => 'id_opcion2',
-                'label' => 'Nro de accidente',
+                'label' => 'Opcion 2',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -62,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_opcion3:boolean',
             [   
                 'attribute' => 'id_opcion3',
-                'label' => 'Nro de accidente',
+                'label' => 'Opcion 3',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -74,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
            // 'id_opcion4:boolean',
             [   
                 'attribute' => 'id_opcion4',
-                'label' => 'Nro de accidente',
+                'label' => 'Opcion 4',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -85,8 +94,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             //'id_opcion_5:boolean',
             [   
-                'attribute' => 'id_opcion5',
-                'label' => 'Nro de accidente',
+                'attribute' => 'id_opcion_5',
+                'label' => 'Opcion 5',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',

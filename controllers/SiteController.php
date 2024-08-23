@@ -71,6 +71,10 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        //Para agregar un layout al login y que no muestre la barra de menu. Antes hay que crear el archivo,
+        //en este caso loginlayout.php dentro de la carpeta layouts que se encuentra en la varpeta views
+        $this->layout = 'loginlayout';
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }

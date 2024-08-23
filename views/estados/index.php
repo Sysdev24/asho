@@ -13,7 +13,6 @@ use yii\helpers\ArrayHelper;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Estado';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="estados-index">
 
@@ -28,17 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        /* este sirve para el estilo de numero de pie de pagina 
         'pager' => [
-                            //'options' => ['class'=> 'pagination'],
-                            'firstPageCssClass' => 'page-item',
-                            'lastPageCssClass' => 'page-item', 
-                            'nextPageCssClass' => 'page-item',
-                            'prevPageCssClass' => 'page-item',
-                            'pageCssClass' => 'page-item',
-                            'disabledPageCssClass' => 'disabled d-none',
-                            'linkOptions' => ['style' => 'text-decoration: none;', 'class' => 'page-link'],
-                        ],*/
+            'options' => ['class'=> 'pagination'],
+            'firstPageCssClass' => 'page-item',
+            'lastPageCssClass' => 'page-item', 
+            'nextPageCssClass' => 'page-item',
+            'prevPageCssClass' => 'page-item',
+            'pageCssClass' => 'page-item',
+            'disabledPageCssClass' => 'disabled d-none',
+            'linkOptions' => ['style' => 'text-decoration: none;', 'class' => 'page-link'],
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',
             'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera

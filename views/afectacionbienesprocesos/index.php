@@ -12,7 +12,6 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Afectacion de Bienes y Procesos';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="afectacion-bienes-procesos-index">
 

@@ -18,7 +18,7 @@ use app\models\Roles;
 
     <?= $form->field($model, 'ci')->textInput() ?>
 
-    <?= $form->field($model, 'usuario')->textInput() ?>
+    <?= $form->field($model, 'username')->textInput() ?>
 
     <?= $form->field($model, 'password')->passwordInput() ?>
 

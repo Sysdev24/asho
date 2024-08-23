@@ -11,7 +11,6 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Usuario';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuarios-index">
 
@@ -26,17 +25,67 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'options' => ['class'=> 'pagination'],
+            'firstPageCssClass' => 'page-item',
+            'lastPageCssClass' => 'page-item', 
+            'nextPageCssClass' => 'page-item',
+            'prevPageCssClass' => 'page-item',
+            'pageCssClass' => 'page-item',
+            'disabledPageCssClass' => 'disabled d-none',
+            'linkOptions' => ['style' => 'text-decoration: none;', 'class' => 'page-link'],
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',
         'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
 
             //'id_usuario',
-            'ci',
-            'usuario',
+            //'ci',
+            [   
+                'attribute' => 'ci',
+                'label' => 'CI',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+            //'username',
+            [   
+                'attribute' => 'username',
+                'label' => 'Usuario',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             //'password', ojo
-            'nombre',
-            'apellido',
-            'email:email',
+            //'nombre',
+            [   
+                'attribute' => 'nombre',
+                'label' => 'Nombre',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+            //'apellido',
+            [   
+                'attribute' => 'apellido',
+                'label' => 'Apellido',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+            //'email:email',
+            [   
+                'attribute' => 'email',
+                'label' => 'Correo',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             //'id_estatus',
 
             //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados

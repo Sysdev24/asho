@@ -11,7 +11,6 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Clasificacion de Accidente';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="clasificacion-accidente-index">
 

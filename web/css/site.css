@@ -69,6 +69,21 @@ main > .container {
 .dropdown-item.active .submenu {
     display: block;
 }
+ /*LOGIN*/
+.site-login{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.centered-container {
+    display: flex;
+    justify-content: center;
+}
+
 
 
 
@@ -177,3 +192,13 @@ a.desc:after {
 table td {
     text-align: center;
 }
+
+
+/*
+esto para cambiar el color de la paginacion
+
+.pagination > li.active > a,
+.pagination > li.active > span {
+    background-color: #157347; /* Cambia este valor al color deseado 
+}
+*/

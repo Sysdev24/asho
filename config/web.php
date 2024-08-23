@@ -22,8 +22,8 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
-            //'identityClass' => 'app\models\Usuarios',
+            //'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Usuarios',
             'enableAutoLogin' => true,
             'loginUrl' => ['site/login'],
         ],
@@ -46,31 +46,34 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
+        
+       /** 'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
-        ],
-        */
+        ],*/
+
+        /**'defaultRoute' => 'site/login',*/
+        
     ],
-/**
-    'as access' => [
-    'class' => \yii\filters\AccessControl::className(),//AccessControl::className(),
-    'rules' => [
-        [
-            'actions' => ['login', 'error'],
-            'allow' => true,
+        
+        'as access' => [
+            'class' => \yii\filters\AccessControl::className(),
+            'rules' => [
+                [
+                    'actions' => ['login', 'error'],
+                    'allow' => true,
+                ],
+                [
+                    'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete'], // Agrega todas las acciones que requieren autenticación
+                    'allow' => true,
+                    'roles' => ['@'], // Requiere que el usuario esté autenticado
+                ],
+            ],
         ],
-        [
-            'actions' => ['logout', 'index'], // add all actions to take guest to login page
-            'allow' => true,
-            'roles' => ['@'],
-        ],
-    ],
- ],
-*/
+        
+
     'params' => $params,
 ];
 

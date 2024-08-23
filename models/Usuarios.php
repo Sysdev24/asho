@@ -62,7 +62,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         return [
             'id_usuario' => 'Usuario',
             'ci' => 'Ci',
-            'usuario' => 'Usuario',
+            'username' => 'Usuario',
             'password' => 'Password',
             'nombre' => 'Nombre',
             'apellido' => 'Apellido',
@@ -155,7 +155,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     //Cambio en la funcion para utilizar el modelo de nuestra BD 
     public static function findByUsername($username)
     {
-        return static::findOne(['usuario' => $username]);
+        return static::findOne(['username' => $username]);
     }
 
 

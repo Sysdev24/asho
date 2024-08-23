@@ -92,12 +92,12 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
     ];
 
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Iniciar Sesión', 'url' => ['/site/login']];
     } else {
         $menuItems[] = '<li class="nav-item">'
             . Html::beginForm(['/site/logout'])
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                'Salir (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'nav-link btn btn-link logout']
             )
             . Html::endForm()

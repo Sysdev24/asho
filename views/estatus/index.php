@@ -11,7 +11,6 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Estatus';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="estatus-index">
 
@@ -26,6 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'options' => ['class'=> 'pagination'],
+            'firstPageCssClass' => 'page-item',
+            'lastPageCssClass' => 'page-item', 
+            'nextPageCssClass' => 'page-item',
+            'prevPageCssClass' => 'page-item',
+            'pageCssClass' => 'page-item',
+            'disabledPageCssClass' => 'disabled d-none',
+            'linkOptions' => ['style' => 'text-decoration: none;', 'class' => 'page-link'],
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',
             'header' => 'Nº'],
