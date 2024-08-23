@@ -37,7 +37,9 @@ $this->title = 'Usuario';
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',
-        'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera],
+            'header' => 'Nº', //Para que no aparezca el # sino la letra que se requiera],
+            'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+            ], 
 
             //'id_usuario',
             //'ci',

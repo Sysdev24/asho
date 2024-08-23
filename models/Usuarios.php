@@ -140,8 +140,8 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
     public function validateAuthKey($authKey)
     {
-        //return $this->authKey === $authKey;
-        throw new NotSupportedException();
+        return $this->authKey === $authKey;
+        //throw new NotSupportedException();
     }
 
     //Para el login

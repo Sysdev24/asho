@@ -62,7 +62,7 @@ class Estatus extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
             'siglas' => 'Siglas',
             'descripcion' => 'Descripcion',
             'created_at' => 'Created At',

@@ -37,7 +37,9 @@ $this->title = 'Afectacion Persona';
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',
-            'header' => 'Nº'], //Para que no aparezca el # sino la letra que se requiera
+            'header' => 'Nº', //Para que no aparezca el # sino la letra que se requiera
+            'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+            ], 
             
 
             //'id_area_afectada',
@@ -49,6 +51,7 @@ $this->title = 'Afectacion Persona';
             [   
                 'attribute' => 'descripcion',
                 'label' => 'Descripcion',
+                'contentOptions' => ['style' => 'width:30%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -61,12 +64,11 @@ $this->title = 'Afectacion Persona';
             [   
                 'attribute' => 'codigo',
                 'label' => 'Codigo',
+                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
                 ],
-                
-                
             ],
 
             //'created_at',
@@ -78,6 +80,7 @@ $this->title = 'Afectacion Persona';
             [   
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',
+                'contentOptions' => ['style' => 'width:30%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',

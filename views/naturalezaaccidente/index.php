@@ -37,7 +37,9 @@ $this->title = 'Naturaleza de Accidente';
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',
-            'header' => 'Nº'],
+            'header' => 'Nº', //Para que no aparezca el # sino la letra que se requiera],
+            'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+            ], 
 
             //'id_naturaleza_accidente',
             //'descripcion',
