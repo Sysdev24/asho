@@ -7,8 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\ClasificacionAccidente $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Clasificacion Accidentes', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="clasificacion-accidente-view">

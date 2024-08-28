@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\Registro $model */
 
 $this->title = 'Crear Registro';
-$this->params['breadcrumbs'][] = ['label' => 'Registros', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="registro-create">
 

@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\PeligroAgente $model */
 
 $this->title = 'Crear Peligro Agente';
-$this->params['breadcrumbs'][] = ['label' => 'Peligro Agente', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="peligro-agente-create">
 

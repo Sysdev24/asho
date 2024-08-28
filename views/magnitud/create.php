@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\Magnitud $model */
 
 $this->title = 'Crear Magnitud';
-$this->params['breadcrumbs'][] = ['label' => 'Magnitud', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="magnitud-create">
 

@@ -7,8 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\AfectacionBienesProcesos $model */
 
 $this->title = $model->valor;
-$this->params['breadcrumbs'][] = ['label' => 'Afectacion Bienes Procesos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="afectacion-bienes-procesos-view">

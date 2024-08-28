@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\Gerencia $model */
 
 $this->title = 'Editar Gerencia: ' . $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Gerencia', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->descripcion, 'url' => ['view', 'id_gerencia' => $model->id_gerencia]];
-$this->params['breadcrumbs'][] = 'Editar';
+
 ?>
 <div class="gerencia-update">
 

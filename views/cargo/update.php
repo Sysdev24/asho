@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\Cargo $model */
 
 $this->title = 'Editar Cargo: ' . $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Cargo', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->descripcion, 'url' => ['view', 'id_cargo' => $model->id_cargo]];
-$this->params['breadcrumbs'][] = 'Editar';
+
 ?>
 <div class="cargo-update">
 

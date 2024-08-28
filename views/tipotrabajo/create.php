@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\TipoTrabajo $model */
 
 $this->title = 'Crear Tipo de Trabajo';
-$this->params['breadcrumbs'][] = ['label' => 'Tipo de Trabajo', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="tipo-trabajo-create">
 

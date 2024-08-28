@@ -7,8 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\AfectacionPersona $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Afectacion Personas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="afectacion-persona-view">

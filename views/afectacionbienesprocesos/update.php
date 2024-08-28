@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\AfectacionBienesProcesos $model */
 
 $this->title = 'Editar Afectacion de Bienes y Procesos: ' . $model->valor;
-$this->params['breadcrumbs'][] = ['label' => 'Afectacion de Bienes y Procesos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->valor, 'url' => ['view', 'id_afec_bien_pro' => $model->id_afec_bien_pro]];
-$this->params['breadcrumbs'][] = 'Editar';
+
 ?>
 <div class="afectacion-bienes-procesos-update">
 

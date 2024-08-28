@@ -7,8 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\Estados $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Estados', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="estados-view">

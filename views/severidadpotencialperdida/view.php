@@ -7,8 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\SeveridadPotencialPerdida $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Severidad Potencial de Perdida', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="severidad-potencial-perdida-view">

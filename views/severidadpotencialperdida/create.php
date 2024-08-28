@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\SeveridadPotencialPerdida $model */
 
 $this->title = 'Crear Severidad Potencial de Perdida';
-$this->params['breadcrumbs'][] = ['label' => 'Severidad Potencial de Perdida', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="severidad-potencial-perdida-create">
 
