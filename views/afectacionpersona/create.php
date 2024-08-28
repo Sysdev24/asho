@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\AfectacionPersona $model */
 
 $this->title = 'Crear Afectacion Persona';
-$this->params['breadcrumbs'][] = ['label' => 'Afectacion Persona', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="afectacion-persona-create">
 

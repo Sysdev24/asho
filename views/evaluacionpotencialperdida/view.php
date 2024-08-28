@@ -7,8 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\EvaluacionPotencialPerdida $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Evaluacion de Potencial y Perdidas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="evaluacion-potencial-perdida-view">

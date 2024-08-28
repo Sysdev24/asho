@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\EvaluacionPotencialPerdida $model */
 
 $this->title = 'Crear Evaluacion de Potencial y Perdida';
-$this->params['breadcrumbs'][] = ['label' => 'Evaluacion de Potencial y Perdidas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="evaluacion-potencial-perdida-create">
 

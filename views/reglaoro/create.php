@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\ReglaOro $model */
 
 $this->title = 'Crear Regla de Oro';
-$this->params['breadcrumbs'][] = ['label' => 'Regla de Oro', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="regla-oro-create">
 

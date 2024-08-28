@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\Estados $model */
 
 $this->title = 'Editar Estado: ' . $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Estado', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->descripcion, 'url' => ['view', 'id_estado' => $model->id_estado]];
-$this->params['breadcrumbs'][] = 'Editar';
+
 ?>
 <div class="estados-update">
 

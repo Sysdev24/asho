@@ -6,9 +6,6 @@ use yii\helpers\Html;
 /** @var app\models\AfectacionPersona $model */
 
 $this->title = 'Editar Afectacion Persona: ' . $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Afectacion Personas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->descripcion, 'url' => ['view', 'id_area_afectada' => $model->id_area_afectada]];
-$this->params['breadcrumbs'][] = 'Editar';
 ?>
 <div class="afectacion-persona-update">
 

@@ -7,8 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\SujetoAfectacion $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Sujeto de Afectacion', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="sujeto-afectacion-view">

@@ -7,8 +7,7 @@ use yii\widgets\DetailView;
 /** @var app\models\Estatus $model */
 
 $this->title = $model->descripcion;
-$this->params['breadcrumbs'][] = ['label' => 'Estatus', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="estatus-view">

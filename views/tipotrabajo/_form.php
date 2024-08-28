@@ -16,9 +16,6 @@ use app\models\Estatus;
 
     <?= $form->field($model, 'descripcion')->textInput() ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
     ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),

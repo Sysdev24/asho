@@ -6,8 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\ClasificacionAccidente $model */
 
 $this->title = 'Crear Clasificacion de Accidente';
-$this->params['breadcrumbs'][] = ['label' => 'Clasificacion de Accidente', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="clasificacion-accidente-create">
 
