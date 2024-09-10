@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/js/all.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

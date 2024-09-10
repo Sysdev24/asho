@@ -20,6 +20,8 @@ $this->title = 'Roles';
         <?= Html::a('Crear Roles', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php var_dump(\app\models\AuthRbac::getRoles())?>
+
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
@@ -44,7 +46,15 @@ $this->title = 'Roles';
             //'id_roles',
             //'descripcion',
             [   
-                'attribute' => 'descripcion',
+                'attribute' => 'name',
+                'label' => 'Nombre',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+            [   
+                'attribute' => 'description',
                 'label' => 'Descripcion',
                 'filterInputOptions' => [
                     'class' => 'form-control',
@@ -54,28 +64,61 @@ $this->title = 'Roles';
             //'guard_name',
             //'id_estatus',
 
-        //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
-        [   
-            'attribute' => 'id_estatus',
-            'label' => 'Estatus',
-            'filterInputOptions' => [
-                'class' => 'form-control',
-                'placeholder' => 'Busqueda',
-            ],
-            
-            'value' => function($model){
-                return   $model->estatus->descripcion;},
-        ],
-
-
-
             //'created_at',
             //'updated_at',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Roles $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id_roles' => $model->id_roles]);
-                 }
+                'template' => '{view}{update}{delete}',
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        $id = $model->name;
+                        $url = ['view', 'id'=>$id];
+                        $link = Html::a('<i class="fas fa-eye"></i>', $url, [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return $link;
+                    },
+                    'update' => function ($url, $model, $key) {
+                        $id = $model->name;
+                        $url = ['update', 'id'=>$id];
+                        $link = Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
+                            'title' => Yii::t('yii', 'Update'),
+                            'aria-label' => Yii::t('yii', 'Update'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return  $link;
+                    },
+                    'permisos' => function ($url, $model, $key) {
+                        $id = $model->name;
+                        $url = ['permisos', 'id'=>$id];
+                        $link = Html::a('<i class="fas fa-list-check"></i>', $url, [
+                            'title' => Yii::t('app', 'Permisos'),
+                            'aria-label' => Yii::t('app', 'Permisos'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return  $link;
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        $id = $model->name;
+                        $url = ['delete', 'id'=>$id];
+                        $link = Html::a('<i class="fas fa-trash-alt"></i>', $url, [
+                            'title' => Yii::t('yii', 'Delete'),
+                            'aria-label' => Yii::t('yii', 'Delete'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                            'data' => [
+                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                'method' => 'post',
+                            ],
+                        ]);
+                        return $link;
+                    },
+                ],
             ],
         ],
     ]); ?>

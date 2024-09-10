@@ -18,7 +18,7 @@ class UsuariosSearch extends Usuarios
     {
         return [
             [['id_usuario', 'id_estatus', 'id_gerencia', 'id_roles'], 'integer'],
-            [['ci', 'username', 'password', 'nombre', 'apellido', 'email', 'created_at', 'updated_at'], 'safe'],
+            [['ci', 'username', 'password', 'nombre', 'apellido', 'email', 'created_at', 'updated_at', 'name'], 'safe'],
         ];
     }
 
@@ -64,6 +64,8 @@ class UsuariosSearch extends Usuarios
             'id_roles' => $this->id_roles,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'name' => $this->name,
+
         ]);
 
         $query->andFilterWhere(['ilike', 'ci', $this->ci])

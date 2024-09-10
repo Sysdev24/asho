@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Roles $model */
 
-$this->title = 'Actualizar Rol: ' . $model->descripcion;
+$this->title = 'Actualizar Rol: ' . $model->description;
 
 ?>
 <div class="roles-update">

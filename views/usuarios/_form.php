@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Estatus;
 use app\models\Gerencia;
-use app\models\Roles;
+use app\models\AuthRbac;
 
 /** @var yii\web\View $this */
 /** @var app\models\Usuarios $model */
@@ -36,14 +36,16 @@ use app\models\Roles;
     ArrayHelper::map(Gerencia::find()->all(),'id_gerencia','descripcion'),
     ['prompt'=> 'Seleccionar Gerencia']);?>
 
-    <?= $form->field($model, 'id_roles')->dropDownList(
-    ArrayHelper::map(Roles::find()->all(),'id_roles','descripcion'),
-    ['prompt'=> 'Seleccionar Rol']);?>
+    <?= $form->field($model, 'name')->dropDownList(
+    ArrayHelper::map(AuthRbac::getRoles(),'name','name'),
+    ['prompt'=> 'Seleccionar Gerencia']);?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+    
 
 </div>

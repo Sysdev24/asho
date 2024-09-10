@@ -15,15 +15,9 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id_roles') ?>
+    <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'descripcion') ?>
-
-    <?= $form->field($model, 'guard_name') ?>
-
-    <?= $form->field($model, 'id_estatus') ?>
-
-    <?= $form->field($model, 'created_at') ?>
+    <?= $form->field($model, 'description') ?>
 
     <?php // echo $form->field($model, 'updated_at') ?>
 

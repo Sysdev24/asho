@@ -115,20 +115,18 @@ $this->title = 'Usuario';
                     return   $model->gerencia->descripcion;},
             ],
 
-
-            //'id_gerencia',
-            //'id_roles',
             [   
-                'attribute' => 'id_roles',
-                'label' => 'Roles',
+                'attribute' => 'name',
+                'label' => 'Rol',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
                 ],
-                
-                'value' => function($model){
-                    return   $model->roles->descripcion;},
             ],
+
+
+            //'id_gerencia',
+            //'id_roles',
             //'created_at',
             //'updated_at',
             [

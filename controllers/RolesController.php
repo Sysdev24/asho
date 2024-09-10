@@ -2,11 +2,14 @@
 
 namespace app\controllers;
 
-use app\models\Roles;
-use app\models\RolesSearch;
+use Yii;
+use app\models\RbacForm;
+use app\models\RoleSearch;
+use app\models\AsigRolesPermisosForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * RolesController implements the CRUD actions for Roles model.
@@ -16,7 +19,7 @@ class RolesController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
+   public function behaviors()
     {
         return array_merge(
             parent::behaviors(),
@@ -38,7 +41,7 @@ class RolesController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new RolesSearch();
+        $searchModel = new RoleSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -53,10 +56,10 @@ class RolesController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id_roles)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id_roles),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -67,18 +70,31 @@ class RolesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Roles();
+        $model = new RbacForm();
+        $model->isNewRecord = true;
+        $errorMessage = '';
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_roles' => $model->id_roles]);
+            if ($model->load($this->request->post())) {
+
+                try {
+                    $auth = Yii::$app->authManager;
+                    $role = $auth->createRole($model->name);
+                    $role->description = $model->description;
+                    if($auth->add($role)) { 
+                        return $this->redirect(['view', 'id' => $model->name]);
+                    } else {
+                        $errorMessage = 'Error al guardar registro.';
+                    }
+                } catch (\Throwable $th) {
+                    $errorMessage = 'Error al guardar registro.';
+                }
             }
-        } else {
-            $model->loadDefaultValues();
-        }
+        } 
 
         return $this->render('create', [
             'model' => $model,
+            'errorMessage' => $errorMessage,
         ]);
     }
 
@@ -89,16 +105,63 @@ class RolesController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id_roles)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($id_roles);
+        $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_roles' => $model->id_roles]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            try {
+                $auth = Yii::$app->authManager;
+                $role = $auth->getRole($id);
+                $role->name = $model->name;
+                $role->description = $model->description;
+
+                if ($auth->update($id, $role)) {
+                    return $this->redirect(['view', 'id' => $model->name]);
+                } else {
+                    $errorMessage = 'Error al guardar registro.';
+                }
+            } catch (\Throwable $th) {
+                $errorMessage = 'Error al guardar registro.';
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'errorMessage' => $errorMessage,
+        ]);
+    }
+
+    /**
+     * Updates an existing Roles model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param int $id_roles Id Roles
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionPermisos($id)
+    {
+        $role = $this->findModel($id);
+        $auth = Yii::$app->authManager;
+        $model = new AsigRolesPermisosForm();
+        $model->name = $id;
+        
+        $model->setRoles($id);
+        $model->setPermisos($id);
+
+        $errorMessage = '';
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            if (!$errorMessage = $model->save()) {
+                return $this->redirect(['view', 'id' => $model->name]);
+            } 
+        }
+
+        return $this->render('permisos', [
+            'model' => $model,
+            'errorMessage' => $errorMessage,
         ]);
     }
 
@@ -109,9 +172,12 @@ class RolesController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id_roles)
+    public function actionDelete($id)
     {
-        $this->findModel($id_roles)->delete();
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRole($id);
+        
+        $auth->remove($role);
 
         return $this->redirect(['index']);
     }
@@ -123,12 +189,15 @@ class RolesController extends Controller
      * @return Roles the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id_roles)
+    protected function findModel($id)
     {
-        if (($model = Roles::findOne(['id_roles' => $id_roles])) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        $model = new RbacForm();
+        $auth = Yii::$app->authManager;
+    	if ($auth->getRole($id) !== null) {
+    	    $model->setAttributes((array)$auth->getRole($id));
+    		return $model;
+    	} else {
+    		throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
+    	}
     }
 }

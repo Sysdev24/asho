@@ -8,6 +8,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use yii\data\ActiveDataProvider;
+
 /**
  * AfectacionpersonaController implements the CRUD actions for AfectacionPersona model.
  */
@@ -45,6 +47,19 @@ class AfectacionpersonaController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    //VISTA DE POSTGRES 
+    public function actionHijo()
+    {
+        $query = AfectacionPersona::find()
+            ->where(['id_sub2_area_afect' => 'IS NOT NULL', 'id_sub_area_afect' => 0]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
 
     /**

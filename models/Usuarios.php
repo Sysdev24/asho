@@ -45,6 +45,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     {
         return [
             [['ci', 'username', 'password', 'nombre', 'apellido', 'email'], 'string'],
+            [['name'], 'string'],
             [['id_estatus', 'id_gerencia', 'id_roles'], 'default', 'value' => null],
             [['id_estatus', 'id_gerencia', 'id_roles'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
@@ -53,7 +54,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['id_roles'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::class, 'targetAttribute' => ['id_roles' => 'id_roles']],
         ];
     }
-
+    public $name;
     /**
      * {@inheritdoc}
      */
@@ -72,6 +73,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             'id_roles' => 'Roles',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'name' => 'Roles'
         ];
     }
 
@@ -100,9 +102,23 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
      *
      * @return \yii\db\ActiveQuery|RolesQuery
      */
-    public function getRoles()
+
+     
+    /*public function getRoles()
     {
         return $this->hasOne(Roles::class, ['id_roles' => 'id_roles'])->inverseOf('usuarios');
+    }*/
+
+    public static function getRoles()
+    {
+        $auth = Yii::$app->authManager;
+        $roles = $auth->getRoles();
+        // $roles debe transformarse en un array valido para ArrayDataProvider
+        $aRoles = [];
+        foreach ($roles as $key => $val) {
+            $aRoles[] = $val;
+        }
+        return $aRoles;
     }
 
     /**
@@ -113,6 +129,8 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     {
         return new UsuariosQuery(get_called_class());
     }
+
+    
 
 
 

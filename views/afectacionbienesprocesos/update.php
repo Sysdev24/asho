@@ -17,13 +17,14 @@ $this->title = 'Editar Afectacion de Bienes y Procesos: ' . $model->valor;
     ]) ?>
 
     <!-- BOTON DE VOLVER-->
-    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goBack()']) ?>
+    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goToAfectacionBienesProcesos()']) ?>
 
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
+    <script>
+        function goToAfectacionBienesProcesos() {
+            // Ajusta la URL según tu estructura de proyecto y enrutamiento
+            window.location.href = 'index.php?r=afectacionbienesprocesos%2Findex';
+        }
+    </script>
 
     </div>
 </div>

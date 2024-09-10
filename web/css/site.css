@@ -61,14 +61,18 @@ main > .container {
 .dropdown-item .submenu {
     display: none;
     position: relative;
-    top: 0;
+    top: 100%; /* Adjust this value as needed */
     left: 0;
+    width: 100%; /* Adjust this value if necessary */
+    z-index: 1; /* Ensure the submenu appears above other elements */
 }
 
 /* Mostrar el submenú cuando el elemento padre tiene la clase 'active' */
 .dropdown-item.active .submenu {
     display: block;
 }
+
+
  /*LOGIN*/
 .site-login{
     display: flex;

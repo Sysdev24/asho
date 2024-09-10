@@ -55,7 +55,7 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
                 'label' => 'Afectacion Persona',
                 'options' => ['class' => 'dropdown-item'],
                 'items' => [
-                    ['label' => 'Submenu 1', 'url' => ['/afectacionpersona/index']],
+                    ['label' => 'Submenu 1', 'url' => ['/afectacionpersona/hijo']],
                     ['label' => 'Submenu 2', 'url' => ['/afectacionpersona/index']],
                     ['label' => 'Submenu 3', 'url' => ['/afectacionpersona/index']],
                 ],
@@ -78,6 +78,7 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
                 ['label' => 'Tipo Accidente', 'url' => ['/tipoaccidente/index']],
                 ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']],
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
+                ['label' => 'Permisos', 'url' => ['permisos/index']],
                 
             ],
 
@@ -114,7 +115,7 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
 </header>
 
 <main id="main" class="flex-shrink-0" role="main">
-    <div class="container"  >
+    <div class="container">
         <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
         <?php endif ?>

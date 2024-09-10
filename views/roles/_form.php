@@ -12,13 +12,19 @@ use app\models\Estatus;
 
 <div class="roles-form">
 
+    <?php /*if ($errorMessage) : ?>
+        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show my-4" role="alert">
+            <i class="fa-solid fa-triangle-exclamation fa-2xl me-3"></i>
+            <strong class="me-2">Error!</strong><?= $errorMessage ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif;*/ ?>
+    
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
-
-    <?= $form->field($model, 'id_estatus')->dropDownList(
-    ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
-    ['prompt'=> 'seleccionar status']);?>
+    <?= $form->field($model, 'name')->textInput() ?>
+    
+    <?= $form->field($model, 'description')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

@@ -22,7 +22,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            //'identityClass' => 'app\models\User',
+           // 'identityClass' => 'app\models\User',
             'identityClass' => 'app\models\Usuarios',
             'enableAutoLogin' => true,
             'loginUrl' => ['site/login'],
@@ -44,7 +44,12 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+            ],
+
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
+        
         'db' => $db,
         
        /** 'urlManager' => [
@@ -56,35 +61,37 @@ $config = [
 
         /**'defaultRoute' => 'site/login',*/
         
+        
     ],
         
         'as access' => [
-            'class' => \yii\filters\AccessControl::className(),
-            'rules' => [
-                [
-                    'actions' => ['login', 'error'],
-                    'allow' => true,
-                ],
-                [
-                    'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete'], // Agrega todas las acciones que requieren autenticación
-                    'allow' => true,
-                    'roles' => ['@'], // Requiere que el usuario esté autenticado
-                ],
-            ],
+    'class' => \yii\filters\AccessControl::className(),
+    'rules' => [
+        [
+            'actions' => ['login', 'error'],
+            'allow' => true,
         ],
+        [
+            'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'hijo'], // Agrega todas las acciones que requieren autenticación
+            'allow' => true,
+            'roles' => ['@'], // Requiere que el usuario esté autenticado
+        ],
+    ],
+    'except' => ['debug/*'], // Excluye el módulo de debug de las reglas de acceso
+    ],
         
 
     'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = [
-        'class' => 'yii\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
-    ];
+
+        // configuración de módulos ajustada para el entorno 'dev'
+        $config['bootstrap'][] = 'debug';
+        $config['modules']['debug'] = [
+            'class' => 'yii\debug\Module',
+        ];
+
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
@@ -92,6 +99,7 @@ if (YII_ENV_DEV) {
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
+    
 }
 
 return $config;

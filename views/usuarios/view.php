@@ -50,12 +50,7 @@ $this->title = $model->username;
                     return   $model->estatus->descripcion;},
             ],
             //'id_roles',
-            [   
-                'attribute' => 'id_roles',
-                'label' => 'Roles',
-                'value' => function($model){
-                    return   $model->roles->descripcion;},
-            ],
+            'name',
             //'created_at',
             //'updated_at',
         ],
