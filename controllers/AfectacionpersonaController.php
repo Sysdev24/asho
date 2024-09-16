@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\AfectacionPersona;
 use app\models\AfectacionpersonaSearch;
 use yii\web\Controller;
@@ -49,18 +50,30 @@ class AfectacionpersonaController extends Controller
         ]);
     }
 
-    //VISTA DE POSTGRES 
-    public function actionHijo()
+
+    //CONSULTA DE POSTGRES 
+    public function actionArea()
     {
-        $query = AfectacionPersona::find()
-            ->where(['id_sub2_area_afect' => 'IS NOT NULL', 'id_sub_area_afect' => 0]);
+        $searchModel = new AfectacionpersonaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'area');
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+        return $this->render('area', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
-
-        return $this->render('index', ['dataProvider' => $dataProvider]);
     }
+
+    public function actionNaturaleza()
+    {
+        $searchModel = new AfectacionpersonaSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'naturaleza');
+
+        return $this->render('naturaleza', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
+    }
+    
 
     /**
      * Displays a single AfectacionPersona model.
@@ -97,6 +110,35 @@ class AfectacionpersonaController extends Controller
         ]);
     }
 
+
+    public function actionCreateArea()
+    {
+        $model = new AfectacionPersona();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('create-area', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionCreateNaturaleza()
+    {
+        $model = new AfectacionPersona();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('create-naturaleza', [
+            'model' => $model,
+        ]);
+    }
+
+    
+
     /**
      * Updates an existing AfectacionPersona model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -116,6 +158,37 @@ class AfectacionpersonaController extends Controller
             'model' => $model,
         ]);
     }
+
+
+    public function actionUpdateArea($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('update-area',  
+    [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionUpdateNaturaleza($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('update-naturaleza',  
+    [
+            'model' => $model,
+        ]);
+    }
+
+
 
     /**
      * Deletes an existing AfectacionPersona model.
@@ -147,3 +220,5 @@ class AfectacionpersonaController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
+
+

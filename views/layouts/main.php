@@ -55,9 +55,8 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
                 'label' => 'Afectacion Persona',
                 'options' => ['class' => 'dropdown-item'],
                 'items' => [
-                    ['label' => 'Submenu 1', 'url' => ['/afectacionpersona/hijo']],
-                    ['label' => 'Submenu 2', 'url' => ['/afectacionpersona/index']],
-                    ['label' => 'Submenu 3', 'url' => ['/afectacionpersona/index']],
+                    ['label' => 'Area Afectada', 'url' => ['/afectacionpersona/area']],
+                    ['label' => 'Naturaleza de la Lesion', 'url' => ['/afectacionpersona/naturaleza']],
                 ],
             ],
             ['label' => 'Cargo', 'url' => ['/cargo/index']],

@@ -40,6 +40,14 @@ class AfectacionPersona extends \yii\db\ActiveRecord
             [['descripcion', 'codigo'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
+            
+            [['id_sub_area_afect'], 'required', 'when' => function($model) {
+                return $model->scenario === 'update-area'; // Ajusta el escenario según tu configuración
+            }],
+
+            [['id_sub2_area_afect'], 'required', 'when' => function($model) {
+                return $model->scenario === 'update-naturaleza';
+            }],
         ];
     }
 

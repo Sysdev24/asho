@@ -38,7 +38,7 @@ class AfectacionpersonaSearch extends AfectacionPersona
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $searchType = 'area')
     {
         $query = AfectacionPersona::find();
 
@@ -60,14 +60,21 @@ class AfectacionpersonaSearch extends AfectacionPersona
         $query->andFilterWhere([
             'id_area_afectada' => $this->id_area_afectada,
             'id_sub_area_afect' => $this->id_sub_area_afect,
-            'id_sub2_area_afect' => $this->id_sub2_area_afect,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'id_estatus' => $this->id_estatus,
+            // ... otros filtros
         ]);
 
         $query->andFilterWhere(['ilike', 'descripcion', $this->descripcion])
             ->andFilterWhere(['ilike', 'codigo', $this->codigo]);
+
+        // Condición adicional para excluir el ID 0 en id_sub2_area_afect
+        $query->andWhere(['>', 'id_sub_area_afect', 0]);
+
+        // Condición adicional según el tipo de búsqueda
+        if ($searchType === 'area') {
+            $query->andWhere(['id_sub2_area_afect' => 1]);
+        } elseif ($searchType === 'naturaleza') {
+            $query->andWhere(['id_sub2_area_afect' => 2]);
+        }
 
         return $dataProvider;
     }

@@ -16,27 +16,14 @@ $this->title = $model->descripcion;
 
     <p>
         <?= Html::a('Actualizar', ['update', 'id_area_afectada' => $model->id_area_afectada], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id_area_afectada' => $model->id_area_afectada], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id_area_afectada',
-            //'id_sub_area_afect',
-            //'id_sub2_area_afect',
             'descripcion',
-            'codigo',
-            //'created_at',
-            //'updated_at',
-            //'id_estatus',
-            
+            'codigo',            
             [   
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',

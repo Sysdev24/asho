@@ -61,6 +61,13 @@ $config = [
 
         /**'defaultRoute' => 'site/login',*/
         
+
+        'assetManager' => [
+            'bundles' => [
+                // ...
+            ],
+            'basePath' => '@app/widgets', // Asegúrate de que esta sea la ruta correcta a tu directorio widgets
+        ],
         
     ],
         
@@ -72,7 +79,8 @@ $config = [
             'allow' => true,
         ],
         [
-            'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'hijo'], // Agrega todas las acciones que requieren autenticación
+            'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'area', 'naturaleza',
+                            'create-area', 'create-naturaleza', 'update-area', 'update-naturaleza'], // Agrega todas las acciones que requieren autenticación
             'allow' => true,
             'roles' => ['@'], // Requiere que el usuario esté autenticado
         ],
