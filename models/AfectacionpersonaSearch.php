@@ -60,7 +60,9 @@ class AfectacionpersonaSearch extends AfectacionPersona
         $query->andFilterWhere([
             'id_area_afectada' => $this->id_area_afectada,
             'id_sub_area_afect' => $this->id_sub_area_afect,
-            // ... otros filtros
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'id_estatus' => $this->id_estatus,
         ]);
 
         $query->andFilterWhere(['ilike', 'descripcion', $this->descripcion])
