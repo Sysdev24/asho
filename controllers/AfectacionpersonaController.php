@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\AfectacionPersona;
 use app\models\AfectacionpersonaSearch;
+use app\models\Area;
+use app\models\Naturaleza;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -113,7 +115,7 @@ class AfectacionpersonaController extends Controller
 
     public function actionCreateArea()
     {
-        $model = new AfectacionPersona();
+        $model = new Area();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -126,7 +128,7 @@ class AfectacionpersonaController extends Controller
 
     public function actionCreateNaturaleza()
     {
-        $model = new AfectacionPersona();
+        $model = new Naturaleza();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);

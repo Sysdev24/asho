@@ -33,8 +33,8 @@ class SubAreaForm extends Model
     <?= $form->field($model, 'codigo')->textInput() ?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
-        ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
-        ['prompt'=> 'seleccionar status']);?>
+    ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
+    ['prompt'=> 'seleccionar status']);?>
 
     
 
