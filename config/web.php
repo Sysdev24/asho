@@ -66,7 +66,7 @@ $config = [
             'bundles' => [
                 // ...
             ],
-            'basePath' => '@app/widgets', // Asegúrate de que esta sea la ruta correcta a tu directorio widgets
+            'basePath' => '@app/web/assets', // Asegúrate de que esta sea la ruta correcta a tu directorio widgets
         ],
         
     ],

@@ -17,7 +17,7 @@ class PersonalSearch extends Personal
     public function rules()
     {
         return [
-            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo', 'id_registro'], 'integer'],
+            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
             [['nombre', 'apellido', 'created_at', 'updated_at', 'telefono', 'fecha_nac'], 'safe'],
         ];
     }
@@ -67,7 +67,6 @@ class PersonalSearch extends Personal
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'fecha_nac' => $this->fecha_nac,
-            'id_registro' => $this->id_registro,
         ]);
 
         $query->andFilterWhere(['ilike', 'nombre', $this->nombre])
