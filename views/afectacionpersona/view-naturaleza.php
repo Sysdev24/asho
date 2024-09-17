@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
+
 
 /** @var yii\web\View $this */
 /** @var app\models\AfectacionPersona $model */
@@ -40,14 +42,7 @@ $this->title = $model->descripcion;
     ]) ?>
 
     <!-- BOTON DE VOLVER-->
-    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goBack()']) ?>
+    <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["naturaleza"]).'\'']) ?>
 
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-
-    </div>
 
 </div>

@@ -24,9 +24,10 @@ class SubAreaForm extends Model
 }
 ?>
 
+
 <div class="afectacion-persona-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['action' => ['create-area']]); ?>
 
     <?= $form->field($model, 'descripcion')->textInput() ?>
 

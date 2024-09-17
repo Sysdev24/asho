@@ -2,11 +2,13 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Cargo;
 use app\models\CargoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * CargoController implements the CRUD actions for Cargo model.
@@ -71,7 +73,8 @@ class CargoController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_cargo' => $model->id_cargo]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_cargo' => $model->id_cargo]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +97,8 @@ class CargoController extends Controller
         $model = $this->findModel($id_cargo);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_cargo' => $model->id_cargo]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_cargo' => $model->id_cargo]);
         }
 
         return $this->render('update', [
@@ -112,6 +116,7 @@ class CargoController extends Controller
     public function actionDelete($id_cargo)
     {
         $this->findModel($id_cargo)->delete();
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 
         return $this->redirect(['index']);
     }

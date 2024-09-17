@@ -118,9 +118,10 @@ class AfectacionpersonaController extends Controller
         $model = new Area();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+            return $this->redirect(['area']);
         }
-
+    
         return $this->render('create-area', [
             'model' => $model,
         ]);
@@ -131,7 +132,8 @@ class AfectacionpersonaController extends Controller
         $model = new Naturaleza();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+            return $this->redirect(['naturaleza']);
         }
 
         return $this->render('create-naturaleza', [
@@ -167,7 +169,8 @@ class AfectacionpersonaController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['area']);
         }
 
         return $this->render('update-area',  
@@ -181,7 +184,8 @@ class AfectacionpersonaController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['naturaleza']);
         }
 
         return $this->render('update-naturaleza',  
@@ -202,6 +206,7 @@ class AfectacionpersonaController extends Controller
     public function actionDelete($id_area_afectada)
     {
         $this->findModel($id_area_afectada)->delete();
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 
         return $this->redirect(['index']);
     }
