@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\SeveridadPotencialPerdida;
 use app\models\SeveridadpotencialperdidaSearch;
 use yii\web\Controller;
@@ -71,7 +71,8 @@ class SeveridadpotencialperdidaController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_sev_pot_per' => $model->id_sev_pot_per]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_sev_pot_per' => $model->id_sev_pot_per]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +95,8 @@ class SeveridadpotencialperdidaController extends Controller
         $model = $this->findModel($id_sev_pot_per);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_sev_pot_per' => $model->id_sev_pot_per]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+              return $this->redirect(['index', 'id_sev_pot_per' => $model->id_sev_pot_per]);
         }
 
         return $this->render('update', [
@@ -112,7 +114,7 @@ class SeveridadpotencialperdidaController extends Controller
     public function actionDelete($id_sev_pot_per)
     {
         $this->findModel($id_sev_pot_per)->delete();
-
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 

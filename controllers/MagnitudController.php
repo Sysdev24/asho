@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Magnitud;
 use app\models\MagnitudSearch;
 use yii\web\Controller;
@@ -71,7 +72,8 @@ class MagnitudController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_magnitud' => $model->id_magnitud]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_magnitud' => $model->id_magnitud]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +96,8 @@ class MagnitudController extends Controller
         $model = $this->findModel($id_magnitud);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_magnitud' => $model->id_magnitud]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_magnitud' => $model->id_magnitud]);
         }
 
         return $this->render('update', [
@@ -112,7 +115,7 @@ class MagnitudController extends Controller
     public function actionDelete($id_magnitud)
     {
         $this->findModel($id_magnitud)->delete();
-
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 

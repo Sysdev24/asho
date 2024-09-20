@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\ClasificacionAccidente;
 use app\models\ClasificacionaccidenteSearch;
 use yii\web\Controller;
@@ -71,7 +71,8 @@ class ClasificacionaccidenteController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +95,8 @@ class ClasificacionaccidenteController extends Controller
         $model = $this->findModel($id_clasif_accid_lab_ope_amb);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb]);
         }
 
         return $this->render('update', [
@@ -112,6 +114,8 @@ class ClasificacionaccidenteController extends Controller
     public function actionDelete($id_clasif_accid_lab_ope_amb)
     {
         $this->findModel($id_clasif_accid_lab_ope_amb)->delete();
+        
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 
         return $this->redirect(['index']);
     }

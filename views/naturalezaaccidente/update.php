@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\NaturalezaAccidente $model */
@@ -16,15 +17,8 @@ $this->title = 'Editar Naturaleza de Accidente: ' . $model->descripcion;
         'model' => $model,
     ]) ?>
 
-    <!-- BOTON DE VOLVER-->
-    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goBack()']) ?>
-
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-
-    </div>
+<!-- BOTON DE VOLVER-->
+<?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
+    
 
 </div>

@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-/** @var yii\web\View $this */
+/** @var yii\web\Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');View $this */
 /** @var app\models\Cargo $model */
 
 $this->title = 'Crear Cargo';

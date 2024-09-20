@@ -39,15 +39,8 @@ $this->title = $model->descripcion;
         ],
     ]) ?>
 
-    <!-- BOTON DE VOLVER-->
-    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goBack()']) ?>
-
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-
-    </div>
+   <!-- BOTON DE VOLVER-->
+   <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
+    
 
 </div>

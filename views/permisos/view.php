@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\Roles $model */
@@ -37,5 +38,8 @@ $this->title = $model->description;
         '<i class="fas fa-reply me-1"></i> ' . Yii::t('app', 'Atrás'),
         Yii::$app->request->referrer, ['class'=>'btn btn-secondary mt-3']
     ) ?>
+<!-- BOTON DE VOLVER-->
+<?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
+    
 
 </div>

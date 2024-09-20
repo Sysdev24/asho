@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\PeligroAgente;
 use app\models\PeligroagenteSearch;
 use yii\web\Controller;
@@ -71,6 +71,7 @@ class PeligroagenteController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
                 return $this->redirect(['view', 'id_pel_agen' => $model->id_pel_agen]);
             }
         } else {
@@ -112,7 +113,7 @@ class PeligroagenteController extends Controller
     public function actionDelete($id_pel_agen)
     {
         $this->findModel($id_pel_agen)->delete();
-
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 

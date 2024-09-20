@@ -49,8 +49,8 @@ class Personal extends \yii\db\ActiveRecord
     {
         return [
             [['ci'], 'required'],
-            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo', 'id_registro'], 'default', 'value' => null],
-            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo', 'id_registro'], 'integer'],
+            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'default', 'value' => null],
+            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
             [['nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'required'],
             [['nombre', 'apellido', 'telefono'], 'string'],
             [['nombre', 'apellido', 'telefono'], 'required'],
@@ -81,7 +81,6 @@ class Personal extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'telefono' => 'Telefono',
             'fecha_nac' => 'Fecha de Nacimiento',
-            'id_registro' => 'Registro',
         ];
     }
 

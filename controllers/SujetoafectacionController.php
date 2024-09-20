@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\SujetoAfectacion;
 use app\models\SujetoAfectacionSearch;
 use yii\web\Controller;
@@ -71,7 +71,8 @@ class SujetoafectacionController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_sujeto_afect' => $model->id_sujeto_afect]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_sujeto_afect' => $model->id_sujeto_afect]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +95,8 @@ class SujetoafectacionController extends Controller
         $model = $this->findModel($id_sujeto_afect);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_sujeto_afect' => $model->id_sujeto_afect]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_sujeto_afect' => $model->id_sujeto_afect]);
         }
 
         return $this->render('update', [
@@ -112,7 +114,7 @@ class SujetoafectacionController extends Controller
     public function actionDelete($id_sujeto_afect)
     {
         $this->findModel($id_sujeto_afect)->delete();
-
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 

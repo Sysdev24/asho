@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\Gerencia;
 use app\models\GerenciaSearch;
 use yii\web\Controller;
@@ -71,7 +71,8 @@ class GerenciaController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_gerencia' => $model->id_gerencia]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_gerencia' => $model->id_gerencia]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +95,8 @@ class GerenciaController extends Controller
         $model = $this->findModel($id_gerencia);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_gerencia' => $model->id_gerencia]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_gerencia' => $model->id_gerencia]);
         }
 
         return $this->render('update', [
@@ -112,6 +114,7 @@ class GerenciaController extends Controller
     public function actionDelete($id_gerencia)
     {
         $this->findModel($id_gerencia)->delete();
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 
         return $this->redirect(['index']);
     }
