@@ -14,7 +14,7 @@ use app\models\Estatus;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Ej. Admin']) ?>
 
    
     <?= $form->field($model, 'id_estatus')->dropDownList(

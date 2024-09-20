@@ -20,7 +20,7 @@ $this->title = 'Roles';
         <?= Html::a('Crear Roles', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php var_dump(\app\models\AuthRbac::getRoles())?>
+    <?php //var_dump(\app\models\AuthRbac::getRoles())?>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

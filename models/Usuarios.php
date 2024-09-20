@@ -44,14 +44,17 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
-            [['ci', 'username', 'password', 'nombre', 'apellido', 'email'], 'string'],
+            [['username', 'password', 'nombre', 'apellido', 'email'], 'string'],
             [['name'], 'string'],
+            [['ci'], 'unique'],
             [['id_estatus', 'id_gerencia', 'id_roles'], 'default', 'value' => null],
             [['id_estatus', 'id_gerencia', 'id_roles'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['id_gerencia'], 'exist', 'skipOnError' => true, 'targetClass' => Gerencia::class, 'targetAttribute' => ['id_gerencia' => 'id_gerencia']],
             [['id_roles'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::class, 'targetAttribute' => ['id_roles' => 'id_roles']],
+            [['ci'], 'integer', 'min' => 500000, 'max' =>99999999, 'message' => 'La cedula debe ser un numero entero'],
+            [['ci'], 'required','message' => 'La cedula es requerida'],
         ];
     }
     public $name;

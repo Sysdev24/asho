@@ -70,6 +70,7 @@ class CargoController extends Controller
     public function actionCreate()
     {
         $model = new Cargo();
+        $model->scenario = Cargo::SCENARIO_CREATE;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -83,6 +84,8 @@ class CargoController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+
+        
     }
 
     /**
