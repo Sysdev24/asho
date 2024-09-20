@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\Estados;
 use app\models\EstadosSearch;
 use yii\web\Controller;
@@ -71,7 +71,8 @@ class EstadosController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_estado' => $model->id_estado]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_estado' => $model->id_estado]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +95,8 @@ class EstadosController extends Controller
         $model = $this->findModel($id_estado);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_estado' => $model->id_estado]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_estado' => $model->id_estado]);
         }
 
         return $this->render('update', [
@@ -112,6 +114,8 @@ class EstadosController extends Controller
     public function actionDelete($id_estado)
     {
         $this->findModel($id_estado)->delete();
+        
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 
         return $this->redirect(['index']);
     }

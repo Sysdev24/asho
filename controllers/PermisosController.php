@@ -81,7 +81,8 @@ class PermisosController extends Controller
                     $permiso = $auth->createPermission($model->name);
                     $permiso->description = $model->description;
                     if($auth->add($permiso)) { 
-                        return $this->redirect(['view', 'id' => $model->name]);
+                    Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                    return $this->redirect(['view', 'id' => $model->name]);
                     } else {
                         $errorMessage = 'Error al guardar registro.';
                     }
@@ -118,6 +119,7 @@ class PermisosController extends Controller
                 $permiso->description = $model->description;
 
                 if ($auth->update($id, $permiso)) {
+                    Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
                     return $this->redirect(['view', 'id' => $model->name]);
                 } else {
                     $errorMessage = 'Error al guardar registro.';
@@ -146,7 +148,7 @@ class PermisosController extends Controller
         $permiso = $auth->getPermission($id);
 
         $auth->remove($permiso);
-
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 

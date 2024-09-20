@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\Usuarios;
 use app\models\UsuariosSearch;
 use yii\web\Controller;
@@ -71,7 +71,8 @@ class UsuariosController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_usuario' => $model->id_usuario]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +95,8 @@ class UsuariosController extends Controller
         $model = $this->findModel($id_usuario);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_usuario' => $model->id_usuario]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
         }
 
         return $this->render('update', [

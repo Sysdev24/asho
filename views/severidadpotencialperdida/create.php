@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\SeveridadPotencialPerdida $model */
@@ -17,14 +18,7 @@ $this->title = 'Crear Severidad Potencial de Perdida';
     ]) ?>
 
     <!-- BOTON DE VOLVER-->
-    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goBack()']) ?>
-
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-
-    </div>
+    <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
+    
 
 </div>

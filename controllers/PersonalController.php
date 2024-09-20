@@ -1,12 +1,14 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\Personal;
 use app\models\PersonalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+
 
 /**
  * PersonalController implements the CRUD actions for Personal model.
@@ -71,7 +73,8 @@ class PersonalController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'ci' => $model->ci]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'ci' => $model->ci]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +97,8 @@ class PersonalController extends Controller
         $model = $this->findModel($ci);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'ci' => $model->ci]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'ci' => $model->ci]);
         }
 
         return $this->render('update', [
@@ -112,7 +116,7 @@ class PersonalController extends Controller
     public function actionDelete($ci)
     {
         $this->findModel($ci)->delete();
-
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 

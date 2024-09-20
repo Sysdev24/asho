@@ -82,7 +82,8 @@ class RolesController extends Controller
                     $role = $auth->createRole($model->name);
                     $role->description = $model->description;
                     if($auth->add($role)) { 
-                        return $this->redirect(['view', 'id' => $model->name]);
+                    Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                    return $this->redirect(['index', 'id' => $model->name]);
                     } else {
                         $errorMessage = 'Error al guardar registro.';
                     }
@@ -118,7 +119,8 @@ class RolesController extends Controller
                 $role->description = $model->description;
 
                 if ($auth->update($id, $role)) {
-                    return $this->redirect(['view', 'id' => $model->name]);
+                    Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+                    return $this->redirect(['index', 'id' => $model->name]);
                 } else {
                     $errorMessage = 'Error al guardar registro.';
                 }
@@ -178,6 +180,7 @@ class RolesController extends Controller
         $role = $auth->getRole($id);
         
         $auth->remove($role);
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 
         return $this->redirect(['index']);
     }

@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\Regiones;
 use app\models\RegionesSearch;
 use yii\web\Controller;
@@ -71,7 +71,8 @@ class RegionesController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_regiones' => $model->id_regiones]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_regiones' => $model->id_regiones]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +95,8 @@ class RegionesController extends Controller
         $model = $this->findModel($id_regiones);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_regiones' => $model->id_regiones]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_regiones' => $model->id_regiones]);
         }
 
         return $this->render('update', [
@@ -112,7 +114,7 @@ class RegionesController extends Controller
     public function actionDelete($id_regiones)
     {
         $this->findModel($id_regiones)->delete();
-
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\Estatus;
 use app\models\EstatusSearch;
 use yii\web\Controller;
@@ -71,7 +71,8 @@ class EstatusController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_estatus' => $model->id_estatus]);
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_estatus' => $model->id_estatus]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,7 +95,8 @@ class EstatusController extends Controller
         $model = $this->findModel($id_estatus);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_estatus' => $model->id_estatus]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_estatus' => $model->id_estatus]);
         }
 
         return $this->render('update', [
@@ -112,7 +114,7 @@ class EstatusController extends Controller
     public function actionDelete($id_estatus)
     {
         $this->findModel($id_estatus)->delete();
-
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 
