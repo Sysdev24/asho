@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\utiles\sensibleMayuscMinuscValidator;
 
 /**
  * This is the model class for table "afectacion_bienes_procesos".
@@ -19,6 +20,8 @@ use Yii;
  */
 class AfectacionBienesProcesos extends \yii\db\ActiveRecord
 {
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
     /**
      * {@inheritdoc}
      */
@@ -39,6 +42,9 @@ class AfectacionBienesProcesos extends \yii\db\ActiveRecord
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
+            ['afectacion','match','pattern' => '/^\d+=$/','message' => 'Solo se admiten números seguidos por el símbolo "=".'],
+            ['valor', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
+            [['valor'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
         ];
     }
 

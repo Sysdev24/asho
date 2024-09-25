@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\AfectacionBienesProcesos $model */
@@ -17,14 +18,5 @@ $this->title = 'Editar Afectacion de Bienes y Procesos: ' . $model->valor;
     ]) ?>
 
     <!-- BOTON DE VOLVER-->
-    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goToAfectacionBienesProcesos()']) ?>
-
-    <script>
-        function goToAfectacionBienesProcesos() {
-            // Ajusta la URL según tu estructura de proyecto y enrutamiento
-            window.location.href = 'index.php?r=afectacionbienesprocesos%2Findex';
-        }
-    </script>
-
-    </div>
+    <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
 </div>

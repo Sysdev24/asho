@@ -34,6 +34,14 @@ class EstadosSearch extends Estados
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+    
+    //Query para buscar el estatus (activo, inactivo, etc).
+    //Parametros: $data:$searchModel /  $id: id_estatus
+    public function buscarEstatus($data, $id){
+        $modelbuscar = Estatus::findOne($data->id_estatus);
+        $content = $modelbuscar->descripcion;
+        return $content;
+    }
 
    
 

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\utiles\sensibleMayuscMinuscValidator;
 
 /**
  * This is the model class for table "estatus".
@@ -36,6 +37,10 @@ use Yii;
  */
 class Estatus extends \yii\db\ActiveRecord
 {
+
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     /**
      * {@inheritdoc}
      */
@@ -53,6 +58,9 @@ class Estatus extends \yii\db\ActiveRecord
             [['siglas', 'descripcion'], 'string'],
             [['siglas', 'descripcion'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
+            ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
+            ['siglas', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
+            [['descripcion'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE], 
         ];
     }
 

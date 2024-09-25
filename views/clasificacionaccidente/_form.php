@@ -14,13 +14,13 @@ use app\models\Estatus;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba la clasificacion accidente']) ?>
 
-    <?= $form->field($model, 'codigo')->textInput() ?>
+    <?= $form->field($model, 'codigo')->textInput(['placeholder'=>'Ejemplo: C0']) ?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
-        ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
-        ['prompt'=> 'seleccionar status']);?>
+    ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
+    ['prompt'=> 'seleccionar status']);?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

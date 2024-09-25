@@ -12,13 +12,17 @@ use app\models\Estatus;
 <div class="afectacion-bienes-procesos-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, 'afectacion')->textInput() ?>
+
+
+    <?= $form->field($model, 'afectacion')->textInput(['placeholder'=>'Ejemplo: 0=']) ?>
 
  
-    <?= $form->field($model, 'id_estatus')->dropDownList(ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),['prompt'=> 'seleccionar status']);?>
+    <?= $form->field($model, 'id_estatus')->dropDownList
+    (ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
+    ['prompt'=> 'seleccionar status']);?>
 
 
-    <?= $form->field($model, 'valor')->textInput() ?>
+    <?= $form->field($model, 'valor')->textInput(['placeholder'=>'Grado de afectación']) ?>
 
 
     <div class="form-group">

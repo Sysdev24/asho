@@ -12,9 +12,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'siglas')->textInput() ?>
+    <?= $form->field($model, 'siglas')->textInput(['placeholder'=>'Escriba siglas de estatus']) ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba nombre del estatus']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

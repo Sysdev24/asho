@@ -14,7 +14,7 @@ use app\models\Estatus;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba  la evaluacion de potencial y perdida']) ?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
         ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
