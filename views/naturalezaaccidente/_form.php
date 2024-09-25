@@ -15,9 +15,9 @@ use app\models\NaturalezaAccidente;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba nombre de la naturaleza accidente']) ?>
 
-    <?= $form->field($model, 'codigo')->textInput() ?>
+    <?= $form->field($model, 'codigo')->textInput(['placeholder'=>'Ej. AB']) ?>
 
 
     <?= $form->field($model, 'id_estatus')->dropDownList(

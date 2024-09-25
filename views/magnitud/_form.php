@@ -14,9 +14,9 @@ use app\models\Estatus;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba nombre de la magnitud']) ?>
 
-    <?= $form->field($model, 'codigo')->textInput() ?>
+    <?= $form->field($model, 'codigo')->textInput() /** GENERA AUTOMATICAMENTE*/?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
         ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),

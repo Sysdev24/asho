@@ -14,7 +14,7 @@ use app\models\Estatus;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba el nombre del peligro agente']) ?>
 
     <?= $form->field($model, 'codigo')->textInput() /** GENERA AUTOMATICAMENTE*/?>
 

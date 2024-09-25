@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use app\utiles\sensibleMayuscMinuscValidator;
 /**
  * This is the model class for table "evaluacion_potencial_perdida".
  *
@@ -18,6 +18,9 @@ use Yii;
  */
 class EvaluacionPotencialPerdida extends \yii\db\ActiveRecord
 {
+
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
     /**
      * {@inheritdoc}
      */
@@ -38,6 +41,8 @@ class EvaluacionPotencialPerdida extends \yii\db\ActiveRecord
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
+            ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
+            [['descripcion'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],     
         ];
     }
 
