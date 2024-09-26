@@ -3,9 +3,14 @@ namespace app\models;
 
 
 use Yii;
+use app\utiles\sensibleMayuscMinuscValidator;
+
 
 class Area extends AfectacionPersona
 {
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+    
     public function rules()
     {
         return [
@@ -15,8 +20,11 @@ class Area extends AfectacionPersona
             [['id_sub_area_afect', 'id_sub2_area_afect', 'id_estatus'], 'integer'],
             [['descripcion', 'codigo'], 'string'],
             [['descripcion'], 'required'],
+            ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
+            [['descripcion'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
+
         ];
     }
 
@@ -37,6 +45,23 @@ class Area extends AfectacionPersona
         ];
     }
 
+    public static function obtenerSiguienteCodigo()
+    {
+        // Buscar el último registro con id_sub2_area_afect = 1
+        $ultimoRegistro = self::find()
+            ->where(['id_sub2_area_afect' => 1])
+            ->orderBy(['codigo' => SORT_DESC])
+            ->one();
+
+        // Extraer la parte numérica del código y convertirla a entero
+        $ultimoNumero = (int)substr($ultimoRegistro->codigo, 10);
+
+        // Incrementar el número y formatear el nuevo código
+        $nuevoNumero = $ultimoNumero + 1;
+        $nuevoCodigo = 'C91' . str_pad($nuevoNumero, 2);
+
+        return $nuevoCodigo;
+    }
     /**
      * Gets query for [[Estatus]].
      *

@@ -6,6 +6,8 @@ use yii\grid\ActionColumn;
 use app\models\AfectacionPersona;
 use yii\helpers\Html;
 use app\widgets\CreateForm;
+use yii\helpers\ArrayHelper;
+use app\models\Estatus;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -59,15 +61,14 @@ use app\widgets\CreateForm;
              //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
              [   
                 'attribute' => 'id_estatus',
-                'label' => 'Estatus',
-                'contentOptions' => ['style' => 'width:30%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-                
-                'value' => function($model){
-                    return   $model->estatus->descripcion;},
+                'value' => array($searchModel, 'buscarEstatus'),
+                'filter' => 
+                Html::activeDropDownList($searchModel, 'id_estatus',
+                ArrayHelper::map(Estatus::find()->all(), 'id_estatus', 'descripcion'),
+                ['prompt'=> 'Busqueda', 'class' => 'form-control']),
+                'headerOptions' => ['class' => 'col-lg-03 text-center'],
+                'contentOptions' => ['class' => 'col-lg-03 text-center'],
+
             ],
 
             [
@@ -75,6 +76,8 @@ use app\widgets\CreateForm;
                 'urlCreator' => function ($action, AfectacionPersona $model, $key, $index, $column) {
                     if ($action === 'update') {
                         return Url::toRoute(['update-area', 'id' => $model->id_area_afectada]);
+                    } elseif ($action === 'delete') {
+                        return Url::toRoute(['delete-area', 'id' => $model->id_area_afectada]);
                     }
                     return Url::toRoute([$action, 'id_area_afectada' => $model->id_area_afectada]);
                 }

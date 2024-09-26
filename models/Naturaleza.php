@@ -1,47 +1,26 @@
 <?php
-
 namespace app\models;
 
 use Yii;
 use app\utiles\sensibleMayuscMinuscValidator;
 
 
-/**
- * This is the model class for table "afectacion_persona".
- *
- * @property int $id_area_afectada clave unica de la afectacion de persona
- * @property int|null $id_sub_area_afect id de la 1era clasificacion de la afectacion de persona 
- * @property int|null $id_sub2_area_afect id de la 2da clasificacion de la afectacion de persona
- * @property string|null $descripcion descripcion del area de la afectacion
- * @property string|null $codigo codigo que representa los correlativos que componen la clasificacion de los accidente laborales operacionales y ambientales
- * @property string|null $created_at fecha y hora de creacion del registro
- * @property string|null $updated_at fecha y hora de la modificacion del registro
- * @property int|null $id_estatus estatus del registro Activo o Inactivo
- *
- * @property Estatus $estatus
- */
-class AfectacionPersona extends \yii\db\ActiveRecord
+class Naturaleza extends AfectacionPersona
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'afectacion_persona';
-    }
+
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function rules()
     {
         return [
-            [['id_sub_area_afect', 'id_sub2_area_afect', 'id_estatus'], 'default', 'value' => null],
+            [['id_sub2_area_afect'], 'default', 'value' => 2],
+            [['id_sub_area_afect'], 'default', 'value' => null], // Si quieres que se incremente automáticamente
+            [['id_estatus'], 'default', 'value' => null],
             [['id_sub_area_afect', 'id_sub2_area_afect', 'id_estatus'], 'integer'],
             [['descripcion', 'codigo'], 'string'],
-            [['descripcion', ], 'required'],
+            [['descripcion', 'codigo'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['descripcion'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
@@ -66,7 +45,6 @@ class AfectacionPersona extends \yii\db\ActiveRecord
         ];
     }
 
-
     /**
      * Gets query for [[Estatus]].
      *
@@ -85,4 +63,17 @@ class AfectacionPersona extends \yii\db\ActiveRecord
     {
         return new AfectacionpersonaQuery(get_called_class());
     }
+
+    
+    //Para que el id_sub_area_afect se incremente automáticamente
+    public function beforeSave($insert)
+    {
+        if ($insert && $this->isNewRecord) {
+            $this->id_sub_area_afect = self::find()
+                ->where(['id_sub2_area_afect' => $this->id_sub2_area_afect])
+                ->max('id_sub_area_afect') + 1;
+        }
+
+        return parent::beforeSave($insert);
+   }   
 }

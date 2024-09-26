@@ -4,6 +4,7 @@ namespace app\controllers;
 use Yii;
 use app\models\TipoAccidente;
 use app\models\TipoaccidenteSearch;
+use app\models\TipoTrabajo;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -68,6 +69,7 @@ class TipoaccidenteController extends Controller
     public function actionCreate()
     {
         $model = new TipoAccidente();
+        $model->scenario = TipoAccidente::SCENARIO_CREATE;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

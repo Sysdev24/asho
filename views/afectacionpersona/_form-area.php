@@ -29,9 +29,9 @@ class SubAreaForm extends Model
 
     <?php $form = ActiveForm::begin(['action' => ['create-area']]); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Ejemplo: Cabeza']) ?>
 
-    <?= $form->field($model, 'codigo')->textInput() ?>
+    <?= $form->field($model, 'codigo')->textInput(['readonly' => true]) ?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
     ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),

@@ -68,6 +68,8 @@ class SeveridadpotencialperdidaController extends Controller
     public function actionCreate()
     {
         $model = new SeveridadPotencialPerdida();
+        $model->scenario = SeveridadPotencialPerdida::SCENARIO_CREATE;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

@@ -68,6 +68,8 @@ class GerenciaController extends Controller
     public function actionCreate()
     {
         $model = new Gerencia();
+        $model->scenario = Gerencia::SCENARIO_CREATE;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

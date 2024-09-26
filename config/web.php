@@ -80,7 +80,8 @@ $config = [
         ],
         [
             'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'area', 'naturaleza',
-                            'create-area', 'create-naturaleza', 'update-area', 'update-naturaleza'], // Agrega todas las acciones que requieren autenticación
+                            'create-area', 'create-naturaleza', 'update-area', 'update-naturaleza',
+                            'delete-area', 'delete-naturaleza'], // Agrega todas las acciones que requieren autenticación
             'allow' => true,
             'roles' => ['@'], // Requiere que el usuario esté autenticado
         ],

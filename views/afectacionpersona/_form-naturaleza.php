@@ -13,7 +13,7 @@ use app\models\Estatus;
 <div class="afectacion-persona-form">
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Ejemplo: Quemaduras']) ?>
 
     <?= $form->field($model, 'codigo')->textInput() ?>
 

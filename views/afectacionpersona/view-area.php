@@ -18,7 +18,7 @@ $this->title = $model->descripcion;
 
     <p>
         <?= Html::a('Actualizar', ['update-area', 'id_area_afectada' => $model->id_area_afectada], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id_area_afectada' => $model->id_area_afectada], [
+        <?= Html::a('Eliminar', ['delete-area', 'id_area_afectada' => $model->id_area_afectada], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',

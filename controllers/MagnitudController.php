@@ -69,6 +69,8 @@ class MagnitudController extends Controller
     public function actionCreate()
     {
         $model = new Magnitud();
+        $model->scenario = Magnitud::SCENARIO_CREATE;
+        
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

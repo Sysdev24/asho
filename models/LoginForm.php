@@ -5,6 +5,7 @@ namespace app\models;
 use app\models\Usuarios;
 use Yii;
 use yii\base\Model;
+use app\utiles\sensibleMayuscMinuscValidator;
 
 /**
  * LoginForm is the model behind the login form.
@@ -20,6 +21,9 @@ class LoginForm extends Model
 
     private $_user = false;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
 
     /**
      * @return array the validation rules.
@@ -33,6 +37,8 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+            [['username'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
+
         ];
     }
 

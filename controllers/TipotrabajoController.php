@@ -69,6 +69,7 @@ class TipotrabajoController extends Controller
     public function actionCreate()
     {
         $model = new TipoTrabajo();
+        $model->scenario = TipoTrabajo::SCENARIO_CREATE;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

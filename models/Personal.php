@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use app\utiles\sensibleMayuscMinuscValidator;
+
 
 /**
  * This is the model class for table "personal".
@@ -41,6 +43,8 @@ class Personal extends \yii\db\ActiveRecord
     {
         return 'personal';
     }
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
 
     /**
      * {@inheritdoc}
@@ -60,6 +64,8 @@ class Personal extends \yii\db\ActiveRecord
             [['id_estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::class, 'targetAttribute' => ['id_estado' => 'id_estado']],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['id_gerencia'], 'exist', 'skipOnError' => true, 'targetClass' => Gerencia::class, 'targetAttribute' => ['id_gerencia' => 'id_gerencia']],
+            [['ci'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
+
         ];
     }
 

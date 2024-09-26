@@ -116,6 +116,8 @@ class AfectacionpersonaController extends Controller
     public function actionCreateArea()
     {
         $model = new Area();
+        $model->scenario = Area::SCENARIO_CREATE;
+        $model->codigo = Area::obtenerSiguienteCodigo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
@@ -130,6 +132,8 @@ class AfectacionpersonaController extends Controller
     public function actionCreateNaturaleza()
     {
         $model = new Naturaleza();
+        $model->scenario = Naturaleza::SCENARIO_CREATE;
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
@@ -211,6 +215,21 @@ class AfectacionpersonaController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionDeleteArea($id)
+    {
+        $this->findModel($id)->delete();
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
+
+        return $this->redirect(['area']);
+    }
+
+    public function actionDeleteNaturaleza($id)
+    {
+        $this->findModel($id)->delete();
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
+
+        return $this->redirect(['naturaleza']);
+    }
     /**
      * Finds the AfectacionPersona model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

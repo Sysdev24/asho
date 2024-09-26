@@ -3,10 +3,10 @@
 return [
 
     'class' => 'yii\db\Connection',
-    'dsn' => 'pgsql:host=localhost;dbname=rpa',
+    'dsn' => 'pgsql:host=;dbname=rpa',
     //'dsn' => 'pgsql:host=sblinud018.corpoelec;port=5432;dbname=rpa',
-    'username' => 'urpa',
-    'password' => 'rpa2024.',
+    'username' => 'postgres',
+    'password' => '123456',
     'charset' => 'utf8',
 
 

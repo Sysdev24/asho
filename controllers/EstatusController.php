@@ -68,6 +68,8 @@ class EstatusController extends Controller
     public function actionCreate()
     {
         $model = new Estatus();
+        $model->scenario = Estatus::SCENARIO_CREATE;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

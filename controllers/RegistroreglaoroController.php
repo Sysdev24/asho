@@ -68,6 +68,8 @@ class RegistroreglaoroController extends Controller
     public function actionCreate()
     {
         $model = new RegistroReglaOro();
+        $model->scenario = RegistroReglaOro::SCENARIO_CREATE;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

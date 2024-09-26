@@ -29,6 +29,8 @@ class RegistroReglaOro extends \yii\db\ActiveRecord
     {
         return 'registro_regla_oro';
     }
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
 
     /**
      * {@inheritdoc}

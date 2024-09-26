@@ -70,6 +70,8 @@ class PersonalController extends Controller
     public function actionCreate()
     {
         $model = new Personal();
+        $model->scenario = Personal::SCENARIO_CREATE;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

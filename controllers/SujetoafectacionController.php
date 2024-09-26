@@ -68,6 +68,8 @@ class SujetoafectacionController extends Controller
     public function actionCreate()
     {
         $model = new SujetoAfectacion();
+        $model->scenario = SujetoAfectacion::SCENARIO_CREATE;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

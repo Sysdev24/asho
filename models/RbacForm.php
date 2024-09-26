@@ -15,6 +15,9 @@ class RbacForm extends Model
     public $updated_at;
     public $isNewRecord;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     /**
      * @inheritdoc
      */

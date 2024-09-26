@@ -68,6 +68,8 @@ class RegionesController extends Controller
     public function actionCreate()
     {
         $model = new Regiones();
+        $model->scenario = Regiones::SCENARIO_CREATE;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

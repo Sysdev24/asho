@@ -70,6 +70,7 @@ class PermisosController extends Controller
     public function actionCreate()
     {
         $model = new RbacForm();
+        $model->scenario = RbacForm::SCENARIO_CREATE;
         $model->isNewRecord = true;
         $errorMessage = '';
 

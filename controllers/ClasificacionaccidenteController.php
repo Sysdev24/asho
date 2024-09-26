@@ -68,6 +68,8 @@ class ClasificacionaccidenteController extends Controller
     public function actionCreate()
     {
         $model = new ClasificacionAccidente();
+        $model->scenario = ClasificacionAccidente::SCENARIO_CREATE;
+        
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

@@ -69,6 +69,8 @@ class EstadosController extends Controller
     public function actionCreate()
     {
         $model = new Estados();
+        $model->scenario = Estados::SCENARIO_CREATE;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

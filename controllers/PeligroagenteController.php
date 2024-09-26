@@ -68,6 +68,8 @@ class PeligroagenteController extends Controller
     public function actionCreate()
     {
         $model = new PeligroAgente();
+        $model->scenario = PeligroAgente::SCENARIO_CREATE;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
