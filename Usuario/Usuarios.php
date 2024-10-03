@@ -51,24 +51,23 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     {
         return [
             [['username', 'password', 'nombre', 'apellido', 'email'], 'string'],
-            // [['name'], 'string'],
-
-            ['name', 'each', 'rule' => ['string']],
-        	// ['name', 'in', 'range' => self::getSystemRoles(), 'allowArray' => true],
-
+            [['name'], 'string'],
             [['ci'], 'unique'],
-            [['id_estatus', 'id_gerencia'], 'default', 'value' => null],
-            [['id_estatus', 'id_gerencia' ], 'integer'],
-            [['id_gerencia' ], 'required'],
+            [['id_estatus', 'id_gerencia', 'id_roles'], 'default', 'value' => null],
+            [['id_estatus', 'id_gerencia', 'id_roles'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['id_gerencia'], 'exist', 'skipOnError' => true, 'targetClass' => Gerencia::class, 'targetAttribute' => ['id_gerencia' => 'id_gerencia']],
-            //[['id_roles'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::class, 'targetAttribute' => ['id_roles' => 'id_roles']],
+            [['id_roles'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::class, 'targetAttribute' => ['id_roles' => 'id_roles']],
             //[['ci'], 'integer', 'min' => 500000, 'max' =>99999999, 'message' => 'La cedula debe ser un numero entero'],
             [['ci'], 'required','message' => 'La cedula es requerida'],
             [['ci'], 'match', 'pattern' => '/^[VE][0-9]{8}$/', 'message' => 'La cedula debe iniciar con V o E y tener 8 dígitos.'],
             ['nombre', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
             ['apellido', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
+            
+
+
+            
             [['ci'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],
         ];
     }
@@ -88,7 +87,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             'email' => 'Email',
             'id_estatus' => 'Estatus',
             'id_gerencia' => 'Gerencia',
-            //'id_roles' => 'Roles',
+            'id_roles' => 'Roles',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'name' => 'Roles'
@@ -115,6 +114,18 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         return $this->hasOne(Gerencia::class, ['id_gerencia' => 'id_gerencia'])->inverseOf('usuarios');
     }
 
+    /**
+     * Gets query for [[Roles]].
+     *
+     * @return \yii\db\ActiveQuery|RolesQuery
+     */
+
+     
+    /*public function getRoles()
+    {
+        return $this->hasOne(Roles::class, ['id_roles' => 'id_roles'])->inverseOf('usuarios');
+    }*/
+
     public static function getRoles()
     {
         $auth = Yii::$app->authManager;
@@ -138,18 +149,6 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             $list[] = $rol->name;
         }
         return $list;
-    }
-
-    public function getUserRoles()
-    {
-        // Obtiene los roles del usuario
-        $auth = Yii::$app->authManager;
-        $roleSelect = $auth->getRolesByUser($this->id_usuario);
-        $listRoles = [];
-        foreach ($roleSelect as $rol) {
-            $listRoles[] = $rol->name;
-    	}
-        $this->name = $listRoles;
     }
 
     public function getRoleList()

@@ -68,7 +68,7 @@ class RegistroController extends Controller
     public function actionCreate()
     {
         $model = new Registro();
-        $model->scenario = Registro::SCENARIO_CREATE;
+        //$model->scenario = Registro::SCENARIO_CREATE;
 
 
         if ($this->request->isPost) {

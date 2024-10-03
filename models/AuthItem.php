@@ -29,6 +29,7 @@ class AuthItem extends \yii\db\ActiveRecord
     {
         return 'auth_item';
     }
+    const TYPE_ROLE = 1;
 
     /**
      * @inheritdoc

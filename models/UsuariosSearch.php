@@ -17,7 +17,7 @@ class UsuariosSearch extends Usuarios
     public function rules()
     {
         return [
-            [['id_usuario', 'id_estatus', 'id_gerencia', 'id_roles'], 'integer'],
+            [['id_usuario', 'id_estatus', 'id_gerencia'], 'integer'],
             [['ci', 'username', 'password', 'nombre', 'apellido', 'email', 'created_at', 'updated_at', 'name'], 'safe'],
         ];
     }
@@ -68,7 +68,7 @@ class UsuariosSearch extends Usuarios
             'id_usuario' => $this->id_usuario,
             'id_estatus' => $this->id_estatus,
             'id_gerencia' => $this->id_gerencia,
-            'id_roles' => $this->id_roles,
+            // 'id_roles' => $this->id_roles,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'name' => $this->name,

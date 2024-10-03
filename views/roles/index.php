@@ -68,7 +68,7 @@ $this->title = 'Roles';
             //'updated_at',
             [
                 'class' => ActionColumn::className(),
-                'template' => '{view}{update}{delete}',
+                'template' => '{view}{update}{permisos}{delete}',
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         $id = $model->name;
@@ -95,7 +95,7 @@ $this->title = 'Roles';
                     'permisos' => function ($url, $model, $key) {
                         $id = $model->name;
                         $url = ['permisos', 'id'=>$id];
-                        $link = Html::a('<i class="fas fa-list-check"></i>', $url, [
+                        $link = Html::a('<i class="fas fa-list"></i>', $url, [
                             'title' => Yii::t('app', 'Permisos'),
                             'aria-label' => Yii::t('app', 'Permisos'),
                             'data-pjax' => '0',

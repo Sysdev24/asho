@@ -29,30 +29,31 @@ $this->title = $model->username;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-
+            //'id_usuario',
             'ci',
             'username',
-            
+            //'password', ojo
             'nombre',
             'apellido',
             'email:email',
-            
+             //'id_gerencia',
              [   
                 'attribute' => 'id_gerencia',
                 'label' => 'Gerencia',
                 'value' => function($model){
                     return   $model->gerencia->descripcion;},
             ],
-           
+            //'id_estatus',
             [   
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',
                 'value' => function($model){
                     return   $model->estatus->descripcion;},
             ],
-
+            //'id_roles',
             'name',
-
+            //'created_at',
+            //'updated_at',
         ],
     ]) ?>
 

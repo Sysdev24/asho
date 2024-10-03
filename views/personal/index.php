@@ -41,7 +41,15 @@ $this->title = 'Personal';
             'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
             ], 
 
-            //'ci',
+            [   
+                'attribute' => 'nacionalidad',
+                'label' => 'Nacionalidad',
+                'contentOptions' => ['style' => 'width:5%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             [   
                 'attribute' => 'ci',
                 'label' => 'Cedula',
@@ -75,6 +83,7 @@ $this->title = 'Personal';
             [   
                 'attribute' => 'nro_empleado',
                 'label' => 'Nro de empleado',
+                'contentOptions' => ['style' => 'width:10%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -110,8 +119,11 @@ $this->title = 'Personal';
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Personal $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'ci' => $model->ci]);
-                 }
+                },
+                'headerOptions' => ['class' => 'col-lg-1'], // Set header width to 10%
+                'contentOptions' => ['class' => 'col-lg-1'], // Set content width to 10%
             ],
+            
         ],
     ]); ?>
 

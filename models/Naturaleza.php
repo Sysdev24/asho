@@ -20,7 +20,7 @@ class Naturaleza extends AfectacionPersona
             [['id_estatus'], 'default', 'value' => null],
             [['id_sub_area_afect', 'id_sub2_area_afect', 'id_estatus'], 'integer'],
             [['descripcion', 'codigo'], 'string'],
-            [['descripcion', 'codigo'], 'required'],
+            [['descripcion'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['descripcion'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
@@ -43,6 +43,17 @@ class Naturaleza extends AfectacionPersona
             'updated_at' => 'Updated At',
             'id_estatus' => 'Estatus',
         ];
+    }
+
+
+    Public function guardar()
+    {
+        $model = self::findBySql('SELECT * FROM insertar_afectacion_personas_hijo(:afec_per, :descripcion)', [':afec_per' => 2, ':descripcion' => $this->descripcion])->one();
+
+        if($model !== null) {
+            return true;
+        } 
+        return false;
     }
 
     /**

@@ -47,13 +47,13 @@ $this->title = 'Usuario';
             //'ci',
             [   
                 'attribute' => 'ci',
-                'label' => 'Cedula',
+                'label' => 'CI',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
                 ],
             ],
-
+            //'username',
             [   
                 'attribute' => 'username',
                 'label' => 'Usuario',
@@ -62,7 +62,8 @@ $this->title = 'Usuario';
                     'placeholder' => 'Busqueda',
                 ],
             ],
-
+            //'password', ojo
+            //'nombre',
             [   
                 'attribute' => 'nombre',
                 'label' => 'Nombre',
@@ -71,7 +72,7 @@ $this->title = 'Usuario';
                     'placeholder' => 'Busqueda',
                 ],
             ],
-
+            //'apellido',
             [   
                 'attribute' => 'apellido',
                 'label' => 'Apellido',
@@ -123,8 +124,6 @@ $this->title = 'Usuario';
                 
                 'value' => function($model){
                     return   $model->gerencia->descripcion;},
-                    //return   isset($model->gerencia->descripcion) ? $model->gerencia->descripcion : 'N/D';
-
             ],
 
             /*[   
@@ -135,7 +134,7 @@ $this->title = 'Usuario';
                     'placeholder' => 'Busqueda',
                 ],
             ],*/
-            
+
             [
                 'attribute' => 'roles',
                 'value' => function ($model) {

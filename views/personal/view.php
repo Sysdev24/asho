@@ -29,6 +29,7 @@ $this->title = $model->ci;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'nacionalidad',
             'ci',
             'nombre',
             'apellido',

@@ -68,23 +68,16 @@ class UsuariosController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    /*public function actionCreate()
     {
         $model = new Usuarios();
         $model->scenario = Usuarios::SCENARIO_CREATE;
 
-        // Si se envió el formulario
-        if ($model->load($this->request->post()) && $model->save()) {
-            
-            // Obtiene todos los roles seleccionados y los recorre en ciclo for.
-            $auth = Yii::$app->authManager;
-            foreach ($model->name as $rol) {
-                $role = $auth->getRole($rol);
-                $auth->assign($role, $model->id_usuario);
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
             }
-
-            Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
-            return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
         } else {
             $model->loadDefaultValues();
         }
@@ -92,7 +85,36 @@ class UsuariosController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }*/
+
+    public function actionCreate()
+{
+    $model = new Usuarios();
+    $model->scenario = Usuarios::SCENARIO_CREATE;
+
+    $roles = AuthItem::find()->where(['type' => AuthItem::TYPE_ROLE])->all(); // Obtener roles disponibles
+
+    if ($this->request->isPost) {
+        if ($model->load($this->request->post()) && $model->save()) {
+            $auth = Yii::$app->authManager;
+            $role = $auth->getRole($model->id_roles); // Obtener objeto rol seleccionado
+
+            $auth->assign($role, $model->id_usuario); // Asignar rol al usuario
+
+            Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+            return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
+        }
+    } else {
+        $model->loadDefaultValues();
     }
+
+    return $this->render('create', [
+        'model' => $model,
+        'roles' => $roles, // Pasar roles al formulario
+    ]);
+}
+
+
 
     /**
      * Updates an existing Usuarios model.
@@ -105,19 +127,7 @@ class UsuariosController extends Controller
     {
         $model = $this->findModel($id_usuario);
 
-        // Selecciona roles del ususario
-        $model->getUserRoles();
-
-        if ($model->load($this->request->post()) && $model->save()) {
-            
-            $auth = Yii::$app->authManager;
-            $auth->revokeAll($model->id_usuario);
-            // Obtiene todos los roles seleccionados y los recorre en ciclo for.
-            foreach ($model->name as $rol) {
-                $role = $auth->getRole($rol);
-                $auth->assign($role, $model->id_usuario);
-            }
-
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
             return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
         }

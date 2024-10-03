@@ -18,7 +18,7 @@ class PersonalSearch extends Personal
     {
         return [
             [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
-            [['nombre', 'apellido', 'created_at', 'updated_at', 'telefono', 'fecha_nac'], 'safe'],
+            [['nombre', 'apellido', 'created_at', 'updated_at', 'telefono', 'fecha_nac', 'nacionalidad'], 'safe'],
         ];
     }
 
@@ -71,7 +71,8 @@ class PersonalSearch extends Personal
 
         $query->andFilterWhere(['ilike', 'nombre', $this->nombre])
             ->andFilterWhere(['ilike', 'apellido', $this->apellido])
-            ->andFilterWhere(['ilike', 'telefono', $this->telefono]);
+            ->andFilterWhere(['ilike', 'telefono', $this->telefono])
+            ->andFilterWhere(['ilike', 'nacionalidad', $this->nacionalidad]);
 
         return $dataProvider;
     }

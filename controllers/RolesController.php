@@ -9,6 +9,7 @@ use app\models\AsigRolesPermisosForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 
 /**
@@ -19,20 +20,33 @@ class RolesController extends Controller
     /**
      * @inheritDoc
      */
-   public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
+//    public function behaviors()
+//     {
+//         return array_merge(
+//             parent::behaviors(),
+//             [
+//                 'verbs' => [
+//                     'class' => VerbFilter::class,
+//                     'actions' => [
+//                         'delete' => ['POST'],
+//                     ],
+//                 ],
+//                 'access' => [
+//                     'class' => AccessControl::class,
+//                     'only' => [
+//                         'index', 'create', 'update', 'delete', 'permisos',
+//                     ], 
+//                     'rules' => [
+//                         ['actions' => ['index'], 'allow' => true, 'roles' => ['role/index']],
+//                         ['actions' => ['create'], 'allow' => true, 'roles' => ['role/create']],
+//                         ['actions' => ['update'], 'allow' => true, 'roles' => ['role/update']],
+//                         ['actions' => ['delete'], 'allow' => true, 'roles' => ['role/delete']],
+//                         ['actions' => ['permisos'], 'allow' => true, 'roles' => ['role/permisos']],
+//                     ]
+//                 ]
+//             ]
+//         );
+//     }
 
     /**
      * Lists all Roles models.
@@ -74,6 +88,7 @@ class RolesController extends Controller
         $model->scenario = RbacForm::SCENARIO_CREATE;
         $model->isNewRecord = true;
         $errorMessage = '';
+        
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -110,6 +125,7 @@ class RolesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $errorMessage = "";
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 

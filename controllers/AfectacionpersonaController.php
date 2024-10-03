@@ -117,11 +117,14 @@ class AfectacionpersonaController extends Controller
     {
         $model = new Area();
         $model->scenario = Area::SCENARIO_CREATE;
-        $model->codigo = Area::obtenerSiguienteCodigo();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
-            return $this->redirect(['area']);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->guardar()) {
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['area']);
+            } else {
+                Yii::$app->session->setFlash('error', 'No se pudo crear el registro.');
+            }
         }
     
         return $this->render('create-area', [
@@ -135,9 +138,13 @@ class AfectacionpersonaController extends Controller
         $model->scenario = Naturaleza::SCENARIO_CREATE;
 
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
-            return $this->redirect(['naturaleza']);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->guardar()) {
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['naturaleza']);
+            } else {
+                Yii::$app->session->setFlash('error', 'No se pudo crear el registro.');
+            }
         }
 
         return $this->render('create-naturaleza', [

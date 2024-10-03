@@ -17,6 +17,8 @@ use app\models\Cargo;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'nacionalidad')->textInput() ?>
+
     <?= $form->field($model, 'ci')->textInput() ?>
 
     <?= $form->field($model, 'nombre')->textInput() ?>
@@ -39,7 +41,7 @@ use app\models\Cargo;
 
     <?= $form->field($model, 'id_cargo')->dropDownList(
         ArrayHelper::map(cargo::find()->all(),'id_cargo','descripcion'),
-        ['prompt'=> 'seleccionar id_cargo']);?>
+        ['prompt'=> 'seleccionar Cargo']);?>
 
 
     <?= $form->field($model, 'telefono')->textInput() ?>

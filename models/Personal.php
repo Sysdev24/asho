@@ -22,6 +22,7 @@ use app\utiles\sensibleMayuscMinuscValidator;
  * @property string|null $telefono
  * @property string|null $fecha_nac
  * @property int|null $id_registro
+ * @property string|null $nacionalidad
  *
  * @property Cargo $cargo
  * @property Estados $estado
@@ -56,8 +57,8 @@ class Personal extends \yii\db\ActiveRecord
             [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'default', 'value' => null],
             [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
             [['nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'required'],
-            [['nombre', 'apellido', 'telefono'], 'string'],
-            [['nombre', 'apellido', 'telefono'], 'required'],
+            [['nombre', 'apellido', 'nacionalidad', 'telefono'], 'string'],
+            [['nombre', 'apellido', 'telefono', 'nacionalidad'], 'required'],
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
             [['ci'], 'unique'],
             [['id_cargo'], 'exist', 'skipOnError' => true, 'targetClass' => Cargo::class, 'targetAttribute' => ['id_cargo' => 'id_cargo']],
@@ -65,6 +66,9 @@ class Personal extends \yii\db\ActiveRecord
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['id_gerencia'], 'exist', 'skipOnError' => true, 'targetClass' => Gerencia::class, 'targetAttribute' => ['id_gerencia' => 'id_gerencia']],
             [['ci'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
+            //[['telefono'], 'string', 'length' => 11], // Asegurar 11 dígitos
+            [['telefono'], 'match', 'pattern' => '/^0[0-9]\d{2}-\d{7}$/'], //Formato 0000-0000000
+            [['fecha_nac'], 'date', 'format' => 'yyyy-MM-dd'], // Asegurar formato fecha
 
         ];
     }
@@ -87,7 +91,14 @@ class Personal extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'telefono' => 'Telefono',
             'fecha_nac' => 'Fecha de Nacimiento',
+            'nacionalidad' => 'Nacionalidad',
         ];
+    }
+
+
+    public function getTelefonoFormateado()
+    {
+        return preg_replace('/(\d{4})(\d{4})(\d{3})/', '$1-$2-$3', $this->telefono);
     }
 
     /**

@@ -6,6 +6,7 @@ use Yii;
 use app\utiles\sensibleMayuscMinuscValidator;
 
 
+
 class Area extends AfectacionPersona
 {
     const SCENARIO_CREATE = 'create';
@@ -16,6 +17,7 @@ class Area extends AfectacionPersona
         return [
             [['id_sub2_area_afect'], 'default', 'value' => 1],
             [['id_sub_area_afect'], 'default', 'value' => null], // Si quieres que se incremente automáticamente
+            
             [['id_estatus'], 'default', 'value' => null],
             [['id_sub_area_afect', 'id_sub2_area_afect', 'id_estatus'], 'integer'],
             [['descripcion', 'codigo'], 'string'],
@@ -45,23 +47,16 @@ class Area extends AfectacionPersona
         ];
     }
 
-    public static function obtenerSiguienteCodigo()
+    Public function guardar()
     {
-        // Buscar el último registro con id_sub2_area_afect = 1
-        $ultimoRegistro = self::find()
-            ->where(['id_sub2_area_afect' => 1])
-            ->orderBy(['codigo' => SORT_DESC])
-            ->one();
+        $model = self::findBySql('SELECT * FROM insertar_afectacion_personas_hijo(:afec_per, :descripcion)', [':afec_per' => 1, ':descripcion' => $this->descripcion])->one();
 
-        // Extraer la parte numérica del código y convertirla a entero
-        $ultimoNumero = (int)substr($ultimoRegistro->codigo, 10);
-
-        // Incrementar el número y formatear el nuevo código
-        $nuevoNumero = $ultimoNumero + 1;
-        $nuevoCodigo = 'C91' . str_pad($nuevoNumero, 2);
-
-        return $nuevoCodigo;
+        if($model !== null) {
+            return true;
+        } 
+        return false;
     }
+
     /**
      * Gets query for [[Estatus]].
      *

@@ -32,27 +32,18 @@ use app\models\AuthRbac;
 
     <?= $form->field($model, 'password')->passwordInput(['placeholder'=>'escriba su contraseña']) ?>
 
-    <?= $form->field($model, 'name', [
-        'template' => "<div>{input}\n{error}</div>",
-    ])->checkboxList(ArrayHelper::map(Yii::$app->authManager->getRoles(),'name','name'), [
-        'itemOptions' => [
-            'labelOptions' => ['class' => 'custom-control-label w-100 my-1'],
-            'wrapperOptions' => ['class'=>'form-check'],
-        ],
-    ]) ?>
-
-
-        <?php
-            
-            
-            
-
-        ?>
-
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
     ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
     ['prompt'=> 'seleccionar status']);?>
+
+
+
+    <?= $form->field($model, 'name')->dropDownList(
+    ArrayHelper::map(AuthRbac::getRoles(),'name','name'),
+    ['prompt'=> 'Seleccionar Gerencia']);?>
+
+
   
 
 
