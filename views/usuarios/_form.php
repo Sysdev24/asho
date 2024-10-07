@@ -16,7 +16,7 @@ use app\models\AuthRbac;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'ci')->textInput(['placeholder'=>'V-12345678']) ?>
+    <?= $form->field($model, 'ci')->textInput(['placeholder'=>'V12345678']) ?>
 
     <?= $form->field($model, 'nombre')->textInput(['placeholder'=>'escriba  su nombre']) ?>
 
