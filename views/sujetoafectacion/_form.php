@@ -14,12 +14,6 @@ use app\models\Estatus;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_clasif_con_afect')->textInput() ?>
-
-    <?= $form->field($model, 'id_con_afectacion')->textInput() ?>
-
-    <?= $form->field($model, 'id_afectacion')->textInput() ?>
-
     <?= $form->field($model, 'descripcion')->textInput() ?>
 
     <?= $form->field($model, 'codigo')->textInput() ?>

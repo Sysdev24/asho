@@ -16,8 +16,14 @@ $this->title = $model->descripcion;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Actualizar', ['update', 'id_sujeto_afect' => $model->id_sujeto_afect], ['class' => 'btn btn-primary']) ?>
-   
+        <?// Html::a('Actualizar', ['update-bienes', 'id_sujeto_afect' => $model->id_sujeto_afect], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete-bienes', 'id_sujeto_afect' => $model->id_sujeto_afect], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Estas seguro que desea eliminar?',
+                'method' => 'post',
+            ],
+        ]) ?>
     </p>
 
     <?= DetailView::widget([
@@ -41,16 +47,8 @@ $this->title = $model->descripcion;
         ],
     ]) ?>
 
-<!-- BOTON DE VOLVER-->
-<?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goBack()']) ?>
-
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
-
-</div>
+  <!-- BOTON DE VOLVER-->
+  <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["bienes"]).'\'']) ?>
     
 
 </div>

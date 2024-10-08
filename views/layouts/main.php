@@ -73,7 +73,18 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
                 ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']],
                 ['label' => 'Roles', 'url' => ['/roles/index']],
                 ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']],
-                ['label' => 'Sujeto Afectacion', 'url' => ['/sujetoafectacion/index']],
+                //['label' => 'Sujeto Afectacion', 'url' => ['/sujetoafectacion/index']],
+                [
+                    'label' => 'Sujeto Afectacion',
+                    'options' => ['class' => 'dropdown-item'],
+                    'items' => [
+                        ['label' => 'Personas', 'url' => ['/sujetoafectacion/personas']],
+                        ['label' => 'Bienes o activos', 'url' => ['/sujetoafectacion/bienes']],
+                        ['label' => 'Procesos', 'url' => ['/sujetoafectacion/procesos']],
+                        ['label' => 'Ambiente', 'url' => ['/sujetoafectacion/ambiente']],
+
+                    ],
+                ],
                 ['label' => 'Tipo Accidente', 'url' => ['/tipoaccidente/index']],
                 ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']],
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],

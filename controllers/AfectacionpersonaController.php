@@ -101,6 +101,7 @@ class AfectacionpersonaController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
                 return $this->redirect(['view', 'id_area_afectada' => $model->id_area_afectada]);
             }
         } else {

@@ -44,7 +44,7 @@ class SujetoAfectacionSearch extends SujetoAfectacion
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $searchType = 'persona')
     {
         $query = SujetoAfectacion::find();
 
@@ -75,6 +75,20 @@ class SujetoAfectacionSearch extends SujetoAfectacion
 
         $query->andFilterWhere(['ilike', 'descripcion', $this->descripcion])
             ->andFilterWhere(['ilike', 'codigo', $this->codigo]);
+
+            // Condición adicional para excluir el ID 0 en id_sub2_area_afect
+        $query->andWhere(['>', 'id_clasif_con_afect', 0]);
+
+        // Condición adicional según el tipo de búsqueda
+        if ($searchType === 'personas') {
+            $query->andWhere(['id_con_afectacion' => 1]);
+        } elseif ($searchType === 'bienes') {
+            $query->andWhere(['id_con_afectacion' => 2]);
+        }elseif ($searchType === 'procesos') {
+            $query->andWhere(['id_con_afectacion' => 3]);
+        }elseif ($searchType === 'ambient') {
+            $query->andWhere(['id_con_afectacion' => 4]);
+        }
 
         return $dataProvider;
     }
