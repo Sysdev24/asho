@@ -69,7 +69,9 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['ci'], 'match', 'pattern' => '/^[VE][0-9]{8}$/', 'message' => 'La cedula debe iniciar con V o E y tener 8 dígitos.'],
             ['nombre', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
             ['apellido', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
+            ['email', 'match', 'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', 'message' => 'Correo electrónico no válido.'],
             [['ci'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],
+
         ];
     }
     public $name;
