@@ -85,30 +85,35 @@ class RolesController extends Controller
     public function actionCreate()
     {
         $model = new RbacForm();
-        $model->scenario = RbacForm::SCENARIO_CREATE;
         $model->isNewRecord = true;
         $errorMessage = '';
-        
-
+    
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-
+    
                 try {
                     $auth = Yii::$app->authManager;
-                    $role = $auth->createRole($model->name);
-                    $role->description = $model->description;
-                    if($auth->add($role)) { 
-                    Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
-                    return $this->redirect(['index', 'id' => $model->name]);
+    
+                    // Buscar si el rol ya existe
+                    $existingRole = $auth->getRole($model->name);
+                    if ($existingRole) {
+                        $errorMessage = 'El rol "' . $model->name . '" ya existe.';
                     } else {
-                        $errorMessage = 'Error al guardar registro.';
+                        $role = $auth->createRole($model->name);
+                        $role->description = $model->description;
+                        if ($auth->add($role)) {
+                            Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                            return $this->redirect(['index', 'id' => $model->name]);
+                        } else {
+                            $errorMessage = 'Error al guardar registro.';
+                        }
                     }
                 } catch (\Throwable $th) {
                     $errorMessage = 'Error al guardar registro.';
                 }
             }
-        } 
-
+        }
+    
         return $this->render('create', [
             'model' => $model,
             'errorMessage' => $errorMessage,

@@ -154,7 +154,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         $this->name = $listRoles;
     }
 
-    public function getRoleList()
+    /*public function getRoleList()
     {
         $auth = Yii::$app->authManager;
         $idUsu = Yii::$app->user->identity->id;
@@ -178,7 +178,26 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             }
         }
     	return $list;
+    }*/
+
+    public function getRoleList()
+{
+    $auth = Yii::$app->authManager;
+    $idUsu = Yii::$app->user->identity->id;
+    $userRoles = $auth->getRolesByUser($idUsu);
+
+    $rolesModel = new RbacForm(); // Asume que tienes un modelo Roles para obtener todos los roles
+    $allRoles = $rolesModel->find()->all(); // Obtiene todos los roles de la base de datos
+
+    $list = [];
+    foreach ($allRoles as $role) {
+        if (ArrayHelper::keyExists($role->name, $userRoles, false)) {
+            $list[$role->name] = $role->name;
+        }
     }
+
+    return $list;
+}
 
     /**
      * {@inheritdoc}

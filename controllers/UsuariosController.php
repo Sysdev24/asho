@@ -72,23 +72,46 @@ class UsuariosController extends Controller
     {
         $model = new Usuarios();
         $model->scenario = Usuarios::SCENARIO_CREATE;
-
-        // Si se envió el formulario
-        if ($model->load($this->request->post()) && $model->save()) {
-            
-            // Obtiene todos los roles seleccionados y los recorre en ciclo for.
-            $auth = Yii::$app->authManager;
-            foreach ($model->name as $rol) {
-                $role = $auth->getRole($rol);
-                $auth->assign($role, $model->id_usuario);
+    
+        if ($model->load($this->request->post())) {
+            // Validación: Verificar si se seleccionó al menos un rol
+            if (empty($model->name)) {
+                Yii::$app->session->setFlash('error', 'Debe seleccionar al menos un rol para el usuario.');
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
             }
-
-            Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
-            return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
+    
+            // Si la validación pasa, inicia una transacción
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                if ($model->save()) {
+                    $auth = Yii::$app->authManager;
+                    foreach ($model->name as $rol) {
+                        $role = $auth->getRole($rol);
+                        $auth->assign($role, $model->id_usuario);
+                    }
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                    return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
+                } else {
+                    $transaction->rollBack();
+                    // Manejar el error si el modelo no se guarda
+                    Yii::$app->session->setFlash('error', 'Error al guardar el usuario.');
+                    return $this->render('create', [
+                        'model' => $model,
+                    ]);
+                }
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                // Manejar excepciones
+                Yii::error($e);
+                throw $e;
+            }
         } else {
             $model->loadDefaultValues();
         }
-
+    
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -101,7 +124,7 @@ class UsuariosController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id_usuario)
+    /*public function actionUpdate($id_usuario)
     {
         $model = $this->findModel($id_usuario);
 
@@ -125,7 +148,58 @@ class UsuariosController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }*/
+
+    public function actionUpdate($id_usuario)
+{
+    $model = $this->findModel($id_usuario);
+
+    // Selecciona roles del usuario
+    $model->getUserRoles();
+
+    if ($model->load($this->request->post())) {
+        // Iniciar transacción
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            // Verificar si hay roles seleccionados
+            if (is_array($model->name) && count($model->name) > 0) {
+                // Revocar todos los roles actuales
+                $auth = Yii::$app->authManager;
+                $auth->revokeAll($model->id_usuario);
+
+                // Asignar los nuevos roles
+                foreach ($model->name as $rol) {
+                    $role = $auth->getRole($rol);
+                    $auth->assign($role, $model->id_usuario);
+                }
+
+                if ($model->save()) {
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('success', 'Actualización exitosa.');
+                    return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
+                } else {
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('error', 'Error al actualizar el usuario.');
+                    return $this->render('update', ['model' => $model]);
+                }
+            } else {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Debe seleccionar al menos un rol para el usuario.');
+                return $this->render('update', ['model' => $model]);
+            }
+        } catch (yii\db\Exception $e) {
+            $transaction->rollBack();
+            Yii::error($e);
+            throw $e;
+        }
     }
+
+    return $this->render('update', [
+        'model' => $model,
+    ]);
+}
+
+
 
     /**
      * Deletes an existing Usuarios model.

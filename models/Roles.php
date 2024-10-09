@@ -20,8 +20,8 @@ use app\utiles\sensibleMayuscMinuscValidator;
  */
 class Roles extends \yii\db\ActiveRecord
 {
-    const SCENARIO_CREATE = 'create';
-    const SCENARIO_UPDATE = 'update';
+    //const SCENARIO_CREATE = 'create';
+    //const SCENARIO_UPDATE = 'update';
     /**
      * {@inheritdoc}
      */
@@ -44,7 +44,7 @@ class Roles extends \yii\db\ActiveRecord
             [['descripcion', 'guard_name'], 'unique', 'targetAttribute' => ['descripcion', 'guard_name']],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,255}$/', 'message' => 'Solo se admiten letras.'],
-            [['descripcion'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
+            //[['descripcion'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
         ];
     }
 

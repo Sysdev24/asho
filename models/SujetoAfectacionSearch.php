@@ -86,7 +86,7 @@ class SujetoAfectacionSearch extends SujetoAfectacion
             $query->andWhere(['id_con_afectacion' => 2]);
         }elseif ($searchType === 'procesos') {
             $query->andWhere(['id_con_afectacion' => 3]);
-        }elseif ($searchType === 'ambient') {
+        }elseif ($searchType === 'ambiente') {
             $query->andWhere(['id_con_afectacion' => 4]);
         }
 
