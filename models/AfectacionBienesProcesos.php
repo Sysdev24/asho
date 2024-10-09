@@ -43,7 +43,7 @@ class AfectacionBienesProcesos extends \yii\db\ActiveRecord
             [['id_estatus'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['afectacion','match','pattern' => '/^\d+=$/','message' => 'Solo se admiten números seguidos por el símbolo "=".'],
-            ['valor', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
+            ['valor', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,255}$/', 'message' => 'Solo se admiten letras.'],
             [['valor'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
         ];
     }
