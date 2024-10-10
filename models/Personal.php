@@ -70,6 +70,7 @@ class Personal extends \yii\db\ActiveRecord
             ['telefono', 'match', 'pattern' => '/^\+?[0-9]{1,4}?[-. ]?(\(?\d{1,3}?\)?[-. ]?)?\d{1,4}[-. ]?\d{1,4}[-. ]?\d{1,9}$/', 'message' => 'Número de teléfono no válido.'],
             //[['telefono'], 'match', 'pattern' => '/^0[0-9]\d{2}-\d{7}$/'], //Formato 0000-0000000
             [['fecha_nac'], 'date', 'format' => 'yyyy-MM-dd'], // Asegurar formato fecha
+            [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
 
         ];
     }
@@ -141,7 +142,15 @@ class Personal extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Gerencia::class, ['id_gerencia' => 'id_gerencia'])->inverseOf('personals');
     }
-
+  /**
+     * Gets query for [[Nacionalidad0]].
+     *
+     * @return \yii\db\ActiveQuery|NacionalidadQuery
+     */
+    public function getNacionalidad0()
+    {
+        return $this->hasOne(Nacionalidad::class, ['letra' => 'nacionalidad']);
+    }
     /**
      * Gets query for [[Registros]].
      *

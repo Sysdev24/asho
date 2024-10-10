@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use app\models\Estatus;
 use app\models\Gerencia;
 use app\models\Cargo;
+use app\models\Nacionalidad;
 
 /** @var yii\web\View $this */
 /** @var app\models\Personal $model */
@@ -16,8 +17,9 @@ use app\models\Cargo;
 <div class="personal-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'nacionalidad')->textInput() ?>
+    <?= $form->field($model, 'nacionalidad')->dropDownList(
+        ArrayHelper::map(Nacionalidad::find()->all(),'letra','letra'),
+        ['prompt'=> 'seleccionar nacionalidad']);?>
 
     <?= $form->field($model, 'ci')->textInput() ?>
 
