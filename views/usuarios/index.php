@@ -126,19 +126,11 @@ $this->title = 'Usuario';
                     //return   isset($model->gerencia->descripcion) ? $model->gerencia->descripcion : 'N/D';
 
             ],
-            
-            /*[
-                'attribute' => 'roles',
-                'value' => function ($model) {
-                    return implode(', ', ArrayHelper::getColumn($model->roles, 'name'));
-                },
-            ],*/
 
             [
                 'attribute' => 'roles',
-                'label' => 'Roles',
                 'value' => function ($model) {
-                    return implode(', ', $model->getUserRoles());
+                    return implode(', ', ArrayHelper::getColumn($model->roles, 'name'));
                 },
             ],
 
