@@ -7,6 +7,7 @@ use app\models\EstatusSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * EstatusController implements the CRUD actions for Estatus model.
@@ -22,11 +23,24 @@ class EstatusController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['estatus/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['estatus/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['estatus/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['estatus/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['estatus/permisos']],
+                    ]
+                ]
             ]
         );
     }

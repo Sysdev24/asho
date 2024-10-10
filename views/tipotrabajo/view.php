@@ -14,17 +14,7 @@ $this->title = $model->descripcion;
 <div class="tipo-trabajo-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Actualizar', ['update', 'id_tipo_trabajo' => $model->id_tipo_trabajo], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id_tipo_trabajo' => $model->id_tipo_trabajo], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Estas seguro que desea eliminar?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+<br>
 
     <?= DetailView::widget([
         'model' => $model,

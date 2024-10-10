@@ -15,25 +15,13 @@ $this->title = $model->descripcion;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Actualizar', ['update', 'id_estatus' => $model->id_estatus], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id_estatus' => $model->id_estatus], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
+<br>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id_estatus',
             'siglas',
             'descripcion',
-            //'created_at',
-            //'updated_at',
+        
         ],
     ]) ?>
 
