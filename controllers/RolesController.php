@@ -20,33 +20,33 @@ class RolesController extends Controller
     /**
      * @inheritDoc
      */
-//    public function behaviors()
-//     {
-//         return array_merge(
-//             parent::behaviors(),
-//             [
-//                 'verbs' => [
-//                     'class' => VerbFilter::class,
-//                     'actions' => [
-//                         'delete' => ['POST'],
-//                     ],
-//                 ],
-//                 'access' => [
-//                     'class' => AccessControl::class,
-//                     'only' => [
-//                         'index', 'create', 'update', 'delete', 'permisos',
-//                     ], 
-//                     'rules' => [
-//                         ['actions' => ['index'], 'allow' => true, 'roles' => ['role/index']],
-//                         ['actions' => ['create'], 'allow' => true, 'roles' => ['role/create']],
-//                         ['actions' => ['update'], 'allow' => true, 'roles' => ['role/update']],
-//                         ['actions' => ['delete'], 'allow' => true, 'roles' => ['role/delete']],
-//                         ['actions' => ['permisos'], 'allow' => true, 'roles' => ['role/permisos']],
-//                     ]
-//                 ]
-//             ]
-//         );
-//     }
+   public function behaviors()
+    {
+        return array_merge(
+            parent::behaviors(),
+            [
+                'verbs' => [
+                    'class' => VerbFilter::class,
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
+                ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['roles/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['roles/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['roles/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['roles/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['roles/permisos']],
+                    ]
+                ]
+            ]
+        );
+    }
 
     /**
      * Lists all Roles models.

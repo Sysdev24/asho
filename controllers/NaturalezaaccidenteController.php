@@ -7,6 +7,7 @@ use app\models\NaturalezaaccidenteSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * NaturalezaaccidenteController implements the CRUD actions for NaturalezaAccidente model.
@@ -16,17 +17,30 @@ class NaturalezaaccidenteController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
+ public function behaviors()
     {
         return array_merge(
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['naturalezaaccidente/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['naturalezaaccidente/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['naturalezaaccidente/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['naturalezaaccidente/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['naturalezaaccidente/permisos']],
+                    ]
+                ]
             ]
         );
     }

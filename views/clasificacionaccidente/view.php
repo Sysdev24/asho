@@ -15,32 +15,21 @@ $this->title = $model->descripcion;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Actualizar', ['update', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Estas seguro que desea eliminar?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
+<br>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id_clasif_accid_lab_ope_amb',
+
             'descripcion',
             'codigo',
-            //'id_estatus',
+            
             [   
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',
                 'value' => function($model){
                     return   $model->estatus->descripcion;},
             ],
-            //'created_at',
-            //'updated_at',
+           
         ],
     ]) ?>
 

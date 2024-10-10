@@ -7,6 +7,7 @@ use app\models\SeveridadpotencialperdidaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * SeveridadpotencialperdidaController implements the CRUD actions for SeveridadPotencialPerdida model.
@@ -22,11 +23,24 @@ class SeveridadpotencialperdidaController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['severidadpotencialperdida/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['severidadpotencialperdida/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['severidadpotencialperdida/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['severidadpotencialperdida/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['severidadpotencialperdida/permisos']],
+                    ]
+                ]
             ]
         );
     }

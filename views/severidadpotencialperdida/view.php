@@ -15,16 +15,7 @@ $this->title = $model->descripcion;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Actualizar', ['update', 'id_sev_pot_per' => $model->id_sev_pot_per], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id_sev_pot_per' => $model->id_sev_pot_per], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+   <br>
 
     <?= DetailView::widget([
         'model' => $model,

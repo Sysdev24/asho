@@ -7,6 +7,7 @@ use app\models\RegistroSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * RegistroController implements the CRUD actions for Registro model.
@@ -22,11 +23,24 @@ class RegistroController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['registro/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['registro/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['registro/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['registro/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['registro/permisos']],
+                    ]
+                ]
             ]
         );
     }

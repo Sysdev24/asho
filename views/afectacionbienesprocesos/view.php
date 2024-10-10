@@ -15,26 +15,14 @@ $this->title = $model->valor;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Actualizar', ['update', 'id_afec_bien_pro' => $model->id_afec_bien_pro], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id_afec_bien_pro' => $model->id_afec_bien_pro], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Estas seguro que desea eliminar?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
+<br>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-           // 'id_afec_bien_pro',
+    
             'afectacion',
             'valor',
-            //'created_at',
-           // 'updated_at',
-            //'id_estatus',
+          
             [   
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',

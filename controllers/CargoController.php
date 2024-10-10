@@ -8,7 +8,7 @@ use app\models\CargoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 
 /**
  * CargoController implements the CRUD actions for Cargo model.
@@ -24,11 +24,24 @@ class CargoController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['cargo/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['cargo/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['cargo/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['cargo/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['cargo/permisos']],
+                    ]
+                ]
             ]
         );
     }

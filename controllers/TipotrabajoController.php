@@ -8,6 +8,7 @@ use app\models\TipotrabajoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * TipotrabajoController implements the CRUD actions for TipoTrabajo model.
@@ -23,11 +24,24 @@ class TipotrabajoController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['tipotrabajo/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['tipotrabajo/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['tipotrabajo/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['tipotrabajo/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['tipotrabajo/permisos']],
+                    ]
+                ]
             ]
         );
     }
