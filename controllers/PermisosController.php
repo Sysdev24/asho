@@ -8,6 +8,7 @@ use app\models\PermissionsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 
 /**
@@ -18,17 +19,30 @@ class PermisosController extends Controller
     /**
      * @inheritDoc
      */
-   public function behaviors()
+    public function behaviors()
     {
         return array_merge(
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['permisos/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['permisos/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['permisos/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['permisos/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['roles/permisos']],
+                    ]
+                ]
             ]
         );
     }

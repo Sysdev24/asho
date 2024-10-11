@@ -8,6 +8,7 @@ use app\models\TipoTrabajo;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * TipoaccidenteController implements the CRUD actions for TipoAccidente model.
@@ -17,20 +18,33 @@ class TipoaccidenteController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
+    // public function behaviors()
+    // {
+    //     return array_merge(
+    //         parent::behaviors(),
+    //         [
+    //             'verbs' => [
+    //                 'class' => VerbFilter::class,
+    //                 'actions' => [
+    //                     'delete' => ['POST'],
+    //                 ],
+    //             ],
+    //             'access' => [
+    //                 'class' => AccessControl::class,
+    //                 'only' => [
+    //                     'index', 'create', 'update', 'delete', 'permisos',
+    //                 ], 
+    //                 'rules' => [
+    //                     ['actions' => ['index'], 'allow' => true, 'roles' => ['tipoaccidente/index']],
+    //                     ['actions' => ['create'], 'allow' => true, 'roles' => ['tipoaccidente/create']],
+    //                     ['actions' => ['update'], 'allow' => true, 'roles' => ['tipoaccidente/update']],
+    //                     ['actions' => ['delete'], 'allow' => true, 'roles' => ['tipoaccidente/delete']],
+    //                     ['actions' => ['permisos'], 'allow' => true, 'roles' => ['roles/permisos']],
+    //                 ]
+    //             ]
+    //         ]
+    //     );
+    // }
 
     /**
      * Lists all TipoAccidente models.

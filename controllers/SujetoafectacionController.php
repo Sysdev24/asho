@@ -13,6 +13,7 @@ use app\models\SujetoAfectacionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * SujetoafectacionController implements the CRUD actions for SujetoAfectacion model.
@@ -22,20 +23,33 @@ class SujetoafectacionController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
+    // public function behaviors()
+    // {
+    //     return array_merge(
+    //         parent::behaviors(),
+    //         [
+    //             'verbs' => [
+    //                 'class' => VerbFilter::class,
+    //                 'actions' => [
+    //                     'delete' => ['POST'],
+    //                 ],
+    //             ],
+    //             'access' => [
+    //                 'class' => AccessControl::class,
+    //                 'only' => [
+    //                     'index', 'create', 'update', 'delete', 'permisos',
+    //                 ], 
+    //                 'rules' => [
+    //                     ['actions' => ['index'], 'allow' => true, 'roles' => ['sujetoafectacion/index']],
+    //                     ['actions' => ['create'], 'allow' => true, 'roles' => ['sujetoafectacion/create']],
+    //                     ['actions' => ['update'], 'allow' => true, 'roles' => ['sujetoafectacion/update']],
+    //                     ['actions' => ['delete'], 'allow' => true, 'roles' => ['sujetoafectacion/delete']],
+    //                     ['actions' => ['permisos'], 'allow' => true, 'roles' => ['roles/permisos']],
+    //                 ]
+    //             ]
+    //         ]
+    //     );
+    // }
 
     /**
      * Lists all SujetoAfectacion models.

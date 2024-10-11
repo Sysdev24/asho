@@ -7,6 +7,7 @@ use app\models\PeligroagenteSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * PeligroagenteController implements the CRUD actions for PeligroAgente model.
@@ -16,20 +17,33 @@ class PeligroagenteController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
+    // public function behaviors()
+    // {
+    //     return array_merge(
+    //         parent::behaviors(),
+    //         [
+    //             'verbs' => [
+    //                 'class' => VerbFilter::class,
+    //                 'actions' => [
+    //                     'delete' => ['POST'],
+    //                 ],
+    //             ],
+    //             'access' => [
+    //                 'class' => AccessControl::class,
+    //                 'only' => [
+    //                     'index', 'create', 'update', 'delete', 'permisos',
+    //                 ], 
+    //                 'rules' => [
+    //                     ['actions' => ['index'], 'allow' => true, 'roles' => ['peligroagente/index']],
+    //                     ['actions' => ['create'], 'allow' => true, 'roles' => ['peligroagente/create']],
+    //                     ['actions' => ['update'], 'allow' => true, 'roles' => ['peligroagente/update']],
+    //                     ['actions' => ['delete'], 'allow' => true, 'roles' => ['peligroagente/delete']],
+    //                     ['actions' => ['permisos'], 'allow' => true, 'roles' => ['roles/permisos']],
+    //                 ]
+    //             ]
+    //         ]
+    //     );
+    // }
 
     /**
      * Lists all PeligroAgente models.
