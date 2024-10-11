@@ -59,6 +59,7 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
                     ['label' => 'Naturaleza de la Lesion', 'url' => ['/afectacionpersona/naturaleza']],
                 ],
             ],
+           ['label' => 'Afectacion Persona Categoria', 'url' => ['/afecpercategoria/index']],
             ['label' => 'Cargo', 'url' => ['/cargo/index']],
                 ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
                 ['label' => 'Estados', 'url' => ['/estados/index']],
