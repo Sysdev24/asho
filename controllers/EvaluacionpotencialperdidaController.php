@@ -8,6 +8,7 @@ use app\models\EvaluacionpotencialperdidaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * EvaluacionpotencialperdidaController implements the CRUD actions for EvaluacionPotencialPerdida model.
@@ -23,11 +24,24 @@ class EvaluacionpotencialperdidaController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['evaluacionpotencialperdida/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['evaluacionpotencialperdida/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['evaluacionpotencialperdida/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['evaluacionpotencialperdida/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['evaluacionpotencialperdida/permisos']],
+                    ]
+                ]
             ]
         );
     }

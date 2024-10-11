@@ -15,17 +15,7 @@ $this->title = $model->description;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->name], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->name], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Estas seguro que desea eliminar?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
+<br>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -33,11 +23,7 @@ $this->title = $model->description;
             'description',
         ],
     ]) ?>
-
-    <?= Html::a(
-        '<i class="fas fa-reply me-1"></i> ' . Yii::t('app', 'Atrás'),
-        Yii::$app->request->referrer, ['class'=>'btn btn-secondary mt-3']
-    ) ?>
+    
 <!-- BOTON DE VOLVER-->
 <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
     

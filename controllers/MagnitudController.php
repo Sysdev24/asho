@@ -8,6 +8,7 @@ use app\models\MagnitudSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * MagnitudController implements the CRUD actions for Magnitud model.
@@ -23,11 +24,24 @@ class MagnitudController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['magnitud/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['magnitud/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['magnitud/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['magnitud/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['magnitud/permisos']],
+                    ]
+                ]
             ]
         );
     }

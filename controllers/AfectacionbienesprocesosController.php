@@ -8,6 +8,8 @@ use app\models\AfectacionbienesprocesosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
 
 /**
  * AfectacionbienesprocesosController implements the CRUD actions for AfectacionBienesProcesos model.
@@ -17,20 +19,33 @@ class AfectacionbienesprocesosController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
+//    public function behaviors()
+//     {
+//         return array_merge(
+//             parent::behaviors(),
+//             [
+//                 'verbs' => [
+//                     'class' => VerbFilter::class,
+//                     'actions' => [
+//                         'delete' => ['POST'],
+//                     ],
+//                 ],
+//                 'access' => [
+//                     'class' => AccessControl::class,
+//                     'only' => [
+//                         'index', 'create', 'update', 'delete', 'permisos',
+//                     ], 
+//                     'rules' => [
+//                         ['actions' => ['index'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/index']],
+//                         ['actions' => ['create'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/create']],
+//                         ['actions' => ['update'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/update']],
+//                         ['actions' => ['delete'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/delete']],
+//                         ['actions' => ['permisos'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/permisos']],
+//                     ]
+//                 ]
+//             ]
+//         );
+//     }
 
     /**
      * Lists all AfectacionBienesProcesos models.

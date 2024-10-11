@@ -7,6 +7,7 @@ use app\models\GerenciaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * GerenciaController implements the CRUD actions for Gerencia model.
@@ -22,11 +23,24 @@ class GerenciaController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['gerencia/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['gerencia/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['gerencia/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['gerencia/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['gerencia/permisos']],
+                    ]
+                ]
             ]
         );
     }

@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\AuthItem;
+use yii\filters\AccessControl;
 
 use yii\helpers\ArrayHelper;
 
@@ -25,11 +26,24 @@ class UsuariosController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['usuarios/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['usuarios/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['usuarios/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['usuarios/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['usuarios/permisos']],
+                    ]
+                ]
             ]
         );
     }

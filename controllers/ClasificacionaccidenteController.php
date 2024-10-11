@@ -7,6 +7,7 @@ use app\models\ClasificacionaccidenteSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ClasificacionaccidenteController implements the CRUD actions for ClasificacionAccidente model.
@@ -22,11 +23,24 @@ class ClasificacionaccidenteController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['clasificacionaccidente/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['clasificacionaccidente/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['clasificacionaccidente/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['clasificacionaccidente/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['clasificacionaccidente/permisos']],
+                    ]
+                ]
             ]
         );
     }

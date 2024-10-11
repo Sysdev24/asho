@@ -14,16 +14,7 @@ $this->title = $model->id_registro_regla_oro;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id_registro_regla_oro' => $model->id_registro_regla_oro], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id_registro_regla_oro' => $model->id_registro_regla_oro], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+   <br>
 
     <?= DetailView::widget([
         'model' => $model,

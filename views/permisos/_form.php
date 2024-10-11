@@ -28,11 +28,6 @@ use app\models\Estatus;
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
-
-        <?= Html::a(
-            '<i class="fas fa-reply me-1"></i> ' . Yii::t('app', 'Atrás'),
-            Yii::$app->request->referrer, ['class'=>'btn btn-secondary']
-        ) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

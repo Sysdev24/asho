@@ -15,16 +15,7 @@ $this->title = $model->ci;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Actualizar', ['update', 'ci' => $model->ci], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'ci' => $model->ci], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Estas seguro que desea eliminar?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+<br>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -34,7 +25,6 @@ $this->title = $model->ci;
             'nombre',
             'apellido',
             'nro_empleado',
-            //'id_gerencia',
             [   
                 'attribute' => 'id_gerencia',
                 'label' => 'Gerencia',
@@ -42,14 +32,13 @@ $this->title = $model->ci;
                     return   $model->gerencia->descripcion;},
             ],
 
-            //'id_estado',
             [   
                 'attribute' => 'id_estado',
                 'label' => 'Estado',
                 'value' => function($model){
                     return   $model->estado->descripcion;},
             ],
-            //'id_estatus',
+           
             [   
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',
