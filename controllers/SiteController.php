@@ -17,25 +17,30 @@ class SiteController extends Controller
      */
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
+        return array_merge(
+            parent::behaviors(),
+            [
+                'verbs' => [
+                    'class' => VerbFilter::class,
+                    'actions' => [
+                        'delete' => ['POST'],
                     ],
                 ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['@']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['@']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['@']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['@']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['@']],
+                    ]
+                ]
+            ]
+        );
     }
 
     /**

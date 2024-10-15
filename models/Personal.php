@@ -23,6 +23,7 @@ use app\utiles\sensibleMayuscMinuscValidator;
  * @property string|null $fecha_nac
  * @property int|null $id_registro
  * @property string|null $nacionalidad
+ * @property string|null $correo
  *
  * @property Cargo $cargo
  * @property Estados $estado
@@ -55,7 +56,7 @@ class Personal extends \yii\db\ActiveRecord
         return [
             [['ci'], 'required'],
             [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'default', 'value' => null],
-            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
+            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo','nacionalidad', 'correo'], 'integer'],
             [['nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'required'],
             [['nombre', 'apellido', 'nacionalidad', 'telefono'], 'string'],
             [['nombre', 'apellido', 'telefono', 'nacionalidad'], 'required'],
@@ -94,6 +95,7 @@ class Personal extends \yii\db\ActiveRecord
             'telefono' => 'Telefono',
             'fecha_nac' => 'Fecha de Nacimiento',
             'nacionalidad' => 'Nacionalidad',
+            'correo' => 'Correo',
         ];
     }
 
@@ -102,6 +104,7 @@ class Personal extends \yii\db\ActiveRecord
     {
         return preg_replace('/(\d{4})(\d{4})(\d{3})/', '$1-$2-$3', $this->telefono);
     }
+
 
     /**
      * Gets query for [[Cargo]].

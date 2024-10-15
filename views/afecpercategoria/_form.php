@@ -17,27 +17,26 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'parent_id')->dropDownList(
-    ArrayHelper::map(AfecPerCategoria::find()->where(['parent_id' => null])->all(), 'id', 'name'),
-    ['prompt' => 'Seleccionar']
-    ) ?>
+    <div class="row">
 
-    <?= $form->field($model, 'name')->textInput(['id' => 'name', 'disabled' => true]) ?>
+    <?= $form->field($model, 'parent_id', [
+        'inputOptions' => ['placeholder' => $model->getAttributeLabel('parent_id')]
+    ])->dropDownList
+    (ArrayHelper::map(AfecPerCategoria::find()->all(),'parent_id','name'), [
+        'prompt' => Yii::t('app', 'Select...'),
+        'class' => 'custom-select',
+    ]) ?>
+    
+
+    <?= $form->field($model, 'name', [
+        'inputOptions'=>['placeholder'=>$model->getAttributeLabel('name')]
+    ])->textInput(['maxlength' => true]) ?>
+
+    </div>
 
     <?= $form->field($model, 'id_estatus')->dropDownList
     (ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
     ['prompt'=> 'seleccionar status']);?>
-
-    <script>
-    $(document).ready(function() {
-        $('#parent_id').change(function() {
-            var parentId = $(this).val();
-            var parentPath = $('#parent_path').val(); // Suponiendo que tienes un campo oculto para parent_path
-            $('#nuevo-nombre').prop('disabled', !(parentId === null && (parentPath === '1/' || parentPath === '2/')));
-        });
-    });
-    </script>
-
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

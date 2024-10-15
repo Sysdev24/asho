@@ -43,8 +43,14 @@ $this->title = 'Usuario';
             'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
             ], 
 
-            //'id_usuario',
-            //'ci',
+            [
+                'attribute' => 'personal.nacionalidad',
+                'label' => 'Nombre',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             [   
                 'attribute' => 'ci',
                 'label' => 'Cedula',
@@ -63,8 +69,8 @@ $this->title = 'Usuario';
                 ],
             ],
 
-            [   
-                'attribute' => 'nombre',
+            [
+                'attribute' => 'personal.nombre',
                 'label' => 'Nombre',
                 'filterInputOptions' => [
                     'class' => 'form-control',
@@ -73,23 +79,13 @@ $this->title = 'Usuario';
             ],
 
             [   
-                'attribute' => 'apellido',
+                'attribute' => 'personal.apellido',
                 'label' => 'Apellido',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
                 ],
             ],
-            //'email:email',
-            [   
-                'attribute' => 'email',
-                'label' => 'Correo',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-            ],
-            //'id_estatus',
 
            /* [
                 'attribute' => 'roles.name',
@@ -113,26 +109,30 @@ $this->title = 'Usuario';
 
             ],
 
-            [   
-                'attribute' => 'id_gerencia',
+            [
+                'attribute' => 'personal.gerencia.descripcion',
                 'label' => 'Gerencia',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+
+           /* [   
+                'attribute' => 'name',
+                'label' => 'Roles',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
                 ],
                 
                 'value' => function($model){
-                    return   $model->gerencia->descripcion;},
+                    //return   $model->name->name;
+                    return   isset($model->name->descripcion) ? $model->name->name : 'N/D';
+                },
                     //return   isset($model->gerencia->descripcion) ? $model->gerencia->descripcion : 'N/D';
 
-            ],
-
-            [
-                'attribute' => 'roles',
-                'value' => function ($model) {
-                    return implode(', ', ArrayHelper::getColumn($model->roles, 'name'));
-                },
-            ],
+            ],*/
 
             [
                 'class' => ActionColumn::className(),

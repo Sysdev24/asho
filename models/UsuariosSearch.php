@@ -17,8 +17,8 @@ class UsuariosSearch extends Usuarios
     public function rules()
     {
         return [
-            [['id_usuario', 'id_estatus', 'id_gerencia'], 'integer'],
-            [['ci', 'username', 'password', 'nombre', 'apellido', 'email', 'created_at', 'updated_at', 'name'], 'safe'],
+            [['id_usuario', 'ci', 'id_estatus'], 'integer'],
+            [['username', 'password', 'created_at', 'updated_at', 'authKey', 'accesstoken', 'name', 'nacionalidad'], 'safe'],
         ];
     }
 
@@ -67,20 +67,18 @@ class UsuariosSearch extends Usuarios
         $query->andFilterWhere([
             'id_usuario' => $this->id_usuario,
             'id_estatus' => $this->id_estatus,
-            'id_gerencia' => $this->id_gerencia,
-            // 'id_roles' => $this->id_roles,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'name' => $this->name,
+            //'name' => $this->name,
 
         ]);
 
-        $query->andFilterWhere(['ilike', 'ci', $this->ci])
-            ->andFilterWhere(['ilike', 'username', $this->username])
-            ->andFilterWhere(['ilike', 'password', $this->password])
-            ->andFilterWhere(['ilike', 'nombre', $this->nombre])
-            ->andFilterWhere(['ilike', 'apellido', $this->apellido])
-            ->andFilterWhere(['ilike', 'email', $this->email]);
+        $query->andFilterWhere(['ilike', 'username', $this->username])
+        ->andFilterWhere(['ilike', 'password', $this->password])
+        ->andFilterWhere(['ilike', 'authKey', $this->authKey])
+        ->andFilterWhere(['ilike', 'accesstoken', $this->accesstoken])
+        ->andFilterWhere(['ilike', 'name', $this->name])
+        ->andFilterWhere(['ilike', 'nacionalidad', $this->nacionalidad]);
 
         return $dataProvider;
     }

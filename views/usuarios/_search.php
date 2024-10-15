@@ -23,22 +23,20 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'password') ?>
 
-    <?= $form->field($model, 'nombre') ?>
-    
-
-    <?php // echo $form->field($model, 'apellido') ?>
-
-    <?php // echo $form->field($model, 'email') ?>
-
-    <?php // echo $form->field($model, 'id_estatus') ?>
-
-    <?php // echo $form->field($model, 'id_gerencia') ?>
-
-    <?php // echo $form->field($model, 'id_roles') ?>
+    <?= $form->field($model, 'id_estatus') ?>
+   
 
     <?php // echo $form->field($model, 'created_at') ?>
 
     <?php // echo $form->field($model, 'updated_at') ?>
+
+    <?php // echo $form->field($model, 'authKey') ?>
+
+    <?php // echo $form->field($model, 'accesstoken') ?>
+
+    <?php // echo $form->field($model, 'name') ?>
+
+    <?php // echo $form->field($model, 'nacionalidad') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

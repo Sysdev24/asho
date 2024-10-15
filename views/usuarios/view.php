@@ -21,18 +21,50 @@ $this->title = $model->username;
         'model' => $model,
         'attributes' => [
 
+            [
+                'attribute' => 'personal.nacionalidad',
+                'label' => 'Nombre',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             'ci',
             'username',
             
-            'nombre',
-            'apellido',
-            'email:email',
+            [
+                'attribute' => 'personal.nombre',
+                'label' => 'Nombre',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+
+            [   
+                'attribute' => 'personal.apellido',
+                'label' => 'Apellido',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             
-             [   
-                'attribute' => 'id_gerencia',
+            [
+                'attribute' => 'personal.gerencia.descripcion',
                 'label' => 'Gerencia',
-                'value' => function($model){
-                    return   $model->gerencia->descripcion;},
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
+            [   
+                'attribute' => 'personal.email',
+                'label' => 'Correo',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
             ],
            
             [   
@@ -41,6 +73,12 @@ $this->title = $model->username;
                 'value' => function($model){
                     return   $model->estatus->descripcion;},
             ],
+            /*[   
+                'attribute' => 'name',
+                'label' => 'Rol',
+                'value' => function($model){
+                    return   $model->getRoles->name;},
+            ],*/
 
             'name',
 

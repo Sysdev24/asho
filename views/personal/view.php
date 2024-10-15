@@ -51,6 +51,7 @@ $this->title = $model->ci;
             //'updated_at',
             'telefono',
             'fecha_nac',
+            'correo',
             //'id_registro',
         ],
     ]) ?>

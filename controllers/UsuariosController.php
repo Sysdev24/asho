@@ -9,6 +9,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\AuthItem;
 use yii\filters\AccessControl;
+use yii\web\Response;
+use app\models\Personal;
 
 use yii\helpers\ArrayHelper;
 
@@ -129,6 +131,20 @@ class UsuariosController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionBuscarPorCi()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $ci = Yii::$app->request->post('ci');
+
+        $personal = Personal::findOne(['ci' => $ci]);
+
+        if ($personal) {
+            return ['success' => true, 'data' => $personal->attributes];
+        } else {
+            return ['success' => false, 'message' => 'No se encontró personal con esa cédula.'];
+        }
     }
 
     /**

@@ -47,6 +47,8 @@ use app\models\Nacionalidad;
 
 
     <?= $form->field($model, 'telefono')->textInput() ?>
+    
+    <?= $form->field($model, 'correo')->textInput() ?>
 
     <?= $form->field($model, 'fecha_nac')->textInput() ?>
 

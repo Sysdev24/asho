@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\components\Notify;
 
 
 /**
@@ -82,23 +83,51 @@ class AfecpercategoriaController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionCreate()
-    {
-        $model = new AfecPerCategoria();
+{
+    $model = new AfecPerCategoria();
 
+    if ($model->load(Yii::$app->request->post())) {
+        // Set values
+        $parent = AfecPerCategoria::findOne($model->parent_id);
+        $model->complete_name = $parent->complete_name . ' / ' . $model->name;
+        $model->parent_path = $parent->parent_path . $model->id . '/';
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if($model->save()) {
+            $model->parent_path = $parent->parent_path . $model->id . '/';
+            $model->save();
+            // MESSAGE
+            Yii::$app->getSession()->setFlash('success', [
+                [
+                    'type' => 'toast',
+                    'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
+                    'message' => Yii::t('app', 'The record has been saved successfully.'),
+                ]
+            ]);
         } else {
-            $model->loadDefaultValues();
+            // MESSAGE
+            Yii::$app->getSession()->setFlash('error', [
+                [
+                    'type' => 'toast',
+                    'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
+                    'message' => Yii::t('app', 'The record could not be saved.'),
+                ]
+            ]);
+            if (YII_ENV_DEV) {
+                Yii::$app->getSession()->setFlash('warning', [
+                    [
+                        'type' => 'toast',
+                        'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
+                        'message' => $this->listErrors($model->getErrors()),
+                    ]
+                ]);
+            }
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
+
+    return $this->render('create', [
+        'model' => $model,
+    ]);
+}
 
     /**
      * Updates an existing AfecPerCategoria model.
@@ -108,18 +137,48 @@ class AfecpercategoriaController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+{
+    $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
-            return $this->redirect(['view', 'id' => $model->id]);
+    if ($model->load(Yii::$app->request->post())) {
+        // Set values
+        $parent = AfecPerCategoria::findOne($model->parent_id);
+        $model->complete_name = $parent->complete_name . ' / ' . $model->name;
+        $model->parent_path = $parent->parent_path . $model->id . '/';
+        if($model->save()) {
+            // MESSAGE
+            Yii::$app->getSession()->setFlash('success', [
+                [
+                    'type' => 'toast',
+                    'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
+                    'message' => Yii::t('app', 'The record has been updated successfully.'),
+                ]
+            ]);
+        } else {
+            // MESSAGE
+            Yii::$app->getSession()->setFlash('error', [
+                [
+                    'type' => 'toast',
+                    'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
+                    'message' => Yii::t('app', 'The record could not be updated.'),
+                ]
+            ]);
+            if (YII_ENV_DEV) {
+                Yii::$app->getSession()->setFlash('warning', [
+                    [
+                        'type' => 'toast',
+                        'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
+                        'message' => $this->listErrors($model->getErrors()),
+                    ]
+                ]);
+            }
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
+
+    return $this->render('update', [
+        'model' => $model,
+    ]);
+}
 
     /**
      * Deletes an existing AfecPerCategoria model.
