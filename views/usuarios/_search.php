@@ -24,6 +24,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'password') ?>
 
     <?= $form->field($model, 'id_estatus') ?>
+12345678
    
 
     <?php // echo $form->field($model, 'created_at') ?>

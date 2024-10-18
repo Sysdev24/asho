@@ -10,6 +10,10 @@ main > .container {
     height: 80px;
 }
 
+.text-danger {
+    color: red;
+}
+
 /*.navbar-expand-md {
     position: fixed;
     top: 0;

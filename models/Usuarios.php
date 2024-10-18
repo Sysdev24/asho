@@ -56,32 +56,27 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
-            [['username', 'password', 'nombre', 'apellido', 'email'], 'string'],
+            [['username', 'password'], 'string'],
             [['username', 'password', 'authKey', 'accesstoken', 'name', 'nacionalidad'], 'string'],
-            ['name', 'each', 'rule' => ['string']],
+            [['name'], 'each', 'rule' => ['string']],
         	// ['name', 'in', 'range' => self::getSystemRoles(), 'allowArray' => true],
 
             [['ci'], 'unique'],
-            [['id_estatus', 'id_gerencia'], 'default', 'value' => null],
-            [['id_estatus', 'id_gerencia' ], 'integer'],
-            //[['id_gerencia' ], 'required'],
+            [['id_estatus'], 'default', 'value' => null],
+            [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'exist', 'skipOnError' => true, 'targetClass' => AuthItem::class, 'targetAttribute' => ['name' => 'name']],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
             [['ci'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::class, 'targetAttribute' => ['ci' => 'ci']],
-            //[['id_roles'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::class, 'targetAttribute' => ['id_roles' => 'id_roles']],
-            //[['ci'], 'integer', 'min' => 500000, 'max' =>99999999, 'message' => 'La cedula debe ser un numero entero'],
             [['ci'], 'required','message' => 'La cedula es requerida'],
             [['ci'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe iniciar con V o E y tener 8 dígitos.'],
-            ['nombre', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
-            ['apellido', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
-            ['email', 'match', 'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', 'message' => 'Correo electrónico no válido.'],
             [['ci'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],
 
         ];
     }
     public $name;
+    //public $roles = [];
     /**
      * {@inheritdoc}
      */
@@ -94,7 +89,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             'password' => 'Contraseña',
             'nombre' => 'Nombre',
             'apellido' => 'Apellido',
-            'email' => 'Email',
+            'correo' => 'Correo',
             'id_estatus' => 'Estatus',
             'id_gerencia' => 'Gerencia',
             //'id_roles' => 'Roles',
@@ -214,69 +209,43 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
 
     public static function getRoles()
-    {
-        $auth = Yii::$app->authManager;
-        $roles = $auth->getRoles();
-        // $roles debe transformarse en un array valido para ArrayDataProvider
-        //$aRoles = [];
-        $list = [];
+{
+    $auth = Yii::$app->authManager;
+    $roles = $auth->getRoles();
+    // $roles debe transformarse en un array valido para ArrayDataProvider
+    //$aRoles = [];
+    $list = [];
 
-        foreach ($roles as $key => $val) {
-            $list[] = $val;
-        }
-        return $list;
+    foreach ($roles as $key => $val) {
+        $list[] = $val;
     }
+    return $list;
+}
 
-    public function getSystemRoles()
-    {
-        $auth = Yii::$app->authManager;
-    	$roles = $auth->getRoles();
-        $list = [];
-        foreach ($roles as $rol) {
-            $list[] = $rol->name;
-        }
-        return $list;
+public function getSystemRoles()
+{
+    $auth = Yii::$app->authManager;
+    $roles = $auth->getRoles();
+    $list = [];
+    foreach ($roles as $rol) {
+        $list[] = $rol->name;
     }
+    return $list;
+}
 
-    public function getUserRoles()
-    {
-        // Obtiene los roles del usuario
-        $auth = Yii::$app->authManager;
-        $roleSelect = $auth->getRolesByUser($this->id_usuario);
-        $listRoles = [];
-        foreach ($roleSelect as $rol) {
-            $listRoles[] = $rol->name;
-    	}
-        $this->name = $listRoles;
+public function getUserRoles()
+{
+    // Obtiene los roles del usuario
+    $auth = Yii::$app->authManager;
+    $roleSelect = $auth->getRolesByUser($this->id_usuario);
+    $listRoles = [];
+    foreach ($roleSelect as $rol) {
+        $listRoles[] = $rol->name;
     }
+    return $listRoles;
+}
 
-    /*public function getRoleList()
-    {
-        $auth = Yii::$app->authManager;
-        $idUsu = Yii::$app->user->identity->id;
-    	$userRoles = $auth->getRolesByUser($idUsu);
-
-        $list = [];
-
-        foreach (self::getSystemRoles() as $role) {
-            if (ArrayHelper::keyExists('root', $userRoles, false)) {
-                $list[$role] = $role;
-            } else {
-                // Oculta roles 
-                if ($role == 'root') {
-                        continue;
-                } elseif ($role == 'admin') {
-                    if( !(ArrayHelper::keyExists('admin', $userRoles, false)) ) {
-                        continue;
-                    }
-                }
-                $list[$role] = $role;
-            }
-        }
-    	return $list;
-    }*/
-
-    public function getRoleList()
+public function getRoleList()
 {
     $auth = Yii::$app->authManager;
     $idUsu = Yii::$app->user->identity->id;

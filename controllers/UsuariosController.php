@@ -78,6 +78,7 @@ class UsuariosController extends Controller
             'model' => $this->findModel($id_usuario),
         ]);
     }
+    
 
     /**
      * Creates a new Usuarios model.
@@ -133,20 +134,6 @@ class UsuariosController extends Controller
         ]);
     }
 
-    public function actionBuscarPorCi()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $ci = Yii::$app->request->post('ci');
-
-        $personal = Personal::findOne(['ci' => $ci]);
-
-        if ($personal) {
-            return ['success' => true, 'data' => $personal->attributes];
-        } else {
-            return ['success' => false, 'message' => 'No se encontró personal con esa cédula.'];
-        }
-    }
-
     /**
      * Updates an existing Usuarios model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -154,31 +141,6 @@ class UsuariosController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    /*public function actionUpdate($id_usuario)
-    {
-        $model = $this->findModel($id_usuario);
-
-        // Selecciona roles del ususario
-        $model->getUserRoles();
-
-        if ($model->load($this->request->post()) && $model->save()) {
-            
-            $auth = Yii::$app->authManager;
-            $auth->revokeAll($model->id_usuario);
-            // Obtiene todos los roles seleccionados y los recorre en ciclo for.
-            foreach ($model->name as $rol) {
-                $role = $auth->getRole($rol);
-                $auth->assign($role, $model->id_usuario);
-            }
-
-            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
-            return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }*/
 
     public function actionUpdate($id_usuario)
 {
@@ -259,5 +221,29 @@ class UsuariosController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    //Funion paravalidar la cedula en el campo de busqueda del formulario.
+    public function actionValidarCedula()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            $cedula = Yii::$app->request->post('search');
+
+            // Validación básica de la cédula (puedes agregar más validaciones)
+            if (!is_numeric($cedula)) {
+                return ['error' => 'La cédula debe ser un número'];
+            }
+
+            $modelPersonal = new Personal();
+            $datosPersona = $modelPersonal->buscarInformacionPersona($cedula);
+
+            if ($datosPersona) {
+                return $datosPersona;
+            } else {
+                return ['error' => 'Datos no encontrados. Por favor, registre al personal.'];
+            }
+        }
     }
 }

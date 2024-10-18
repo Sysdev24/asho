@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+
 
 /** @var yii\web\View $this */
 /** @var app\models\Roles $model */
@@ -69,10 +71,8 @@ $this->title = 'Agregar permisos a rol ' . $model->name;
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
 
-        <?= Html::a(
-            '<i class="fas fa-reply me-1"></i> ' . Yii::t('app', 'Atrás'),
-            Yii::$app->request->referrer, ['class'=>'btn btn-secondary']
-        ) ?>
+         <!-- BOTON DE VOLVER-->
+    <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

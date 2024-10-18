@@ -49,6 +49,16 @@ $this->title = $model->username;
                     'placeholder' => 'Busqueda',
                 ],
             ],
+
+                        
+            [   
+                'attribute' => 'personal.cargo.descripcion',
+                'label' => 'Cargo',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
+            ],
             
             [
                 'attribute' => 'personal.gerencia.descripcion',
@@ -59,7 +69,7 @@ $this->title = $model->username;
                 ],
             ],
             [   
-                'attribute' => 'personal.email',
+                'attribute' => 'personal.correo',
                 'label' => 'Correo',
                 'filterInputOptions' => [
                     'class' => 'form-control',
@@ -67,20 +77,35 @@ $this->title = $model->username;
                 ],
             ],
            
+
+             
             [   
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',
                 'value' => function($model){
                     return   $model->estatus->descripcion;},
             ],
-            /*[   
-                'attribute' => 'name',
-                'label' => 'Rol',
-                'value' => function($model){
-                    return   $model->getRoles->name;},
+            /*[
+                'attribute' => 'roles',
+                'label' => 'Roles',
+                'value' => function ($model) {
+                    $roles = [];
+                    foreach ($model->getRoles() as $role) {
+                        $roles[] = $role->name;
+                    }
+                    return implode(', ', $roles);
+                },
             ],*/
 
-            'name',
+            [
+                'attribute' => 'roles',
+                'label' => 'Roles',
+                'value' => function ($model) {
+                    return implode(', ', $model->getUserRoles());
+                },
+            ],
+
+            
 
         ],
     ]) ?>
