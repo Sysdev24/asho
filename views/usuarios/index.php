@@ -7,6 +7,8 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use app\models\Estatus;
+use app\models\Personal;
+
 
 /** @var yii\web\View $this */
 /** @var app\models\UsuariosSearch $searchModel */
@@ -42,18 +44,11 @@ $this->title = 'Usuario';
             'header' => 'Nº', //Para que no aparezca el # sino la letra que se requiera],
             'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
             ], 
-
-            [
-                'attribute' => 'personal.nacionalidad',
-                'label' => 'Nombre',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-            ],
+            
             [   
                 'attribute' => 'ci',
                 'label' => 'Cedula',
+                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -63,28 +58,34 @@ $this->title = 'Usuario';
             [   
                 'attribute' => 'username',
                 'label' => 'Usuario',
+                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
                 ],
             ],
+
 
             [
                 'attribute' => 'personal.nombre',
                 'label' => 'Nombre',
-                'filterInputOptions' => [
+                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'value' => array($searchModel, 'buscarNombre'),
+                'filter' => Html::activeTextInput($searchModel, 'nombre', [
                     'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
+                    'placeholder' => 'Buscar nombre',
+                ]),
             ],
 
-            [   
+            [
                 'attribute' => 'personal.apellido',
-                'label' => 'Apellido',
-                'filterInputOptions' => [
+                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'value' => array($searchModel, 'buscarApellido'),
+                'filter' => 
+                Html::activeTextInput($searchModel, 'apellido', [
                     'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
+                    'placeholder' => 'Buscar apellido',
+                ]),
             ],
 
            /* [
@@ -108,16 +109,6 @@ $this->title = 'Usuario';
                 'contentOptions' => ['class' => 'col-lg-03 text-center'],
 
             ],
-
-            [
-                'attribute' => 'personal.gerencia.descripcion',
-                'label' => 'Gerencia',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-            ],
-
            /* [   
                 'attribute' => 'name',
                 'label' => 'Roles',

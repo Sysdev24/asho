@@ -58,7 +58,7 @@ class Personal extends \yii\db\ActiveRecord
         return [
             [['ci'], 'required'],
             [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'default', 'value' => null],
-            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo','nacionalidad', 'correo'], 'integer'],
+            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
             [['nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'required'],
             [['nombre', 'apellido', 'nacionalidad', 'telefono'], 'string'],
             [['nombre', 'apellido', 'telefono', 'nacionalidad'], 'required'],
@@ -73,7 +73,6 @@ class Personal extends \yii\db\ActiveRecord
             ['telefono', 'match', 'pattern' => '/^\+?[0-9]{1,4}?[-. ]?(\(?\d{1,3}?\)?[-. ]?)?\d{1,4}[-. ]?\d{1,4}[-. ]?\d{1,9}$/', 'message' => 'Número de teléfono no válido.'],
             //[['telefono'], 'match', 'pattern' => '/^0[0-9]\d{2}-\d{7}$/'], //Formato 0000-0000000
             [['fecha_nac'], 'date', 'format' => 'yyyy-MM-dd'], // Asegurar formato fecha
-            [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
 
         ];
     }

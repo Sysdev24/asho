@@ -31,3 +31,10 @@ tests/_support/_generated
 
 #vagrant folder
 /.vagrant
+
+# Directorios a ignorar
+web/assets/
+
+
+# Archivos a ignorar
+config/params.php

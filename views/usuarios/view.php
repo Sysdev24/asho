@@ -23,7 +23,7 @@ $this->title = $model->username;
 
             [
                 'attribute' => 'personal.nacionalidad',
-                'label' => 'Nombre',
+                'label' => 'Nacionalidad',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',

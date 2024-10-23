@@ -27,6 +27,16 @@ $this->title = 'Clasificacion de Accidente';
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'options' => ['class'=> 'pagination'],
+            'firstPageCssClass' => 'page-item',
+            'lastPageCssClass' => 'page-item', 
+            'nextPageCssClass' => 'page-item',
+            'prevPageCssClass' => 'page-item',
+            'pageCssClass' => 'page-item',
+            'disabledPageCssClass' => 'disabled d-none',
+            'linkOptions' => ['style' => 'text-decoration: none;', 'class' => 'page-link'],
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',
             'header' => 'Nº', //Para que no aparezca el # sino la letra que se requiera],

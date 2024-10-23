@@ -16,6 +16,8 @@ use yii\helpers\Url;
 ?>
 
 <div class="usuarios-form">
+
+<?php $form = ActiveForm::begin(); ?>
         <br>
         <div class="input-group mb-3">
         <input type="text" class="form-control" style="width: 150px;" id="searchCedula" name="searchCedula" pattern="[0-9]{8}" required placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -51,10 +53,6 @@ use yii\helpers\Url;
         </div>
     </div>
 
-
-
-    <?php $form = ActiveForm::begin(); ?>
-
     <?= $form->field($model, 'username')->textInput(['placeholder'=>'Ejemplo: A1234567']) ?>
 
     <?= $form->field($model, 'password')->passwordInput(['placeholder'=>'escriba su contraseña']) ?>
@@ -89,6 +87,15 @@ use yii\helpers\Url;
         //Validando cedula
 
         "
+
+            // Verificar si estamos en modo edición (ajusta según tu lógica)
+            // var isUpdateMode = $('#ci').val() !== '';
+
+            // if (isUpdateMode) {
+            // $('#searchCedula').hide();
+            // $('#boton-validar-cedula').hide();
+            // }
+
             $('#boton-validar-cedula').on('click', function(e) {
                 e.preventDefault();
 
@@ -108,7 +115,7 @@ use yii\helpers\Url;
                 $('div.container-resp-ajax div.tabla-datos').addClass('d-none');
 
 
-                $('#personal-icedula').val('');
+                $('#usuarios-ci').val('');
 
 
                 $.ajax({
@@ -138,10 +145,6 @@ use yii\helpers\Url;
 
 
                 })
-
-
-
-
 
 
                 .fail(function() {
@@ -180,19 +183,6 @@ use yii\helpers\Url;
     );
 
 
-        // $this->registerJs(
-                    
-        //     //Ocultar formulario de busqueda de cedula en caso de actualizacion
 
-        //     "
-        //        if( $('#personal-ci').val() != ''){
-        //             $('#form-validarCedula').hide();
-        //        }
-            
-        //     ", //codigo  js en linea
-
-        //     View::POS_READY , //View::POS_READY, //ubicacion de ejecucion
-        //     'no_mostrar_form_busqueda_cedula_update' //id del js
-        // );
 ?>
 

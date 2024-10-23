@@ -5,12 +5,18 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Usuarios;
+use yii\db\Expression;
+
 
 /**
  * UsuariosSearch represents the model behind the search form of `app\models\Usuarios`.
  */
 class UsuariosSearch extends Usuarios
 {
+
+    public $nombre;
+    public $apellido;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +24,7 @@ class UsuariosSearch extends Usuarios
     {
         return [
             [['id_usuario', 'ci', 'id_estatus'], 'integer'],
-            [['username', 'password', 'created_at', 'updated_at', 'authKey', 'accesstoken', 'name', 'nacionalidad'], 'safe'],
+            [['username', 'password', 'created_at', 'updated_at', 'authKey', 'accesstoken', 'name', 'nacionalidad', 'item_name', 'nombre', 'apellido', 'gerencia'], 'safe'],
         ];
     }
 
@@ -38,6 +44,24 @@ class UsuariosSearch extends Usuarios
             $content = $modelbuscar->descripcion;
             return $content;
         }
+
+        public function buscarNombre($data, $id){
+            $modelbuscar = Personal::findOne($data->ci);
+            $content = $modelbuscar->nombre;
+            return $content;
+        }
+
+        public function buscarApellido($data, $id){
+            $modelbuscar = Personal::findOne($data->ci);
+            $content = $modelbuscar->apellido;
+            return $content;
+        }
+
+        public function buscarNacionalidad($data, $id){
+            $modelbuscar = Personal::findOne($data->ci);
+            $content = $modelbuscar->nacionalidad;
+            return $content;
+        }
     /**
      * Creates data provider instance with search query applied
      *
@@ -48,6 +72,8 @@ class UsuariosSearch extends Usuarios
     public function search($params)
     {
         $query = Usuarios::find();
+
+        $query->joinWith('personal');
 
         // add conditions that should always apply here
 
@@ -69,6 +95,7 @@ class UsuariosSearch extends Usuarios
             'id_estatus' => $this->id_estatus,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            // 'nacionalidad' => $this->nacionalidad,
             //'name' => $this->name,
 
         ]);
@@ -78,6 +105,9 @@ class UsuariosSearch extends Usuarios
         ->andFilterWhere(['ilike', 'authKey', $this->authKey])
         ->andFilterWhere(['ilike', 'accesstoken', $this->accesstoken])
         ->andFilterWhere(['ilike', 'name', $this->name])
+        ->andFilterWhere(['ilike', 'item_name', $this->item_name])
+        ->andFilterWhere(['ilike', 'nombre', $this->nombre])
+        ->andFilterWhere(['ilike', 'apellido', $this->apellido])
         ->andFilterWhere(['ilike', 'nacionalidad', $this->nacionalidad]);
 
         return $dataProvider;

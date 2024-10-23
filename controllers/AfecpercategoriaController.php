@@ -21,32 +21,32 @@ class AfecpercategoriaController extends Controller
      * @inheritDoc
      */
     //    public function behaviors()
-//     {
-//         return array_merge(
-//             parent::behaviors(),
-//             [
-//                 'verbs' => [
-//                     'class' => VerbFilter::class,
-//                     'actions' => [
-//                         'delete' => ['POST'],
-//                     ],
-//                 ],
-//                 'access' => [
-//                     'class' => AccessControl::class,
-//                     'only' => [
-//                         'index', 'create', 'update', 'delete', 'permisos',
-//                     ], 
-//                     'rules' => [
-//                         ['actions' => ['index'], 'allow' => true, 'afectacionbienesprocesos' => ['afecpercategoria/index']],
-//                         ['actions' => ['create'], 'allow' => true, 'afectacionbienesprocesos' => ['afecpercategoria/create']],
-//                         ['actions' => ['update'], 'allow' => true, 'afectacionbienesprocesos' => ['afecpercategoria/update']],
-//                         ['actions' => ['delete'], 'allow' => true, 'afectacionbienesprocesos' => ['afecpercategoria/delete']],
-//                         ['actions' => ['permisos'], 'allow' => true, 'afectacionbienesprocesos' => ['afecpercategoria/permisos']],
-//                     ]
-//                 ]
-//             ]
-//         );
-//     }
+    // {
+    //     return array_merge(
+    //         parent::behaviors(),
+    //         [
+    //             'verbs' => [
+    //                 'class' => VerbFilter::class,
+    //                 'actions' => [
+    //                     'delete' => ['POST'],
+    //                 ],
+    //             ],
+    //             'access' => [
+    //                 'class' => AccessControl::class,
+    //                 'only' => [
+    //                     'index', 'create', 'update', 'delete', 'permisos',
+    //                 ], 
+    //                 'rules' => [
+    //                     ['actions' => ['index'], 'allow' => true, 'afecpercategoria' => ['afecpercategoria/index']],
+    //                     ['actions' => ['create'], 'allow' => true, 'afecpercategoria' => ['afecpercategoria/create']],
+    //                     ['actions' => ['update'], 'allow' => true, 'afecpercategoria' => ['afecpercategoria/update']],
+    //                     ['actions' => ['delete'], 'allow' => true, 'afecpercategoria' => ['afecpercategoria/delete']],
+    //                     ['actions' => ['permisos'], 'allow' => true, 'afecpercategoria' => ['afecpercategoria/permisos']],
+    //                 ]
+    //             ]
+    //         ]
+    //     );
+    // }
 
     /**
      * Lists all AfecPerCategoria models.
@@ -77,7 +77,7 @@ class AfecpercategoriaController extends Controller
         ]);
     }
 
-    /**
+/**
      * Creates a new AfecPerCategoria model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
@@ -95,28 +95,14 @@ class AfecpercategoriaController extends Controller
         if($model->save()) {
             $model->parent_path = $parent->parent_path . $model->id . '/';
             $model->save();
-            // MESSAGE
-            Yii::$app->getSession()->setFlash('success', [
-                [
-                    'type' => 'toast',
-                    'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
-                    'message' => Yii::t('app', 'The record has been saved successfully.'),
-                ]
-            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
-            // MESSAGE
-            Yii::$app->getSession()->setFlash('error', [
-                [
-                    'type' => 'toast',
-                    'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
-                    'message' => Yii::t('app', 'The record could not be saved.'),
-                ]
-            ]);
             if (YII_ENV_DEV) {
                 Yii::$app->getSession()->setFlash('warning', [
                     [
                         'type' => 'toast',
-                        'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
+                        'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'AfecPerCategoria')]) . ':',
                         'message' => $this->listErrors($model->getErrors()),
                     ]
                 ]);
@@ -128,6 +114,7 @@ class AfecpercategoriaController extends Controller
         'model' => $model,
     ]);
 }
+
 
     /**
      * Updates an existing AfecPerCategoria model.
@@ -146,28 +133,13 @@ class AfecpercategoriaController extends Controller
         $model->complete_name = $parent->complete_name . ' / ' . $model->name;
         $model->parent_path = $parent->parent_path . $model->id . '/';
         if($model->save()) {
-            // MESSAGE
-            Yii::$app->getSession()->setFlash('success', [
-                [
-                    'type' => 'toast',
-                    'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
-                    'message' => Yii::t('app', 'The record has been updated successfully.'),
-                ]
-            ]);
+            return $this->redirect(['index', 'id' => $model->id]);
         } else {
-            // MESSAGE
-            Yii::$app->getSession()->setFlash('error', [
-                [
-                    'type' => 'toast',
-                    'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
-                    'message' => Yii::t('app', 'The record could not be updated.'),
-                ]
-            ]);
             if (YII_ENV_DEV) {
                 Yii::$app->getSession()->setFlash('warning', [
                     [
                         'type' => 'toast',
-                        'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Product Category')]) . ':',
+                        'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'AfecPerCategoria')]) . ':',
                         'message' => $this->listErrors($model->getErrors()),
                     ]
                 ]);
@@ -179,6 +151,7 @@ class AfecpercategoriaController extends Controller
         'model' => $model,
     ]);
 }
+
 
     /**
      * Deletes an existing AfecPerCategoria model.

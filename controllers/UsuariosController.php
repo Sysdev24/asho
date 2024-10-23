@@ -91,13 +91,6 @@ class UsuariosController extends Controller
         $model->scenario = Usuarios::SCENARIO_CREATE;
     
         if ($model->load($this->request->post())) {
-            // Validación: Verificar si se seleccionó al menos un rol
-            if (empty($model->name)) {
-                Yii::$app->session->setFlash('error', 'Debe seleccionar al menos un rol para el usuario.');
-                return $this->render('create', [
-                    'model' => $model,
-                ]);
-            }
     
             // Si la validación pasa, inicia una transacción
             $transaction = Yii::$app->db->beginTransaction();
@@ -115,9 +108,6 @@ class UsuariosController extends Controller
                     $transaction->rollBack();
                     // Manejar el error si el modelo no se guarda
                     Yii::$app->session->setFlash('error', 'Error al guardar el usuario.');
-                    return $this->render('create', [
-                        'model' => $model,
-                    ]);
                 }
             } catch (\Exception $e) {
                 $transaction->rollBack();
@@ -143,53 +133,53 @@ class UsuariosController extends Controller
      */
 
     public function actionUpdate($id_usuario)
-{
-    $model = $this->findModel($id_usuario);
+    {
+        $model = $this->findModel($id_usuario);
 
-    // Selecciona roles del usuario
-    $model->getUserRoles();
+        // Selecciona roles del usuario
+        $model->getUserRoles();
 
-    if ($model->load($this->request->post())) {
-        // Iniciar transacción
-        $transaction = Yii::$app->db->beginTransaction();
-        try {
-            // Verificar si hay roles seleccionados
-            if (is_array($model->name) && count($model->name) > 0) {
-                // Revocar todos los roles actuales
-                $auth = Yii::$app->authManager;
-                $auth->revokeAll($model->id_usuario);
+        if ($model->load($this->request->post())) {
+            // Iniciar transacción
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                // Verificar si hay roles seleccionados
+                if (is_array($model->name) && count($model->name) > 0) {
+                    // Revocar todos los roles actuales
+                    $auth = Yii::$app->authManager;
+                    $auth->revokeAll($model->id_usuario);
 
-                // Asignar los nuevos roles
-                foreach ($model->name as $rol) {
-                    $role = $auth->getRole($rol);
-                    $auth->assign($role, $model->id_usuario);
-                }
+                    // Asignar los nuevos roles
+                    foreach ($model->name as $rol) {
+                        $role = $auth->getRole($rol);
+                        $auth->assign($role, $model->id_usuario);
+                    }
 
-                if ($model->save()) {
-                    $transaction->commit();
-                    Yii::$app->session->setFlash('success', 'Actualización exitosa.');
-                    return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
+                    if ($model->save()) {
+                        $transaction->commit();
+                        Yii::$app->session->setFlash('success', 'Actualización exitosa.');
+                        return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
+                    } else {
+                        $transaction->rollBack();
+                        Yii::$app->session->setFlash('error', 'Error al actualizar el usuario.');
+                        return $this->render('update', ['model' => $model]);
+                    }
                 } else {
                     $transaction->rollBack();
-                    Yii::$app->session->setFlash('error', 'Error al actualizar el usuario.');
+                    Yii::$app->session->setFlash('error', 'Debe seleccionar al menos un rol para el usuario.');
                     return $this->render('update', ['model' => $model]);
                 }
-            } else {
+            } catch (yii\db\Exception $e) {
                 $transaction->rollBack();
-                Yii::$app->session->setFlash('error', 'Debe seleccionar al menos un rol para el usuario.');
-                return $this->render('update', ['model' => $model]);
+                Yii::error($e);
+                throw $e;
             }
-        } catch (yii\db\Exception $e) {
-            $transaction->rollBack();
-            Yii::error($e);
-            throw $e;
         }
-    }
 
-    return $this->render('update', [
-        'model' => $model,
-    ]);
-}
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
 
 
 

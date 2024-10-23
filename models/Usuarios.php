@@ -57,7 +57,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     {
         return [
             [['username', 'password'], 'string'],
-            [['username', 'password', 'authKey', 'accesstoken', 'name', 'nacionalidad'], 'string'],
+            [['username', 'password', 'authKey', 'accesstoken', 'nacionalidad'], 'string'],
             [['name'], 'each', 'rule' => ['string']],
         	// ['name', 'in', 'range' => self::getSystemRoles(), 'allowArray' => true],
 
@@ -65,12 +65,12 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'exist', 'skipOnError' => true, 'targetClass' => AuthItem::class, 'targetAttribute' => ['name' => 'name']],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
-            [['ci'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::class, 'targetAttribute' => ['ci' => 'ci']],
+            ['ci', 'exist', 'skipOnError' => false, 'targetClass' => Personal::className(), 'targetAttribute' => ['ci' => 'ci'], 'message' => 'El usuario debe estar registrado como personal.'],
             [['ci'], 'required','message' => 'La cedula es requerida'],
-            [['ci'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe iniciar con V o E y tener 8 dígitos.'],
+            [['name'], 'required'],
+            [['ci'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
             [['ci'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],
 
         ];
@@ -157,6 +157,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         return $this->hasOne(Personal::className(), ['ci' => 'ci']);
     }
 
+
     /**
      * Gets query for [[Estatus]].
      *
@@ -209,18 +210,18 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
 
     public static function getRoles()
-{
-    $auth = Yii::$app->authManager;
-    $roles = $auth->getRoles();
-    // $roles debe transformarse en un array valido para ArrayDataProvider
-    //$aRoles = [];
-    $list = [];
+    {
+        $auth = Yii::$app->authManager;
+        $roles = $auth->getRoles();
+        // $roles debe transformarse en un array valido para ArrayDataProvider
+        //$aRoles = [];
+        $list = [];
 
-    foreach ($roles as $key => $val) {
-        $list[] = $val;
+        foreach ($roles as $key => $val) {
+            $list[] = $val;
+        }
+        return $list;
     }
-    return $list;
-}
 
 public function getSystemRoles()
 {
@@ -251,14 +252,9 @@ public function getRoleList()
     $idUsu = Yii::$app->user->identity->id;
     $userRoles = $auth->getRolesByUser($idUsu);
 
-    $rolesModel = new RbacForm(); // Asume que tienes un modelo Roles para obtener todos los roles
-    $allRoles = $rolesModel->find()->all(); // Obtiene todos los roles de la base de datos
-
     $list = [];
-    foreach ($allRoles as $role) {
-        if (ArrayHelper::keyExists($role->name, $userRoles, false)) {
-            $list[$role->name] = $role->name;
-        }
+    foreach (self::getSystemRoles() as $role) {
+        $list[$role] = $role;
     }
 
     return $list;

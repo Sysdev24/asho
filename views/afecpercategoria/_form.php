@@ -16,23 +16,23 @@ use yii\helpers\Url;
 <div class="afec-per-categoria-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    
     <div class="row">
 
     <?= $form->field($model, 'parent_id', [
         'inputOptions' => ['placeholder' => $model->getAttributeLabel('parent_id')]
-    ])->dropDownList
-    (ArrayHelper::map(AfecPerCategoria::find()->all(),'parent_id','name'), [
+    ])->dropdownList(\app\models\AfecPerCategoria::getProductCategoryParentArrayList($model->id), [
         'prompt' => Yii::t('app', 'Select...'),
         'class' => 'custom-select',
     ]) ?>
-    
 
     <?= $form->field($model, 'name', [
         'inputOptions'=>['placeholder'=>$model->getAttributeLabel('name')]
     ])->textInput(['maxlength' => true]) ?>
 
-    </div>
+</div>
+
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList
     (ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
