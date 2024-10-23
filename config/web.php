@@ -53,12 +53,17 @@ $config = [
         
         'db' => $db,
         
-       /** 'urlManager' => [
+     
+        'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ],
-        ],*/
+        ],
+    
 
         /*'defaultRoute' => 'site/login',*/
         
