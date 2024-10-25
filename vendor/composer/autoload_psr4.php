@@ -21,7 +21,6 @@ return array(
     'kartik\\mpdf\\' => array($vendorDir . '/kartik-v/yii2-mpdf/src'),
     'kartik\\grid\\' => array($vendorDir . '/kartik-v/yii2-grid/src'),
     'kartik\\dialog\\' => array($vendorDir . '/kartik-v/yii2-dialog/src'),
-    'kartik\\date\\' => array($vendorDir . '/kartik-v/yii2-widget-datepicker/src'),
     'kartik\\base\\' => array($vendorDir . '/kartik-v/yii2-krajee-base/src'),
     'dosamigos\\arrayquery\\' => array($vendorDir . '/2amigos/yii2-arrayquery-component/src'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),

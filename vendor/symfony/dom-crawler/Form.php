@@ -121,7 +121,7 @@ class Form extends Link implements \ArrayAccess
         $values = [];
         foreach ($this->getValues() as $name => $value) {
             $qs = http_build_query([$name => $value], '', '&');
-            if ($qs) {
+            if (!empty($qs)) {
                 parse_str($qs, $expandedValue);
                 $varName = substr($name, 0, \strlen(key($expandedValue)));
                 $values[] = [$varName => current($expandedValue)];
@@ -146,7 +146,7 @@ class Form extends Link implements \ArrayAccess
         $values = [];
         foreach ($this->getFiles() as $name => $value) {
             $qs = http_build_query([$name => $value], '', '&');
-            if ($qs) {
+            if (!empty($qs)) {
                 parse_str($qs, $expandedValue);
                 $varName = substr($name, 0, \strlen(key($expandedValue)));
 
@@ -245,8 +245,10 @@ class Form extends Link implements \ArrayAccess
 
     /**
      * Removes a field from the form.
+     *
+     * @return void
      */
-    public function remove(string $name): void
+    public function remove(string $name)
     {
         $this->fields->remove($name);
     }
@@ -265,8 +267,10 @@ class Form extends Link implements \ArrayAccess
 
     /**
      * Sets a named field.
+     *
+     * @return void
      */
-    public function set(FormField $field): void
+    public function set(FormField $field)
     {
         $this->fields->add($field);
     }
@@ -336,7 +340,7 @@ class Form extends Link implements \ArrayAccess
     public function disableValidation(): static
     {
         foreach ($this->fields->all() as $field) {
-            if ($field instanceof ChoiceFormField) {
+            if ($field instanceof Field\ChoiceFormField) {
                 $field->disableValidation();
             }
         }
@@ -349,9 +353,11 @@ class Form extends Link implements \ArrayAccess
      *
      * Expects a 'submit' button \DOMElement and finds the corresponding form element, or the form element itself.
      *
+     * @return void
+     *
      * @throws \LogicException If given node is not a button or input or does not have a form ancestor
      */
-    protected function setNode(\DOMElement $node): void
+    protected function setNode(\DOMElement $node)
     {
         $this->button = $node;
         if ('button' === $node->nodeName || ('input' === $node->nodeName && \in_array(strtolower($node->getAttribute('type')), ['submit', 'button', 'image']))) {
@@ -444,14 +450,14 @@ class Form extends Link implements \ArrayAccess
 
         $nodeName = $node->nodeName;
         if ('select' == $nodeName || 'input' == $nodeName && 'checkbox' == strtolower($node->getAttribute('type'))) {
-            $this->set(new ChoiceFormField($node));
+            $this->set(new Field\ChoiceFormField($node));
         } elseif ('input' == $nodeName && 'radio' == strtolower($node->getAttribute('type'))) {
             // there may be other fields with the same name that are no choice
             // fields already registered (see https://github.com/symfony/symfony/issues/11689)
             if ($this->has($node->getAttribute('name')) && $this->get($node->getAttribute('name')) instanceof ChoiceFormField) {
                 $this->get($node->getAttribute('name'))->addChoice($node);
             } else {
-                $this->set(new ChoiceFormField($node));
+                $this->set(new Field\ChoiceFormField($node));
             }
         } elseif ('input' == $nodeName && 'file' == strtolower($node->getAttribute('type'))) {
             $this->set(new Field\FileFormField($node));

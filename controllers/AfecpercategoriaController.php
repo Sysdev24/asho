@@ -9,7 +9,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\components\Notify;
 
 
 /**
@@ -82,29 +81,51 @@ class AfecpercategoriaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+public function actionCreate()
 {
     $model = new AfecPerCategoria();
 
     if ($model->load(Yii::$app->request->post())) {
-        // Set values
-        $parent = AfecPerCategoria::findOne($model->parent_id);
-        $model->complete_name = $parent->complete_name . ' / ' . $model->name;
-        $model->parent_path = $parent->parent_path . $model->id . '/';
+        if ($model->parent_id) {
+            // Obtener el padre
+            $parent = AfecPerCategoria::findOne($model->parent_id);
+            if ($parent) {
+                // Obtener el último hijo del mismo padre
+                $lastChild = AfecPerCategoria::find()
+                    ->where(['parent_id' => $model->parent_id])
+                    ->orderBy(['id' => SORT_DESC])
+                    ->one();
 
-        if($model->save()) {
-            $model->parent_path = $parent->parent_path . $model->id . '/';
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+                $newParentPath = $parent->parent_path . (($lastChild) ? $lastChild->id + 1 : $model->parent_id + 1) . '/';
 
+                // Establecer valores para el nuevo modelo
+                $model->complete_name = $parent->complete_name . ' / ' . $model->name;
+                $model->parent_path = $newParentPath;
+            }
         } else {
+            // Si no hay padre, es un nodo raíz
+            $lastRoot = AfecPerCategoria::find()
+                ->where(['parent_id' => null])
+                ->orderBy(['id' => SORT_DESC])
+                ->one();
+
+            $newParentPath = $lastRoot ? ($lastRoot->id + 1) . '/' : '1/';
+            $model->complete_name = $model->name;
+            $model->parent_path = $newParentPath;
+        }
+
+        // Guardar el modelo
+        if ($model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Se ha creado exitosamente.');
+            return $this->redirect(['index', 'id' => $model->id]);
+        } else {
+            Yii::$app->getSession()->setFlash('error', 'success', 'Ha habido un error.');
+
             if (YII_ENV_DEV) {
                 Yii::$app->getSession()->setFlash('warning', [
-                    [
-                        'type' => 'toast',
-                        'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'AfecPerCategoria')]) . ':',
-                        'message' => $this->listErrors($model->getErrors()),
-                    ]
+                    'type' => 'toast',
+                    'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'Afectación persona')]) . ':',
+                    'message' => $this->listErrors($model->getErrors()),
                 ]);
             }
         }
@@ -116,6 +137,7 @@ class AfecpercategoriaController extends Controller
 }
 
 
+
     /**
      * Updates an existing AfecPerCategoria model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -124,33 +146,38 @@ class AfecpercategoriaController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
-{
-    $model = $this->findModel($id);
+    {
+        $model = $this->findModel($id);
 
-    if ($model->load(Yii::$app->request->post())) {
-        // Set values
-        $parent = AfecPerCategoria::findOne($model->parent_id);
-        $model->complete_name = $parent->complete_name . ' / ' . $model->name;
-        $model->parent_path = $parent->parent_path . $model->id . '/';
-        if($model->save()) {
-            return $this->redirect(['index', 'id' => $model->id]);
-        } else {
-            if (YII_ENV_DEV) {
-                Yii::$app->getSession()->setFlash('warning', [
-                    [
-                        'type' => 'toast',
-                        'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'AfecPerCategoria')]) . ':',
-                        'message' => $this->listErrors($model->getErrors()),
-                    ]
-                ]);
+        if ($model->load(Yii::$app->request->post())) {
+            // Set values
+            $parent = AfecPerCategoria::findOne($model->parent_id);
+            $model->complete_name = $parent->complete_name . ' / ' . $model->name;
+            $model->parent_path = $parent->parent_path . $model->id . '/';
+            if($model->save()) {
+                        return $this->redirect(['index', 'id' => $model->id]);
+                // MESSAGE
+                Yii::$app->getSession()->setFlash('success', 'Se ha actualizado exitosamente.');
+            } else {
+                // MESSAGE
+                Yii::$app->getSession()->setFlash('error', 'success', 'Ha habido un error.');
+                if (YII_ENV_DEV) {
+                    Yii::$app->getSession()->setFlash('warning', [
+                        [
+                            'type' => 'toast',
+                            'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Afectación persona')]) . ':',
+                            'message' => $this->listErrors($model->getErrors()),
+                        ]
+                    ]);
+                }
+                
             }
         }
-    }
 
-    return $this->render('update', [
-        'model' => $model,
-    ]);
-}
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
 
 
     /**

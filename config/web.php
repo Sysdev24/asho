@@ -53,7 +53,8 @@ $config = [
         
         'db' => $db,
         
-     
+        
+        //URL limpias
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -76,25 +77,6 @@ $config = [
         ],
         
     ],
-        
-    //     'as access' => [
-    // 'class' => \yii\filters\AccessControl::className(),
-    // 'rules' => [
-    //     [
-    //         'actions' => ['login', 'error'],
-    //         'allow' => true,
-    //     ],
-    //     [
-    //         'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'area', 'naturaleza',
-    //                         'create-area', 'create-naturaleza', 'update-area', 'update-naturaleza',
-    //                         'delete-area', 'delete-naturaleza', ], // Agrega todas las acciones que requieren autenticación
-    //         'allow' => true,
-    //         'roles' => ['@'], // Requiere que el usuario esté autenticado
-    //     ],
-    // ],
-    // 'except' => ['debug/*'], // Excluye el módulo de debug de las reglas de acceso
-    // ],
-        
 
     'params' => $params,
 ];

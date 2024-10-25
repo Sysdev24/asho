@@ -18,9 +18,20 @@ namespace Symfony\Component\DomCrawler;
  */
 abstract class AbstractUriElement
 {
-    protected \DOMElement $node;
-    protected ?string $method;
-    protected ?string $currentUri;
+    /**
+     * @var \DOMElement
+     */
+    protected $node;
+
+    /**
+     * @var string|null The method to use for the element
+     */
+    protected $method;
+
+    /**
+     * @var string The URI of the page where the element is embedded (or the base href)
+     */
+    protected $currentUri;
 
     /**
      * @param \DOMElement $node       A \DOMElement instance
@@ -104,7 +115,9 @@ abstract class AbstractUriElement
      *
      * @param \DOMElement $node A \DOMElement instance
      *
+     * @return void
+     *
      * @throws \LogicException If given node is not an anchor
      */
-    abstract protected function setNode(\DOMElement $node): void;
+    abstract protected function setNode(\DOMElement $node);
 }

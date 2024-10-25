@@ -46,6 +46,16 @@ $this->title = 'Afectación Persona Categorias';
             [   
                 'attribute' => 'name',
                 'label' => 'Nombre',
+                'contentOptions' => ['style' => 'width:40%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],                    
+            ],
+            [   
+                'attribute' => 'parent_path',
+                'label' => 'Parebt',
+                'contentOptions' => ['style' => 'width:20%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -55,6 +65,7 @@ $this->title = 'Afectación Persona Categorias';
             [   
                 'attribute' => 'codigo',
                 'label' => 'Código',
+                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -74,6 +85,7 @@ $this->title = 'Afectación Persona Categorias';
 
             [
                 'class' => ActionColumn::className(),
+                'contentOptions' => ['style' => 'width: 10%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'urlCreator' => function ($action, AfecPerCategoria $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

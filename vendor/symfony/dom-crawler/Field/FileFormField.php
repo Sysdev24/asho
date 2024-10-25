@@ -23,9 +23,11 @@ class FileFormField extends FormField
      *
      * @param int $error The error code (one of UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE, UPLOAD_ERR_PARTIAL, UPLOAD_ERR_NO_FILE, UPLOAD_ERR_NO_TMP_DIR, UPLOAD_ERR_CANT_WRITE, or UPLOAD_ERR_EXTENSION)
      *
+     * @return void
+     *
      * @throws \InvalidArgumentException When error code doesn't exist
      */
-    public function setErrorCode(int $error): void
+    public function setErrorCode(int $error)
     {
         $codes = [\UPLOAD_ERR_INI_SIZE, \UPLOAD_ERR_FORM_SIZE, \UPLOAD_ERR_PARTIAL, \UPLOAD_ERR_NO_FILE, \UPLOAD_ERR_NO_TMP_DIR, \UPLOAD_ERR_CANT_WRITE, \UPLOAD_ERR_EXTENSION];
         if (!\in_array($error, $codes)) {
@@ -37,16 +39,20 @@ class FileFormField extends FormField
 
     /**
      * Sets the value of the field.
+     *
+     * @return void
      */
-    public function upload(?string $value): void
+    public function upload(?string $value)
     {
         $this->setValue($value);
     }
 
     /**
      * Sets the value of the field.
+     *
+     * @return void
      */
-    public function setValue(?string $value): void
+    public function setValue(?string $value)
     {
         if (null !== $value && is_readable($value)) {
             $error = \UPLOAD_ERR_OK;
@@ -55,7 +61,7 @@ class FileFormField extends FormField
             $name = $info['basename'];
 
             // copy to a tmp location
-            $tmp = sys_get_temp_dir().'/'.strtr(substr(base64_encode(hash('xxh128', uniqid(mt_rand(), true), true)), 0, 7), '/', '_');
+            $tmp = sys_get_temp_dir().'/'.strtr(substr(base64_encode(hash('sha256', uniqid(mt_rand(), true), true)), 0, 7), '/', '_');
             if (\array_key_exists('extension', $info)) {
                 $tmp .= '.'.$info['extension'];
             }
@@ -76,8 +82,10 @@ class FileFormField extends FormField
 
     /**
      * Sets path to the file as string for simulating HTTP request.
+     *
+     * @return void
      */
-    public function setFilePath(string $path): void
+    public function setFilePath(string $path)
     {
         parent::setValue($path);
     }
@@ -85,9 +93,11 @@ class FileFormField extends FormField
     /**
      * Initializes the form field.
      *
+     * @return void
+     *
      * @throws \LogicException When node type is incorrect
      */
-    protected function initialize(): void
+    protected function initialize()
     {
         if ('input' !== $this->node->nodeName) {
             throw new \LogicException(sprintf('A FileFormField can only be created from an input tag (%s given).', $this->node->nodeName));

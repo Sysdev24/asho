@@ -24,7 +24,6 @@ use app\utiles\sensibleMayuscMinuscValidator;
 class AfecPerCategoria extends \yii\db\ActiveRecord
 {
 
-
     /**
      * {@inheritdoc}
      */
@@ -39,7 +38,7 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'parent_path', 'id_estatus'], 'required'],
             [['parent_id', 'id_estatus'], 'default', 'value' => null],
             [['parent_id', 'id_estatus'], 'integer'],
             [['name', 'codigo'], 'string'],
@@ -47,7 +46,7 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
             [['complete_name'], 'string', 'max' => 512],
             [['parent_path'], 'string', 'max' => 32],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
-            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => AfecPerCategoria::className(), 'targetAttribute' => ['parent_id' => 'id']],
+
 
         ];
     }
@@ -80,29 +79,22 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
         return $this->hasOne(Estatus::class, ['id_estatus' => 'id_estatus']);
     }
 
-    /*public function beforeSave($insert)
-    {
-        if ($insert && $this->parent_id === null) {
-            $lastId = self::find()->orderBy(['id' => SORT_DESC])->one()->id;
-            $this->parent_id = $lastId + 1;
-            $this->parent_path .= ($lastId + 1);
-        }
-        return parent::beforeSave($insert);
-    }*/
-
-    public static function getProductCategoryParentArrayList($id)
+    public static function getAfecperCategoryParentArrayList($id)
     {
         if ($id) {
-            $model = self::find()->andFilterWhere(['not in', 'id', [$id]])->orderBy('complete_name')->all();
+            $model = self::find()->where(['parent_id' => null])->andFilterWhere(['not in', 'id', [$id]])->orderBy('name')->all();
         } else {
-            $model = self::find()->orderBy('complete_name')->all();
+            $model = self::find()->where(['parent_id' => null])->orderBy('name')->all();
         }
+    
         $rows = [];
         foreach ($model as $row) {
-            $rows[$id] = $row->complete_name;
+            $rows[$row->id] = $row->name;
         }
         return $rows;
     }
+    
+
     
 
     /**
