@@ -56,27 +56,32 @@ class Personal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ci'], 'required'],
+        
+            [['nacionalidad', 'ci'], 'required'],
+            [['nacionalidad'], 'in', 'range' => ['E', 'V'], 'message' => 'Nacionalidad no válida.'],
+            [['ci'], 'integer', 'message' => 'La cédula debe ser un número.'],
+            [['ci'], 'unique'],
             [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'default', 'value' => null],
-            [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
+            [['ci','nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
+            [['nro_empleado'], 'unique'],
             [['nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'required'],
             [['nombre', 'apellido', 'nacionalidad', 'telefono'], 'string'],
             [['nombre', 'apellido', 'telefono', 'nacionalidad'], 'required'],
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
-            [['ci'], 'unique'],
             [['id_cargo'], 'exist', 'skipOnError' => true, 'targetClass' => Cargo::class, 'targetAttribute' => ['id_cargo' => 'id_cargo']],
             [['id_estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::class, 'targetAttribute' => ['id_estado' => 'id_estado']],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['id_gerencia'], 'exist', 'skipOnError' => true, 'targetClass' => Gerencia::class, 'targetAttribute' => ['id_gerencia' => 'id_gerencia']],
             [['ci'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
-            //[['telefono'], 'string', 'length' => 11], // Asegurar 11 dígitos
-            ['telefono', 'match', 'pattern' => '/^\+?[0-9]{1,4}?[-. ]?(\(?\d{1,3}?\)?[-. ]?)?\d{1,4}[-. ]?\d{1,4}[-. ]?\d{1,9}$/', 'message' => 'Número de teléfono no válido.'],
-            //[['telefono'], 'match', 'pattern' => '/^0[0-9]\d{2}-\d{7}$/'], //Formato 0000-0000000
-            [['fecha_nac'], 'date', 'format' => 'yyyy-MM-dd'], // Asegurar formato fecha
-
+            ['telefono', 'match', 'pattern' => '/^[0-9]{4}-[0-9]{7}$/', 'message' => 'Número de teléfono no válido.'],
+            //[['fecha_nac'], 'date', 'format' => 'dd-MM-yyy'], // Asegurar formato fecha
+            [['correo'], 'required'],
+            [['correo'], 'email', 'message' => 'El formato del correo electrónico no es válido.'],
+                
         ];
     }
-
+ 
+        
     /**
      * {@inheritdoc}
      */
