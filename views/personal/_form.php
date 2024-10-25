@@ -17,17 +17,22 @@ use app\models\Nacionalidad;
 <div class="personal-form">
 
     <?php $form = ActiveForm::begin(); ?>
+
+    <div class="row">
+        <div class="col-md-6">
     <?= $form->field($model, 'nacionalidad')->dropDownList(
         ArrayHelper::map(Nacionalidad::find()->all(),'letra','letra'),
         ['prompt'=> 'seleccionar nacionalidad']);?>
+         </div>
+        <div class="col-md-6">
+    <?= $form->field($model, 'ci')->textInput(['placeholder'=>'Ejemplo: 12345678']) ?>
+        </div>
+    </div>
+    <?= $form->field($model, 'nombre')->textInput(['placeholder'=>'escriba su Nombre completo']) ?>
 
-    <?= $form->field($model, 'ci')->textInput() ?>
+    <?= $form->field($model, 'apellido')->textInput(['placeholder'=>'escriba su Apellido completo']) ?>
 
-    <?= $form->field($model, 'nombre')->textInput() ?>
-
-    <?= $form->field($model, 'apellido')->textInput() ?>
-
-    <?= $form->field($model, 'nro_empleado')->textInput() ?>
+    <?= $form->field($model, 'nro_empleado')->textInput(['placeholder'=>'Ejemplo:185555']) ?>
 
     <?= $form->field($model, 'id_gerencia')->dropDownList(
         ArrayHelper::map(Gerencia::find()->all(),'id_gerencia','descripcion'),
@@ -46,11 +51,20 @@ use app\models\Nacionalidad;
         ['prompt'=> 'seleccionar Cargo']);?>
 
 
-    <?= $form->field($model, 'telefono')->textInput() ?>
+    <?= $form->field($model, 'telefono')->textInput(['placeholder'=>'Ejemplo: 0412-1234567 ']) ?>
     
-    <?= $form->field($model, 'correo')->textInput() ?>
+    <?= $form->field($model, 'correo')->textInput(['placeholder'=>'nombre@dominio.com'])->label('Correo Electrónico *(Obligatorio)') ?>
 
-    <?= $form->field($model, 'fecha_nac')->textInput() ?>
+    
+    <?= $form->field($model, 'fecha_nac')->input('date', [
+        'min' => '1000-01-01',
+        'max' => date('Y-m-d'),
+        'class' => 'form-control file',
+        'placeholder' => '31/12/1990',
+        'required' => true,
+    ])->label('Fecha Registro *(Obligatorio)') ?>
+
+    
 
 
    <!-- En la tabla de registro Falta Algo Verificar OJO-->

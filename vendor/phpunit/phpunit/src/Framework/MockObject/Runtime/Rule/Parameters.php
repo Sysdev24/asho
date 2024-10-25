@@ -12,6 +12,7 @@ namespace PHPUnit\Framework\MockObject\Rule;
 use function count;
 use function sprintf;
 use Exception;
+use PHPUnit\Framework\Constraint\Callback;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsAnything;
 use PHPUnit\Framework\Constraint\IsEqual;
@@ -26,13 +27,15 @@ use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
 final class Parameters implements ParametersRule
 {
     /**
-     * @psalm-var list<Constraint>
+     * @var list<Constraint>
      */
     private array $parameters           = [];
     private ?BaseInvocation $invocation = null;
     private null|bool|ExpectationFailedException $parameterVerificationResult;
 
     /**
+     * @param array<mixed> $parameters
+     *
      * @throws \PHPUnit\Framework\Exception
      */
     public function __construct(array $parameters)
@@ -108,8 +111,13 @@ final class Parameters implements ParametersRule
         }
 
         foreach ($this->parameters as $i => $parameter) {
+            if ($parameter instanceof Callback && $parameter->isVariadic()) {
+                $other = $this->invocation->parameters();
+            } else {
+                $other = $this->invocation->parameters()[$i];
+            }
             $parameter->evaluate(
-                $this->invocation->parameters()[$i],
+                $other,
                 sprintf(
                     'Parameter %s for invocation %s does not match expected ' .
                     'value.',
