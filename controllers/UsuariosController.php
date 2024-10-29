@@ -90,6 +90,17 @@ class UsuariosController extends Controller
         $model = new Usuarios();
         $model->scenario = Usuarios::SCENARIO_CREATE;
     
+
+        if ($model->load(Yii::$app->request->post())) { 
+            // Genera el hash de la contraseña 
+            $model->setPassword($model->password); 
+            if ($model->save()) { 
+                return $this->redirect(['view', 'id' => $model->id]); 
+            }
+        }
+
+
+
         if ($model->load($this->request->post())) {
     
             // Si la validación pasa, inicia una transacción
@@ -122,6 +133,7 @@ class UsuariosController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+        
     }
 
     /**
@@ -179,6 +191,7 @@ class UsuariosController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+        
     }
 
 

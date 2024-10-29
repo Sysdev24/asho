@@ -53,7 +53,7 @@ use app\models\Nacionalidad;
 
     <?= $form->field($model, 'telefono')->textInput(['placeholder'=>'Ejemplo: 0412-1234567 ']) ?>
     
-    <?= $form->field($model, 'correo')->textInput(['placeholder'=>'nombre@dominio.com'])->label('Correo Electrónico *(Obligatorio)') ?>
+    <?= $form->field($model, 'correo')->textInput(['placeholder'=>'nombre@dominio.com'])?>
 
     
     <?= $form->field($model, 'fecha_nac')->input('date', [
@@ -62,8 +62,7 @@ use app\models\Nacionalidad;
         'class' => 'form-control file',
         'placeholder' => '31/12/1990',
         'required' => true,
-    ])->label('Fecha Registro *(Obligatorio)') ?>
-
+    ]) ?>
     
 
 
