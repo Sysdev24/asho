@@ -18,7 +18,7 @@ use yii\helpers\Url;
 <div class="usuarios-form">
 
 <?php $form = ActiveForm::begin(); ?>
-        <br>
+        <!-- <br>
         <div class="input-group mb-3">
         <input type="text" class="form-control" style="width: 150px;" id="searchCedula" name="searchCedula" pattern="[0-9]{8}" required placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         <button class="btn btn-primary" type="button" id="boton-validar-cedula">Validar</button>
@@ -51,7 +51,11 @@ use yii\helpers\Url;
                 </tbody>
             </table>
         </div>
-    </div>
+    </div> -->
+
+
+
+    <?= $form->field($model, 'ci')->textInput(['placeholder'=>'Ejemplo: A1234567']) ?>
 
     <?= $form->field($model, 'username')->textInput(['placeholder'=>'Ejemplo: A1234567']) ?>
 

@@ -56,6 +56,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
+            [['username', 'password_hash'], 'required'], ['password_hash', 'string', 'min' => 6],
             [['username', 'password'], 'string'],
             [['username', 'password', 'authKey', 'accesstoken', 'nacionalidad'], 'string'],
             [['name'], 'each', 'rule' => ['string']],
@@ -101,7 +102,10 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             'nacionalidad' => 'Nacionalidad',
         ];
     }
-
+    public function setPassword($password) 
+    { $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password); 
+    } 
+    
     /**
      * Gets query for [[AuditTrails]].
      *
