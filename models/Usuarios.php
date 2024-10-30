@@ -42,6 +42,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
+    public $searchCedula;
     /**
      * {@inheritdoc}
      */
@@ -69,14 +70,16 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
             ['ci', 'exist', 'skipOnError' => false, 'targetClass' => Personal::className(), 'targetAttribute' => ['ci' => 'ci'], 'message' => 'El usuario debe estar registrado como personal.'],
-            [['ci'], 'required','message' => 'La cedula es requerida'],
+            [['ci'], 'required', 'on' => self::SCENARIO_CREATE],
             [['name'], 'required'],
-            [['ci'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
+            //[['ci'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
+            [['searchCedula'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
             [['ci'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],
 
         ];
     }
     public $name;
+
     //public $roles = [];
     /**
      * {@inheritdoc}

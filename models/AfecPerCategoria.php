@@ -24,6 +24,8 @@ use app\utiles\sensibleMayuscMinuscValidator;
 class AfecPerCategoria extends \yii\db\ActiveRecord
 {
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
     /**
      * {@inheritdoc}
      */
@@ -42,6 +44,7 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
             [['parent_id', 'id_estatus'], 'default', 'value' => null],
             [['parent_id', 'id_estatus'], 'integer'],
             [['name', 'codigo'], 'string'],
+            [['name'], 'unique','message' => ''],
             [['created_at', 'update_at'], 'safe'],
             [['complete_name'], 'string', 'max' => 512],
             [['parent_path'], 'string', 'max' => 32],

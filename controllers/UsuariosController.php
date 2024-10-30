@@ -89,19 +89,11 @@ class UsuariosController extends Controller
     {
         $model = new Usuarios();
         $model->scenario = Usuarios::SCENARIO_CREATE;
-    
-
-        if ($model->load(Yii::$app->request->post())) { 
-            // Genera el hash de la contraseña 
-            $model->setPassword($model->password); 
-            if ($model->save()) { 
-                return $this->redirect(['view', 'id' => $model->id]); 
-            }
-        }
-
-
 
         if ($model->load($this->request->post())) {
+
+            // Genera el hash de la contraseña 
+            $model->setPassword($model->password); 
     
             // Si la validación pasa, inicia una transacción
             $transaction = Yii::$app->db->beginTransaction();

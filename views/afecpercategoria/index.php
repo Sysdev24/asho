@@ -71,7 +71,7 @@ $this->title = 'Afectación Persona Categorias';
                     'placeholder' => 'Busqueda',
                 ],                    
             ],
-
+            
             [   
                 'attribute' => 'id_estatus',
                 'value' => array($searchModel, 'buscarEstatus'),
@@ -82,7 +82,7 @@ $this->title = 'Afectación Persona Categorias';
                 'headerOptions' => ['class' => 'col-lg-03 text-center'],
                 'contentOptions' => ['class' => 'col-lg-03 text-center'],
             ],
-
+            
             [
                 'class' => ActionColumn::className(),
                 'contentOptions' => ['style' => 'width: 10%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
@@ -90,6 +90,8 @@ $this->title = 'Afectación Persona Categorias';
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],
+
+            
         ],
     ]); ?>
 

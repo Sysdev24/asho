@@ -33,10 +33,10 @@ class SiteController extends Controller
                     ], 
                     'rules' => [
                         ['actions' => ['index'], 'allow' => true, 'roles' => ['@']],
-                        ['actions' => ['create'], 'allow' => true, 'roles' => ['@']],
-                        ['actions' => ['update'], 'allow' => true, 'roles' => ['@']],
-                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['@']],
-                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['@']],
+                        // ['actions' => ['create'], 'allow' => true, 'roles' => ['@']],
+                        // ['actions' => ['update'], 'allow' => true, 'roles' => ['@']],
+                        // ['actions' => ['delete'], 'allow' => true, 'roles' => ['@']],
+                        // ['actions' => ['permisos'], 'allow' => true, 'roles' => ['@']],
                     ]
                 ]
             ]

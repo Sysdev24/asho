@@ -19,33 +19,33 @@ class AfectacionbienesprocesosController extends Controller
     /**
      * @inheritDoc
      */
-//    public function behaviors()
-//     {
-//         return array_merge(
-//             parent::behaviors(),
-//             [
-//                 'verbs' => [
-//                     'class' => VerbFilter::class,
-//                     'actions' => [
-//                         'delete' => ['POST'],
-//                     ],
-//                 ],
-//                 'access' => [
-//                     'class' => AccessControl::class,
-//                     'only' => [
-//                         'index', 'create', 'update', 'delete', 'permisos',
-//                     ], 
-//                     'rules' => [
-//                         ['actions' => ['index'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/index']],
-//                         ['actions' => ['create'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/create']],
-//                         ['actions' => ['update'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/update']],
-//                         ['actions' => ['delete'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/delete']],
-//                         ['actions' => ['permisos'], 'allow' => true, 'afectacionbienesprocesos' => ['afectacionbienesprocesos/permisos']],
-//                     ]
-//                 ]
-//             ]
-//         );
-//     }
+   public function behaviors()
+    {
+        return array_merge(
+            parent::behaviors(),
+            [
+                'verbs' => [
+                    'class' => VerbFilter::class,
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
+                ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['afectacionbienesprocesos/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['afectacionbienesprocesos/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['afectacionbienesprocesos/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['afectacionbienesprocesos/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['afectacionbienesprocesos/permisos']],
+                    ]
+                ]
+            ]
+        );
+    }
 
     /**
      * Lists all AfectacionBienesProcesos models.
