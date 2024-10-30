@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\db\IntegrityException;
 
 /**
  * GerenciaController implements the CRUD actions for Gerencia model.
@@ -128,11 +129,22 @@ class GerenciaController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id_gerencia)
+ // Aquí mensaje de error al eliminar campos foraneos //
     {
-        $this->findModel($id_gerencia)->delete();
-        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
-
-        return $this->redirect(['index']);
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+             $this->findModel($id_gerencia)->delete();
+            $transaction->commit();
+            return $this->redirect(['index']);
+        } catch (IntegrityException $e) {
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', 'No se puede eliminar este campo porque está siendo utilizado en la tabla "personal".');
+            return $this->redirect(['index']);
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
+       
     }
 
     /**
