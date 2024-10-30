@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\db\IntegrityException;
 
 /**
  * EstatusController implements the CRUD actions for Estatus model.
@@ -127,12 +128,25 @@ class EstatusController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id_estatus)
-    {
-        $this->findModel($id_estatus)->delete();
-        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
-        return $this->redirect(['index']);
-    }
+
+     public function actionDelete($id_estatus)
+     // Aquí mensaje de error al eliminar campos foraneos //
+        {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                 $this->findModel($id_estatus)->delete();
+                $transaction->commit();
+                return $this->redirect(['index']);
+            } catch (IntegrityException $e) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'No se puede eliminar este campo porque está siendo utilizado en otras tablas.');
+                return $this->redirect(['index']);
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                throw $e;
+            }
+           
+        }
 
     /**
      * Finds the Estatus model based on its primary key value.
