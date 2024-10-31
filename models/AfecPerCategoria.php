@@ -61,7 +61,7 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'parent_id' => 'Parent ID',
+            'parent_id' => 'Categoria',
             'name' => 'Nombre',
             'complete_name' => 'Complete Name',
             'parent_path' => 'Parent Path',
