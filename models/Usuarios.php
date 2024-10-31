@@ -74,7 +74,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['name'], 'required'],
             //[['ci'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
             [['searchCedula'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
-            [['ci'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],
+            [['ci'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],
 
         ];
     }

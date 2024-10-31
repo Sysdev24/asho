@@ -37,7 +37,7 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
-            [['username'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
+            [['username'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],   
 
         ];
     }
