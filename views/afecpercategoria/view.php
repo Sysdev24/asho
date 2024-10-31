@@ -28,7 +28,12 @@ $this->title = $model->name;
             'codigo',
             //'created_at',
             //'update_at',
-            'id_estatus',
+            [   
+                'attribute' => 'id_estatus',
+                'label' => 'Estatus',
+                'value' => function($model){
+                    return   $model->estatus->descripcion;},
+            ],
         ],
     ]) ?>
 

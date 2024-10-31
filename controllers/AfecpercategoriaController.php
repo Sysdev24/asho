@@ -85,28 +85,32 @@ class AfecpercategoriaController extends Controller
     public function actionCreate()
     {
         $model = new AfecPerCategoria();
-        $model->scenario = AfecPerCategoria::SCENARIO_CREATE;
-    
+
         if ($model->load(Yii::$app->request->post())) {
             // Set values
             $parent = AfecPerCategoria::findOne($model->parent_id);
             $model->complete_name = $parent->complete_name . ' / ' . $model->name;
             $model->parent_path = $parent->parent_path . $model->id . '/';
-    
-            if ($model->validate()) {
-                if ($model->save()) {
-                    $model->parent_path = $parent->parent_path . $model->id . '/';
-                    $model->save();
-                    Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
-                    return $this->redirect(['view', 'id' => $model->id]);
-                } else {
-                    Yii::$app->getSession()->setFlash('error', 'Ha ocurrido un error al guardar.');
-                }
+
+            if($model->save()) {
+                $model->parent_path = $parent->parent_path . $model->id . '/';
+                $model->save();
+                // MESSAGE
+                Yii::$app->getSession()->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id' => $model->id]);
             } else {
-                Yii::$app->getSession()->setFlash('error', 'El nombre ya existe. Por favor, elige otro nombre.');
+                Yii::$app->getSession()->setFlash('error', 'success', 'Ha habido un error.');
+
+            if (YII_ENV_DEV) {
+                Yii::$app->getSession()->setFlash('warning', [
+                    'type' => 'toast',
+                    'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'Afectación persona')]) . ':',
+                    'message' => $this->listErrors($model->getErrors()),
+                ]);
+            }
             }
         }
-    
+
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -123,32 +127,38 @@ class AfecpercategoriaController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
-{
-    $model = $this->findModel($id);
-    $model->scenario = AfecPerCategoria::SCENARIO_UPDATE;
+    {
+        $model = $this->findModel($id);
 
-    if ($model->load(Yii::$app->request->post())) {
-        // Set values
-        $parent = AfecPerCategoria::findOne($model->parent_id);
-        $model->complete_name = $parent->complete_name . ' / ' . $model->name;
-        $model->parent_path = $parent->parent_path . $model->id . '/';
-
-        if ($model->validate()) {
-            if ($model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            // Set values
+            $parent = AfecPerCategoria::findOne($model->parent_id);
+            $model->complete_name = $parent->complete_name . ' / ' . $model->name;
+            $model->parent_path = $parent->parent_path . $model->id . '/';
+            if($model->save()) {
+                        return $this->redirect(['index', 'id' => $model->id]);
+                // MESSAGE
                 Yii::$app->getSession()->setFlash('success', 'Se ha actualizado exitosamente.');
-                return $this->redirect(['index', 'id' => $model->id]);
             } else {
-                Yii::$app->getSession()->setFlash('error', 'Ha ocurrido un error al actualizar.');
+                // MESSAGE
+                Yii::$app->getSession()->setFlash('error', 'success', 'Ha habido un error.');
+                if (YII_ENV_DEV) {
+                    Yii::$app->getSession()->setFlash('warning', [
+                        [
+                            'type' => 'toast',
+                            'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Afectación persona')]) . ':',
+                            'message' => $this->listErrors($model->getErrors()),
+                        ]
+                    ]);
+                }
+                
             }
-        } else {
-            Yii::$app->getSession()->setFlash('error', 'El nombre ya existe. Por favor, elige otro nombre.');
         }
-    }
 
-    return $this->render('update', [
-        'model' => $model,
-    ]);
-}
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
 
 
 

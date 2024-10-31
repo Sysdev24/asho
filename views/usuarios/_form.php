@@ -99,14 +99,23 @@ if ($model->scenario === 'create') {
                 data: {search: search}
             })
             .done(function(response) {
-                console.log(response);
+                // Validación caso extraordinario
+                if (!response.ci) {
+                    $('p strong#origen-data')
+                        .removeClass('text-secondary text-info text-success')
+                        .addClass('text-danger')
+                        .text('La cédula no se encuentra en el sistema. Regístrela primero en Personal.');
+                    return;
+                }
+                
+                // Si se encuentra la cédula, mostrar los datos
                 $('p strong#origen-data')
                     .removeClass('text-secondary text-info text-danger')
                     .addClass('text-success')
                     .text('Datos encontrados en Personal.');
                 $('div.container-resp-ajax div.tabla-datos').removeClass('d-none');
                 $('div.container-resp-ajax div.tabla-datos table thead tr th.d-none').removeClass('d-none');
-                $('div.container-resp-ajax div.tabla-datos table tbody tr td.d-none').removeClass('d-none');
+                $('div.container-resp-ajax div.tabla-datos table tbody tr td.d.none').removeClass('d-none');
                 $('div.container-resp-ajax div.tabla-datos table tbody tr td.cedula').text(response.ci);
                 $('div.container-resp-ajax div.tabla-datos table tbody tr td.nombre').text(response.nombre);
                 $('div.container-resp-ajax div.tabla-datos table tbody tr td.apellido').text(response.apellido);
@@ -118,6 +127,10 @@ if ($model->scenario === 'create') {
             })
             .fail(function() {
                 console.log('Error al enviar el ajax');
+                $('p strong#origen-data')
+                    .removeClass('text-secondary text-success text-info')
+                    .addClass('text-danger')
+                    .text('Error al validar la cédula. Inténtelo nuevamente.');
             });
         });
 
