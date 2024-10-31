@@ -14,19 +14,19 @@ use app\models\Estatus;
 <div class="afec-per-categoria-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    
-    
+    <br>
+    <div class="row">
+        <div class="col-md-6">
     <?= $form->field($model, 'parent_id', [
-        'inputOptions' => ['placeholder' => $model->getAttributeLabel('parent_id')]
     ])->dropdownList(\app\models\AfecPerCategoria::getAfecperCategoryParentArrayList($model->id), [
-        'prompt' => Yii::t('app', 'Seleccione'),
-        'class' => 'custom-select',
-    ]) ?>
+        'prompt' => 'Seleccione', ]) ?>
+    </div>
 
+     <div class="col-md-6">
     <?= $form->field($model, 'name', [
-        'inputOptions'=>['placeholder'=>$model->getAttributeLabel('name')]
     ])->textInput(['maxlength' => true]) ?>
-    
+       </div>
+    </div>
 
     <?= $form->field($model, 'id_estatus')->dropDownList
     (ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
