@@ -123,6 +123,17 @@ class Personal extends \yii\db\ActiveRecord
         return preg_replace('/(\d{4})(\d{4})(\d{3})/', '$1-$2-$3', $this->telefono);
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->nombre = mb_strtoupper($this->nombre);
+            $this->apellido = mb_strtoupper($this->apellido);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     /**
      * Gets query for [[Cargo]].

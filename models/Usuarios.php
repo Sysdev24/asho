@@ -58,8 +58,8 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     {
         return [
             [['username', 'password_hash'], 'required'], ['password_hash', 'string', 'min' => 6],
-            [['username', 'password'], 'string'],
-            [['username', 'password', 'authKey', 'accesstoken', 'nacionalidad'], 'string'],
+            [['username' ], 'string'],
+            [['username', 'authKey', 'accesstoken', 'nacionalidad'], 'string'],
             [['name'], 'each', 'rule' => ['string']],
         	// ['name', 'in', 'range' => self::getSystemRoles(), 'allowArray' => true],
 
@@ -79,6 +79,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         ];
     }
     public $name;
+    public $password;
 
     //public $roles = [];
     /**
@@ -105,8 +106,10 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             'nacionalidad' => 'Nacionalidad',
         ];
     }
+    //Se encripta la contraseña
     public function setPassword($password) 
-    { $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password); 
+    {
+        $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password); 
     } 
     
     /**

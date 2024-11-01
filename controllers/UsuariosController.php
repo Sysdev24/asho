@@ -92,7 +92,7 @@ class UsuariosController extends Controller
 
         if ($model->load($this->request->post())) {
 
-            // Genera el hash de la contraseña 
+            // Genera envía hash de la contraseña encriptada
             $model->setPassword($model->password); 
     
             // Si la validación pasa, inicia una transacción
