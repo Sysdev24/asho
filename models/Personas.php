@@ -4,6 +4,9 @@ namespace app\models;
 
 use Yii;
 use app\utiles\sensibleMayuscMinuscValidator;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+
 
 
 class Personas extends SujetoAfectacion
@@ -25,6 +28,19 @@ class Personas extends SujetoAfectacion
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
             [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],   
         ];
+    }
+    //Para utilizar los campos created_at y updated_at
+    public function behaviors() 
+    {
+         return [ TimestampBehavior::class => [
+             'class' => TimestampBehavior::class, 
+             'attributes' => [ 
+                ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'], 
+                ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'], 
+            ], 
+            'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
+            ], 
+        ]; 
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "session".
@@ -44,6 +46,20 @@ class Session extends \yii\db\ActiveRecord
             [['id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Usuarios::class, 'targetAttribute' => ['user_id' => 'id_usuario']],
         ];
+    }
+
+    //Para utilizar los campos created_at y updated_at
+    public function behaviors() 
+    {
+         return [ TimestampBehavior::class => [
+             'class' => TimestampBehavior::class, 
+             'attributes' => [ 
+                ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'], 
+                ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'], 
+            ], 
+            'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
+            ], 
+        ]; 
     }
 
     /**

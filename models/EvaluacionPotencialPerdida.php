@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 use app\utiles\sensibleMayuscMinuscValidator;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 /**
  * This is the model class for table "evaluacion_potencial_perdida".
  *
@@ -45,6 +47,20 @@ class EvaluacionPotencialPerdida extends \yii\db\ActiveRecord
             [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],     
         ];
     }
+
+     //Para utilizar los campos created_at y updated_at
+     public function behaviors() 
+     {
+          return [ TimestampBehavior::class => [
+              'class' => TimestampBehavior::class, 
+              'attributes' => [ 
+                 ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'], 
+                 ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'], 
+             ], 
+             'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
+             ], 
+         ]; 
+     }
 
     /**
      * {@inheritdoc}
