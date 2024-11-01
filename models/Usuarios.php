@@ -57,7 +57,9 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
-            [['username', 'password_hash'], 'required'], ['password_hash', 'string', 'min' => 6],
+            [['username', 'password_hash'], 'required'],
+            ['password_hash', 'string', 'min' => 6],
+            [['username', 'password', 'password_hash'], 'string', 'max' => 255],
             [['username' ], 'string'],
             [['username', 'authKey', 'accesstoken', 'nacionalidad'], 'string'],
             [['name'], 'each', 'rule' => ['string']],
@@ -108,9 +110,24 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     }
     //Se encripta la contraseña
     public function setPassword($password) 
-    {
+    { 
         $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password); 
     } 
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->authKey = Yii::$app->security->generateRandomString();
+                $this->accesstoken = Yii::$app->security->generateRandomString();
+            }
+            if ($this->password) {
+                $this->setPassword($this->password);
+            }
+            return true;
+        }
+        return false;
+    }
     
     /**
      * Gets query for [[AuditTrails]].
@@ -326,8 +343,9 @@ public function getRoleList()
     }
 
 
-    public function validatePassword($password){
-        return $this->password === $password;
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
     
 }

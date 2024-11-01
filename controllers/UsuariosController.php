@@ -86,47 +86,46 @@ class UsuariosController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionCreate()
-    {
-        $model = new Usuarios();
-        $model->scenario = Usuarios::SCENARIO_CREATE;
+{
+    $model = new Usuarios();
+    $model->scenario = Usuarios::SCENARIO_CREATE;
 
-        if ($model->load($this->request->post())) {
-
-            // Genera envía hash de la contraseña encriptada
-            $model->setPassword($model->password); 
-    
-            // Si la validación pasa, inicia una transacción
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                if ($model->save()) {
-                    $auth = Yii::$app->authManager;
-                    foreach ($model->name as $rol) {
-                        $role = $auth->getRole($rol);
-                        $auth->assign($role, $model->id_usuario);
-                    }
-                    $transaction->commit();
-                    Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
-                    return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
-                } else {
-                    $transaction->rollBack();
-                    // Manejar el error si el modelo no se guarda
-                    Yii::$app->session->setFlash('error', 'Error al guardar el usuario.');
-                }
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                // Manejar excepciones
-                Yii::error($e);
-                throw $e;
-            }
-        } else {
-            $model->loadDefaultValues();
+    if ($model->load($this->request->post())) {
+        // Encriptar la contraseña
+        if ($model->password) {
+            $model->setPassword($model->password);
         }
-    
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-        
+
+        // Si la validación pasa, inicia una transacción
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            if ($model->save()) {
+                $auth = Yii::$app->authManager;
+                foreach ($model->name as $rol) {
+                    $role = $auth->getRole($rol);
+                    $auth->assign($role, $model->id_usuario);
+                }
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
+            } else {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Error al guardar el usuario. Detalles del error: ' . json_encode($model->errors));
+            }
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            Yii::error($e);
+            throw $e;
+        }
+    } else {
+        $model->loadDefaultValues();
     }
+
+    return $this->render('create', [
+        'model' => $model,
+    ]);
+}
+
 
     /**
      * Updates an existing Usuarios model.

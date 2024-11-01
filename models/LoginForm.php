@@ -54,11 +54,13 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Nombre de usuario o contraseña incorrecta.');
+            if (!$user || !Yii::$app->security->validatePassword($this->password, $user->password_hash)) {
+                $this->addError($attribute,  
+    'Nombre de usuario o contraseña incorrecta.');
             }
         }
     }
+
 
     /**
      * Logs in a user using the provided username and password.
