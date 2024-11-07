@@ -22,7 +22,8 @@
         "pceuropa/yii2-menu": "dev-master",
         "kartik-v/yii2-grid": "dev-master",
         "kartik-v/yii2-mpdf": "*",
-        "yiisoft/yii2-debug": "^2.1"
+        "yiisoft/yii2-debug": "^2.1",
+        "select2/select2": "^4.0"
     },
     "require-dev": {
         "yiisoft/yii2-gii": "~2.2.0",

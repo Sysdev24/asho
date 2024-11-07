@@ -35,13 +35,15 @@ class Nacionalidad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['letra'], 'required'],
+            [['letra', 'id_estatus'], 'required'],
             [['letra', 'descripcion'], 'string'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['letra'], 'unique'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
+            ['letra', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+
         ];
     }
     

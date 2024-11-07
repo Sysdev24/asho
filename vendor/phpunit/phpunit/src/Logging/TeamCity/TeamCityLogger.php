@@ -292,11 +292,14 @@ final class TeamCityLogger
         }
     }
 
+    /**
+     * @param array<non-empty-string, int|string> $parameters
+     */
     private function writeMessage(string $eventName, array $parameters = []): void
     {
         $this->printer->print(
             sprintf(
-                "\n##teamcity[%s",
+                '##teamcity[%s',
                 $eventName,
             ),
         );

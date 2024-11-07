@@ -39,15 +39,15 @@ class NaturalezaAccidente extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion', 'codigo'], 'string'],
-            [['descripcion', 'codigo'], 'required'],
+            [['descripcion', 'codigo', 'id_estatus'], 'required'],
             [['created_at', 'updated_at', 'id_estatus'], 'safe'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
             ['codigo', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],
-            [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],   
-        
+            [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],
+            ['descripcion', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
         ];
     }
 

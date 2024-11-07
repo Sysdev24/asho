@@ -45,23 +45,6 @@ class UsuariosSearch extends Usuarios
             return $content;
         }
 
-        public function buscarNombre($data, $id){
-            $modelbuscar = Personal::findOne($data->ci);
-            $content = $modelbuscar->nombre;
-            return $content;
-        }
-
-        public function buscarApellido($data, $id){
-            $modelbuscar = Personal::findOne($data->ci);
-            $content = $modelbuscar->apellido;
-            return $content;
-        }
-
-        public function buscarNacionalidad($data, $id){
-            $modelbuscar = Personal::findOne($data->ci);
-            $content = $modelbuscar->nacionalidad;
-            return $content;
-        }
     /**
      * Creates data provider instance with search query applied
      *
@@ -81,6 +64,42 @@ class UsuariosSearch extends Usuarios
             'query' => $query,
         ]);
 
+        $dataProvider->setSort([
+
+            'attributes' => [
+    
+                'ci',
+    
+                'username',
+                'id_estatus',
+    
+                'personal.nombre' => [
+    
+                    'asc' => ['personal.nombre' => SORT_ASC],
+    
+                    'desc' => ['personal.nombre' => SORT_DESC],
+    
+                ],
+    
+                'personal.apellido' => [
+    
+                    'asc' => ['personal.apellido' => SORT_ASC],
+    
+                    'desc' => ['personal.apellido' => SORT_DESC],
+    
+                ],
+
+                'personal.nacionalidad' => [
+    
+                    'asc' => ['personal.nacionalidad' => SORT_ASC],
+    
+                    'desc' => ['personal.nacionalidad' => SORT_DESC],
+    
+                ],
+            ],
+    
+        ]);
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -95,9 +114,6 @@ class UsuariosSearch extends Usuarios
             'id_estatus' => $this->id_estatus,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            // 'nacionalidad' => $this->nacionalidad,
-            //'name' => $this->name,
-
         ]);
 
         $query->andFilterWhere(['ilike', 'username', $this->username])
@@ -105,10 +121,17 @@ class UsuariosSearch extends Usuarios
         ->andFilterWhere(['ilike', 'authKey', $this->authKey])
         ->andFilterWhere(['ilike', 'accesstoken', $this->accesstoken])
         ->andFilterWhere(['ilike', 'name', $this->name])
-        ->andFilterWhere(['ilike', 'item_name', $this->item_name])
-        ->andFilterWhere(['ilike', 'nombre', $this->nombre])
-        ->andFilterWhere(['ilike', 'apellido', $this->apellido])
-        ->andFilterWhere(['ilike', 'nacionalidad', $this->nacionalidad]);
+        ->andFilterWhere(['ilike', 'item_name', $this->item_name]);
+
+        // Filtrar por datos del personal asociado
+        $query
+        ->andFilterWhere(['ilike', 'personal.nombre', $this->nombre])
+        ->andFilterWhere(['ilike', 'personal.apellido', $this->apellido])
+        ->andFilterWhere(['ilike', 'personal.nacionalidad', $this->nacionalidad]);
+
+        //$query->andFilterWhere(['ilike', new Expression('personal.nombre::text'), $this->ci]);
+
+
 
         return $dataProvider;
     }

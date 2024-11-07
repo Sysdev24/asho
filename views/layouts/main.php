@@ -49,46 +49,44 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
         [
             'label' => 'Administración',
         'items' => [
-            ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
-           // ['label' => 'Afectacion Persona', 'url' => ['/afectacionpersona/index']],
-            // [
-            //     'label' => 'Afectacion Persona',
-            //     'options' => ['class' => 'dropdown-item'],
-            //     'items' => [
-            //         ['label' => 'Area Afectada', 'url' => ['/afectacionpersona/area']],
-            //         ['label' => 'Naturaleza de la Lesion', 'url' => ['/afectacionpersona/naturaleza']],
-            //     ],
-            // ],
-           ['label' => 'Afectacion Persona Categoria', 'url' => ['/afecpercategoria/index']],
-            ['label' => 'Cargo', 'url' => ['/cargo/index']],
-                ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
-                ['label' => 'Estados', 'url' => ['/estados/index']],
-                ['label' => 'Estatus', 'url' => ['/estatus/index']],
-                ['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']],
-                ['label' => 'Gerencia', 'url' => ['/gerencia/index']],
-                ['label' => 'Magnitud', 'url' => ['/magnitud/index']],
-                ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']],
-                ['label' => 'Peligro Agente', 'url' => ['/peligroagente/index']],
-                ['label' => 'Permisos', 'url' => ['permisos/index']],
-                ['label' => 'Personal', 'url' => ['/personal/index']],
-                ['label' => 'Regiones', 'url' => ['/regiones/index']],
-                ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']],
-                ['label' => 'Roles', 'url' => ['/roles/index']],
-                ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']],
-                //['label' => 'Sujeto Afectacion', 'url' => ['/sujetoafectacion/index']],
-                // [
-                //     'label' => 'Sujeto Afectacion',
-                //     'options' => ['class' => 'dropdown-item'],
-                //     'items' => [
-                //         ['label' => 'Personas', 'url' => ['/sujetoafectacion/personas']],
-                //         ['label' => 'Bienes o activos', 'url' => ['/sujetoafectacion/bienes']],
-                //         ['label' => 'Procesos', 'url' => ['/sujetoafectacion/procesos']],
-                //         ['label' => 'Ambiente', 'url' => ['/sujetoafectacion/ambiente']],
+                ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
 
-                //     ],
-                // ],
+                ['label' => 'Afectacion Persona Categoria', 'url' => ['/afecpercategoria/index']], 
+
+                ['label' => 'Cargo', 'url' => ['/cargo/index']],
+
+                ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
+
+                ['label' => 'Estados', 'url' => ['/estados/index']],
+
+                ['label' => 'Estatus', 'url' => ['/estatus/index']],
+
+                ['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']],
+
+                ['label' => 'Gerencia', 'url' => ['/gerencia/index']],
+
+                ['label' => 'Magnitud', 'url' => ['/magnitud/index']],
+
+                ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']],
+
+                ['label' => 'Peligro Agente', 'url' => ['/peliagencategoria/index']],
+
+                ['label' => 'Permisos', 'url' => ['permisos/index']],
+
+                ['label' => 'Personal', 'url' => ['/personal/index']],
+
+                ['label' => 'Regiones', 'url' => ['/regiones/index']],
+
+                ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']],
+
+                ['label' => 'Roles', 'url' => ['/roles/index']],
+
+                ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']],
+
                 ['label' => 'Tipo Accidente', 'url' => ['/tipoaccidente/index']],
+
                 ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']],
+                
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
                 
             ],
@@ -97,8 +95,10 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
         [
             'label' => 'Registrar',
             'items' => [
-            ['label' => 'Registro', 'url' => ['/registro/index']],
-            ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
+
+                ['label' => 'Registro', 'url' => ['/registro/index']],
+
+                ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
             ],
         ]
     ];

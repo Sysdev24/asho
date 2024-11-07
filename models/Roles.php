@@ -39,13 +39,14 @@ class Roles extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion', 'guard_name'], 'string'],
-            [['descripcion', 'guard_name'], 'required'],
+            [['descripcion', 'guard_name', 'id_estatus'], 'required'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['descripcion', 'guard_name'], 'unique', 'targetAttribute' => ['descripcion', 'guard_name']],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,255}$/', 'message' => 'Solo se admiten letras.'],
+            ['descripcion', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
             //[['descripcion'], sensibleMayuscMinuscValidator::className(), 'on' => self::SCENARIO_CREATE],   
         ];
     }

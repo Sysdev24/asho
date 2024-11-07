@@ -40,7 +40,7 @@ class Estados extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion'], 'string'],
-            [['descripcion'], 'required'],
+            [['descripcion', 'id_estatus'], 'required'],
             [['id_estatus', 'id_regiones'], 'default', 'value' => null],
             [['id_estatus', 'id_regiones'], 'integer'],
             [['id_estatus', 'id_regiones'], 'required'],
@@ -49,6 +49,8 @@ class Estados extends \yii\db\ActiveRecord
             [['id_regiones'], 'exist', 'skipOnError' => true, 'targetClass' => Regiones::class, 'targetAttribute' => ['id_regiones' => 'id_regiones']],
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,255}$/', 'message' => 'Solo se admiten letras.'],
             [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE], 
+            ['descripcion', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+
         ];
     }
 

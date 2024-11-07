@@ -46,11 +46,12 @@ class TipoAccidente extends \yii\db\ActiveRecord
             [['id_sub2_tipo_accid', 'id_sub_tipo_accid', 'id_tipo_accid1', 'id_tipo_accid', 'id_estatus'], 'default', 'value' => null],
             [['id_sub2_tipo_accid', 'id_sub_tipo_accid', 'id_tipo_accid1', 'id_tipo_accid', 'id_estatus'], 'integer'],
             [['descripcion', 'codigo'], 'string'],
-            [['descripcion', 'codigo'], 'required'],
+            [['descripcion', 'codigo', 'id_estatus'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,255}$/', 'message' => 'Solo se admiten letras.'],
-            [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],   
+            [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE], 
+            ['descripcion', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
         
         ];
     }

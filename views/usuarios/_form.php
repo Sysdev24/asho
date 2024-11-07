@@ -63,7 +63,7 @@ use yii\helpers\Url;
     ]) ?>
     <?= $form->field($model, 'id_estatus')->dropDownList(
         ArrayHelper::map(Estatus::find()->all(), 'id_estatus', 'descripcion'),
-        ['prompt'=> 'Seleccionar estado']
+        ['prompt'=> 'Seleccionar estatus']
     ); ?>
 
     <div class="form-group">

@@ -18,20 +18,9 @@ namespace Symfony\Component\DomCrawler;
  */
 abstract class AbstractUriElement
 {
-    /**
-     * @var \DOMElement
-     */
-    protected $node;
-
-    /**
-     * @var string|null The method to use for the element
-     */
-    protected $method;
-
-    /**
-     * @var string The URI of the page where the element is embedded (or the base href)
-     */
-    protected $currentUri;
+    protected \DOMElement $node;
+    protected ?string $method;
+    protected ?string $currentUri;
 
     /**
      * @param \DOMElement $node       A \DOMElement instance
@@ -46,7 +35,7 @@ abstract class AbstractUriElement
         $this->method = $method ? strtoupper($method) : null;
         $this->currentUri = $currentUri;
 
-        $elementUriIsRelative = null === parse_url(trim($this->getRawUri()), \PHP_URL_SCHEME);
+        $elementUriIsRelative = !parse_url(trim($this->getRawUri()), \PHP_URL_SCHEME);
         $baseUriIsAbsolute = null !== $this->currentUri && \in_array(strtolower(substr($this->currentUri, 0, 4)), ['http', 'file']);
         if ($elementUriIsRelative && !$baseUriIsAbsolute) {
             throw new \InvalidArgumentException(sprintf('The URL of the element is relative, so you must define its base URI passing an absolute URL to the constructor of the "%s" class ("%s" was passed).', __CLASS__, $this->currentUri));
@@ -115,9 +104,7 @@ abstract class AbstractUriElement
      *
      * @param \DOMElement $node A \DOMElement instance
      *
-     * @return void
-     *
      * @throws \LogicException If given node is not an anchor
      */
-    abstract protected function setNode(\DOMElement $node);
+    abstract protected function setNode(\DOMElement $node): void;
 }

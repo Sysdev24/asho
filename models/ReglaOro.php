@@ -37,13 +37,14 @@ class ReglaOro extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion'], 'string'],
-            [['descripcion'], 'required'],
+            [['descripcion', 'id_estatus'], 'required'],
             [['id_estatus'], 'default', 'value' => null],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,255}$/', 'message' => 'Solo se admiten letras.'],
-            [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],   
+            [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],
+            ['descripcion', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
         ];
     }
 

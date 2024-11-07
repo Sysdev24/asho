@@ -58,7 +58,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
-            [['username', 'password_hash'], 'required'],
+            [['username', 'password_hash', 'id_estatus'], 'required'],
             ['password_hash', 'string', 'min' => 6],
             [['username', 'password', 'password_hash'], 'string', 'max' => 255],
             [['username' ], 'string'],
@@ -78,6 +78,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             //[['ci'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
             [['searchCedula'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
             [['ci'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],
+            [['username', 'password'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
 
         ];
     }
@@ -197,8 +198,9 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
     public function getPersonal()
     {
-        return $this->hasOne(Personal::className(), ['ci' => 'ci']);
+        return $this->hasOne(Personal::class, ['ci' => 'ci']);
     }
+    
 
 
     /**

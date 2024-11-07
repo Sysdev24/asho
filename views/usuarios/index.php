@@ -39,6 +39,7 @@ $this->title = 'Usuario';
             'disabledPageCssClass' => 'disabled d-none',
             'linkOptions' => ['style' => 'text-decoration: none;', 'class' => 'page-link'],
         ],
+        
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',
             'header' => 'Nº', //Para que no aparezca el # sino la letra que se requiera],
@@ -48,7 +49,7 @@ $this->title = 'Usuario';
             [   
                 'attribute' => 'ci',
                 'label' => 'Cedula',
-                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'contentOptions' => ['style' => 'width:16%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -58,47 +59,41 @@ $this->title = 'Usuario';
             [   
                 'attribute' => 'username',
                 'label' => 'Usuario',
-                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'contentOptions' => ['style' => 'width:16%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
                 ],
             ],
-
 
             [
                 'attribute' => 'personal.nombre',
                 'label' => 'Nombre',
-                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-                'value' => array($searchModel, 'buscarNombre'),
+                'value' => function($model) {
+                    return $model->personal->nombre;
+                },
+                'contentOptions' => ['style' => 'width:16%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filter' => Html::activeTextInput($searchModel, 'nombre', [
                     'class' => 'form-control',
-                    'placeholder' => 'Buscar nombre',
+                    'placeholder' => 'Busqueda',
                 ]),
             ],
-
+            
             [
                 'attribute' => 'personal.apellido',
-                'contentOptions' => ['style' => 'width:15%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-                'value' => array($searchModel, 'buscarApellido'),
-                'filter' => 
-                Html::activeTextInput($searchModel, 'apellido', [
+                'label' => 'Apellido',
+                'value' => function($model) {
+                    return $model->personal->apellido;
+                },
+                'contentOptions' => ['style' => 'width:16%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'filter' => Html::activeTextInput($searchModel, 'apellido', [
                     'class' => 'form-control',
-                    'placeholder' => 'Buscar apellido',
+                    'placeholder' => 'Busqueda',
                 ]),
             ],
 
-           /* [
-                'attribute' => 'roles.name',
-                'label' => 'Rol',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-            ],*/
-
              //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
-             [   
+            [   
                 'attribute' => 'id_estatus',
                 'value' => array($searchModel, 'buscarEstatus'),
                 'filter' => 
@@ -109,27 +104,13 @@ $this->title = 'Usuario';
                 'contentOptions' => ['class' => 'col-lg-03 text-center'],
 
             ],
-           /* [   
-                'attribute' => 'name',
-                'label' => 'Roles',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-                
-                'value' => function($model){
-                    //return   $model->name->name;
-                    return   isset($model->name->descripcion) ? $model->name->name : 'N/D';
-                },
-                    //return   isset($model->gerencia->descripcion) ? $model->gerencia->descripcion : 'N/D';
-
-            ],*/
 
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Usuarios $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id_usuario' => $model->id_usuario]);
-                 }
+                },
+                'contentOptions' => ['class' => 'col-lg-03 text-center', 'style' => 'width:100px'],
             ],
         ],
     ]); ?>

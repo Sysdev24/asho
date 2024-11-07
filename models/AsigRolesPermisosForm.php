@@ -39,6 +39,9 @@ class AsigRolesPermisosForm extends Model
             ['permisosOld', 'each', 'rule' => ['string']],
         	['permisosOld', 'in', 'range' => self::getSystemPermisos(), 'allowArray' => true],
 
+            ['name', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+
+
         ];
     }
 

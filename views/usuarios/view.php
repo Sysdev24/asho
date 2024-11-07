@@ -49,8 +49,7 @@ $this->title = $model->username;
                     'placeholder' => 'Busqueda',
                 ],
             ],
-
-                        
+           
             [   
                 'attribute' => 'personal.cargo.descripcion',
                 'label' => 'Cargo',
@@ -68,6 +67,7 @@ $this->title = $model->username;
                     'placeholder' => 'Busqueda',
                 ],
             ],
+
             [   
                 'attribute' => 'personal.correo',
                 'label' => 'Correo',
@@ -76,8 +76,6 @@ $this->title = $model->username;
                     'placeholder' => 'Busqueda',
                 ],
             ],
-           
-
              
             [   
                 'attribute' => 'id_estatus',
@@ -85,17 +83,6 @@ $this->title = $model->username;
                 'value' => function($model){
                     return   $model->estatus->descripcion;},
             ],
-            /*[
-                'attribute' => 'roles',
-                'label' => 'Roles',
-                'value' => function ($model) {
-                    $roles = [];
-                    foreach ($model->getRoles() as $role) {
-                        $roles[] = $role->name;
-                    }
-                    return implode(', ', $roles);
-                },
-            ],*/
 
             [
                 'attribute' => 'roles',
