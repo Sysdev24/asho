@@ -82,6 +82,8 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
                 ['label' => 'Roles', 'url' => ['/roles/index']],
 
                 ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']],
+                
+                ['label' => 'Sujeto afectación', 'url' => ['/sujeafeccategoria/index']],
 
                 ['label' => 'Tipo Accidente', 'url' => ['/tipoaccidente/index']],
 

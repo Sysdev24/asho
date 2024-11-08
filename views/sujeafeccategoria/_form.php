@@ -5,20 +5,19 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Estatus;
 
-
 /** @var yii\web\View $this */
-/** @var app\models\AfecPerCategoria $model */
+/** @var app\models\SujeAfecCategoria $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="afec-per-categoria-form">
+<div class="suje-afec-categoria-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(); ?>
     <br>
     <div class="row">
         <div class="col-md-6">
         <?= $form->field($model, 'parent_id', [
-        ])->dropdownList(\app\models\AfecPerCategoria::getAfecperCategoryParentArrayList($model->id), [
+        ])->dropdownList(\app\models\SujeAfecCategoria::getCategoryParentArrayList($model->id), [
             'prompt' => 'Seleccione', ]) ?>
         </div>
 

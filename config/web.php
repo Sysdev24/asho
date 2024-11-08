@@ -65,21 +65,21 @@ $config = [
             ],
         ],
 
-       'session' => [
-            'db' => 'db',
-            'class' => 'yii\web\DbSession',
-            'timeout' => $params['authTimeout'],
-            'sessionTable' => $params['session.table'], // nombre de la tabla de sesión. Por defecto 'session'.
-            'writeCallback' => function ($session) {
-                return [
-                   'user_id' => \Yii::$app->user->isGuest ? null : \Yii::$app->user->id,
-                   'ip' => \Yii::$app->request->userIP,
-                   //'ip' => $_SERVER['REMOTE_ADDR'],
-                   'user_agent' => \Yii::$app->request->headers->get('user-agent'),
-                   'is_trusted' => $session->get('is_trusted', false),
-               ];
-            },
-        ],
+    //    'session' => [
+    //         'db' => 'db',
+    //         'class' => 'yii\web\DbSession',
+    //         'timeout' => $params['authTimeout'],
+    //         'sessionTable' => $params['session.table'], // nombre de la tabla de sesión. Por defecto 'session'.
+    //         'writeCallback' => function ($session) {
+    //             return [
+    //                'user_id' => \Yii::$app->user->isGuest ? null : \Yii::$app->user->id,
+    //                'ip' => \Yii::$app->request->userIP,
+    //                //'ip' => $_SERVER['REMOTE_ADDR'],
+    //                'user_agent' => \Yii::$app->request->headers->get('user-agent'),
+    //                'is_trusted' => $session->get('is_trusted', false),
+    //            ];
+    //         },
+    //     ],
     
 
         /*'defaultRoute' => 'site/login',*/
