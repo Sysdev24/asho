@@ -67,6 +67,16 @@ class TipoTrabajo extends \yii\db\ActiveRecord
         ]; 
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->descripcion = mb_strtoupper($this->descripcion);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * {@inheritdoc}
      */

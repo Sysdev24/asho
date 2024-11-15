@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\Response;
 
 /**
  * PeliagencategoriaController implements the CRUD actions for PeliAgenCategoria model.
@@ -75,44 +76,63 @@ class PeliagencategoriaController extends Controller
         ]);
     }
 
+    public function actionGetItems($parent_id)
+    {
+        $items = PeliAgenCategoria::find()->where(['parent_id' => $parent_id])->all();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['items' => $items];
+    }
+
     /**
      * Creates a new PeliAgenCategoria model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
-    {
-        $model = new PeliAgenCategoria();
+{
+    $model = new PeliAgenCategoria();
 
-        if ($model->load(Yii::$app->request->post())) {
-            // Set values
-            $parent = PeliAgenCategoria::findOne($model->parent_id);
+    if ($model->load(Yii::$app->request->post())) {
+        // Set values
+        $parent = PeliAgenCategoria::findOne($model->parent_id);
+        if ($parent) {
             $model->complete_name = $parent->complete_name . ' / ' . $model->name;
-            $model->parent_path = $parent->parent_path . $model->id . '/';
+            $model->parent_path = trim($parent->parent_path, '/') . '/' . $model->id . '/';
+        } else {
+            $model->complete_name = $model->name;
+            $model->parent_path = '/' . $model->id . '/';
+        }
 
-            if($model->save()) {
-                $model->parent_path = $parent->parent_path . $model->id . '/';
-                $model->save();
-                // MESSAGE
-                Yii::$app->getSession()->setFlash('success', 'Se ha creado exitosamente.');
-                return $this->redirect(['index', 'id' => $model->id]);
-            } else {
-                Yii::$app->getSession()->setFlash('error', 'success', 'Ha habido un error.');
+        if ($model->save()) {
+            if (!empty($model->child_ids)) {
+                foreach ($model->child_ids as $childId) {
+                    $child = new PeliAgenCategoria();
+                    $child->parent_id = $model->id;
+                    $child->id = $childId;
+                    $child->save();
+                }
+            }
+
+            Yii::$app->getSession()->setFlash('success', 'Se ha creado exitosamente.');
+            return $this->redirect(['index', 'id' => $model->id]);
+        } else {
+            Yii::$app->getSession()->setFlash('error', 'Ha habido un error.');
 
             if (YII_ENV_DEV) {
                 Yii::$app->getSession()->setFlash('warning', [
                     'type' => 'toast',
-                    'title' => Yii::t('app', 'Create {modelClass}', ['modelClass'=>Yii::t('app', 'Afectación persona')]) . ':',
+                    'title' => Yii::t('app', 'Create {modelClass}', ['modelClass' => Yii::t('app', 'PeliAgenCategoria')]) . ':',
                     'message' => $this->listErrors($model->getErrors()),
                 ]);
             }
-            }
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
+
+    return $this->render('create', [
+        'model' => $model,
+    ]);
+}
+    
 
     /**
      * Updates an existing PeliAgenCategoria model.
@@ -121,39 +141,42 @@ class PeliagencategoriaController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+   public function actionUpdate($id)
+{
+    $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
-            // Set values
-            $parent = PeliAgenCategoria::findOne($model->parent_id);
+    if ($model->load(Yii::$app->request->post())) {
+        // Set values
+        $parent = PeliAgenCategoria::findOne($model->parent_id);
+        if ($parent) {
             $model->complete_name = $parent->complete_name . ' / ' . $model->name;
-            $model->parent_path = $parent->parent_path . $model->id . '/';
-            if($model->save()) {
-                        return $this->redirect(['index', 'id' => $model->id]);
-                // MESSAGE
-                Yii::$app->getSession()->setFlash('success', 'Se ha actualizado exitosamente.');
-            } else {
-                // MESSAGE
-                Yii::$app->getSession()->setFlash('error', 'success', 'Ha habido un error.');
-                if (YII_ENV_DEV) {
-                    Yii::$app->getSession()->setFlash('warning', [
-                        [
-                            'type' => 'toast',
-                            'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Afectación persona')]) . ':',
-                            'message' => $this->listErrors($model->getErrors()),
-                        ]
-                    ]);
-                }
-                
-            }
+            $model->parent_path = trim($parent->parent_path, '/') . '/' . $model->id . '/';
+        } else {
+            $model->complete_name = $model->name;
+            $model->parent_path = '/' . $model->id . '/';
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        if ($model->save()) {
+            Yii::$app->getSession()->setFlash('success', 'Se ha actualizado exitosamente.');
+            return $this->redirect(['index', 'id' => $model->id]);
+        } else {
+            Yii::$app->getSession()->setFlash('error', 'Ha habido un error.');
+
+            if (YII_ENV_DEV) {
+                Yii::$app->getSession()->setFlash('warning', [
+                    'type' => 'toast',
+                    'title' => Yii::t('app', 'Update {modelClass}', ['modelClass' => Yii::t('app', 'PeliAgenCategoria')]) . ':',
+                    'message' => $this->listErrors($model->getErrors()),
+                ]);
+            }
+        }
     }
+
+    return $this->render('update', [
+        'model' => $model,
+    ]);
+}
+
 
     /**
      * Deletes an existing PeliAgenCategoria model.

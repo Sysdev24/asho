@@ -80,6 +80,17 @@ class Roles extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->descripcion = mb_strtoupper($this->descripcion);
+            $this->guard_name = mb_strtoupper($this->guard_name);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Gets query for [[Estatus]].
      *

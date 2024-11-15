@@ -21,6 +21,8 @@ use yii\db\ActiveRecord;
  */
 class PeliAgenCategoria extends \yii\db\ActiveRecord
 {
+
+    public $child_ids = [];
     /**
      * {@inheritdoc}
      */
@@ -44,6 +46,8 @@ class PeliAgenCategoria extends \yii\db\ActiveRecord
             [['parent_path'], 'string', 'max' => 32],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['name', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+
+            [['child_ids'], 'safe'], // Añade esta regla
         ];
     }
 
@@ -79,6 +83,16 @@ class PeliAgenCategoria extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->name = mb_strtoupper($this->name);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Gets query for [[Estatus]].
      *
@@ -91,18 +105,33 @@ class PeliAgenCategoria extends \yii\db\ActiveRecord
 
     public static function getCategoryParentArrayList($id)
     {
-        if ($id) {
-            $model = self::find()->where(['parent_id' => null])->andFilterWhere(['not in', 'id', [$id]])->orderBy('name')->all();
-        } else {
-            $model = self::find()->where(['parent_id' => null])->orderBy('name')->all();
-        }
-    
+        $query = self::find()->where(['parent_id' => null])->orderBy('name ASC');
+        $models = $query->all();
+
         $rows = [];
-        foreach ($model as $row) {
-            $rows[$row->id] = $row->name;
+        foreach ($models as $model) {
+            $rows[$model->id] = $model->name;
         }
+
         return $rows;
     }
+
+    // public static function getCategoryParentArrayList($id)
+    // {
+    //     if ($id) {
+    //         $model = self::find()->andFilterWhere(['not in', 'id', [$id]])->orderBy('name')->all();
+    //     } else {
+    //         $model = self::find()->orderBy('name')->all();
+    //     }
+        
+    //     $rows = [];
+    //     foreach ($model as $row) {
+    //         $rows[$row->id] = $row->name;
+    //     }
+    //     return $rows;
+    // }
+    
+
 
     /**
      * {@inheritdoc}

@@ -134,17 +134,28 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
+            // Convertir a mayúsculas los campos específicos
+            $this->username = mb_strtoupper($this->username);
+            $this->apellido = mb_strtoupper($this->apellido);
+    
+            // Generar claves de autenticación
             if ($insert) {
                 $this->authKey = Yii::$app->security->generateRandomString();
                 $this->accesstoken = Yii::$app->security->generateRandomString();
             }
+    
+            // Encriptar contraseña
             if ($this->password) {
                 $this->setPassword($this->password);
             }
+            
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
+    
+
     
     /**
      * Gets query for [[AuditTrails]].

@@ -75,6 +75,17 @@ class Nacionalidad extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->descripcion = mb_strtoupper($this->descripcion);
+            $this->letra = mb_strtoupper($this->letra);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Gets query for [[Estatus]].
      *

@@ -115,7 +115,16 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
         return $rows;
     }
     
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->name = mb_strtoupper($this->name);
 
+            return true;
+        } else {
+            return false;
+        }
+    }
     
 
     /**

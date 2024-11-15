@@ -54,14 +54,17 @@ $config = [
         'db' => $db,
         
         
-        //URL limpias
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                //URL limpias
+            //    '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                // '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                //
+                'peliagencategoria/get-items' => 'peliagencategoria/get-items',
             ],
         ],
 

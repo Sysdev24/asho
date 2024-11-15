@@ -101,6 +101,17 @@ class AfectacionBienesProcesos extends \yii\db\ActiveRecord
         return $this->hasMany(Registro::class, ['id_afecta_bienes_perso' => 'id_afec_bien_pro'])->inverseOf('afectaBienesPerso');
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->afectacion = mb_strtoupper($this->afectacion);
+            $this->valor = mb_strtoupper($this->valor);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * {@inheritdoc}
      * @return AfectacionbienesprocesosQuery the active query used by this AR class.
