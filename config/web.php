@@ -61,10 +61,9 @@ $config = [
             'enableStrictParsing' => false,
             'rules' => [
                 //URL limpias
-            //    '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                // '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                //
-                'peliagencategoria/get-items' => 'peliagencategoria/get-items',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                //'peliagencategoria/get-items' => 'peliagencategoria/get-items',
             ],
         ],
 

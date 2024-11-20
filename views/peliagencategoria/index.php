@@ -52,15 +52,15 @@ $this->title = 'Peligro Agente Categorias';
                     'placeholder' => 'Busqueda',
                 ],                    
             ],
-            [   
-                'attribute' => 'parent_path',
-                'label' => 'Parebt',
-                'contentOptions' => ['style' => 'width:20%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],                    
-            ],
+            // [   
+            //     'attribute' => 'parent_path',
+            //     'label' => 'Parebt',
+            //     'contentOptions' => ['style' => 'width:20%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+            //     'filterInputOptions' => [
+            //         'class' => 'form-control',
+            //         'placeholder' => 'Busqueda',
+            //     ],                    
+            // ],
 
             [   
                 'attribute' => 'codigo',

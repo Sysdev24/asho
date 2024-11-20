@@ -89,49 +89,49 @@ class PeliagencategoriaController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionCreate()
-{
-    $model = new PeliAgenCategoria();
+    {
+        $model = new PeliAgenCategoria();
 
-    if ($model->load(Yii::$app->request->post())) {
-        // Set values
-        $parent = PeliAgenCategoria::findOne($model->parent_id);
-        if ($parent) {
-            $model->complete_name = $parent->complete_name . ' / ' . $model->name;
-            $model->parent_path = trim($parent->parent_path, '/') . '/' . $model->id . '/';
-        } else {
-            $model->complete_name = $model->name;
-            $model->parent_path = '/' . $model->id . '/';
-        }
+        if ($model->load(Yii::$app->request->post())) {
+            // Set values
+            $parent = PeliAgenCategoria::findOne($model->parent_id);
+            if ($parent) {
+                $model->complete_name = $parent->complete_name . ' / ' . $model->name;
+                $model->parent_path = trim($parent->parent_path, '/') . '/' . $model->id . '/';
+            } else {
+                $model->complete_name = $model->name;
+                $model->parent_path = '/' . $model->id . '/';
+            }
 
-        if ($model->save()) {
-            if (!empty($model->child_ids)) {
-                foreach ($model->child_ids as $childId) {
-                    $child = new PeliAgenCategoria();
-                    $child->parent_id = $model->id;
-                    $child->id = $childId;
-                    $child->save();
+            if ($model->save()) {
+                if (!empty($model->child_ids)) {
+                    foreach ($model->child_ids as $childId) {
+                        $child = new PeliAgenCategoria();
+                        $child->parent_id = $model->id;
+                        $child->id = $childId;
+                        $child->save();
+                    }
+                }
+
+                Yii::$app->getSession()->setFlash('success', 'Se ha creado exitosamente.');
+                return $this->redirect(['index', 'id' => $model->id]);
+            } else {
+                Yii::$app->getSession()->setFlash('error', 'Ha habido un error.');
+
+                if (YII_ENV_DEV) {
+                    Yii::$app->getSession()->setFlash('warning', [
+                        'type' => 'toast',
+                        'title' => Yii::t('app', 'Create {modelClass}', ['modelClass' => Yii::t('app', 'PeliAgenCategoria')]) . ':',
+                        'message' => $this->listErrors($model->getErrors()),
+                    ]);
                 }
             }
-
-            Yii::$app->getSession()->setFlash('success', 'Se ha creado exitosamente.');
-            return $this->redirect(['index', 'id' => $model->id]);
-        } else {
-            Yii::$app->getSession()->setFlash('error', 'Ha habido un error.');
-
-            if (YII_ENV_DEV) {
-                Yii::$app->getSession()->setFlash('warning', [
-                    'type' => 'toast',
-                    'title' => Yii::t('app', 'Create {modelClass}', ['modelClass' => Yii::t('app', 'PeliAgenCategoria')]) . ':',
-                    'message' => $this->listErrors($model->getErrors()),
-                ]);
-            }
         }
-    }
 
-    return $this->render('create', [
-        'model' => $model,
-    ]);
-}
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
     
 
     /**
@@ -142,40 +142,40 @@ class PeliagencategoriaController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
    public function actionUpdate($id)
-{
-    $model = $this->findModel($id);
+    {
+        $model = $this->findModel($id);
 
-    if ($model->load(Yii::$app->request->post())) {
-        // Set values
-        $parent = PeliAgenCategoria::findOne($model->parent_id);
-        if ($parent) {
-            $model->complete_name = $parent->complete_name . ' / ' . $model->name;
-            $model->parent_path = trim($parent->parent_path, '/') . '/' . $model->id . '/';
-        } else {
-            $model->complete_name = $model->name;
-            $model->parent_path = '/' . $model->id . '/';
-        }
+        if ($model->load(Yii::$app->request->post())) {
+            // Set values
+            $parent = PeliAgenCategoria::findOne($model->parent_id);
+            if ($parent) {
+                $model->complete_name = $parent->complete_name . ' / ' . $model->name;
+                $model->parent_path = trim($parent->parent_path, '/') . '/' . $model->id . '/';
+            } else {
+                $model->complete_name = $model->name;
+                $model->parent_path = '/' . $model->id . '/';
+            }
 
-        if ($model->save()) {
-            Yii::$app->getSession()->setFlash('success', 'Se ha actualizado exitosamente.');
-            return $this->redirect(['index', 'id' => $model->id]);
-        } else {
-            Yii::$app->getSession()->setFlash('error', 'Ha habido un error.');
+            if ($model->save()) {
+                Yii::$app->getSession()->setFlash('success', 'Se ha actualizado exitosamente.');
+                return $this->redirect(['index', 'id' => $model->id]);
+            } else {
+                Yii::$app->getSession()->setFlash('error', 'Ha habido un error.');
 
-            if (YII_ENV_DEV) {
-                Yii::$app->getSession()->setFlash('warning', [
-                    'type' => 'toast',
-                    'title' => Yii::t('app', 'Update {modelClass}', ['modelClass' => Yii::t('app', 'PeliAgenCategoria')]) . ':',
-                    'message' => $this->listErrors($model->getErrors()),
-                ]);
+                if (YII_ENV_DEV) {
+                    Yii::$app->getSession()->setFlash('warning', [
+                        'type' => 'toast',
+                        'title' => Yii::t('app', 'Update {modelClass}', ['modelClass' => Yii::t('app', 'PeliAgenCategoria')]) . ':',
+                        'message' => $this->listErrors($model->getErrors()),
+                    ]);
+                }
             }
         }
-    }
 
-    return $this->render('update', [
-        'model' => $model,
-    ]);
-}
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
 
 
     /**
