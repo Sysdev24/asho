@@ -12,15 +12,15 @@ use app\models\Estatus;
 /** @var app\models\PeliagencategoriaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Peligro Agente Categorias';
+$this->title = 'Peligro Agente';
 ?>
 <div class="peli-agen-categoria-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Crear Peligro Agente Categoria', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <!-- <p>
+        <?= Html::a('Crear Peligro Agente', ['create'], ['class' => 'btn btn-success']) ?>
+    </p> -->
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -52,15 +52,6 @@ $this->title = 'Peligro Agente Categorias';
                     'placeholder' => 'Busqueda',
                 ],                    
             ],
-            // [   
-            //     'attribute' => 'parent_path',
-            //     'label' => 'Parebt',
-            //     'contentOptions' => ['style' => 'width:20%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-            //     'filterInputOptions' => [
-            //         'class' => 'form-control',
-            //         'placeholder' => 'Busqueda',
-            //     ],                    
-            // ],
 
             [   
                 'attribute' => 'codigo',

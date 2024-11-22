@@ -12,15 +12,15 @@ use app\models\Estatus;
 /** @var app\models\TipacccategoriaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Tipo de Accidente Categorias';
+$this->title = 'Tipo de Accidente';
 ?>
 <div class="tip-acc-categoria-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Crear Tipo de Accidente Categoria', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <!-- <p>
+        <?= Html::a('Crear Tipo de Accidente', ['create'], ['class' => 'btn btn-success']) ?>
+    </p> -->
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

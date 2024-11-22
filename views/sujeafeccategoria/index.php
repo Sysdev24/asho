@@ -12,7 +12,7 @@ use app\models\Estatus;
 /** @var app\models\SujeafeccategoriaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Sujeto Afectación Categorias';
+$this->title = 'Sujeto Afectación';
 ?>
 <div class="suje-afec-categoria-index">
 
@@ -20,9 +20,9 @@ $this->title = 'Sujeto Afectación Categorias';
     
     <br>
 
-    <p>
-        <?= Html::a('Crear Sujeto Afectación Categoria', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <!-- <p>
+        <?= Html::a('Crear Sujeto Afectación', ['create'], ['class' => 'btn btn-success']) ?>
+    </p> -->
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -49,15 +49,6 @@ $this->title = 'Sujeto Afectación Categorias';
                 'attribute' => 'name',
                 'label' => 'Nombre',
                 'contentOptions' => ['style' => 'width:40%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],                    
-            ],
-            [   
-                'attribute' => 'parent_path',
-                'label' => 'Parebt',
-                'contentOptions' => ['style' => 'width:20%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',

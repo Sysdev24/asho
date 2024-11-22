@@ -51,7 +51,7 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
         'items' => [
                 ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
 
-                ['label' => 'Afectacion Persona Categoria', 'url' => ['/afecpercategoria/index']], 
+                ['label' => 'Afectacion Persona', 'url' => ['/afecpercategoria/index']], 
 
                 ['label' => 'Cargo', 'url' => ['/cargo/index']],
 
