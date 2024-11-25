@@ -79,7 +79,7 @@ $this->title = 'Tipo de Accidente';
         'headerOptions' => ['class' => 'col-lg-03 text-center'],
         'contentOptions' => ['class' => 'col-lg-03 text-center'],
 
-    ],
+        ],
 
 
             //'created_at',

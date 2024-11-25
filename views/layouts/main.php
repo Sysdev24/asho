@@ -55,7 +55,12 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
 
                 ['label' => 'Cargo', 'url' => ['/cargo/index']],
 
+                // ['label' => 'Causa Inmediata Directas', 'url' => ['/causainmediatadirectas/index']],
+
                 ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
+
+                // ['label' => 'Causa Cb', 'url' => ['/causascb/index']],
+
 
                 ['label' => 'Estados', 'url' => ['/estados/index']],
 
@@ -77,7 +82,7 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
 
                 ['label' => 'Regiones', 'url' => ['/regiones/index']],
 
-                ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']],
+                // ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']],
 
                 ['label' => 'Roles', 'url' => ['/roles/index']],
 
@@ -86,6 +91,8 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
                 ['label' => 'Sujeto afectación', 'url' => ['/sujeafeccategoria/index']],
 
                 ['label' => 'Tipo Accidente', 'url' => ['/tipacccategoria/index']],
+
+                // ['label' => 'Tipo Contacto', 'url' => ['/tipocontacto/index']],
 
                 ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']],
                 
@@ -100,7 +107,7 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
 
                 ['label' => 'Registro', 'url' => ['/registro/index']],
 
-                ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
+                // ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
             ],
         ]
     ];
