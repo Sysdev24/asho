@@ -19,8 +19,15 @@ use app\models\Estatus;
     <?= $form->field($model, 'codigo')->textInput(['placeholder'=>'Ejemplo: C0']) ?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
-    ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
-    ['prompt'=> 'seleccionar status']);?>
+    ArrayHelper::map(
+        Estatus::find()
+            ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+            ->all(),
+        'id_estatus',
+        'descripcion'
+    ),
+    ['prompt'=> 'seleccionar status']
+    );?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

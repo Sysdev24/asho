@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\Estatus;
 
 /** @var yii\web\View $this */
 /** @var app\models\CausaInmediataDirectas $model */
@@ -22,7 +24,16 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'updated_at')->textInput() ?>
 
-    <?= $form->field($model, 'id_estatus')->textInput() ?>
+    <?= $form->field($model, 'id_estatus')->dropDownList(
+    ArrayHelper::map(
+        Estatus::find()
+            ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+            ->all(),
+        'id_estatus',
+        'descripcion'
+    ),
+    ['prompt'=> 'seleccionar status']
+    );?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

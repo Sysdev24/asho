@@ -127,38 +127,33 @@ class AfecpercategoriaController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+{
+    $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
-            // Set values
-            $parent = AfecPerCategoria::findOne($model->parent_id);
+    if ($model->load(Yii::$app->request->post())) {
+        // Se busca la categoría padre
+        $parent = AfecPerCategoria::findOne($model->parent_id);
+
+        // Verifica si se encontró la categoría padre
+        if ($parent) {
+            // Si se encontró, actualiza los campos del modelo
             $model->complete_name = $parent->complete_name . ' / ' . $model->name;
             $model->parent_path = $parent->parent_path . $model->id . '/';
-            if($model->save()) {
-                        return $this->redirect(['index', 'id' => $model->id]);
-                // MESSAGE
-                Yii::$app->getSession()->setFlash('success', 'Se ha actualizado exitosamente.');
-            } else {
-                // MESSAGE
-                Yii::$app->getSession()->setFlash('error', 'success', 'Ha habido un error.');
-                if (YII_ENV_DEV) {
-                    Yii::$app->getSession()->setFlash('warning', [
-                        [
-                            'type' => 'toast',
-                            'title' => Yii::t('app', 'Update {modelClass}', ['modelClass'=>Yii::t('app', 'Afectación persona')]) . ':',
-                            'message' => $this->listErrors($model->getErrors()),
-                        ]
-                    ]);
-                }
-                
-            }
-        }
+        } 
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        if ($model->save()) {
+            // Redireccionamos a la vista de índice y mostramos un mensaje de éxito
+            return $this->redirect(['index', 'id' => $model->id]);
+        } else {
+            // Si hay errores de validación, mostramos los errores
+            // ... (tu código existente para mostrar errores)
+        }
     }
+
+    return $this->render('update', [
+        'model' => $model,
+    ]);
+}
 
 
 

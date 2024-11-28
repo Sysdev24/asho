@@ -18,9 +18,9 @@ $this->title = 'Regiones';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
+    <!-- <p>
         <?= Html::a('Crear Regiones', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    </p> -->
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -54,23 +54,23 @@ $this->title = 'Regiones';
                     'placeholder' => 'Busqueda',
                 ]
             ],
-            //'id_estatus',
-            
 
-              //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
-              [   
+            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
+            [   
                 'attribute' => 'id_estatus',
                 'value' => array($searchModel, 'buscarEstatus'),
                 'filter' => 
                 Html::activeDropDownList($searchModel, 'id_estatus',
-                ArrayHelper::map(Estatus::find()->all(), 'id_estatus', 'descripcion'),
+                ArrayHelper::map(Estatus::find()
+                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+                ->all(),
+                'id_estatus',
+                'descripcion'),
                 ['prompt'=> 'Busqueda', 'class' => 'form-control']),
                 'headerOptions' => ['class' => 'col-lg-03 text-center'],
                 'contentOptions' => ['class' => 'col-lg-03 text-center'],
-
             ],
-            //'created_at',
-           // 'updated_at',
+
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Regiones $model, $key, $index, $column) {

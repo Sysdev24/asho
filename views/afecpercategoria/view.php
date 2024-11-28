@@ -27,7 +27,7 @@ $this->title = $model->name;
             //'parent_path',
             'codigo',
             //'created_at',
-            //'update_at',
+            //'updated_at',
             [   
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',

@@ -19,9 +19,9 @@ $this->title = 'Tipo de Trabajo';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
+    <!-- <p>
         <?= Html::a('Crear Tipo de Trabajo', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    </p> -->
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -44,8 +44,6 @@ $this->title = 'Tipo de Trabajo';
             'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
             ], 
 
-            //'id_tipo_trabajo',
-            //'descripcion',
             [   
                 'attribute' => 'descripcion',
                 'label' => 'Descripcion',
@@ -54,10 +52,7 @@ $this->title = 'Tipo de Trabajo';
                     'placeholder' => 'Busqueda',
                 ],
             ],
-            //'created_at',
-            //'updated_at',
-            //'id_estatus',
-            //'codigo',
+
             [   
                 'attribute' => 'codigo',
                 'label' => 'Codigo',
@@ -75,11 +70,14 @@ $this->title = 'Tipo de Trabajo';
                 'value' => array($searchModel, 'buscarEstatus'),
                 'filter' => 
                 Html::activeDropDownList($searchModel, 'id_estatus',
-                ArrayHelper::map(Estatus::find()->all(), 'id_estatus', 'descripcion'),
+                ArrayHelper::map(Estatus::find()
+                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+                ->all(),
+                'id_estatus',
+                'descripcion'),
                 ['prompt'=> 'Busqueda', 'class' => 'form-control']),
                 'headerOptions' => ['class' => 'col-lg-03 text-center'],
                 'contentOptions' => ['class' => 'col-lg-03 text-center'],
-
             ],
         
             [

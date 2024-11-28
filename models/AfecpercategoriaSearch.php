@@ -18,7 +18,7 @@ class AfecpercategoriaSearch extends AfecPerCategoria
     {
         return [
             [['id', 'parent_id', 'id_estatus'], 'integer'],
-            [['name', 'complete_name', 'parent_path', 'codigo', 'created_at', 'update_at'], 'safe'],
+            [['name', 'complete_name', 'parent_path', 'codigo', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -69,7 +69,7 @@ class AfecpercategoriaSearch extends AfecPerCategoria
             'id' => $this->id,
             'parent_id' => $this->parent_id,
             'created_at' => $this->created_at,
-            'update_at' => $this->update_at,
+            'updated_at' => $this->updated_at,
             'id_estatus' => $this->id_estatus,
         ]);
 

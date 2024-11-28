@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use app\models\Estatus;
 
 /** @var yii\web\View $this */
 /** @var app\models\CausainmediatadirectasSearch $searchModel */
@@ -17,9 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
+    <!-- <p>
         <?= Html::a('Create Causa Inmediata Directas', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    </p> -->
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -34,8 +36,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_sub1_caus_inm_dir',
             'descripcion',
             'created_at',
-            //'updated_at',
-            //'id_estatus',
+            
+            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
+            [   
+                'attribute' => 'id_estatus',
+                'value' => array($searchModel, 'buscarEstatus'),
+                'filter' => 
+                Html::activeDropDownList($searchModel, 'id_estatus',
+                ArrayHelper::map(Estatus::find()
+                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+                ->all(),
+                'id_estatus',
+                'descripcion'),
+                ['prompt'=> 'Busqueda', 'class' => 'form-control']),
+                'headerOptions' => ['class' => 'col-lg-03 text-center'],
+                'contentOptions' => ['class' => 'col-lg-03 text-center'],
+            ],
+
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, CausaInmediataDirectas $model, $key, $index, $column) {

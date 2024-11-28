@@ -26,8 +26,15 @@ use app\models\Estatus;
     <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba nombre de la gerencia']) ?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
-        ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
-        ['prompt'=> 'seleccionar status']);?>
+    ArrayHelper::map(
+        Estatus::find()
+            ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+            ->all(),
+        'id_estatus',
+        'descripcion'
+    ),
+    ['prompt'=> 'seleccionar status']
+    );?>
 
 
 

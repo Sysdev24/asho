@@ -136,7 +136,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         if (parent::beforeSave($insert)) {
             // Convertir a mayúsculas los campos específicos
             $this->username = mb_strtoupper($this->username);
-            $this->apellido = mb_strtoupper($this->apellido);
+            //$this->apellido = mb_strtoupper($this->apellido);
     
             // Generar claves de autenticación
             if ($insert) {

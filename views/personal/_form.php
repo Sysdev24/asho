@@ -39,12 +39,19 @@ use app\models\Nacionalidad;
         ['prompt'=> 'seleccionar gerencia']);?>
 
     <?= $form->field($model, 'id_estado')->dropDownList(
-        ArrayHelper::map(Estados::find()->all(),'id_estado','descripcion'),
-        ['prompt'=> 'seleccionar estado']);?>
+    ArrayHelper::map(Estados::find()->all(),'id_estado','descripcion'),
+    ['prompt'=> 'seleccionar estado']);?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
-        ArrayHelper::map(Estatus::find()->all(),'id_estatus','descripcion'),
-        ['prompt'=> 'seleccionar status']);?>
+    ArrayHelper::map(
+        Estatus::find()
+            ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+            ->all(),
+        'id_estatus',
+        'descripcion'
+    ),
+    ['prompt'=> 'seleccionar status']
+    );?>
 
     <?= $form->field($model, 'id_cargo')->dropDownList(
         ArrayHelper::map(cargo::find()->all(),'id_cargo','descripcion'),

@@ -14,18 +14,9 @@ use app\models\Estatus;
 
 <?php $form = ActiveForm::begin(); ?>
     <br>
-    <div class="row">
-        <div class="col-md-6">
-        <?= $form->field($model, 'parent_id', [
-        ])->dropdownList(\app\models\SujeAfecCategoria::getCategoryParentArrayList($model->id), [
-            'prompt' => 'Seleccione', ]) ?>
-        </div>
 
-        <div class="col-md-6">
-        <?= $form->field($model, 'name', [
-        ])->textInput(['maxlength' => true]) ?>
-        </div>
-    </div>
+    <?= $form->field($model, 'name', [
+    ])->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'id_estatus')->dropDownList(
     ArrayHelper::map(
@@ -36,8 +27,7 @@ use app\models\Estatus;
         'descripcion'
     ),
     ['prompt'=> 'seleccionar status']
-);?>
-
+    );?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

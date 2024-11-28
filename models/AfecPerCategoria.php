@@ -19,7 +19,7 @@ use yii\db\ActiveRecord;
  * @property string|null $parent_path
  * @property string|null $codigo
  * @property string|null $created_at
- * @property string|null $update_at
+ * @property string|null $updated_at
  * @property int|null $id_estatus
  *
  * @property Estatus $estatus
@@ -48,12 +48,12 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
             [['parent_id', 'id_estatus'], 'integer'],
             [['name', 'codigo'], 'string'],
             [['name'], 'unique','message' => ''],
-            [['created_at', 'update_at'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['complete_name'], 'string', 'max' => 512],
             [['parent_path'], 'string', 'max' => 32],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['name', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
-
+            ['parent_id', 'exist', 'targetClass' => AfecPerCategoria::class, 'targetAttribute' => 'id'],
 
         ];
     }
@@ -85,7 +85,7 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
             'parent_path' => 'Parent Path',
             'codigo' => 'Codigo',
             'created_at' => 'Created At',
-            'update_at' => 'Update At',
+            'updated_at' => 'Update At',
             'id_estatus' => 'Estatus',
         ];
     }

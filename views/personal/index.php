@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use app\models\Estatus;
 
 /** @var yii\web\View $this */
 /** @var app\models\PersonalSearch $searchModel */
@@ -53,6 +55,7 @@ $this->title = 'Personal';
             [   
                 'attribute' => 'ci',
                 'label' => 'Cedula',
+                'contentOptions' => ['style' => 'width:12%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -63,6 +66,7 @@ $this->title = 'Personal';
             [   
                 'attribute' => 'nombre',
                 'label' => 'Nombre',
+                'contentOptions' => ['style' => 'width:20%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -73,6 +77,7 @@ $this->title = 'Personal';
             [   
                 'attribute' => 'apellido',
                 'label' => 'apellido',
+                'contentOptions' => ['style' => 'width:20%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
@@ -90,21 +95,20 @@ $this->title = 'Personal';
                 ],
             ],
 
-            //'id_gerencia',
-            //'id_estado',
-            //'id_estatus',
-
-            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla estados
+            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
             [   
                 'attribute' => 'id_estatus',
-                'label' => 'Estatus',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-                
-                'value' => function($model){
-                    return   $model->estatus->descripcion;},
+                'value' => array($searchModel, 'buscarEstatus'),
+                'filter' => 
+                Html::activeDropDownList($searchModel, 'id_estatus',
+                ArrayHelper::map(Estatus::find()
+                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+                ->all(),
+                'id_estatus',
+                'descripcion'),
+                ['prompt'=> 'Busqueda', 'class' => 'form-control']),
+                'headerOptions' => ['class' => 'col-lg-03 text-center'],
+                'contentOptions' => ['class' => 'col-lg-03 text-center'],
             ],
 
 
