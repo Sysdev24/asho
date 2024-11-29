@@ -52,6 +52,7 @@ use yii\helpers\Url;
     <?php endif; ?>
 
     <?= $form->field($model, 'username')->textInput(['placeholder'=>'Ejemplo: A1234567']) ?>
+     
     <?= $form->field($model, 'password')->passwordInput(['placeholder'=>'Escriba su contraseña']) ?>
     <?= $form->field($model, 'name', [
         'template' => "<div>{input}\n{error}</div>",
@@ -83,7 +84,15 @@ if ($model->scenario === 'create') {
             e.preventDefault();
             // Obtener la cédula a validar
             var search = $('#searchCedula').val();
-            alert('Datos: ' + search);
+
+            // Validación de la longitud de la cédula
+            if (search.length < 8) {
+                // Mostrar un mensaje de error
+                alert('La cédula debe tener al menos 8 dígitos.');
+                return; // Detenemos la ejecución de la función si la cédula es demasiado corta
+            }
+
+            //alert('Datos: ' + search);
             // Mostrar mensaje de espera
             $('p strong#origen-data')
                 .removeClass('text-success text-danger text-info')

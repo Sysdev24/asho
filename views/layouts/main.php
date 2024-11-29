@@ -80,6 +80,8 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
 
                 ['label' => 'Personal', 'url' => ['/personal/index']],
 
+                ['label' => 'Persona Natural', 'url' => ['/personanatural/index']],
+
                 ['label' => 'Regiones', 'url' => ['/regiones/index']],
 
                 // ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']],
