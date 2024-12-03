@@ -1,12 +1,13 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
+
 
 /** @var yii\web\View $this */
 /** @var app\models\Registro $model */
 
-$this->title = 'Actuaizar Registro: ' . $model->id_registro;
-
+$this->title = 'Actualizar Registro: ' . $model->id_registro;
 ?>
 <div class="registro-update">
 
@@ -17,14 +18,6 @@ $this->title = 'Actuaizar Registro: ' . $model->id_registro;
     ]) ?>
 
     <!-- BOTON DE VOLVER-->
-    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goBack()']) ?>
-
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-
-    </div>
+    <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
 
 </div>

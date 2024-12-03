@@ -36,52 +36,17 @@ $this->title = 'Registros';
             'linkOptions' => ['style' => 'text-decoration: none;', 'class' => 'page-link'],
         ],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn',
+            [
+                'class' => 'yii\grid\SerialColumn',
             'header' => 'Nº', //Para que no aparezca el # sino la letra que se requiera],
             'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-            ], 
-
-            //'id_registro',
-            //'id_estado',
-            [   
-                'attribute' => 'id_estado',
-                'label' => 'Estado',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ]
             ],
 
-            //'fecha_hora',
-            [   
-                'attribute' => 'fecha_hora',
-                'label' => 'Fecha y hora',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ]
-            ],
-
-            //'lugar',
-            [   
-                'attribute' => 'lugar',
-                'label' => 'Lugar',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ]
-            ],
-
-            //'nro_accidente',
-            [   
-                'attribute' => 'nro_accidente',
-                'label' => 'Nro Accidente',
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ]
-            ],
-
+            'id_registro',
+            'id_estado',
+            'fecha_hora',
+            'lugar',
+            'nro_accidente',
             //'cedula_supervisor_60min',
             //'observaciones_60min',
             //'autorizado_60m:boolean',
@@ -117,6 +82,7 @@ $this->title = 'Registros';
             //'validado_por_24h',
             //'id_requerimiento_trabajo_24h',
             //'cumple_regla_oro:boolean',
+            //'id_afec_per_categoria',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Registro $model, $key, $index, $column) {

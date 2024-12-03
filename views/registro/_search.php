@@ -95,6 +95,8 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'cumple_regla_oro')->checkbox() ?>
 
+    <?php // echo $form->field($model, 'id_afec_per_categoria') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>

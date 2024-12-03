@@ -12,13 +12,21 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <div class="row">
+
+    <?= $form->field($model, 'cedula_reporta')->textInput() ?>
+
+    <?= $form->field($model, 'nro_accidente')->textInput() ?>
+
+    <?= $form->field($model, 'id_region')->textInput() ?>
+
     <?= $form->field($model, 'id_estado')->textInput() ?>
 
     <?= $form->field($model, 'fecha_hora')->textInput() ?>
+    
+    </div>
 
     <?= $form->field($model, 'lugar')->textInput() ?>
-
-    <?= $form->field($model, 'nro_accidente')->textInput() ?>
 
     <?= $form->field($model, 'cedula_supervisor_60min')->textInput() ?>
 
@@ -32,11 +40,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_estatus_proceso')->textInput() ?>
 
-    <?= $form->field($model, 'id_region')->textInput() ?>
 
     <?= $form->field($model, 'acciones_tomadas_60min')->textInput() ?>
 
-    <?= $form->field($model, 'cedula_reporta')->textInput() ?>
 
     <?= $form->field($model, 'cedula_pers_accide')->textInput() ?>
 
@@ -90,8 +96,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'cumple_regla_oro')->checkbox() ?>
 
+    <?= $form->field($model, 'id_afec_per_categoria')->textInput() ?>
+
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

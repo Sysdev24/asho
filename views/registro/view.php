@@ -2,28 +2,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\Registro $model */
 
 $this->title = $model->id_registro;
-
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="registro-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id_registro' => $model->id_registro], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id_registro' => $model->id_registro], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -68,18 +56,11 @@ $this->title = $model->id_registro;
             'validado_por_24h',
             'id_requerimiento_trabajo_24h',
             'cumple_regla_oro:boolean',
+            'id_afec_per_categoria',
         ],
     ]) ?>
 
     <!-- BOTON DE VOLVER-->
-    <?= Html::button('Atras', ['class' => 'my-custom-button', 'onclick' => 'goBack()']) ?>
-
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-
-    </div>
+   <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
 
 </div>
