@@ -45,16 +45,11 @@ $config = [
                 ],
             ],
             ],
-
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             //'class' => 'app\components\AuthManager',
         ],
-        
         'db' => $db,
-        
-        
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -66,49 +61,30 @@ $config = [
                 //'peliagencategoria/get-items' => 'peliagencategoria/get-items',
             ],
         ],
-
-    //    'session' => [
-    //         'db' => 'db',
-    //         'class' => 'yii\web\DbSession',
-    //         'timeout' => $params['authTimeout'],
-    //         'sessionTable' => $params['session.table'], // nombre de la tabla de sesión. Por defecto 'session'.
-    //         'writeCallback' => function ($session) {
-    //             return [
-    //                'user_id' => \Yii::$app->user->isGuest ? null : \Yii::$app->user->id,
-    //                'ip' => \Yii::$app->request->userIP,
-    //                //'ip' => $_SERVER['REMOTE_ADDR'],
-    //                'user_agent' => \Yii::$app->request->headers->get('user-agent'),
-    //                'is_trusted' => $session->get('is_trusted', false),
-    //            ];
-    //         },
-    //     ],
-    
-    
-
-        /*'defaultRoute' => 'site/login',*/
-        
-
         'assetManager' => [
             'bundles' => [
                 // ...
             ],
             'basePath' => '@app/web/assets', // Asegúrate de que esta sea la ruta correcta a tu directorio widgets
         ],
-        
+        'session' => [
+            'class' => 'yii\web\Session',
+            'timeout' => 300, // Tiempo en segundos (5 minutos)
+            'cookieParams' => [
+                'lifetime' => 300, // Tiempo en segundos (5 minutos)
+            ],
+        ],
     ],
-
     'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
-
-        // configuración de módulos ajustada para el entorno 'dev'
-        $config['bootstrap'][] = 'debug';
-        $config['modules']['debug'] = [
-            'class' => 'yii\debug\Module',
-            'allowedIPs' => ['127.0.0.1'],
-        ];
-
+    // configuración de módulos ajustada para el entorno 'dev'
+    $config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = [
+        'class' => 'yii\debug\Module',
+        'allowedIPs' => ['127.0.0.1'],
+    ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
@@ -116,7 +92,6 @@ if (YII_ENV_DEV) {
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
-    
 }
 
 return $config;
