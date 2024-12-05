@@ -66,6 +66,23 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        // Iniciar la sesión
+        Yii::$app->session->open();
+
+        // Establecer un valor en la sesión
+        Yii::$app->session->set('myKey', 'myValue');
+
+        // Obtener un valor de la sesión
+        $value = Yii::$app->session->get('myKey');
+
+        // Verificar si la sesión ha expirado
+        if (Yii::$app->session->isActive) {
+            // La sesión está activa
+        } else {
+            // La sesión ha expirado
+        }
+
+        // Resto del código
         return $this->render('index');
     }
 
