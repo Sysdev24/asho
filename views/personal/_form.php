@@ -55,7 +55,7 @@ use app\models\Nacionalidad;
 
     <?= $form->field($model, 'id_cargo')->dropDownList(
         ArrayHelper::map(cargo::find()->all(),'id_cargo','descripcion'),
-        ['prompt'=> 'seleccionar Cargo']);?>.
+        ['prompt'=> 'seleccionar Cargo']);?>
 
 
     <?= $form->field($model, 'telefono')->textInput(['placeholder'=>'Ejemplo: 04121234567 ']) ?>
