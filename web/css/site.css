@@ -14,6 +14,12 @@ main > .container {
     color: red;
 }
 
+.help-block {
+    color: red;
+}
+
+
+
 /*.navbar-expand-md {
     position: fixed;
     top: 0;
