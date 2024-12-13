@@ -72,8 +72,8 @@ $config = [
             'class' => 'yii\web\DbSession',
             'timeout' => 10, // Sesión expira después de 1 hora
             //'timeout' => $params['authTimeout'],
-           'sessionTable' => 'session', // nombre de la tabla de sesión. Por defecto 'session'.
-           // Se tuvo que colocar el nombre de la tabla fija porque mostraba error con el $params
+           'sessionTable' => 'session', // nombre de la tabla de sesión. Por defecto 'session'..
+           // Se tuvo que colocar el nombre de la tabla fija porque mostraba error con el $params.
 
            //'sessionTable' => $params['session'], // nombre de la tabla de sesión. Por defecto 'session'.
            'writeCallback' => function ($session) {
