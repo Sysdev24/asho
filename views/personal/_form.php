@@ -58,7 +58,7 @@ use app\models\Nacionalidad;
         ['prompt'=> 'seleccionar Cargo']);?>
 
 
-    <?= $form->field($model, 'telefono')->textInput(['placeholder'=>'Ejemplo: 0412-1234567 ']) ?>
+    <?= $form->field($model, 'telefono')->textInput(['placeholder'=>'Ejemplo: 04121234567 ']) ?>
     
     <?= $form->field($model, 'correo')->textInput(['placeholder'=>'nombre@dominio.com'])?>
 
