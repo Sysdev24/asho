@@ -60,8 +60,8 @@ class Personal extends \yii\db\ActiveRecord
         return [
         
             [['nacionalidad', 'ci', 'id_estado'], 'required'],
-            [['nacionalidad'], 'in', 'range' => ['E', 'V', 'v', 'e'], 'message' => 'Nacionalidad no válida.'],
-            [['ci'], 'integer', 'message' => 'La cédula debe ser un número.'],
+            [['nacionalidad'], 'in', 'range' => ['E', 'V', 'v', 'e'], 'message' => '* Nacionalidad no válida.'],
+            [['ci'], 'integer', 'message' => '* La cédula debe ser un número.'],
             [['ci'], 'unique'],
             [['ci', 'nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'default', 'value' => null],
             [['ci','nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
@@ -75,11 +75,11 @@ class Personal extends \yii\db\ActiveRecord
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['id_gerencia'], 'exist', 'skipOnError' => true, 'targetClass' => Gerencia::class, 'targetAttribute' => ['id_gerencia' => 'id_gerencia']],
             [['ci'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],   
-            ['telefono', 'match', 'pattern' => '/^[0-9]{11}$/', 'message' => 'Número de teléfono no válido.'],
+            ['telefono', 'match', 'pattern' => '/^[0-9]{11}$/', 'message' => '* Número de teléfono no válido.'],
             [['correo'], 'required'],
-            [['correo'], 'email', 'message' => 'El formato del correo electrónico no es válido.'],
-            ['correo', 'match', 'pattern' => '/^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|corpoelec\.gob\.ve)$/', 'message' => 'El correo electrónico debe ser: @gmail.com, @hotmail.com o @corpoelec.gob.ve.'],
-            [['nombre', 'apellido', 'telefono', 'correo', 'ci', 'nro_empleado'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+            [['correo'], 'email', 'message' => '* El formato del correo electrónico no es válido.'],
+            ['correo', 'match', 'pattern' => '/^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|corpoelec\.gob\.ve)$/', 'message' => '* El correo electrónico debe ser: @gmail.com, @hotmail.com o @corpoelec.gob.ve.'],
+            [['nombre', 'apellido', 'telefono', 'correo', 'ci', 'nro_empleado'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => '* No se permiten espacios al principio o al final.'],
 
                 
         ];
