@@ -132,7 +132,7 @@ class Registro extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'id_estatus_proceso' => 'Id Estatus Proceso',
-            'id_region' => 'Id Region',
+            'id_region' => 'Region',
             'acciones_tomadas_60min' => 'Acciones Tomadas 60min',
             'cedula_reporta' => 'Cedula Reporta',
             'cedula_pers_accide' => 'Cedula Pers Accide',

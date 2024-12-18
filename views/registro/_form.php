@@ -1,7 +1,10 @@
 <?php
 
+use app\models\Regiones;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\Estados;
 
 /** @var yii\web\View $this */
 /** @var app\models\Registro $model */
@@ -13,17 +16,28 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
+    <?php
+    // Obtener la cédula del usuario logeado
+    $user = Yii::$app->user->identity;
+    $cedulaReporta = $user->ci;
 
-    <?= $form->field($model, 'cedula_reporta')->textInput() ?>
+    // Asignar la cédula al modelo
+    $model->cedula_reporta = $cedulaReporta;
+    ?>
+
+    <?= $form->field($model, 'cedula_reporta')->textInput(['readonly' => true]) ?>
 
     <?= $form->field($model, 'nro_accidente')->textInput() ?>
 
-    <?= $form->field($model, 'id_region')->textInput() ?>
+    <?= $form->field($model, 'id_region')->dropDownList(
+    ArrayHelper::map(Regiones::find()->all(),'id_regiones','descripcion'),
+    ['prompt'=> 'Seleccionar región']);?>
 
-    <?= $form->field($model, 'id_estado')->textInput() ?>
+    <?= $form->field($model, 'id_estado')->dropDownList(
+    ArrayHelper::map(Estados::find()->all(),'id_estado','descripcion'),
+    ['prompt'=> 'Seleccionar estado']);?>
 
     <?= $form->field($model, 'fecha_hora')->textInput() ?>
-    
     </div>
 
     <?= $form->field($model, 'lugar')->textInput() ?>
@@ -34,15 +48,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'autorizado_60m')->checkbox() ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
     <?= $form->field($model, 'id_estatus_proceso')->textInput() ?>
 
-
     <?= $form->field($model, 'acciones_tomadas_60min')->textInput() ?>
-
 
     <?= $form->field($model, 'cedula_pers_accide')->textInput() ?>
 
@@ -99,7 +107,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'id_afec_per_categoria')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
