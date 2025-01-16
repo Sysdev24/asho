@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Estados;
+use app\models\NaturalezaAccidente;
 
 /** @var yii\web\View $this */
 /** @var app\models\Registro $model */
@@ -27,20 +28,28 @@ use app\models\Estados;
 
     <?= $form->field($model, 'cedula_reporta')->textInput(['readonly' => true]) ?>
 
+    <?= $form->field($model, 'fecha_hora')->textInput(['id' => 'registro-fecha_hora']) ?>
+
     <?= $form->field($model, 'nro_accidente')->textInput() ?>
 
     <?= $form->field($model, 'id_region')->dropDownList(
-    ArrayHelper::map(Regiones::find()->all(),'id_regiones','descripcion'),
-    ['prompt'=> 'Seleccionar región']);?>
+    ArrayHelper::map(Regiones::find()->all(), 'id_regiones', 'descripcion'),
+    ['prompt' => 'Seleccionar región', 'id' => 'region-dropdown']
+    );?>
 
     <?= $form->field($model, 'id_estado')->dropDownList(
-    ArrayHelper::map(Estados::find()->all(),'id_estado','descripcion'),
-    ['prompt'=> 'Seleccionar estado']);?>
-
-    <?= $form->field($model, 'fecha_hora')->textInput() ?>
-    </div>
+    [], // Inicialmente vacío
+    ['prompt' => 'Seleccionar estado', 'id' => 'estado-dropdown', 'disabled' => true]
+    );?>
 
     <?= $form->field($model, 'lugar')->textInput() ?>
+
+    <?= $form->field($model, 'id_naturaleza_accidente')->dropDownList(
+    ArrayHelper::map(NaturalezaAccidente::find()->all(), 'id_naturaleza_accidente', 'descripcion'),
+    ['prompt' => 'Seleccionar Naturaleza de accidente']
+    ) ?>
+    
+    </div>
 
     <?= $form->field($model, 'cedula_supervisor_60min')->textInput() ?>
 
@@ -90,8 +99,6 @@ use app\models\Estados;
 
     <?= $form->field($model, 'correlativo')->textInput() ?>
 
-    <?= $form->field($model, 'id_naturaliza_incidente')->textInput() ?>
-
     <?= $form->field($model, 'ocurrencia_hecho_60m')->textInput() ?>
 
     <?= $form->field($model, 'acciones_tomadas_24h')->textInput() ?>
@@ -113,3 +120,49 @@ use app\models\Estados;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+$this->registerJs(
+"
+$(document).ready(function() {
+    $('#registro-fecha_hora').val(moment().format('DD-MM-YYYY HH:mm'));
+});
+
+$(document).ready(function() {
+    $('#region-dropdown').change(function() {
+        var regionId = $(this).val();
+
+        if (regionId) {
+            $.ajax({
+                url: '/registro/get-estados',
+                data: { regionId: regionId },
+                type: 'get',
+                success: function(response) {
+                    var estadosData = JSON.parse(response);
+                    $('#estado-dropdown').html('').prop('disabled', false);
+
+                    // Agregar el prompt al inicio
+                    $('#estado-dropdown').append($('<option>', {
+                        value: '',
+                        text: 'Seleccionar estado'
+                    }));
+
+                    // Agregar las opciones de estados
+                    $.each(estadosData, function(id, descripcion) {
+                        $('#estado-dropdown').append($('<option>', {
+                            value: id,
+                            text: descripcion
+                        }));
+                    });
+                }
+            });
+        } else {
+            $('#estado-dropdown').html('').prop('disabled', true);
+        }
+    });
+});
+
+"
+);
+
+?>

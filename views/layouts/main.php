@@ -21,6 +21,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 //Js de menu
 $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
+$this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js', ['position' => \yii\web\View::POS_HEAD]); 
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -49,7 +51,6 @@ $this->registerJsFile('@web/js/scripts.js', ['depends' => [\yii\web\JqueryAsset:
         [
             'label' => 'Administración',
         'items' => [
-                ['label' => 'Afectacion Bienes Procesos', 'url' => ['/afectacionbienesprocesos/index']],
 
                 ['label' => 'Afectacion Persona', 'url' => ['/afecpercategoria/index']], 
 

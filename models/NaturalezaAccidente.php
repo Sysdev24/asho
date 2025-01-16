@@ -12,7 +12,7 @@ use yii\db\ActiveRecord;
  *
  * @property int $id_naturaleza_accidente clave unica de la naturaleza del accidente
  * @property string|null $descripcion descripcion de la naturaleza del acciednte
- * @property string|null $codigo nomenclatura de la naturaliza del accidente
+ * @property string|null $codigo nomenclatura de la naturaleza del accidente
  * @property string|null $created_at fecha y hora de creacion del registro
  * @property string|null $updated_at fecha y hora de la modificacion del registro
  * @property int|null $id_estatus estatus del registro Activo o Inactivo
@@ -97,7 +97,7 @@ class NaturalezaAccidente extends \yii\db\ActiveRecord
      */
     public function getRegistros()
     {
-        return $this->hasMany(Registro::class, ['id_naturaliza_incidente' => 'id_naturaleza_accidente']);
+        return $this->hasMany(Registro::class, ['id_naturaleza_accidente' => 'id_naturaleza_accidente']);
     }
 
     /**
