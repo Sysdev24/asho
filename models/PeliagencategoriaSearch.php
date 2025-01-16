@@ -48,7 +48,8 @@ class PeliagencategoriaSearch extends PeliAgenCategoria
      */
     public function search($params)
     {
-        $query = PeliAgenCategoria::find();
+        //$query = PeliAgenCategoria::find();
+        $query = PeliAgenCategoria::find()->where(['parent_id' => 1]);
 
         // add conditions that should always apply here
 

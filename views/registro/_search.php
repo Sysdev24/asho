@@ -81,7 +81,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'correlativo') ?>
 
-    <?php // echo $form->field($model, 'id_naturaliza_incidente') ?>
+    <?php // echo $form->field($model, 'id_naturaleza_accidente') ?>
 
     <?php // echo $form->field($model, 'ocurrencia_hecho_60m') ?>
 

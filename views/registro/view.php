@@ -49,7 +49,7 @@ $this->title = $model->id_registro;
             'recomendaciones_60m',
             'anno',
             'correlativo',
-            'id_naturaliza_incidente',
+            'id_naturaleza_accidente',
             'ocurrencia_hecho_60m',
             'acciones_tomadas_24h',
             'observaciones_24h',

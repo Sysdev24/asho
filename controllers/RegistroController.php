@@ -2,12 +2,16 @@
 
 namespace app\controllers;
 
+use yii;
 use app\models\Registro;
+use app\models\Estados;
 use app\models\RegistroSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
+use yii\web\Response;
 
 /**
  * RegistroController implements the CRUD actions for Registro model.
@@ -94,6 +98,23 @@ class RegistroController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionGetEstados()
+    {
+        $regionId = Yii::$app->request->get('regionId');
+
+        if ($regionId) {
+            $estados = Estados::find()
+                ->where(['id_regiones' => $regionId])
+                ->all();
+
+            $estadosData = ArrayHelper::map($estados, 'id_estado', 'descripcion');
+
+            return \yii\helpers\Json::encode($estadosData);
+        } else {
+            return '';
+        }
     }
 
     /**
