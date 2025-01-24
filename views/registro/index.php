@@ -43,9 +43,14 @@ $this->title = 'Registros';
             ],
 
             'id_registro',
-            'id_estado',
-            'fecha_hora',
-            'lugar',
+            [   
+                'attribute' => 'id_estado',
+                'label' => 'Estado',
+                'value' => function($model){
+                    return   $model->estado->descripcion;},
+            ],
+            //'fecha_hora',
+            //'lugar',
             'nro_accidente',
             //'cedula_supervisor_60min',
             //'observaciones_60min',
@@ -74,7 +79,7 @@ $this->title = 'Registros';
             //'id_gerencia',
             //'recomendaciones_60m',
             //'anno',
-            //'correlativo',
+            'correlativo',
             //'id_naturaleza_accidente',
             //'ocurrencia_hecho_60m',
             //'acciones_tomadas_24h',
@@ -87,7 +92,9 @@ $this->title = 'Registros';
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Registro $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id_registro' => $model->id_registro]);
-                 }
+                },
+                'headerOptions' => ['class' => 'col-lg-1'], // Set header width to 10%
+                'contentOptions' => ['class' => 'col-lg-1'], // Set content width to 10%
             ],
         ],
     ]); ?>

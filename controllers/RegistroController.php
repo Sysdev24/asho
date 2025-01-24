@@ -5,6 +5,7 @@ namespace app\controllers;
 use yii;
 use app\models\Registro;
 use app\models\Estados;
+use app\models\NaturalezaAccidente;
 use app\models\RegistroSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -84,21 +85,67 @@ class RegistroController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionCreate()
-    {
-        $model = new Registro();
+{
+    $model = new Registro();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id_registro' => $model->id_registro]);
+    if ($this->request->isPost) {
+        if ($model->load($this->request->post())) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                // Obtener el año en formato YY
+                $year = date('y');
+
+                // Buscar el último registro generado (si existe)
+                $lastRegistro = Registro::find()
+                    ->where(['like', 'nro_accidente', '0' . $year . '%', false])
+                    ->orderBy(['nro_accidente' => SORT_DESC])
+                    ->one();
+
+                // Generar el correlativo
+                if ($lastRegistro) {
+                    // Extraer el último correlativo y convertir a entero
+                    $lastCorrelativo = (int)substr($lastRegistro->nro_accidente, 3, 5);
+                    // Incrementar el correlativo y formatearlo a 5 dígitos
+                    $correlativo = str_pad($lastCorrelativo + 1, 5, '0', STR_PAD_LEFT);
+                } else {
+                    // Comenzar el primer correlativo
+                    $correlativo = '00001';
+                }
+
+                // Obtener el código de la naturaleza de la lesión
+                $naturalezaAccidente = NaturalezaAccidente::findOne($model->id_naturaleza_accidente);
+                $codigoNaturaleza = $naturalezaAccidente !== null ? $naturalezaAccidente->codigo : '';
+
+                // Generar el código completo (0 + año + correlativo + código naturaleza)
+                $model->nro_accidente = '0' . $year . $correlativo . $codigoNaturaleza;
+                $model->correlativo = $correlativo; // Asignar el correlativo al modelo
+
+                // Guardar el registro con el nuevo código
+                if (!$model->save(false)) {
+                    throw new \yii\db\Exception('No se pudo guardar el registro: ' . json_encode($model->errors));
+                }
+
+                $transaction->commit();
+
+                Yii::$app->session->setFlash('success', 'Registro guardado exitosamente. Código de accidente: ' . $model->nro_accidente);
+                return $this->redirect(['index', 'id_registro' => $model->id_registro]);
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Error al guardar el registro: ' . $e->getMessage());
             }
-        } else {
-            $model->loadDefaultValues();
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+    } else {
+        $model->loadDefaultValues();
     }
+
+    return $this->render('create', [
+        'model' => $model,
+    ]);
+}
+
+
+    
+
 
     public function actionGetEstados()
     {
@@ -129,7 +176,8 @@ class RegistroController extends Controller
         $model = $this->findModel($id_registro);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_registro' => $model->id_registro]);
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            return $this->redirect(['index', 'id_registro' => $model->id_registro]);
         }
 
         return $this->render('update', [
@@ -147,7 +195,7 @@ class RegistroController extends Controller
     public function actionDelete($id_registro)
     {
         $this->findModel($id_registro)->delete();
-
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 

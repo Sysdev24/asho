@@ -7,7 +7,7 @@ use yii\helpers\Url;
 /** @var yii\web\View $this */
 /** @var app\models\Registro $model */
 
-$this->title = 'Actualizar Registro: ' . $model->id_registro;
+$this->title = 'Actualizar Registro: ' . $model->nro_accidente;
 ?>
 <div class="registro-update">
 

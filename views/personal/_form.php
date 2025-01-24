@@ -36,7 +36,7 @@ use app\models\Nacionalidad;
 
     <?= $form->field($model, 'id_gerencia')->dropDownList(
         ArrayHelper::map(Gerencia::find()->all(),'id_gerencia','descripcion'),
-        ['prompt'=> 'seleccionar gerencia']);?>
+        ['prompt'=> 'Seleccionar gerencia']);?>
 
     <?= $form->field($model, 'id_estado')->dropDownList(
     ArrayHelper::map(Estados::find()->all(),'id_estado','descripcion'),

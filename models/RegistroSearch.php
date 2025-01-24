@@ -32,6 +32,14 @@ class RegistroSearch extends Registro
         return Model::scenarios();
     }
 
+    //Query para buscar el estado.
+    //Parametros: $data:$searchModel /  $id: id_estado
+    public function buscarEstados($data, $id){
+        $modelbuscar = Estados::findOne($data->id_estado);
+        $content = $modelbuscar->descripcion;
+        return $content;
+    }
+
     /**
      * Creates data provider instance with search query applied
      *

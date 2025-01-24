@@ -7,7 +7,7 @@ use yii\helpers\Url;
 /** @var yii\web\View $this */
 /** @var app\models\Registro $model */
 
-$this->title = $model->id_registro;
+$this->title = $model->nro_accidente;
 ?>
 <div class="registro-view">
 
@@ -17,7 +17,28 @@ $this->title = $model->id_registro;
         'model' => $model,
         'attributes' => [
             'id_registro',
-            'id_estado',
+
+            [   
+                'attribute' => 'id_region',
+                'label' => 'Region',
+                'value' => function($model){
+                    return   $model->region->descripcion;},
+            ],
+
+            [   
+                'attribute' => 'id_estado',
+                'label' => 'Estado',
+                'value' => function($model){
+                    return   $model->estado->descripcion;},
+            ],
+
+            [   
+                'attribute' => 'id_naturaleza_accidente',
+                'label' => 'Naturaleza del Accidente',
+                'value' => function($model){
+                    return   $model->naturalezaIncidente->descripcion;},
+            ],
+
             'fecha_hora',
             'lugar',
             'nro_accidente',
@@ -27,7 +48,7 @@ $this->title = $model->id_registro;
             'created_at',
             'updated_at',
             'id_estatus_proceso',
-            'id_region',
+            //'id_region',
             'acciones_tomadas_60min',
             'cedula_reporta',
             'cedula_pers_accide',
@@ -49,7 +70,7 @@ $this->title = $model->id_registro;
             'recomendaciones_60m',
             'anno',
             'correlativo',
-            'id_naturaleza_accidente',
+            //'id_naturaleza_accidente',
             'ocurrencia_hecho_60m',
             'acciones_tomadas_24h',
             'observaciones_24h',

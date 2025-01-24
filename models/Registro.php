@@ -3,7 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Expression; //Importante para usar expresiones SQL
 
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 /**
  * This is the model class for table "registro".
  *
@@ -73,6 +76,10 @@ use Yii;
  */
 class Registro extends \yii\db\ActiveRecord
 {
+
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+    
     /**
      * {@inheritdoc}
      */
@@ -115,6 +122,20 @@ class Registro extends \yii\db\ActiveRecord
         ];
     }
 
+    //Para utilizar los campos created_at y updated_at
+    public function behaviors() 
+    {
+         return [ TimestampBehavior::class => [
+             'class' => TimestampBehavior::class, 
+             'attributes' => [ 
+                ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'], 
+                ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'], 
+            ], 
+            'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
+            ], 
+        ]; 
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -150,7 +171,7 @@ class Registro extends \yii\db\ActiveRecord
             'autorizado_24horas' => 'Autorizado 24horas',
             'cedula_valid_24horas' => 'Cedula Valid 24horas',
             'descripcion_accidente_60min' => 'Descripcion Accidente 60min',
-            'id_gerencia' => 'Id Gerencia',
+            'id_gerencia' => 'Gerencia',
             'recomendaciones_60m' => 'Recomendaciones 60m',
             'anno' => 'Anno',
             'correlativo' => 'Correlativo',
@@ -164,6 +185,46 @@ class Registro extends \yii\db\ActiveRecord
             'id_afec_per_categoria' => 'Id Afec Per Categoria',
         ];
     }
+
+//     public function beforeSave($insert)
+// {
+//     if ($insert) {
+//         // Generar el código solo si se está creando un nuevo registro
+//         $year = date('y');
+//         var_dump($year);
+//         // Obtener el último código generado (si existe)
+//         $lastRecord = Registro::find()
+//         //->select(['correlativo']) 
+//             ->where(['anno' => $year])
+//             ->orderBy(['correlativo' => SORT_DESC])
+//             ->one();
+//             //var_dump($lastRecord);
+//         // Generar el correlativo
+//         if ($lastRecord) {
+//             $lastCorrelativo = substr($lastRecord->nro_accidente, 2, 5); // Extraer el correlativo del `nro_accidente`
+//             $correlativo = str_pad((int)$lastCorrelativo + 1, 5, '0', STR_PAD_LEFT);
+//         } else {
+//             $correlativo = '00001';
+//         }
+
+//         // Obtener el código de la naturaleza del accidente
+//         $naturalezaAccidente = NaturalezaAccidente::findOne($this->id_naturaleza_accidente);
+//         $codigoNaturaleza = $naturalezaAccidente !== null ? $naturalezaAccidente->codigo : '';
+
+//         // Generar el código completo
+//         $this->anno = $year;
+//         $this->correlativo = $correlativo;
+//         $this->nro_accidente = '0' . $year . $correlativo . $codigoNaturaleza; 
+//         // Generar el código completo
+//         //$this->nro_accidente = '0' . $year . $correlativo .  $codigoNaturaleza;
+//     }
+
+//     return parent::beforeSave($insert);
+// }
+
+
+
+
 
     /**
      * Gets query for [[AfecPerCategoria]].
