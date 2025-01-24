@@ -196,10 +196,28 @@ class UsuariosController extends Controller
      */
     public function actionDelete($id_usuario)
     {
-        $this->findModel($id_usuario)->delete();
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            // Intentar eliminar el usuario
+            $model = $this->findModel($id_usuario);
+
+            if (!$model->delete()) {
+                throw new \yii\db\Exception('No se pudo eliminar el usuario.');
+            }
+
+            $transaction->commit();
+            Yii::$app->session->setFlash('success', 'Usuario eliminado exitosamente.');
+        } catch (\yii\db\IntegrityException $e) {
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', 'Usuario posee una sesión activa, por favor cierre sesión antes de eliminarlo.');
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', 'Error al eliminar el usuario: ' . $e->getMessage());
+        }
 
         return $this->redirect(['index']);
     }
+
 
     /**
      * Finds the Usuarios model based on its primary key value.

@@ -46,18 +46,31 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function actions()
+    // public function actions()
+    // {
+    //     return [
+    //         'error' => [
+    //             'class' => 'yii\web\ErrorAction',
+    //         ],
+    //         'captcha' => [
+    //             'class' => 'yii\captcha\CaptchaAction',
+    //             'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+    //         ],
+    //     ];
+    // }
+
+    public function actionError()
     {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
+        $exception = Yii::$app->errorHandler->exception;
+        if ($exception !== null) {
+            if ($exception->statusCode === 403) {
+                return $this->render('error', ['name' => 'Permiso Denegado', 'message' => 'No tiene los permisos suficientes para esta acción.']);
+            }
+            return $this->render('error', ['name' => 'Error', 'message' => $exception->getMessage()]);
+        }
     }
+    
+
 
     /**
      * Displays homepage.
