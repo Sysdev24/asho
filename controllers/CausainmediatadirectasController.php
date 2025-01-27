@@ -135,7 +135,10 @@ class CausainmediatadirectasController extends Controller
      */
     public function actionDelete($id_estado)
     {
-        $this->findModel($id_estado)->delete();
+          //Eliminacion lógica
+          $model = $this->findModel($id_estado);
+          $model->id_estatus = 2;
+          $model->save(false);
         
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 

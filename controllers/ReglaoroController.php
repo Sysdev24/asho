@@ -129,7 +129,11 @@ class ReglaoroController extends Controller
      */
     public function actionDelete($id_regla_oro)
     {
-        $this->findModel($id_regla_oro)->delete();
+           //Eliminacion lógica
+           $model = $this->findModel($id_regla_oro);
+           $model->id_estatus = 2;
+           $model->save(false);
+
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }

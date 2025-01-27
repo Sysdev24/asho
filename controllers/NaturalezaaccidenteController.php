@@ -129,7 +129,11 @@ class NaturalezaaccidenteController extends Controller
      */
     public function actionDelete($id_naturaleza_accidente)
     {
-        $this->findModel($id_naturaleza_accidente)->delete();
+           //Eliminacion lógica
+           $model = $this->findModel($id_naturaleza_accidente);
+           $model->id_estatus = 2;
+           $model->save(false);
+
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }

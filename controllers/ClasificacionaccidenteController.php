@@ -129,7 +129,10 @@ class ClasificacionaccidenteController extends Controller
      */
     public function actionDelete($id_clasif_accid_lab_ope_amb)
     {
-        $this->findModel($id_clasif_accid_lab_ope_amb)->delete();
+           //Eliminacion lógica
+           $model = $this->findModel($id_clasif_accid_lab_ope_amb);
+           $model->id_estatus = 2;
+           $model->save(false);
         
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 

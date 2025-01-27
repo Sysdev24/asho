@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\PeliAgenCategoria;
+use yii\helpers\ArrayHelper;
 
 /**
  * PeliagencategoriaSearch represents the model behind the search form of `app\models\PeliAgenCategoria`.
@@ -63,6 +64,16 @@ class PeliagencategoriaSearch extends PeliAgenCategoria
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        $auth = \Yii::$app->authManager;
+        // Busqueda dependiendo del usuario
+        $userId = \Yii::$app->user->identity->id;
+    	$userRoles = $auth->getRolesByUser($userId);
+
+        // oculta estatus inactivo
+        if( !(ArrayHelper::keyExists('admin', $userRoles, false)) ) {
+            $query->andFilterWhere(['id_estatus' => [1,4,5,6]]);
         }
 
         // grid filtering conditions

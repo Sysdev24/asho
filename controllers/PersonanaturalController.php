@@ -129,7 +129,11 @@ class PersonanaturalController extends Controller
      */
     public function actionDelete($ci)
     {
-        $this->findModel($ci)->delete();
+           //Eliminacion lógica
+           $model = $this->findModel($ci);
+           $model->id_estatus = 2;
+           $model->save(false);
+
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }

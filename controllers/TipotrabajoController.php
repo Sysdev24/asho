@@ -129,7 +129,11 @@ class TipotrabajoController extends Controller
      */
     public function actionDelete($id_tipo_trabajo)
     {
-        $this->findModel($id_tipo_trabajo)->delete();
+           //Eliminacion lógica
+           $model = $this->findModel($id_tipo_trabajo);
+           $model->id_estatus = 2;
+           $model->save(false);
+
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }

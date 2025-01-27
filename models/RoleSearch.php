@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 
 
 /**
@@ -57,4 +58,17 @@ class RoleSearch extends Model
 
         return $dataProvider;
     }
+
+
+
+}
+
+$auth = \Yii::$app->authManager;
+// Busqueda dependiendo del usuario
+$userId = \Yii::$app->user->identity->id;
+$userRoles = $auth->getRolesByUser($userId);
+
+// oculta estatus inactivo
+if( !(ArrayHelper::keyExists('admin', $userRoles, false)) ) {
+    $query->andFilterWhere(['id_estatus' => [1,4,5,6]]);
 }
