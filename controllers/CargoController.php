@@ -131,7 +131,10 @@ class CargoController extends Controller
      */
     public function actionDelete($id_cargo)
     {
-        $this->findModel($id_cargo)->delete();
+        //Eliminacion lógica
+        $model = $this->findModel($id_cargo);
+        $model->id_estatus = 2;
+        $model->save(false);
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 
         return $this->redirect(['index']);

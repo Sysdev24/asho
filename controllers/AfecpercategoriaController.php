@@ -166,7 +166,10 @@ class AfecpercategoriaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        //Eliminacion lógica
+        $model = $this->findModel($id);
+        $model->id_estatus = 2;
+        $model->save(false);
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }

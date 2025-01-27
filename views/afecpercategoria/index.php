@@ -81,11 +81,53 @@ $this->title = 'Afectación Persona';
             
             [
                 'class' => ActionColumn::className(),
-                'contentOptions' => ['style' => 'width: 10%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-                'urlCreator' => function ($action, AfecPerCategoria $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                //'hiddenFromExport' => true,
+                'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
+                'template' => '{view}{update}{delete}',
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        $url = ['view', 'id'=>$model->id];
+                        $link = Html::a('<i class="fas fa-eye me-1"></i>', $url, [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return \Yii::$app->user->can('afecpercategoria/index') ? $link : '';
+                    },
+                    'update' => function ($url, $model, $key) {
+                        $url = ['update', 'id'=>$model->id];
+                        $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
+                            'title' => Yii::t('yii', 'Update'),
+                            'aria-label' => Yii::t('yii', 'Update'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return  \Yii::$app->user->can('afecpercategoria/update') ? $link : '';
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        $url = ['delete', 'id'=>$model->id];
+                        $link = Html::a('<i class="fas fa-trash-alt me-2"></i>', $url, [
+                            'title' => Yii::t('yii', 'Delete'),
+                            'aria-label' => Yii::t('yii', 'Delete'),
+                            'data-pjax' => '0',
+                            'class' => 'mx-0',
+                            'data' => [
+                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                'method' => 'post',
+                            ],
+                        ]);
+                        return \Yii::$app->user->can('afecpercategoria/delete') ? $link : '';
+                    },
+                ],
             ],
+            // [
+            //     'class' => ActionColumn::className(),
+            //     'contentOptions' => ['style' => 'width: 10%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+            //     'urlCreator' => function ($action, AfecPerCategoria $model, $key, $index, $column) {
+            //         return Url::toRoute([$action, 'id' => $model->id]);
+            //      }
+            // ],
 
             
         ],
