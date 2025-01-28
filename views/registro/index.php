@@ -88,14 +88,61 @@ $this->title = 'Registros';
             //'id_requerimiento_trabajo_24h',
             //'cumple_regla_oro:boolean',
             //'id_afec_per_categoria',
+            
+            
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Registro $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id_registro' => $model->id_registro]);
-                },
-                'headerOptions' => ['class' => 'col-lg-1'], // Set header width to 10%
-                'contentOptions' => ['class' => 'col-lg-1'], // Set content width to 10%
+                //'hiddenFromExport' => true,
+                'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
+                'template' => '{view}{update}{delete}',
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        $url = ['view', 'id_registro'=>$model->id_registro];
+                        $link = Html::a('<i class="fas fa-eye me-1"></i>', $url, [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return \Yii::$app->user->can('registro/index') ? $link : '';
+                    },
+                    'update' => function ($url, $model, $key) {
+                        $url = ['update', 'id_registro'=>$model->id_registro];
+                        $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
+                            'title' => Yii::t('yii', 'Update'),
+                            'aria-label' => Yii::t('yii', 'Update'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return  \Yii::$app->user->can('registro/update') ? $link : '';
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        $url = ['delete', 'id_registro'=>$model->id_registro];
+                        $link = Html::a('<i class="fas fa-trash-alt me-2"></i>', $url, [
+                            'title' => Yii::t('yii', 'Delete'),
+                            'aria-label' => Yii::t('yii', 'Delete'),
+                            'data-pjax' => '0',
+                            'class' => 'mx-0',
+                            'data' => [
+                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                'method' => 'post',
+                            ],
+                        ]);
+                        return \Yii::$app->user->can('registro/delete') ? $link : '';
+                    },
+                ],
             ],
+            
+            
+            
+            // [
+            //     'class' => ActionColumn::className(),
+            //     'urlCreator' => function ($action, Registro $model, $key, $index, $column) {
+            //         return Url::toRoute([$action, 'id_registro' => $model->id_registro]);
+            //     },
+            //     'headerOptions' => ['class' => 'col-lg-1'], // Set header width to 10%
+            //     'contentOptions' => ['class' => 'col-lg-1'], // Set content width to 10%
+            // ],
         ],
     ]); ?>
 

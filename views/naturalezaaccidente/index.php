@@ -80,13 +80,56 @@ $this->title = 'Naturaleza de Accidente';
             ],
 
 
-
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, NaturalezaAccidente $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id_naturaleza_accidente' => $model->id_naturaleza_accidente]);
-                 }
+                //'hiddenFromExport' => true,
+                'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
+                'template' => '{view}{update}{delete}',
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        $url = ['view', 'id_naturaleza_accidente'=>$model->id_naturaleza_accidente];
+                        $link = Html::a('<i class="fas fa-eye me-1"></i>', $url, [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return \Yii::$app->user->can('naturalezaaccidente/index') ? $link : '';
+                    },
+                    'update' => function ($url, $model, $key) {
+                        $url = ['update', 'id_naturaleza_accidente'=>$model->id_naturaleza_accidente];
+                        $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
+                            'title' => Yii::t('yii', 'Update'),
+                            'aria-label' => Yii::t('yii', 'Update'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return  \Yii::$app->user->can('naturalezaaccidente/update') ? $link : '';
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        $url = ['delete', 'id_naturaleza_accidente'=>$model->id_naturaleza_accidente];
+                        $link = Html::a('<i class="fas fa-trash-alt me-2"></i>', $url, [
+                            'title' => Yii::t('yii', 'Delete'),
+                            'aria-label' => Yii::t('yii', 'Delete'),
+                            'data-pjax' => '0',
+                            'class' => 'mx-0',
+                            'data' => [
+                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                'method' => 'post',
+                            ],
+                        ]);
+                        return \Yii::$app->user->can('naturalezaaccidente/delete') ? $link : '';
+                    },
+                ],
             ],
+
+
+            // [
+            //     'class' => ActionColumn::className(),
+            //     'urlCreator' => function ($action, NaturalezaAccidente $model, $key, $index, $column) {
+            //         return Url::toRoute([$action, 'id_naturaleza_accidente' => $model->id_naturaleza_accidente]);
+            //      }
+            // ],
         ],
     ]); ?>
 

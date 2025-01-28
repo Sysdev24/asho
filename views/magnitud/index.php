@@ -81,12 +81,57 @@ $this->title = 'Magnitudes';
 
             //'created_at',
             //'updated_at',
+            
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Magnitud $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id_magnitud' => $model->id_magnitud]);
-                 }
+                //'hiddenFromExport' => true,
+                'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
+                'template' => '{view}{update}{delete}',
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        $url = ['view', 'id_magnitud'=>$model->id_magnitud];
+                        $link = Html::a('<i class="fas fa-eye me-1"></i>', $url, [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return \Yii::$app->user->can('magnitud/index') ? $link : '';
+                    },
+                    'update' => function ($url, $model, $key) {
+                        $url = ['update', 'id_magnitud'=>$model->id_magnitud];
+                        $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
+                            'title' => Yii::t('yii', 'Update'),
+                            'aria-label' => Yii::t('yii', 'Update'),
+                            'data-pjax' => '0',
+                            'class' => 'me-1',
+                        ]);
+                        return  \Yii::$app->user->can('magnitud/update') ? $link : '';
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        $url = ['delete', 'id_magnitud'=>$model->id_magnitud];
+                        $link = Html::a('<i class="fas fa-trash-alt me-2"></i>', $url, [
+                            'title' => Yii::t('yii', 'Delete'),
+                            'aria-label' => Yii::t('yii', 'Delete'),
+                            'data-pjax' => '0',
+                            'class' => 'mx-0',
+                            'data' => [
+                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                'method' => 'post',
+                            ],
+                        ]);
+                        return \Yii::$app->user->can('magnitud/delete') ? $link : '';
+                    },
+                ],
             ],
+            
+            
+            // [
+            //     'class' => ActionColumn::className(),
+            //     'urlCreator' => function ($action, Magnitud $model, $key, $index, $column) {
+            //         return Url::toRoute([$action, 'id_magnitud' => $model->id_magnitud]);
+            //      }
+            // ],
         ],
     ]); ?>
 

@@ -133,7 +133,10 @@ class CausascbController extends Controller
      */
     public function actionDelete($id_causas_cb)
     {
-        $this->findModel($id_causas_cb)->delete();
+           //Eliminacion lógica
+           $model = $this->findModel($id_causas_cb);
+           $model->id_estatus = 2;
+           $model->save(false);
         
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
 

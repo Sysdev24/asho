@@ -127,8 +127,10 @@ class RegistroreglaoroController extends Controller
      */
     public function actionDelete($id_registro_regla_oro)
     {
-        $this->findModel($id_registro_regla_oro)->delete();
-
+          //Eliminacion lógica
+          $model = $this->findModel($id_registro_regla_oro);
+          $model->id_estatus = 2;
+          $model->save(false);
         return $this->redirect(['index']);
     }
 

@@ -135,6 +135,12 @@ class EstatusController extends Controller
             $transaction = Yii::$app->db->beginTransaction();
             try {
                  $this->findModel($id_estatus)->delete();
+
+                //Eliminacion lógica
+                // $model = $this->findModel($id_estatus);
+                // $model->id_estatus = 2;
+                // $model->save(false);
+
                 $transaction->commit();
                 return $this->redirect(['index']);
             } catch (IntegrityException $e) {
