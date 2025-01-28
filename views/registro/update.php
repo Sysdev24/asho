@@ -15,6 +15,7 @@ $this->title = 'Actualizar Registro: ' . $model->nro_accidente;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'modelPersonaNatural' => $modelPersonaNatural
     ]) ?>
 
     <!-- BOTON DE VOLVER-->

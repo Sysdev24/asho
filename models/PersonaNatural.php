@@ -45,8 +45,8 @@ class PersonaNatural extends \yii\db\ActiveRecord
         return [
             [['nombre', 'apellido', 'telefono', 'empresa'], 'string'],
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
-            [['id_registro', 'id_estatus'], 'default', 'value' => null],
-            [['id_registro', 'id_estatus'], 'integer'],
+            [['id_registro', 'id_estatus', 'cedula'], 'default', 'value' => null],
+            [['id_registro', 'id_estatus', 'cedula'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['id_registro'], 'exist', 'skipOnError' => true, 'targetClass' => Registro::class, 'targetAttribute' => ['id_registro' => 'id_registro']],
             [['nombre', 'apellido', 'empresa'], 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u', 'message' => 'Solo se permiten letras y espacios.'],
@@ -77,7 +77,8 @@ class PersonaNatural extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ci' => 'Cédula',
+            'ci' => 'Ci',
+            'cedula' => 'Cédula',
             'nombre' => 'Nombre',
             'apellido' => 'Apellido',
             'created_at' => 'Created At',
@@ -101,6 +102,8 @@ class PersonaNatural extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    
 
     /**
      * Gets query for [[Estatus]].

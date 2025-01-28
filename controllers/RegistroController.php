@@ -13,6 +13,8 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
+use app\models\Personal;
+use app\models\PersonaNatural;
 
 /**
  * RegistroController implements the CRUD actions for Registro model.
@@ -87,6 +89,8 @@ class RegistroController extends Controller
     public function actionCreate()
 {
     $model = new Registro();
+    //$model->scenario = Registro::SCENARIO_CREATE;
+    $modelPersonaNatural= new PersonaNatural();
 
     if ($this->request->isPost) {
         if ($model->load($this->request->post())) {
@@ -127,6 +131,17 @@ class RegistroController extends Controller
 
                 $transaction->commit();
 
+                //---------------
+                if ($modelPersonaNatural->load($this->request->post())) {
+                    if(!empty($modelPersonaNatural->nombre)){
+                        //$modelPersonaNatural->cedula = $model->cedula_pers_accide;
+                        $modelPersonaNatural->id_registro= $model->id_registro;
+                        $modelPersonaNatural-> save();
+                    }
+                }
+
+                //----------------
+
                 Yii::$app->session->setFlash('success', 'Registro guardado exitosamente. Código de accidente: ' . $model->nro_accidente);
                 return $this->redirect(['index', 'id_registro' => $model->id_registro]);
             } catch (\Exception $e) {
@@ -140,6 +155,7 @@ class RegistroController extends Controller
 
     return $this->render('create', [
         'model' => $model,
+        'modelPersonaNatural' => $modelPersonaNatural
     ]);
 }
 
@@ -174,6 +190,7 @@ class RegistroController extends Controller
     public function actionUpdate($id_registro)
     {
         $model = $this->findModel($id_registro);
+    $modelPersonaNatural= new PersonaNatural();
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
@@ -182,6 +199,7 @@ class RegistroController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'modelPersonaNatural' => $modelPersonaNatural
         ]);
     }
 
@@ -194,11 +212,7 @@ class RegistroController extends Controller
      */
     public function actionDelete($id_registro)
     {
-           //Eliminacion lógica
-           $model = $this->findModel($id_registro);
-           $model->id_estatus = 2;
-           $model->save(false);
-
+        $this->findModel($id_registro)->delete();
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
@@ -218,4 +232,30 @@ class RegistroController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    //Funcion paravalidar la cedula en el campo de busqueda del formulario.
+    public function actionValidarCedula()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            $cedula = Yii::$app->request->post('search');
+
+            // Validación básica de la cédula (puedes agregar más validaciones)
+            if (!is_numeric($cedula)) {
+                return ['error' => 'La cédula debe ser un número'];
+            }
+
+            $modelPersonal = new Personal();
+            $datosPersona = $modelPersonal->buscarPersonaRegistro($cedula);
+
+            if ($datosPersona) {
+                return $datosPersona;
+            } else {
+                return ['error' => 'Datos no encontrados. Por favor, registre al personal.',
+                        'cedula' => $cedula];
+            }
+        }
+    }
+
 }

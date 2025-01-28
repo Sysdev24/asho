@@ -59,27 +59,31 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     {
         return [
             [['username', 'password_hash', 'id_estatus'], 'required'],
-            ['password_hash', 'string', 'min' => 6],
             [['username', 'password', 'password_hash'], 'string', 'max' => 255],
             [['username' ], 'string'],
             [['username', 'authKey', 'accesstoken', 'nacionalidad'], 'string'],
+            [['username', 'password'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+
+            ['password_hash', 'string', 'min' => 6],
+
             [['name'], 'each', 'rule' => ['string']],
+            [['name'], 'required'],
         	// ['name', 'in', 'range' => self::getSystemRoles(), 'allowArray' => true],
 
             [['ci'], 'unique'],
-            [['id_estatus'], 'default', 'value' => null],
-            [['id_estatus'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
-            [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
-            ['ci', 'exist', 'skipOnError' => false, 'targetClass' => Personal::className(), 'targetAttribute' => ['ci' => 'ci'], 'message' => 'El usuario debe estar registrado como personal.'],
+            ['ci', 'exist', 'skipOnError' => false, 'targetClass' => Personal::class, 'targetAttribute' => ['ci' => 'ci'], 'message' => 'El usuario debe estar registrado como personal.'],
             [['ci'], 'required', 'on' => self::SCENARIO_CREATE],
-            [['name'], 'required'],
-            //[['ci'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
             [['searchCedula'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
             [['ci'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],
-            [['username', 'password'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+            //[['ci'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
 
+            [['id_estatus'], 'default', 'value' => null],
+            [['id_estatus'], 'integer'],
+            [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
+
+            [['created_at', 'updated_at'], 'safe'],
+
+            [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
         ];
     }
 

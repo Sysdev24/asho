@@ -186,42 +186,6 @@ class Registro extends \yii\db\ActiveRecord
         ];
     }
 
-//     public function beforeSave($insert)
-// {
-//     if ($insert) {
-//         // Generar el código solo si se está creando un nuevo registro
-//         $year = date('y');
-//         var_dump($year);
-//         // Obtener el último código generado (si existe)
-//         $lastRecord = Registro::find()
-//         //->select(['correlativo']) 
-//             ->where(['anno' => $year])
-//             ->orderBy(['correlativo' => SORT_DESC])
-//             ->one();
-//             //var_dump($lastRecord);
-//         // Generar el correlativo
-//         if ($lastRecord) {
-//             $lastCorrelativo = substr($lastRecord->nro_accidente, 2, 5); // Extraer el correlativo del `nro_accidente`
-//             $correlativo = str_pad((int)$lastCorrelativo + 1, 5, '0', STR_PAD_LEFT);
-//         } else {
-//             $correlativo = '00001';
-//         }
-
-//         // Obtener el código de la naturaleza del accidente
-//         $naturalezaAccidente = NaturalezaAccidente::findOne($this->id_naturaleza_accidente);
-//         $codigoNaturaleza = $naturalezaAccidente !== null ? $naturalezaAccidente->codigo : '';
-
-//         // Generar el código completo
-//         $this->anno = $year;
-//         $this->correlativo = $correlativo;
-//         $this->nro_accidente = '0' . $year . $correlativo . $codigoNaturaleza; 
-//         // Generar el código completo
-//         //$this->nro_accidente = '0' . $year . $correlativo .  $codigoNaturaleza;
-//     }
-
-//     return parent::beforeSave($insert);
-// }
-
 
 
 

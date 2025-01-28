@@ -34,11 +34,11 @@ class PersonanaturalSearch extends PersonaNatural
 
     //Query para buscar el estatus (activo, inactivo, etc).
     //Parametros: $data:$searchModel /  $id: id_estatus
-    public function buscarEstatus($data, $id){
-        $modelbuscar = Estatus::findOne($data->id_estatus);
-        $content = $modelbuscar->descripcion;
-        return $content;
-    }
+    // public function buscarEstatus($data, $id){
+    //     $modelbuscar = Estatus::findOne($data->id_estatus);
+    //     $content = $modelbuscar->descripcion;
+    //     return $content;
+    // }
 
     /**
      * Creates data provider instance with search query applied
@@ -83,6 +83,7 @@ class PersonanaturalSearch extends PersonaNatural
             'fecha_nac' => $this->fecha_nac,
             'id_registro' => $this->id_registro,
             'id_estatus' => $this->id_estatus,
+            'cedula' => $this->cedula,
         ]);
 
         $query->andFilterWhere(['ilike', 'nombre', $this->nombre])

@@ -235,7 +235,7 @@ class UsuariosController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    //Funion paravalidar la cedula en el campo de busqueda del formulario.
+    //Funcion paravalidar la cedula en el campo de busqueda del formulario.
     public function actionValidarCedula()
     {
         if (Yii::$app->request->isAjax) {

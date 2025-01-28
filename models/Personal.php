@@ -133,6 +133,16 @@ class Personal extends \yii\db\ActiveRecord
             ->one();
     }
 
+    public function buscarPersonaRegistro($ci)
+    {
+        return (new \yii\db\Query())
+            ->select(['p.ci', 'p.nombre', 'p.apellido', 'p.telefono', 'p.nro_empleado', 'c.descripcion as cargo'])
+            ->from('personal p')
+            ->innerJoin('cargo c', 'c.id_cargo = p.id_cargo')
+            ->where(['p.ci' => $ci])
+            ->one();
+    }
+
 
     public function getTelefonoFormateado()
     {

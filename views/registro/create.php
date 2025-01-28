@@ -15,6 +15,7 @@ $this->title = 'Registro de Accidente';
     <br>
     <?= $this->render('_form', [
         'model' => $model,
+        'modelPersonaNatural' => $modelPersonaNatural
     ]) ?>
 
 <!-- BOTON DE VOLVER-->
