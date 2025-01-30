@@ -119,6 +119,7 @@ class Registro extends \yii\db\ActiveRecord
             [['id_tipo_accidente'], 'exist', 'skipOnError' => true, 'targetClass' => TipAccCategoria::class, 'targetAttribute' => ['id_tipo_accidente' => 'id']],
             [['id_tipo_trabajo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoTrabajo::class, 'targetAttribute' => ['id_tipo_trabajo' => 'id_tipo_trabajo']],
             [['id_tipo_trabajo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoTrabajo::class, 'targetAttribute' => ['id_tipo_trabajo' => 'id_tipo_trabajo']],
+            [['id_estado','id_region', 'lugar','id_gerencia','id_naturaleza_accidente'], 'required'],
         ];
     }
 
@@ -144,7 +145,7 @@ class Registro extends \yii\db\ActiveRecord
         return [
             'id_registro' => 'Id Registro',
             'id_estado' => 'Estado',
-            'fecha_hora' => 'Fecha Hora',
+            'fecha_hora' => 'Fecha / Hora',
             'lugar' => 'Lugar',
             'nro_accidente' => 'Nro Accidente',
             'cedula_supervisor_60min' => 'Cedula Supervisor 60min',
