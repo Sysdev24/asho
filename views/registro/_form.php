@@ -29,9 +29,16 @@ use yii\helpers\Url;
     $model->cedula_reporta = $cedulaReporta;
     ?>
 
-    <?= $form->field($model, 'cedula_reporta')->textInput(['readonly' => true]) ?>
-
+<div class="row">
+        <div class="col-md-9">
+    
+	<?= $form->field($model, 'cedula_reporta')->textInput(['readonly' => true]) ?>
+         </div>
+        <div class="col-md-3">
     <?= $form->field($model, 'fecha_hora')->textInput(['id' => 'registro-fecha_hora']) ?>
+    
+        </div>
+    </div>
 
     <?= $form->field($model, 'id_region')->dropDownList(
     ArrayHelper::map(Regiones::find()->all(), 'id_regiones', 'descripcion'),
