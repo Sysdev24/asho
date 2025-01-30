@@ -34,11 +34,11 @@ class PersonanaturalSearch extends PersonaNatural
 
     //Query para buscar el estatus (activo, inactivo, etc).
     //Parametros: $data:$searchModel /  $id: id_estatus
-    // public function buscarEstatus($data, $id){
-    //     $modelbuscar = Estatus::findOne($data->id_estatus);
-    //     $content = $modelbuscar->descripcion;
-    //     return $content;
-    // }
+    public function buscarEstatus($data, $id){
+        $modelbuscar = Estatus::findOne($data->id_estatus);
+        $content = $modelbuscar->descripcion;
+        return $content;
+    }
 
     /**
      * Creates data provider instance with search query applied
