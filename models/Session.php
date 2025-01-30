@@ -39,10 +39,11 @@ class Session extends \yii\db\ActiveRecord
             [['user_id', 'expire'], 'default', 'value' => null],
             [['user_id', 'expire'], 'integer'],
             [['is_trusted'], 'boolean'],
-            [['data'], 'string'],
+            [['data'], 'bytea'],
             [['id'], 'string', 'max' => 64],
             [['ip'], 'string', 'max' => 40],
             [['user_agent'], 'string', 'max' => 256],
+            [['created_at', 'updated_at'], 'safe'],
             [['id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Usuarios::class, 'targetAttribute' => ['user_id' => 'id_usuario']],
         ];
@@ -75,6 +76,7 @@ class Session extends \yii\db\ActiveRecord
             'is_trusted' => 'Is Trusted',
             'expire' => 'Expire',
             'data' => 'Data',
+            'created_at' => 'created_at',
         ];
     }
 

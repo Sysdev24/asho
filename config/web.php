@@ -69,26 +69,34 @@ $config = [
         ],
 
         'session' => [
+<<<<<<< HEAD
              'db' => 'db',
              'class' => 'yii\web\DbSession',
              //'timeout' => 5, // Sesión expira después de 5 minutos
              //'timeout' => $params['authTimeout'],
             'sessionTable' => 'session', // nombre de la tabla de sesión. Por defecto 'session'.
             // Se tuvo que colocar el nombre de la tabla fija porque mostraba error con el $params
+=======
+            'db' => 'db',
+            'class' => 'yii\web\DbSession',
+            'timeout' => 10, // Sesión expira después de 1 hora
+            //'timeout' => $params['authTimeout'],
+           'sessionTable' => 'session', // nombre de la tabla de sesión. Por defecto 'session'..
+           // Se tuvo que colocar el nombre de la tabla fija porque mostraba error con el $params.
+>>>>>>> 5cac6b4be52e9265467fb32675781560741dc56e
 
-            //'sessionTable' => $params['session'], // nombre de la tabla de sesión. Por defecto 'session'.
-            'writeCallback' => function ($session) {
-                return [
-                   //'user_id' => \Yii::$app->user->isGuest ? null : \Yii::$app->user->id,  --> Se comento esta linea generando error hay que revisar que funcion hace
-                   'user_id' => \Yii::$app->user->id,
-                   'ip' => \Yii::$app->request->userIP,
-                   //'ip' => $_SERVER['REMOTE_ADDR'],
-                   'user_agent' => \Yii::$app->request->headers->get('user-agent'),
-                   'is_trusted' => $session->get('is_trusted', false),
-               ];
-            },
-        ],
-    
+           //'sessionTable' => $params['session'], // nombre de la tabla de sesión. Por defecto 'session'.
+           'writeCallback' => function ($session) {
+               return [
+                  //'user_id' => \Yii::$app->user->isGuest ? null : \Yii::$app->user->id,  //--> Se comento esta linea generando error hay que revisar que funcion hace
+                  'user_id' => \Yii::$app->user->id,
+                  'ip' => \Yii::$app->request->userIP,
+                  //'ip' => $_SERVER['REMOTE_ADDR'],
+                  'user_agent' => \Yii::$app->request->headers->get('user-agent'),
+                  'is_trusted' => $session->get('is_trusted', false),
+              ];
+           },
+       ],
     
 
         /*'defaultRoute' => 'site/login',*/
