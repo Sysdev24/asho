@@ -62,10 +62,20 @@ use yii\helpers\Url;
             'wrapperOptions' => ['class'=>'form-check'],
         ],
     ]) ?>
+    
+    <!-- Este if es para que lo que está dentro de él unicamente aparezca en actualizar -->
+    <?php if (!$model->isNewRecord): ?>
     <?= $form->field($model, 'id_estatus')->dropDownList(
-        ArrayHelper::map(Estatus::find()->all(), 'id_estatus', 'descripcion'),
-        ['prompt'=> 'Seleccionar estatus']
+        ArrayHelper::map(
+            Estatus::find()
+                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+                ->all(),
+            'id_estatus',
+            'descripcion'
+        ),
+        ['prompt' => 'seleccionar status']
     ); ?>
+    <?php endif; ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

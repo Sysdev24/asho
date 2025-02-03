@@ -17,16 +17,19 @@ use app\models\Estatus;
 
     <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba nombre de la region']) ?>
 
+    <!-- Este if es para que lo que está dentro de él unicamente aparezca en actualizar -->
+    <?php if (!$model->isNewRecord): ?>
     <?= $form->field($model, 'id_estatus')->dropDownList(
-    ArrayHelper::map(
-        Estatus::find()
-            ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
-            ->all(),
-        'id_estatus',
-        'descripcion'
-    ),
-    ['prompt'=> 'seleccionar status']
-    );?>
+        ArrayHelper::map(
+            Estatus::find()
+                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+                ->all(),
+            'id_estatus',
+            'descripcion'
+        ),
+        ['prompt' => 'seleccionar status']
+    ); ?>
+    <?php endif; ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

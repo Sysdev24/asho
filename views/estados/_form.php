@@ -16,28 +16,31 @@ use app\models\Regiones;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput() ?>
+    <?= $form->field($model, 'descripcion')->textInput()?>
 
  
-    <?= $form->field($model, 'id_estatus')->dropDownList(
-    ArrayHelper::map(
-        Estatus::find()
-            ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
-            ->all(),
-        'id_estatus',
-        'descripcion'
-    ),
-    ['prompt'=> 'seleccionar status']
-    );?>
+        <!-- Este if es para que lo que está dentro de él unicamente aparezca en actualizar -->
+        <?php if (!$model->isNewRecord): ?>
+        <?= $form->field($model, 'id_estatus')->dropDownList(
+            ArrayHelper::map(
+                Estatus::find()
+                    ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+                    ->all(),
+                'id_estatus',
+                'descripcion'
+            ),
+            ['prompt' => 'seleccionar status']
+        ); ?>
+        <?php endif; ?>
 
         <?= $form->field($model, 'id_regiones')->dropDownList(
             ArrayHelper::map(Regiones::find()->all(),'id_regiones','descripcion'),
-            ['prompt' => 'Selecciona la region',]);?>
+        ['prompt' => 'Selecciona la region',]);?>
 
 
-    <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
-    </div>
+        <div class="form-group">
+            <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        </div>
 
     <?php ActiveForm::end(); ?>
 

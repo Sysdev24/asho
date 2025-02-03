@@ -42,16 +42,19 @@ use app\models\Nacionalidad;
     ArrayHelper::map(Estados::find()->all(),'id_estado','descripcion'),
     ['prompt'=> 'seleccionar estado']);?>
 
+    <!-- Este if es para que lo que está dentro de él unicamente aparezca en actualizar -->
+    <?php if (!$model->isNewRecord): ?>
     <?= $form->field($model, 'id_estatus')->dropDownList(
-    ArrayHelper::map(
-        Estatus::find()
-            ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
-            ->all(),
-        'id_estatus',
-        'descripcion'
-    ),
-    ['prompt'=> 'seleccionar status']
-    );?>
+        ArrayHelper::map(
+            Estatus::find()
+                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+                ->all(),
+            'id_estatus',
+            'descripcion'
+        ),
+        ['prompt' => 'seleccionar status']
+    ); ?>
+    <?php endif; ?>
 
     <?= $form->field($model, 'id_cargo')->dropDownList(
         ArrayHelper::map(cargo::find()->all(),'id_cargo','descripcion'),

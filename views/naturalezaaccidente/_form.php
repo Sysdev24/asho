@@ -20,16 +20,19 @@ use app\models\NaturalezaAccidente;
     <?= $form->field($model, 'codigo')->textInput(['placeholder'=>'Ej. AB']) ?>
 
 
+    <!-- Este if es para que lo que está dentro de él unicamente aparezca en actualizar -->
+    <?php if (!$model->isNewRecord): ?>
     <?= $form->field($model, 'id_estatus')->dropDownList(
-    ArrayHelper::map(
-        Estatus::find()
-            ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
-            ->all(),
-        'id_estatus',
-        'descripcion'
-    ),
-    ['prompt'=> 'seleccionar status']
-    );?>
+        ArrayHelper::map(
+            Estatus::find()
+                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
+                ->all(),
+            'id_estatus',
+            'descripcion'
+        ),
+        ['prompt' => 'seleccionar status']
+    ); ?>
+    <?php endif; ?>
 
 
 
