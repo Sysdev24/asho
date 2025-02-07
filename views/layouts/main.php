@@ -69,6 +69,8 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
 
                 ['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']],
 
+                ['label' => 'Exposicion o contacto', 'url' => ['/exposicioncontaccategoria/index']],
+                
                 ['label' => 'Gerencia', 'url' => ['/gerencia/index']],
 
                 ['label' => 'Magnitud', 'url' => ['/magnitud/index']],

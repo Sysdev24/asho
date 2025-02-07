@@ -4,12 +4,13 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\PersonaNatural;
+use app\models\ExposicionContacCategoria;
+use yii\helpers\ArrayHelper;
 
 /**
- * PersonanaturalSearch represents the model behind the search form of `app\models\PersonaNatural`.
+ * ExposicioncontaccategoriaSearch represents the model behind the search form of `app\models\ExposicionContacCategoria`.
  */
-class PersonanaturalSearch extends PersonaNatural
+class ExposicioncontaccategoriaSearch extends ExposicionContacCategoria
 {
     /**
      * {@inheritdoc}
@@ -17,8 +18,8 @@ class PersonanaturalSearch extends PersonaNatural
     public function rules()
     {
         return [
-            [['id', 'id_registro', 'id_estatus', 'cedula'], 'integer'],
-            [['nombre', 'apellido', 'created_at', 'updated_at', 'telefono', 'fecha_nac', 'empresa'], 'safe'],
+            [['id', 'parent_id', 'id_estatus'], 'integer'],
+            [['name', 'complete_name', 'parent_path', 'codigo', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -30,6 +31,13 @@ class PersonanaturalSearch extends PersonaNatural
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+      //Query para buscar el estatus (activo, inactivo, etc).
+    //Parametros: $data:$searchModel /  $id: id_estatus
+    public function buscarEstatus($data, $id){
+        $modelbuscar = Estatus::findOne($data->id_estatus);
+        $content = $modelbuscar->descripcion;
+        return $content;
+    }
 
     /**
      * Creates data provider instance with search query applied
@@ -40,7 +48,7 @@ class PersonanaturalSearch extends PersonaNatural
      */
     public function search($params)
     {
-        $query = PersonaNatural::find();
+        $query = ExposicionContacCategoria::find();
 
         // add conditions that should always apply here
 
@@ -59,18 +67,16 @@ class PersonanaturalSearch extends PersonaNatural
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'parent_id' => $this->parent_id,
+            'id_estatus' => $this->id_estatus,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'fecha_nac' => $this->fecha_nac,
-            'id_registro' => $this->id_registro,
-            'id_estatus' => $this->id_estatus,
-            'cedula' => $this->cedula,
         ]);
 
-        $query->andFilterWhere(['ilike', 'nombre', $this->nombre])
-            ->andFilterWhere(['ilike', 'apellido', $this->apellido])
-            ->andFilterWhere(['ilike', 'telefono', $this->telefono])
-            ->andFilterWhere(['ilike', 'empresa', $this->empresa]);
+        $query->andFilterWhere(['ilike', 'name', $this->name])
+            ->andFilterWhere(['ilike', 'complete_name', $this->complete_name])
+            ->andFilterWhere(['ilike', 'parent_path', $this->parent_path])
+            ->andFilterWhere(['ilike', 'codigo', $this->codigo]);
 
         return $dataProvider;
     }

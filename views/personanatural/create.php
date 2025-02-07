@@ -5,7 +5,9 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\PersonaNatural $model */
 
-$this->title = 'Crear Persona Natural';
+$this->title = 'Create Persona Natural';
+$this->params['breadcrumbs'][] = ['label' => 'Persona Naturals', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="persona-natural-create">
 

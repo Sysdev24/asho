@@ -5,144 +5,45 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
-use app\models\Estatus;
 
 /** @var yii\web\View $this */
 /** @var app\models\PersonanaturalSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Persona Natural';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="persona-natural-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Crear Persona Natural', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
+    
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'pager' => [
-            'options' => ['class'=> 'pagination'],
-            'firstPageCssClass' => 'page-item',
-            'lastPageCssClass' => 'page-item', 
-            'nextPageCssClass' => 'page-item',
-            'prevPageCssClass' => 'page-item',
-            'pageCssClass' => 'page-item',
-            'disabledPageCssClass' => 'disabled d-none',
-            'linkOptions' => ['style' => 'text-decoration: none;', 'class' => 'page-link'],
-        ],
         'columns' => [
-            [
-                'class' => 'yii\grid\SerialColumn',
-                'header' => 'Nº', //Para que no aparezca el # sino la letra que se requiera],
-                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna    
-            ],
+            ['class' => 'yii\grid\SerialColumn'],
 
-            [   
-                'attribute' => 'ci',
-                'label' => 'Cédula',
-                'contentOptions' => ['style' => 'width:16%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-            ],
-
-            [   
-                'attribute' => 'nombre',
-                'label' => 'Nombre',
-                'contentOptions' => ['style' => 'width:10%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-            ],
-
-            [   
-                'attribute' => 'apellido',
-                'label' => 'Apellido',
-                'contentOptions' => ['style' => 'width:16%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-                'filterInputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Busqueda',
-                ],
-            ],
-
-
-            //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
-            [   
-                'attribute' => 'id_estatus',
-                'value' => array($searchModel, 'buscarEstatus'),
-                'filter' => 
-                Html::activeDropDownList($searchModel, 'id_estatus',
-                ArrayHelper::map(Estatus::find()
-                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
-                ->all(),
-                'id_estatus',
-                'descripcion'),
-                ['prompt'=> 'Busqueda', 'class' => 'form-control']),
-                'headerOptions' => ['class' => 'col-lg-03 text-center'],
-                'contentOptions' => ['class' => 'col-lg-03 text-center'],
-            ],
-
-          
+            'id',
+            'cedula',
+            'nombre',
+            'apellido',
+            //'created_at',
+            //'updated_at',
+            'telefono',
+            //'fecha_nac',
+            //'id_registro',
+            'empresa',
+            //'id_estatus',
+             
             [
                 'class' => ActionColumn::className(),
-                //'hiddenFromExport' => true,
-                'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
-                'template' => '{view}{update}{delete}',
-                'buttons' => [
-                    'view' => function ($url, $model, $key) {
-                        $url = ['view', 'ci'=>$model->ci];
-                        $link = Html::a('<i class="fas fa-eye me-1"></i>', $url, [
-                            'title' => Yii::t('yii', 'View'),
-                            'aria-label' => Yii::t('yii', 'View'),
-                            'data-pjax' => '0',
-                            'class' => 'me-1',
-                        ]);
-                        return \Yii::$app->user->can('personanatural/index') ? $link : '';
-                    },
-                    'update' => function ($url, $model, $key) {
-                        $url = ['update', 'ci'=>$model->ci];
-                        $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
-                            'title' => Yii::t('yii', 'Update'),
-                            'aria-label' => Yii::t('yii', 'Update'),
-                            'data-pjax' => '0',
-                            'class' => 'me-1',
-                        ]);
-                        return  \Yii::$app->user->can('personanatural/update') ? $link : '';
-                    },
-                    'delete' => function ($url, $model, $key) {
-                        $url = ['delete', 'ci'=>$model->ci];
-                        $link = Html::a('<i class="fas fa-trash-alt me-2"></i>', $url, [
-                            'title' => Yii::t('yii', 'Delete'),
-                            'aria-label' => Yii::t('yii', 'Delete'),
-                            'data-pjax' => '0',
-                            'class' => 'mx-0',
-                            'data' => [
-                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                                'method' => 'post',
-                            ],
-                        ]);
-                        return \Yii::$app->user->can('personanatural/delete') ? $link : '';
-                    },
-                ],
+                'urlCreator' => function ($action, PersonaNatural $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                 }
             ],
-           
-           
-           
-            // [
-            //     'class' => ActionColumn::className(),
-            //     'urlCreator' => function ($action, PersonaNatural $model, $key, $index, $column) {
-            //         return Url::toRoute([$action, 'ci' => $model->ci]);
-            //      }
-            // ],
         ],
     ]); ?>
 

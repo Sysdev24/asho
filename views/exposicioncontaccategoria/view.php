@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var app\models\PersonaNatural $model */
+/** @var app\models\ExposicionContacCategoria $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Persona Naturals', 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Exposicion Contac Categorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="persona-natural-view">
+<div class="exposicion-contac-categoria-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,16 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'nombre',
-            'apellido',
+            'parent_id',
+            'name',
+            'complete_name',
+            'parent_path',
+            'codigo',
+            'id_estatus',
             'created_at',
             'updated_at',
-            'telefono',
-            'fecha_nac',
-            'id_registro',
-            'empresa',
-            'id_estatus',
-            'cedula',
         ],
     ]) ?>
 
