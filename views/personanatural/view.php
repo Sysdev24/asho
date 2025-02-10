@@ -2,45 +2,46 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\PersonaNatural $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Persona Naturals', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $model->cedula;
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="persona-natural-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            //'id',
             'nombre',
             'apellido',
-            'created_at',
-            'updated_at',
+            'cedula',
+            //'created_at',
+            //'updated_at',
             'telefono',
             'fecha_nac',
             'id_registro',
             'empresa',
-            'id_estatus',
-            'cedula',
+          
+            [   
+                'attribute' => 'id_estatus',
+                'label' => 'Estatus',
+                'value' => function($model){
+                    return   $model->estatus->descripcion;},
+            ],
+            
         ],
     ]) ?>
+
+<!-- BOTON DE VOLVER-->
+<?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
 
 </div>

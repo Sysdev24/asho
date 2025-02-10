@@ -2,11 +2,14 @@
 
 namespace app\controllers;
 
+use yii;
 use app\models\ExposicionContacCategoria;
 use app\models\ExposicioncontaccategoriaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
 
 /**
  * ExposicioncontaccategoriaController implements the CRUD actions for ExposicionContacCategoria model.
@@ -22,11 +25,24 @@ class ExposicioncontaccategoriaController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'index', 'create', 'update', 'delete', 'permisos',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['exposicioncontaccategoria/index']],
+                        ['actions' => ['create'], 'allow' => true, 'roles' => ['exposicioncontaccategoria/create']],
+                        ['actions' => ['update'], 'allow' => true, 'roles' => ['exposicioncontaccategoria/update']],
+                        ['actions' => ['delete'], 'allow' => true, 'roles' => ['exposicioncontaccategoria/delete']],
+                        ['actions' => ['permisos'], 'allow' => true, 'roles' => ['exposicioncontaccategoria/permisos']],
+                    ]
+                ]
             ]
         );
     }
@@ -55,8 +71,11 @@ class ExposicioncontaccategoriaController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $children = $model->children; //Obtener los hijos del padre
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'children' => $children,
         ]);
     }
 
@@ -68,9 +87,11 @@ class ExposicioncontaccategoriaController extends Controller
     public function actionCreate()
     {
         $model = new ExposicionContacCategoria();
+        $model->scenario = ExposicionContacCategoria::SCENARIO_CREATE;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -94,6 +115,7 @@ class ExposicioncontaccategoriaController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -111,8 +133,12 @@ class ExposicioncontaccategoriaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+           //Eliminacion lógica
+           $model = $this->findModel($id);
+           $model->id_estatus = 2;
+           $model->save(false);
 
+        Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
     }
 

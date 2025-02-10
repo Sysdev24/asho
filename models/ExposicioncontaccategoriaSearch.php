@@ -64,6 +64,16 @@ class ExposicioncontaccategoriaSearch extends ExposicionContacCategoria
             return $dataProvider;
         }
 
+        $auth = \Yii::$app->authManager;
+        // Busqueda dependiendo del usuario
+        $userId = \Yii::$app->user->identity->id;
+    	$userRoles = $auth->getRolesByUser($userId);
+
+        // oculta estatus inactivo
+        if( !(ArrayHelper::keyExists('admin', $userRoles, false)) ) {
+            $query->andFilterWhere(['id_estatus' => [1,4,5,6]]);
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -77,6 +87,7 @@ class ExposicioncontaccategoriaSearch extends ExposicionContacCategoria
             ->andFilterWhere(['ilike', 'complete_name', $this->complete_name])
             ->andFilterWhere(['ilike', 'parent_path', $this->parent_path])
             ->andFilterWhere(['ilike', 'codigo', $this->codigo]);
+            //->andWhere(['parent_id' => null]);
 
         return $dataProvider;
     }

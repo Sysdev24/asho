@@ -16,8 +16,9 @@ $this->title = 'Editar Evaluacion Potencial y Perdida: ' . $model->descripcion;
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
- <!-- BOTON DE VOLVER-->
- <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
+    
+    <!-- BOTON DE VOLVER-->
+    <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
 
 
 </div>

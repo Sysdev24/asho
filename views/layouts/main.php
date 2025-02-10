@@ -67,7 +67,7 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
 
                 ['label' => 'Estatus', 'url' => ['/estatus/index']],
 
-                ['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']],
+                //['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']],
 
                 ['label' => 'Exposicion o contacto', 'url' => ['/exposicioncontaccategoria/index']],
                 
@@ -79,7 +79,7 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
 
                 ['label' => 'Peligro Agente', 'url' => ['/peliagencategoria/index']],
 
-                ['label' => 'Permisos', 'url' => ['permisos/index']],
+                //['label' => 'Permisos', 'url' => ['permisos/index']],
 
                 ['label' => 'Personal', 'url' => ['/personal/index']],
 

@@ -35,7 +35,7 @@ use yii\helpers\Url;
 	<?= $form->field($model, 'cedula_reporta')->textInput(['readonly' => true]) ?>
          </div>
         <div class="col-md-3">
-    <?= $form->field($model, 'fecha_hora')->textInput(['id' => 'registro-fecha_hora']) ?>
+    <?= $form->field($model, 'fecha_hora')->textInput(['id' => 'registro-fecha_hora', 'readonly' => true]) ?>
     
         </div>
     </div>

@@ -84,7 +84,7 @@ $this->title = 'Peligro Agente';
                 'class' => ActionColumn::className(),
                 //'hiddenFromExport' => true,
                 'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
-                'template' => '{view}{update}{delete}',
+                'template' => '{view}',
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         $url = ['view', 'id'=>$model->id];
@@ -96,30 +96,30 @@ $this->title = 'Peligro Agente';
                         ]);
                         return \Yii::$app->user->can('peliagencategoria/index') ? $link : '';
                     },
-                    'update' => function ($url, $model, $key) {
-                        $url = ['update', 'id'=>$model->id];
-                        $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
-                            'title' => Yii::t('yii', 'Update'),
-                            'aria-label' => Yii::t('yii', 'Update'),
-                            'data-pjax' => '0',
-                            'class' => 'me-1',
-                        ]);
-                        return  \Yii::$app->user->can('peliagencategoria/update') ? $link : '';
-                    },
-                    'delete' => function ($url, $model, $key) {
-                        $url = ['delete', 'id'=>$model->id];
-                        $link = Html::a('<i class="fas fa-trash-alt me-2"></i>', $url, [
-                            'title' => Yii::t('yii', 'Delete'),
-                            'aria-label' => Yii::t('yii', 'Delete'),
-                            'data-pjax' => '0',
-                            'class' => 'mx-0',
-                            'data' => [
-                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                                'method' => 'post',
-                            ],
-                        ]);
-                        return \Yii::$app->user->can('peliagencategoria/delete') ? $link : '';
-                    },
+                    // 'update' => function ($url, $model, $key) {
+                    //     $url = ['update', 'id'=>$model->id];
+                    //     $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
+                    //         'title' => Yii::t('yii', 'Update'),
+                    //         'aria-label' => Yii::t('yii', 'Update'),
+                    //         'data-pjax' => '0',
+                    //         'class' => 'me-1',
+                    //     ]);
+                    //     return  \Yii::$app->user->can('peliagencategoria/update') ? $link : '';
+                    // },
+                    // 'delete' => function ($url, $model, $key) {
+                    //     $url = ['delete', 'id'=>$model->id];
+                    //     $link = Html::a('<i class="fa-solid fa-toggle-off"></i>', $url, [
+                    //         'title' => Yii::t('yii', 'Desactivar'),
+                    //         'aria-label' => Yii::t('yii', 'Delete'),
+                    //         'data-pjax' => '0',
+                    //         'class' => 'mx-0',
+                    //         'data' => [
+                    //             'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
+                    //             'method' => 'post',
+                    //         ],
+                    //     ]);
+                    //     return \Yii::$app->user->can('peliagencategoria/delete') ? $link : '';
+                    // },
                 ],
             ],  
           

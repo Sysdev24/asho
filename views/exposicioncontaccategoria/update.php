@@ -1,14 +1,13 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
+
 
 /** @var yii\web\View $this */
 /** @var app\models\ExposicionContacCategoria $model */
 
-$this->title = 'Update Exposicion Contac Categoria: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Exposicion Contac Categorias', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Categoria: ' . $model->name;
 ?>
 <div class="exposicion-contac-categoria-update">
 
@@ -17,5 +16,8 @@ $this->params['breadcrumbs'][] = 'Update';
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+
+    <!-- BOTON DE VOLVER-->
+    <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
 
 </div>

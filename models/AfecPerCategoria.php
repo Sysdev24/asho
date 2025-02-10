@@ -125,6 +125,11 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    public function getChildren()
+    {
+        return $this->hasMany(AfecPerCategoria::className(), ['parent_id' => 'id']);
+    }
     
 
     /**

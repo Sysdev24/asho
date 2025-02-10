@@ -94,8 +94,8 @@ class Registro extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'id_afecta_bienes_perso', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'anno', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'default', 'value' => null],
-            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'id_afecta_bienes_perso', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'anno', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'integer'],
+            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'anno', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'default', 'value' => null],
+            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'anno', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'integer'],
             [['fecha_hora', 'created_at', 'updated_at'], 'safe'],
             [['lugar', 'nro_accidente', 'observaciones_60min', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'recomendaciones_60m', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'string'],
             [['autorizado_60m', 'autorizado_24horas', 'cumple_regla_oro'], 'boolean'],
@@ -164,7 +164,6 @@ class Registro extends \yii\db\ActiveRecord
             'id_tipo_trabajo' => 'Id Tipo Trabajo',
             'id_peligro_agente' => 'Id Peligro Agente',
             'id_sujeto_afectacion' => 'Id Sujeto Afectacion',
-            'id_afecta_bienes_perso' => 'Id Afecta Bienes Perso',
             'cedula_24horas' => 'Cedula 24horas',
             'acciones_tomadas_24horas' => 'Acciones Tomadas 24horas',
             'observaciones_24horas' => 'Observaciones 24horas',

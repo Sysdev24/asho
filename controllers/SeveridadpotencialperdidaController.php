@@ -129,10 +129,10 @@ class SeveridadpotencialperdidaController extends Controller
      */
     public function actionDelete($id_sev_pot_per)
     {
-           //Eliminacion lógica
-           $model = $this->findModel($id_sev_pot_per);
-           $model->id_estatus = 2;
-           $model->save(false);
+        //Eliminacion lógica
+        $model = $this->findModel($id_sev_pot_per);
+        $model->id_estatus = 2;
+        $model->save(false);
 
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);

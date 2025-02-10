@@ -70,8 +70,11 @@ class TipacccategoriaController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $children = $model->children; //Obtener los hijos del padre
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'children' => $children,
         ]);
     }
 

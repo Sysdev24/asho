@@ -19,7 +19,7 @@ $this->title = $model->id_tipo_contacto;
         <?= Html::a('Delete', ['delete', 'id_tipo_contacto' => $model->id_tipo_contacto], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Está seguro que desea eliminar este ícono?',
                 'method' => 'post',
             ],
         ]) ?>

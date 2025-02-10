@@ -99,12 +99,12 @@ $this->title = 'Permisos';
                         $id = $model->name;
                         $url = ['delete', 'id'=>$id];
                         $link = Html::a('<i class="fas fa-trash-alt"></i>', $url, [
-                            'title' => Yii::t('yii', 'Delete'),
+                            'title' => Yii::t('yii', 'Desactivar'),
                             'aria-label' => Yii::t('yii', 'Delete'),
                             'data-pjax' => '0',
                             'class' => 'me-1',
                             'data' => [
-                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
                                 'method' => 'post',
                             ],
                         ]);

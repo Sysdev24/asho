@@ -57,10 +57,10 @@ class PersonaNatural extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'telefono' => 'Telefono',
-            'fecha_nac' => 'Fecha Nac',
-            'id_registro' => 'Id Registro',
+            'fecha_nac' => 'Fecha de Nacimiento',
+            'id_registro' => 'ID Registro',
             'empresa' => 'Empresa',
-            'id_estatus' => 'Id Estatus',
+            'id_estatus' => 'Estatus',
             'cedula' => 'Cedula',
         ];
     }

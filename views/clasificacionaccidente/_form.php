@@ -14,9 +14,9 @@ use app\models\Estatus;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba la clasificacion accidente']) ?>
+    <!-- $form->field($model, 'descripcion')->textInput(['placeholder'=>'Escriba la clasificacion accidente']) ?> -->
 
-    <?= $form->field($model, 'codigo')->textInput(['placeholder'=>'Ejemplo: C0']) ?>
+    <!--$form->field($model, 'codigo')->textInput(['placeholder'=>'Ejemplo: C0']) ?> -->
 
     <!-- Este if es para que lo que está dentro de él unicamente aparezca en actualizar -->
     <?php if (!$model->isNewRecord): ?>

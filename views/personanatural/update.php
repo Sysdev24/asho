@@ -1,14 +1,14 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\PersonaNatural $model */
 
-$this->title = 'Update Persona Natural: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Persona Naturals', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Actualizar Persona Natural: ' . $model->cedula;
+
+
 ?>
 <div class="persona-natural-update">
 
@@ -17,5 +17,9 @@ $this->params['breadcrumbs'][] = 'Update';
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+
+      <!-- BOTON DE VOLVER-->
+      <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>
+    
 
 </div>

@@ -68,19 +68,8 @@ $this->title = 'Roles';
             //'updated_at',
             [
                 'class' => ActionColumn::className(),
-                'template' => '{view}{update}{permisos}{delete}',
+                'template' => '{update}{permisos}{delete}',
                 'buttons' => [
-                    'view' => function ($url, $model, $key) {
-                        $id = $model->name;
-                        $url = ['view', 'id'=>$id];
-                        $link = Html::a('<i class="fas fa-eye"></i>', $url, [
-                            'title' => Yii::t('yii', 'View'),
-                            'aria-label' => Yii::t('yii', 'View'),
-                            'data-pjax' => '0',
-                            'class' => 'me-1',
-                        ]);
-                        return $link;
-                    },
                     'update' => function ($url, $model, $key) {
                         $id = $model->name;
                         $url = ['update', 'id'=>$id];
@@ -106,13 +95,13 @@ $this->title = 'Roles';
                     'delete' => function ($url, $model, $key) {
                         $id = $model->name;
                         $url = ['delete', 'id'=>$id];
-                        $link = Html::a('<i class="fas fa-trash-alt"></i>', $url, [
+                        $link = Html::a('<i class="fa-solid fa-toggle-off"></i>', $url, [
                             'title' => Yii::t('yii', 'Delete'),
                             'aria-label' => Yii::t('yii', 'Delete'),
                             'data-pjax' => '0',
                             'class' => 'me-1',
                             'data' => [
-                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
                                 'method' => 'post',
                             ],
                         ]);

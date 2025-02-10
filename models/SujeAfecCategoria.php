@@ -123,6 +123,11 @@ class SujeAfecCategoria extends \yii\db\ActiveRecord
         return $rows;
     }
 
+    public function getChildren()
+    {
+        return $this->hasMany(SujeAfecCategoria::className(), ['parent_id' => 'id']);
+    }
+
     /**
      * {@inheritdoc}
      * @return SujeafeccategoriaQuery the active query used by this AR class.

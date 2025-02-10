@@ -50,7 +50,7 @@ class PeliagencategoriaSearch extends PeliAgenCategoria
     public function search($params)
     {
         //$query = PeliAgenCategoria::find();
-        $query = PeliAgenCategoria::find()->where(['parent_id' => 1]);
+        $query = PeliAgenCategoria::find();
 
         // add conditions that should always apply here
 
@@ -79,13 +79,14 @@ class PeliagencategoriaSearch extends PeliAgenCategoria
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'parent_id' => $this->parent_id,
+            //'parent_id' => $this->parent_id,
             'id_estatus' => $this->id_estatus,
         ]);
 
         $query->andFilterWhere(['ilike', 'name', $this->name])
             ->andFilterWhere(['ilike', 'complete_name', $this->complete_name])
             ->andFilterWhere(['ilike', 'parent_path', $this->parent_path])
+            ->andWhere(['parent_id' => null])
             ->andFilterWhere(['ilike', 'codigo', $this->codigo]);
 
         return $dataProvider;

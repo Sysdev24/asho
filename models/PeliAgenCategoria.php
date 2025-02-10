@@ -116,20 +116,10 @@ class PeliAgenCategoria extends \yii\db\ActiveRecord
         return $rows;
     }
 
-    // public static function getCategoryParentArrayList($id)
-    // {
-    //     if ($id) {
-    //         $model = self::find()->andFilterWhere(['not in', 'id', [$id]])->orderBy('name')->all();
-    //     } else {
-    //         $model = self::find()->orderBy('name')->all();
-    //     }
-        
-    //     $rows = [];
-    //     foreach ($model as $row) {
-    //         $rows[$row->id] = $row->name;
-    //     }
-    //     return $rows;
-    // }
+    public function getChildren()
+    {
+        return $this->hasMany(PeliAgenCategoria::className(), ['parent_id' => 'id']);
+    }
     
 
 

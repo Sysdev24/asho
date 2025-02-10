@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "exposicion_contac_categoria".
@@ -21,6 +23,10 @@ use Yii;
  */
 class ExposicionContacCategoria extends \yii\db\ActiveRecord
 {
+
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     /**
      * {@inheritdoc}
      */
@@ -45,6 +51,20 @@ class ExposicionContacCategoria extends \yii\db\ActiveRecord
         ];
     }
 
+    //Para utilizar los campos created_at y updated_at
+    public function behaviors() 
+    {
+         return [ TimestampBehavior::class => [
+             'class' => TimestampBehavior::class, 
+             'attributes' => [ 
+                ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'], 
+                ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'], 
+            ], 
+            'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
+            ], 
+        ]; 
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -63,6 +83,16 @@ class ExposicionContacCategoria extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->name = mb_strtoupper($this->name);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Gets query for [[Estatus]].
      *
@@ -71,6 +101,11 @@ class ExposicionContacCategoria extends \yii\db\ActiveRecord
     public function getEstatus()
     {
         return $this->hasOne(Estatus::class, ['id_estatus' => 'id_estatus']);
+    }
+
+    public function getChildren()
+    {
+        return $this->hasMany(ExposicionContacCategoria::className(), ['parent_id' => 'id']);
     }
 
     /**

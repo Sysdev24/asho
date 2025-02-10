@@ -78,7 +78,7 @@ class SujeafeccategoriaSearch extends SujeAfecCategoria
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'parent_id' => $this->parent_id,
+            //'parent_id' => $this->parent_id,
             'id_estatus' => $this->id_estatus,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -88,7 +88,8 @@ class SujeafeccategoriaSearch extends SujeAfecCategoria
         $query->andFilterWhere(['ilike', 'name', $this->name])
             ->andFilterWhere(['ilike', 'complete_name', $this->complete_name])
             ->andFilterWhere(['ilike', 'parent_path', $this->parent_path])
-            ->andFilterWhere(['ilike', 'codigo', $this->codigo]);
+            ->andFilterWhere(['ilike', 'codigo', $this->codigo])
+            ->andWhere(['parent_id' => null]);
 
         return $dataProvider;
     }

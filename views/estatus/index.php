@@ -109,13 +109,13 @@ $this->title = 'Estatus';
                     },
                     'delete' => function ($url, $model, $key) {
                         $url = ['delete', 'id_estatus'=>$model->id_estatus];
-                        $link = Html::a('<i class="fas fa-trash-alt me-2"></i>', $url, [
-                            'title' => Yii::t('yii', 'Delete'),
+                        $link = Html::a('<i class="fa-solid fa-toggle-off"></i>', $url, [
+                            'title' => Yii::t('yii', 'Desactivar'),
                             'aria-label' => Yii::t('yii', 'Delete'),
                             'data-pjax' => '0',
                             'class' => 'mx-0',
                             'data' => [
-                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
                                 'method' => 'post',
                             ],
                         ]);

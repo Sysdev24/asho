@@ -118,6 +118,11 @@ class TipAccCategoria extends \yii\db\ActiveRecord
         }
     }
 
+    public function getChildren()
+    {
+        return $this->hasMany(TipAccCategoria::className(), ['parent_id' => 'id']);
+    }
+
     /**
      * {@inheritdoc}
      * @return TipacccategoriaQuery the active query used by this AR class.
