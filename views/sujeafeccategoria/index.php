@@ -86,31 +86,17 @@ $this->title = 'Sujeto Afectación';
                 'class' => ActionColumn::className(),
                 //'hiddenFromExport' => true,
                 'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
-                'template' => '{update}{delete}',
+                'template' => '{view}',
                 'buttons' => [
-                    'update' => function ($url, $model, $key) {
-                        $url = ['update', 'id'=>$model->id];
-                        $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
-                            'title' => Yii::t('yii', 'Update'),
-                            'aria-label' => Yii::t('yii', 'Update'),
+                    'view' => function ($url, $model, $key) {
+                        $url = ['view', 'id'=>$model->id];
+                        $link = Html::a('<i class="fas fa-eye me-1"></i>', $url, [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
                             'data-pjax' => '0',
                             'class' => 'me-1',
                         ]);
-                        return  \Yii::$app->user->can('sujeafeccategoria/update') ? $link : '';
-                    },
-                    'delete' => function ($url, $model, $key) {
-                        $url = ['delete', 'id'=>$model->id];
-                        $link = Html::a('<i class="fa-solid fa-toggle-off"></i>', $url, [
-                            'title' => Yii::t('yii', 'Delete'),
-                            'aria-label' => Yii::t('yii', 'Delete'),
-                            'data-pjax' => '0',
-                            'class' => 'mx-0',
-                            'data' => [
-                                'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
-                                'method' => 'post',
-                            ],
-                        ]);
-                        return \Yii::$app->user->can('sujeafeccategoria/delete') ? $link : '';
+                        return \Yii::$app->user->can('tipacccategoria/index') ? $link : '';
                     },
                 ],
             ],

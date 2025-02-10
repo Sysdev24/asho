@@ -118,7 +118,8 @@ class PeliAgenCategoria extends \yii\db\ActiveRecord
 
     public function getChildren()
     {
-        return $this->hasMany(PeliAgenCategoria::className(), ['parent_id' => 'id']);
+        return $this->hasMany(PeliAgenCategoria::className(), ['parent_id' => 'id'])
+            ->orderBy(['id' => SORT_ASC]); // Ordena los hijos por 'id'
     }
     
 

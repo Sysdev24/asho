@@ -73,7 +73,7 @@ class ExposicionContacCategoria extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'parent_id' => 'Parent ID',
-            'name' => 'Name',
+            'name' => 'Nombre',
             'complete_name' => 'Complete Name',
             'parent_path' => 'Parent Path',
             'codigo' => 'Codigo',
@@ -105,7 +105,8 @@ class ExposicionContacCategoria extends \yii\db\ActiveRecord
 
     public function getChildren()
     {
-        return $this->hasMany(ExposicionContacCategoria::className(), ['parent_id' => 'id']);
+        return $this->hasMany(TipAccCategoria::className(), ['parent_id' => 'id'])
+            ->orderBy(['id' => SORT_ASC]); // Ordena los hijos por 'id'
     }
 
     /**

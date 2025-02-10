@@ -25,7 +25,7 @@ $this->title = $model->name;
         'attributes' => [
             //'id',
             //'parent_id',
-            'Nombre',
+            'name',
             //'complete_name',
             //'parent_path',
             'codigo',

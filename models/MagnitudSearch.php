@@ -54,6 +54,9 @@ class MagnitudSearch extends Magnitud
 
         // add conditions that should always apply here
 
+        // Ordenar por id (ascendente)
+        $query->orderBy(['id_magnitud' => SORT_ASC]); // Ordena los resultados por 'id'
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

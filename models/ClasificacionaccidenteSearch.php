@@ -53,6 +53,9 @@ class ClasificacionaccidenteSearch extends ClasificacionAccidente
 
         // add conditions that should always apply here
 
+        // Ordenar por id (ascendente)
+        $query->orderBy(['id_clasif_accid_lab_ope_amb' => SORT_ASC]); // Ordena los resultados por 'id'
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

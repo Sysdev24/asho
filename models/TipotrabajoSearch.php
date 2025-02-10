@@ -51,6 +51,9 @@ class TipotrabajoSearch extends TipoTrabajo
 
         // add conditions that should always apply here
 
+        // Ordenar por id (ascendente)
+        $query->orderBy(['id_tipo_trabajo' => SORT_ASC]); // Ordena los resultados por 'id'
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

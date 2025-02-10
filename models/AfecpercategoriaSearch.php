@@ -54,6 +54,9 @@ class AfecpercategoriaSearch extends AfecPerCategoria
 
         // add conditions that should always apply here
 
+        // Ordenar por id (ascendente)
+        $query->orderBy(['id' => SORT_ASC]); // Ordena los resultados por 'id'
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
