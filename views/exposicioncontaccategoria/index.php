@@ -1,6 +1,6 @@
 <?php
 
-use app\models\AfecPerCategoria;
+use app\models\ExposicionContacCategoria;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -9,18 +9,20 @@ use yii\helpers\ArrayHelper;
 use app\models\Estatus;
 
 /** @var yii\web\View $this */
-/** @var app\models\AfecpercategoriaSearch $searchModel */
+/** @var app\models\ExposicioncontaccategoriaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Afectación Persona';
+$this->title = 'Exposicion Contacto';
+
 ?>
-<div class="afec-per-categoria-index">
+<div class="exposicion-contac-categoria-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <!-- <p>
-        <?= Html::a('Crear Afectación Persona', ['create'], ['class' => 'btn btn-success']) ?>
+    
+       <!-- <p>
+       <?= Html::a('Crear Afectación Persona', ['create'], ['class' => 'btn btn-success']) ?>
     </p> -->
+
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -66,6 +68,7 @@ $this->title = 'Afectación Persona';
             //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
             [   
                 'attribute' => 'id_estatus',
+                'label' => 'Estatus',
                 'value' => array($searchModel, 'buscarEstatus'),
                 'filter' => 
                 Html::activeDropDownList($searchModel, 'id_estatus',
@@ -93,7 +96,7 @@ $this->title = 'Afectación Persona';
                             'data-pjax' => '0',
                             'class' => 'me-1',
                         ]);
-                        return \Yii::$app->user->can('afecpercategoria/index') ? $link : '';
+                        return \Yii::$app->user->can('Exposicioncontaccategoria/index') ? $link : '';
                     },
                     'update' => function ($url, $model, $key) {
                         $url = ['update', 'id'=>$model->id];
@@ -103,7 +106,7 @@ $this->title = 'Afectación Persona';
                             'data-pjax' => '0',
                             'class' => 'me-1',
                         ]);
-                        return  \Yii::$app->user->can('afecpercategoria/update') ? $link : '';
+                        return  \Yii::$app->user->can('Exposicioncontaccategoria/update') ? $link : '';
                     },
                     'delete' => function ($url, $model, $key) {
                         $url = ['delete', 'id'=>$model->id];
@@ -113,24 +116,16 @@ $this->title = 'Afectación Persona';
                             'data-pjax' => '0',
                             'class' => 'mx-0',
                             'data' => [
-                                'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
+                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                                 'method' => 'post',
                             ],
                         ]);
-                        return \Yii::$app->user->can('afecpercategoria/delete') ? $link : '';
+                        return \Yii::$app->user->can('Exposicioncontaccategoria/delete') ? $link : '';
                     },
                 ],
             ],
-            // [
-            //     'class' => ActionColumn::className(),
-            //     'contentOptions' => ['style' => 'width: 10%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
-            //     'urlCreator' => function ($action, AfecPerCategoria $model, $key, $index, $column) {
-            //         return Url::toRoute([$action, 'id' => $model->id]);
-            //      }
-            // ],
-
-            
         ],
+
     ]); ?>
 
 

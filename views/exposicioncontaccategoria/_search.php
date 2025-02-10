@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var app\models\PersonanaturalSearch $model */
+/** @var app\models\ExposicioncontaccategoriaSearch $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="persona-natural-search">
+<div class="exposicion-contac-categoria-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,25 +17,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'nombre') ?>
+    <?= $form->field($model, 'parent_id') ?>
 
-    <?= $form->field($model, 'apellido') ?>
+    <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'created_at') ?>
+    <?= $form->field($model, 'complete_name') ?>
 
-    <?= $form->field($model, 'updated_at') ?>
+    <?= $form->field($model, 'parent_path') ?>
 
-    <?php // echo $form->field($model, 'telefono') ?>
-
-    <?php // echo $form->field($model, 'fecha_nac') ?>
-
-    <?php // echo $form->field($model, 'id_registro') ?>
-
-    <?php // echo $form->field($model, 'empresa') ?>
+    <?php // echo $form->field($model, 'codigo') ?>
 
     <?php // echo $form->field($model, 'id_estatus') ?>
 
-    <?php // echo $form->field($model, 'cedula') ?>
+    <?php // echo $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
