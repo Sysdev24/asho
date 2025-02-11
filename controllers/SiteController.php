@@ -116,6 +116,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            Yii::$app->user->identity->invalidatePreviousSessions(); // Llamar a la función para invalidar sesiones anteriores
             return $this->goBack();
         }
 

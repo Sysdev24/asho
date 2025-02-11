@@ -138,6 +138,14 @@ class TipotrabajoController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionToggleStatus($id_tipo_trabajo)
+    {
+        $model = $this->findModel($id_tipo_trabajo);
+        $model->id_estatus = ($model->id_estatus == 1) ? 2 : 1;
+        $model->save(false); // Guardar sin validar
+        return $this->redirect(['index']);
+    }
+
     /**
      * Finds the TipoTrabajo model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

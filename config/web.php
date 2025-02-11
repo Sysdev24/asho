@@ -26,7 +26,7 @@ $config = [
             'identityClass' => 'app\models\Usuarios',
             'enableAutoLogin' => false,
             'loginUrl' => ['site/login'],
-            'authTimeout' => 900, // en segundos para cerrar sesion
+            'authTimeout' => 60, // en segundos para cerrar sesion
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

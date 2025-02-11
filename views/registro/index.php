@@ -49,7 +49,7 @@ $this->title = 'Registros';
                 'value' => function($model){
                     return   $model->estado->descripcion;},
             ],
-            //'fecha_hora',
+            'fecha_hora',
             //'lugar',
             'nro_accidente',
             //'cedula_supervisor_60min',
@@ -79,7 +79,7 @@ $this->title = 'Registros';
             //'id_gerencia',
             //'recomendaciones_60m',
             //'anno',
-            'correlativo',
+            //'correlativo',
             //'id_naturaleza_accidente',
             //'ocurrencia_hecho_60m',
             //'acciones_tomadas_24h',

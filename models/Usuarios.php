@@ -158,8 +158,17 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             return false;
         }
     }
-    
 
+    //Para invalidar las sesiones activas si se inicia una nueva. (Se llama en el SiteController)
+    public function invalidatePreviousSessions()
+    {
+        Yii::$app->db->createCommand()
+            ->delete('session', 'user_id = :user_id AND id != :session_id', [
+                ':user_id' => $this->id,
+                ':session_id' => Yii::$app->session->id,
+            ])
+            ->execute();
+    }
     
     /**
      * Gets query for [[AuditTrails]].

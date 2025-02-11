@@ -138,6 +138,14 @@ class SeveridadpotencialperdidaController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionToggleStatus($id_sev_pot_per)
+    {
+        $model = $this->findModel($id_sev_pot_per);
+        $model->id_estatus = ($model->id_estatus == 1) ? 2 : 1;
+        $model->save(false); // Guardar sin validar
+        return $this->redirect(['index']);
+    }
+
     /**
      * Finds the SeveridadPotencialPerdida model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -139,6 +139,14 @@ class ClasificacionaccidenteController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionToggleStatus($id_clasif_accid_lab_ope_amb)
+    {
+        $model = $this->findModel($id_clasif_accid_lab_ope_amb);
+        $model->id_estatus = ($model->id_estatus == 1) ? 2 : 1;
+        $model->save(false); // Guardar sin validar
+        return $this->redirect(['index']);
+    }
+
     /**
      * Finds the ClasificacionAccidente model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

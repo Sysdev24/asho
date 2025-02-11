@@ -93,31 +93,31 @@ $this->title = 'Clasificacion de Accidente';
                 'class' => ActionColumn::className(),
                 //'hiddenFromExport' => true,
                 'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
-                'template' => '{update}{delete}',
+                'template' => '{toggle-status}',
                 'buttons' => [                  
-                    'update' => function ($url, $model, $key) {
-                        $url = ['update', 'id_clasif_accid_lab_ope_amb'=>$model->id_clasif_accid_lab_ope_amb];
-                        $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
-                            'title' => Yii::t('yii', 'Update'),
-                            'aria-label' => Yii::t('yii', 'Update'),
-                            'data-pjax' => '0',
-                            'class' => 'me-1',
-                        ]);
-                        return  \Yii::$app->user->can('clasificacionaccidente/update') ? $link : '';
-                    },
-                    'delete' => function ($url, $model, $key) {
-                        $url = ['delete', 'id_clasif_accid_lab_ope_amb'=>$model->id_clasif_accid_lab_ope_amb];
-                        $link = Html::a('<i class="fa-solid fa-toggle-off"></i>', $url, [
-                            'title' => Yii::t('yii', 'Desactivar'),
-                            'aria-label' => Yii::t('yii', 'Delete'),
+                    'toggle-status' => function ($url, $model, $key) {
+                        if ($model->id_estatus == 1) {
+                            $url = ['toggle-status', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb];
+                            $icon = '<i class="fa-solid fa-toggle-off"></i>';
+                            $title = Yii::t('yii', 'Desactivar');
+                            $confirmMessage = Yii::t('app', '¿Está seguro que desea desactivar este ítem?');
+                        } else {
+                            $url = ['toggle-status', 'id_clasif_accid_lab_ope_amb' => $model->id_clasif_accid_lab_ope_amb];
+                            $icon = '<i class="fa-solid fa-toggle-on"></i>';
+                            $title = Yii::t('yii', 'Activar');
+                            $confirmMessage = Yii::t('app', '¿Está seguro que desea activar este ítem?');
+                        }
+                        $link = Html::a($icon, $url, [
+                            'title' => $title,
+                            'aria-label' => $title,
                             'data-pjax' => '0',
                             'class' => 'mx-0',
                             'data' => [
-                                'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
+                                'confirm' => $confirmMessage,
                                 'method' => 'post',
                             ],
                         ]);
-                        return \Yii::$app->user->can('clasificacionaccidente/delete') ? $link : '';
+                        return (\Yii::$app->user->can('clasificacionaccidente/delete') || \Yii::$app->user->can('admin')) ? $link : '';
                     },
                 ],
             ],

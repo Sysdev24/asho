@@ -140,6 +140,14 @@ class CargoController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionToggleStatus($id_cargo)
+    {
+        $model = $this->findModel($id_cargo);
+        $model->id_estatus = ($model->id_estatus == 1) ? 2 : 1;
+        $model->save(false); // Guardar sin validar
+        return $this->redirect(['index']);
+    }
+
     /**
      * Finds the Cargo model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

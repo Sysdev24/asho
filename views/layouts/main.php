@@ -47,75 +47,79 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark'],
         //'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top'],
     ]);
-    $menuItems = [
-        [
+    
+    $adminItems = array_filter([
+        Yii::$app->user->can('afecpercategoria/index') ? ['label' => 'Afectacion Persona', 'url' => ['/afecpercategoria/index']] : false,
+
+        Yii::$app->user->can('cargo/index') ? ['label' => 'Cargo', 'url' => ['/cargo/index']] : false,
+
+        // Yii::$app->user->can('causainmediatadirectas/index') ? ['label' => 'Causa Inmediata Directas', 'url' => ['/causainmediatadirectas/index']] : false,
+
+        Yii::$app->user->can('clasificacionaccidente/index') ? ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']] : false,
+
+        // Yii::$app->user->can('causascb/index') ? ['label' => 'Causa Cb', 'url' => ['/causascb/index']] : false,
+
+        Yii::$app->user->can('estados/index') ? ['label' => 'Estados', 'url' => ['/estados/index']] : false,
+
+        Yii::$app->user->can('estatus/index') ? ['label' => 'Estatus', 'url' => ['/estatus/index']] : false,
+
+        // Yii::$app->user->can('evaluacionpotencialperdida/index') ? ['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']] : false,
+
+        Yii::$app->user->can('exposicioncontaccategoria/index') ? ['label' => 'Exposicion o contacto', 'url' => ['/exposicioncontaccategoria/index']] : false,
+
+        Yii::$app->user->can('gerencia/index') ? ['label' => 'Gerencia', 'url' => ['/gerencia/index']] : false,
+
+        Yii::$app->user->can('magnitud/index') ? ['label' => 'Magnitud', 'url' => ['/magnitud/index']] : false,
+
+        Yii::$app->user->can('naturalezaaccidente/index') ? ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']] : false,
+
+        Yii::$app->user->can('peliagencategoria/index') ? ['label' => 'Peligro Agente', 'url' => ['/peliagencategoria/index']] : false,
+
+        // Yii::$app->user->can('permisos/index') ? ['label' => 'Permisos', 'url' => ['/permisos/index']] : false,
+
+        Yii::$app->user->can('personal/index') ? ['label' => 'Personal', 'url' => ['/personal/index']] : false,
+
+        Yii::$app->user->can('personanatural/index') ? ['label' => 'Persona Natural', 'url' => ['/personanatural/index']] : false,
+
+        Yii::$app->user->can('regiones/index') ? ['label' => 'Regiones', 'url' => ['/regiones/index']] : false,
+
+        // Yii::$app->user->can('reglaoro/index') ? ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']] : false,
+
+        Yii::$app->user->can('roles/index') ? ['label' => 'Roles', 'url' => ['/roles/index']] : false,
+
+        Yii::$app->user->can('severidadpotencialperdida/index') ? ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']] : false,
+
+        Yii::$app->user->can('sujeafeccategoria/index') ? ['label' => 'Sujeto afectación', 'url' => ['/sujeafeccategoria/index']] : false,
+
+        Yii::$app->user->can('tipacccategoria/index') ? ['label' => 'Tipo Accidente', 'url' => ['/tipacccategoria/index']] : false,
+
+        // Yii::$app->user->can('tipocontacto/index') ? ['label' => 'Tipo Contacto', 'url' => ['/tipocontacto/index']] : false,
+
+        Yii::$app->user->can('tipotrabajo/index') ? ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']] : false,
+        
+        Yii::$app->user->can('usuarios/index') ? ['label' => 'Usuarios', 'url' => ['/usuarios/index']] : false,
+    ]);
+
+    $registerItems = array_filter([
+        Yii::$app->user->can('registro/index') ? ['label' => 'Registro', 'url' => ['/registro/index']] : false,
+        // Yii::$app->user->can('registroreglaoro/index') ? ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']] : false,
+    ]);
+    
+    $menuItems = [];
+    
+    if (!empty($adminItems)) {
+        $menuItems[] = [
             'label' => 'Administración',
-        'items' => [
+            'items' => $adminItems,
+        ];
+    }
 
-                ['label' => 'Afectacion Persona', 'url' => ['/afecpercategoria/index']], 
-
-                ['label' => 'Cargo', 'url' => ['/cargo/index']],
-
-                // ['label' => 'Causa Inmediata Directas', 'url' => ['/causainmediatadirectas/index']],
-
-                ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']],
-
-                // ['label' => 'Causa Cb', 'url' => ['/causascb/index']],
-
-
-                ['label' => 'Estados', 'url' => ['/estados/index']],
-
-                ['label' => 'Estatus', 'url' => ['/estatus/index']],
-
-                //['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']],
-
-                ['label' => 'Exposicion o contacto', 'url' => ['/exposicioncontaccategoria/index']],
-                
-                ['label' => 'Gerencia', 'url' => ['/gerencia/index']],
-
-                ['label' => 'Magnitud', 'url' => ['/magnitud/index']],
-
-                ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']],
-
-                ['label' => 'Peligro Agente', 'url' => ['/peliagencategoria/index']],
-
-                //['label' => 'Permisos', 'url' => ['permisos/index']],
-
-                ['label' => 'Personal', 'url' => ['/personal/index']],
-
-                ['label' => 'Persona Natural', 'url' => ['/personanatural/index']],
-
-                ['label' => 'Regiones', 'url' => ['/regiones/index']],
-
-                // ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']],
-
-                ['label' => 'Roles', 'url' => ['/roles/index']],
-
-                ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']],
-                
-                ['label' => 'Sujeto afectación', 'url' => ['/sujeafeccategoria/index']],
-
-                ['label' => 'Tipo Accidente', 'url' => ['/tipacccategoria/index']],
-
-                // ['label' => 'Tipo Contacto', 'url' => ['/tipocontacto/index']],
-
-                ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']],
-                
-                ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
-                
-            ],
-
-        ],
-        [
+    if (!empty($registerItems)) {
+        $menuItems[] = [
             'label' => 'Registrar',
-            'items' => [
-
-                ['label' => 'Registro', 'url' => ['/registro/index']],
-
-                // ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']],
-            ],
-        ]
-    ];
+            'items' => $registerItems,
+        ];
+    }
 
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Iniciar Sesión', 'url' => ['/site/login']];
@@ -153,7 +157,6 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
     <div class="container">
         <div class="row text-muted">
             <div class="col-md-6 text-center text-md-start">&copy; Corpoelec <?= date('Y') ?></div>
-            
         </div>
     </div>
 </footer>
@@ -162,4 +165,3 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
 </body>
 </html>
 <?php $this->endPage() ?>
-

@@ -151,6 +151,14 @@ class GerenciaController extends Controller
        
     }
 
+    public function actionToggleStatus($id_gerencia)
+    {
+        $model = $this->findModel($id_gerencia);
+        $model->id_estatus = ($model->id_estatus == 1) ? 2 : 1;
+        $model->save(false); // Guardar sin validar
+        return $this->redirect(['index']);
+    }
+
     /**
      * Finds the Gerencia model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
