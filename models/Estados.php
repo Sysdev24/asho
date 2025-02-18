@@ -41,7 +41,8 @@ class Estados extends \yii\db\ActiveRecord
         return [
             [['descripcion'], 'string'],
             [['descripcion', 'id_estatus'], 'required'],
-            [['id_estatus', 'id_regiones'], 'default', 'value' => null],
+            [['id_regiones'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_estatus', 'id_regiones'], 'integer'],
             [['id_estatus', 'id_regiones'], 'required'],
             [['created_at', 'updated_at'], 'safe'],

@@ -14,18 +14,21 @@ $this->title = $model->descripcion;
 ?>
 <div class="cargo-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<br>
+<h3><?= Html::encode($this->title) ?></h3>
+
 
 <br>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'descripcion',
-            [   
+            [
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',
-                'value' => function($model){
-                    return   $model->estatus->descripcion;},
+                'value' => function ($model) {
+                    return $model->estatus ? $model->estatus->descripcion : 'N/A';
+                },
             ],
 
             

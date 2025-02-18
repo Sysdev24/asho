@@ -13,9 +13,11 @@ $this->title = $model->descripcion;
 ?>
 <div class="estatus-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br>
+        <h3><?= Html::encode($this->title) ?></h3>
+    <br>
 
-<br>
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

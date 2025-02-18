@@ -13,9 +13,9 @@ $this->title = $model->descripcion;
 ?>
 <div class="evaluacion-potencial-perdida-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-<br>
+    <br>
+        <h3><?= Html::encode($this->title) ?></h3>
+    <br>
             <?= DetailView::widget([
             'model' => $model,
             'attributes' => [

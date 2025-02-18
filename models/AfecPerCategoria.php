@@ -44,7 +44,8 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'parent_path', 'id_estatus'], 'required'],
-            [['parent_id', 'id_estatus'], 'default', 'value' => null],
+            [['parent_id'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['parent_id', 'id_estatus'], 'integer'],
             [['name', 'codigo'], 'string'],
             [['name'], 'unique','message' => ''],
@@ -128,8 +129,13 @@ class AfecPerCategoria extends \yii\db\ActiveRecord
 
     public function getChildren()
     {
-        return $this->hasMany(TipAccCategoria::className(), ['parent_id' => 'id'])
-            ->orderBy(['id' => SORT_ASC]); // Ordena los hijos por 'id'
+        return $this->hasMany(AfecPerCategoria::className(), ['parent_id' => 'id'])
+            ->orderBy(['codigo' => SORT_ASC]); // Ordena los hijos por 'id'
+    }
+
+    public function getParent()
+    {
+        return $this->hasOne(AfecPerCategoria::className(), ['id' => 'parent_id']);
     }
     
 

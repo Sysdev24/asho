@@ -95,6 +95,9 @@ class Registro extends \yii\db\ActiveRecord
     {
         return [
             [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'anno', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'default', 'value' => null],
+
+            [['id_estatus'], 'default', 'value' => 1],
+
             [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'anno', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'integer'],
             [['fecha_hora', 'created_at', 'updated_at'], 'safe'],
             [['lugar', 'nro_accidente', 'observaciones_60min', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'recomendaciones_60m', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'string'],
@@ -187,7 +190,16 @@ class Registro extends \yii\db\ActiveRecord
     }
 
 
-
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            //para poner en mayúsculas
+            $this->lugar = mb_strtoupper($this->lugar);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
     /**

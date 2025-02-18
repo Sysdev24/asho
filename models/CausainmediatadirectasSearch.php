@@ -34,10 +34,12 @@ class CausainmediatadirectasSearch extends CausaInmediataDirectas
 
     //Query para buscar el estatus (activo, inactivo, etc).
     //Parametros: $data:$searchModel /  $id: id_estatus
-    public function buscarEstatus($data, $id){
-        $modelbuscar = Estatus::findOne($data->id_estatus);
-        $content = $modelbuscar->descripcion;
-        return $content;
+    public function buscarEstatus($data, $id) {
+        if ($data->estatus && $data->estatus->descripcion) {
+            return $data->estatus->descripcion;
+        } else {
+            return 'N/A'; // O el valor que desees mostrar cuando no hay estatus
+        }
     }
 
     /**

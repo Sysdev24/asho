@@ -39,7 +39,8 @@ class CausaInmediataDirectas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_sub2_caus_inm_dir', 'id_sub1_caus_inm_dir', 'id_estatus'], 'default', 'value' => null],
+            [['id_sub2_caus_inm_dir', 'id_sub1_caus_inm_dir'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_sub2_caus_inm_dir', 'id_sub1_caus_inm_dir', 'id_estatus'], 'integer'],
             [['descripcion'], 'string'],
             [['created_at', 'updated_at'], 'safe'],

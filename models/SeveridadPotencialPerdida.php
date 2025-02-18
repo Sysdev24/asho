@@ -40,9 +40,10 @@ class SeveridadPotencialPerdida extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_eva_pot_per', 'id_estatus'], 'default', 'value' => null],
+            [['id_eva_pot_per'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_eva_pot_per', 'id_estatus'], 'integer'],
-            [['descripcion', 'id_estatus'], 'required'],
+            [['descripcion'], 'required'],
             [['descripcion'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],

@@ -169,7 +169,7 @@ class RegistroController extends Controller
 
         if ($regionId) {
             $estados = Estados::find()
-                ->where(['id_regiones' => $regionId])
+                ->where(['id_regiones' => $regionId, 'id_estatus' => 1])
                 ->all();
 
             $estadosData = ArrayHelper::map($estados, 'id_estado', 'descripcion');
@@ -179,6 +179,8 @@ class RegistroController extends Controller
             return '';
         }
     }
+
+
 
     /**
      * Updates an existing Registro model.

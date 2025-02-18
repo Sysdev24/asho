@@ -71,10 +71,12 @@ class TipacccategoriaController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+        $breadcrumbs = $this->generateBreadcrumbs($model);
         $children = $model->children; //Obtener los hijos del padre
         return $this->render('view', [
             'model' => $model,
             'children' => $children,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -180,6 +182,23 @@ class TipacccategoriaController extends Controller
 
         Yii::$app->session->setFlash('success', 'Se ha eliminado exitosamente.');
         return $this->redirect(['index']);
+    }
+
+    public function generateBreadcrumbs($model)
+    {
+        $breadcrumbs = [];
+        $currentModel = $model;
+
+        // Recorrer la jerarquía de padres hasta llegar a la raíz
+        while ($currentModel) {
+            array_unshift($breadcrumbs, ['label' => $currentModel->name, 'url' => ['view', 'id' => $currentModel->id]]);
+            $currentModel = $currentModel->parent;
+        }
+
+        // Agregar el primer nivel (Titulo) como el primer elemento
+        array_unshift($breadcrumbs, ['label' => 'Tipo Accidente', 'url' => ['index']]);
+
+        return $breadcrumbs;
     }
 
     /**

@@ -41,7 +41,7 @@ class RegistroReglaOro extends \yii\db\ActiveRecord
     {
         return [
             [['id_nro_accidente', 'id_opcion1', 'id_opcion2', 'id_opcion3', 'id_opcion4', 'id_opcion_5'], 'boolean'],
-            [['id_estatus'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],

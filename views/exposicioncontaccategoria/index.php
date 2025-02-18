@@ -20,7 +20,7 @@ $this->title = 'Exposicion o Contacto';
     <h1><?= Html::encode($this->title) ?></h1>
     
        <!-- <p>
-       <?= Html::a('Crear Afectación Persona', ['create'], ['class' => 'btn btn-success']) ?>
+       <?= Html::a('Crear Exposicion o Contacto ', ['create'], ['class' => 'btn btn-success']) ?>
     </p> -->
 
 

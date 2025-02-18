@@ -32,11 +32,12 @@ $this->title = $model->descripcion;
             'descripcion',
             //'guard_name',
             //'id_estatus',
-            [   
+            [
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',
-                'value' => function($model){
-                    return   $model->estatus->descripcion;},
+                'value' => function ($model) {
+                    return $model->estatus ? $model->estatus->descripcion : 'N/A';
+                },
             ],
            
         ],

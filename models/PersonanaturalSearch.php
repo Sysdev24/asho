@@ -31,6 +31,14 @@ class PersonanaturalSearch extends PersonaNatural
         return Model::scenarios();
     }
 
+    public function buscarEstatus($data, $id) {
+        if ($data->estatus && $data->estatus->descripcion) {
+            return $data->estatus->descripcion;
+        } else {
+            return 'N/A'; // O el valor que desees mostrar cuando no hay estatus
+        }
+    }
+
     /**
      * Creates data provider instance with search query applied
      *

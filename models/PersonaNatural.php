@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "persona_natural".
@@ -38,11 +40,27 @@ class PersonaNatural extends \yii\db\ActiveRecord
     {
         return [
             [['nombre', 'apellido', 'telefono', 'empresa'], 'string'],
+            [['nombre', 'apellido', 'telefono', 'empresa'], 'required'],
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
-            [['id_registro', 'id_estatus', 'cedula'], 'default', 'value' => null],
+            [['id_registro', 'cedula'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_registro', 'id_estatus', 'cedula'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
         ];
+    }
+
+    //Para utilizar los campos created_at y updated_at
+    public function behaviors() 
+    {
+         return [ TimestampBehavior::class => [
+             'class' => TimestampBehavior::class, 
+             'attributes' => [ 
+                ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'], 
+                ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'], 
+            ], 
+            'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
+            ], 
+        ]; 
     }
 
     /**
@@ -63,6 +81,18 @@ class PersonaNatural extends \yii\db\ActiveRecord
             'id_estatus' => 'Estatus',
             'cedula' => 'Cedula',
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->nombre = mb_strtoupper($this->nombre);
+            $this->apellido = mb_strtoupper($this->apellido);
+            $this->empresa = mb_strtoupper($this->empresa);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

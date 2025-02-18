@@ -40,7 +40,7 @@ class Roles extends \yii\db\ActiveRecord
         return [
             [['descripcion', 'guard_name'], 'string'],
             [['descripcion', 'guard_name', 'id_estatus'], 'required'],
-            [['id_estatus'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['descripcion', 'guard_name'], 'unique', 'targetAttribute' => ['descripcion', 'guard_name']],

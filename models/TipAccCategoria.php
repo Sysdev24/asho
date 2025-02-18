@@ -39,7 +39,8 @@ class TipAccCategoria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'id_estatus'], 'default', 'value' => null],
+            [['parent_id'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['parent_id', 'id_estatus'], 'integer'],
             [['name', 'codigo'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
@@ -121,7 +122,12 @@ class TipAccCategoria extends \yii\db\ActiveRecord
     public function getChildren()
     {
         return $this->hasMany(TipAccCategoria::className(), ['parent_id' => 'id'])
-            ->orderBy(['id' => SORT_ASC]); // Ordena los hijos por 'id'
+            ->orderBy(['codigo' => SORT_ASC]); // Ordena los hijos por 'id'
+    }
+
+    public function getParent()
+    {
+        return $this->hasOne(TipAccCategoria::className(), ['id' => 'parent_id']);
     }
 
     /**

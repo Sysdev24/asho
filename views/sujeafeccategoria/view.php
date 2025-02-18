@@ -10,11 +10,13 @@ use yii\grid\GridView;
 /** @var app\models\SujeAfecCategoria $model */
 
 $this->title = $model->name;
+$this->params['breadcrumbs'] = $breadcrumbs;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="suje-afec-categoria-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <br>
 
@@ -27,11 +29,12 @@ $this->title = $model->name;
             //'complete_name',
             //'parent_path',
             'codigo',
-            [   
+            [
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',
-                'value' => function($model){
-                    return   $model->estatus->descripcion;},
+                'value' => function ($model) {
+                    return $model->estatus ? $model->estatus->descripcion : 'N/A';
+                },
             ],
             //'created_at',
             //'updated_at',
@@ -40,7 +43,7 @@ $this->title = $model->name;
 
 <br>
     <?php if ($model->getChildren()->count() > 0): ?>
-        <h2>Hijos</h2>  <?= GridView::widget([
+        <h3>CATEGORÍAS</h3>  <?= GridView::widget([
             'dataProvider' => new \yii\data\ActiveDataProvider([
                 'query' => $model->getChildren(),
                 'pagination' => [
@@ -85,14 +88,18 @@ $this->title = $model->name;
                     'template' => '{view}', // Solo mostrar el botón "view"
                     'buttons' => [
                         'view' => function ($url, $model, $key) {
-                            $url = ['view', 'id' => $model->id];
-                            $link = Html::a('<i class="fas fa-eye me-1"></i>', $url, [
-                                'title' => Yii::t('yii', 'View'),
-                                'aria-label' => Yii::t('yii', 'View'),
-                                'data-pjax' => '0',
-                                'class' => 'me-1',
-                            ]);
-                            return \Yii::$app->user->can('sujeafeccategoria/index') ? $link : '';
+                            // Verificar si el modelo tiene hijos
+                            if ($model->getChildren()->count() > 0) {
+                                $url = ['view', 'id' => $model->id];
+                                $link = Html::a('<i class="fas fa-eye me-1"></i>', $url, [
+                                    'title' => Yii::t('yii', 'View'),
+                                    'aria-label' => Yii::t('yii', 'View'),
+                                    'data-pjax' => '0',
+                                    'class' => 'me-1',
+                                ]);
+                                return \Yii::$app->user->can('sujeafeccategoria/index') ? $link : '';
+                            }
+                            return ''; // No mostrar el botón si no tiene hijos
                         },
                     ],
                 ],

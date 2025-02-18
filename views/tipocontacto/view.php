@@ -12,7 +12,9 @@ $this->title = $model->id_tipo_contacto;
 ?>
 <div class="tipo-contacto-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br>
+        <h3><?= Html::encode($this->title) ?></h3>
+    <br>
 
     <p>
         <?= Html::a('Actualizar', ['update', 'id_tipo_contacto' => $model->id_tipo_contacto], ['class' => 'btn btn-primary']) ?>
@@ -31,11 +33,12 @@ $this->title = $model->id_tipo_contacto;
             //'id_tipo_contacto',
             'descripcion',
 
-            [   
+            [
                 'attribute' => 'id_estatus',
                 'label' => 'Estatus',
-                'value' => function($model){
-                    return   $model->estatus->descripcion;},
+                'value' => function ($model) {
+                    return $model->estatus ? $model->estatus->descripcion : 'N/A';
+                },
             ],
         ],
     ]) ?>

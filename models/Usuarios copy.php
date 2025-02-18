@@ -41,7 +41,8 @@ class Usuarios extends \yii\db\ActiveRecord
     {
         return [
             [['ci', 'usuario', 'password', 'nombre', 'apellido', 'email'], 'string'],
-            [['id_estatus', 'id_gerencia', 'id_roles'], 'default', 'value' => null],
+            [['id_gerencia', 'id_roles'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_estatus', 'id_gerencia', 'id_roles'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],

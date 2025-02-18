@@ -37,7 +37,7 @@ class Nacionalidad extends \yii\db\ActiveRecord
         return [
             [['letra', 'id_estatus'], 'required'],
             [['letra', 'descripcion'], 'string'],
-            [['id_estatus'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_estatus'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['letra'], 'unique'],

@@ -38,7 +38,9 @@ class SujeAfecCategoria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'id_estatus'], 'default', 'value' => null],
+            [['parent_id'], 'default', 'value' => null],
+
+            [['id_estatus'], 'default', 'value' => 1],
 
             [['name', 'parent_path', 'id_estatus'], 'required'],
 
@@ -125,8 +127,13 @@ class SujeAfecCategoria extends \yii\db\ActiveRecord
 
     public function getChildren()
     {
-        return $this->hasMany(TipAccCategoria::className(), ['parent_id' => 'id'])
-            ->orderBy(['id' => SORT_ASC]); // Ordena los hijos por 'id'
+        return $this->hasMany(SujeAfecCategoria::className(), ['parent_id' => 'id'])
+            ->orderBy(['codigo' => SORT_ASC]); // Ordena los hijos por 'id'
+    }
+
+    public function getParent()
+    {
+        return $this->hasOne(SujeAfecCategoria::className(), ['id' => 'parent_id']);
     }
 
     /**

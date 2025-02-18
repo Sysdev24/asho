@@ -26,7 +26,7 @@ $config = [
             'identityClass' => 'app\models\Usuarios',
             'enableAutoLogin' => false,
             'loginUrl' => ['site/login'],
-            'authTimeout' => 60, // en segundos para cerrar sesion
+            'authTimeout' => 900, // en segundos para cerrar sesion
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -71,8 +71,6 @@ $config = [
         'session' => [
              'db' => 'db',
              'class' => 'yii\web\DbSession',
-             //'timeout' => 5, // Sesión expira después de 5 minutos
-             //'timeout' => $params['authTimeout'],
             'sessionTable' => 'session', // nombre de la tabla de sesión. Por defecto 'session'.
             // Se tuvo que colocar el nombre de la tabla fija porque mostraba error con el $params
 

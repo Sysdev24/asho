@@ -11,7 +11,9 @@ $this->title = $model->nro_accidente;
 ?>
 <div class="registro-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br>
+        <h3><?= Html::encode($this->title) ?></h3>
+    <br>
 
     <?= DetailView::widget([
         'model' => $model,

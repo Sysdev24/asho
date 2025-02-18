@@ -42,7 +42,8 @@ class CausasCb extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_sub2_fac', 'id_sub_fac', 'id_cau_fac_bas_raiz', 'id_cau_bas_raiz', 'id_estatus'], 'default', 'value' => null],
+            [['id_sub2_fac', 'id_sub_fac', 'id_cau_fac_bas_raiz', 'id_cau_bas_raiz'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_sub2_fac', 'id_sub_fac', 'id_cau_fac_bas_raiz', 'id_cau_bas_raiz', 'id_estatus'], 'integer'],
             [['descripcion'], 'string'],
             [['created_at', 'updated_at'], 'safe'],

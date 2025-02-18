@@ -13,8 +13,8 @@ $this->title = $model->description;
 ?>
 <div class="roles-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <br>
+        <h3><?= Html::encode($this->title) ?></h3>
     <br>
 
     <?= DetailView::widget([

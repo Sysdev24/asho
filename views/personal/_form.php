@@ -35,15 +35,17 @@ use app\models\Nacionalidad;
     <?= $form->field($model, 'nro_empleado')->textInput(['placeholder'=>'Ejemplo:185555']) ?>
 
     <?= $form->field($model, 'id_gerencia')->dropDownList(
-        ArrayHelper::map(Gerencia::find()->all(),'id_gerencia','descripcion'),
-        ['prompt'=> 'Seleccionar gerencia']);?>
+    ArrayHelper::map(Gerencia::find()->where(['id_estatus' => 1 ])->all(),'id_gerencia','descripcion'),
+    ['prompt'=> 'Seleccionar gerencia']
+    ); ?>
+
 
     <?= $form->field($model, 'id_estado')->dropDownList(
-    ArrayHelper::map(Estados::find()->all(),'id_estado','descripcion'),
+    ArrayHelper::map(Estados::find()->where(['id_estatus' => 1 ])->all(),'id_estado','descripcion'),
     ['prompt'=> 'seleccionar estado']);?>
 
     <?= $form->field($model, 'id_cargo')->dropDownList(
-        ArrayHelper::map(cargo::find()->all(),'id_cargo','descripcion'),
+        ArrayHelper::map(cargo::find()->where(['id_estatus' => 1 ])->all(),'id_cargo','descripcion'),
         ['prompt'=> 'seleccionar Cargo']);?>
 
 

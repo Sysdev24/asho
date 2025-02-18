@@ -41,7 +41,7 @@ class NaturalezaAccidente extends \yii\db\ActiveRecord
             [['descripcion', 'codigo'], 'string'],
             [['descripcion', 'codigo', 'id_estatus'], 'required'],
             [['created_at', 'updated_at', 'id_estatus'], 'safe'],
-            [['id_estatus'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_estatus'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{4,255}$/', 'message' => 'Solo se admiten letras.'],

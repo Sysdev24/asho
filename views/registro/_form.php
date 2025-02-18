@@ -41,7 +41,7 @@ use yii\helpers\Url;
     </div>
 
     <?= $form->field($model, 'id_region')->dropDownList(
-    ArrayHelper::map(Regiones::find()->all(), 'id_regiones', 'descripcion'),
+    ArrayHelper::map(Regiones::find()->where(['id_estatus' => 1 ])->all(), 'id_regiones', 'descripcion'),
     ['prompt' => 'Seleccionar región', 'id' => 'region-dropdown']
     );?>
 
@@ -53,12 +53,12 @@ use yii\helpers\Url;
     <?= $form->field($model, 'lugar')->textInput() ?>
 
     <?= $form->field($model, 'id_naturaleza_accidente')->dropDownList(
-    ArrayHelper::map(NaturalezaAccidente::find()->all(), 'id_naturaleza_accidente', 'descripcion'),
+    ArrayHelper::map(NaturalezaAccidente::find()->where(['id_estatus' => 1 ])->all(), 'id_naturaleza_accidente', 'descripcion'),
     ['prompt' => 'Seleccionar Naturaleza de accidente']
     ) ?>
     
     <?= $form->field($model, 'id_gerencia')->dropDownList(
-    ArrayHelper::map(Gerencia::find()->all(),'id_gerencia','descripcion'),
+    ArrayHelper::map(Gerencia::find()->where(['id_estatus' => 1 ])->all(),'id_gerencia','descripcion'),
     ['prompt'=> 'Seleccionar gerencia']);?>
 
 
@@ -117,6 +117,7 @@ use yii\helpers\Url;
         'max' => date('Y-m-d'),
         'class' => 'form-control file',
         'placeholder' => '31/12/1990',
+        'required' => true,
     ]) ?>
 
 

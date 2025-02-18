@@ -37,7 +37,8 @@ class PeliAgenCategoria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'id_estatus'], 'default', 'value' => null],
+            [['parent_id'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['name', 'parent_path', 'id_estatus'], 'required'],
             [['parent_id', 'id_estatus'], 'integer'],
             [['name', 'codigo'], 'string'],
@@ -119,10 +120,13 @@ class PeliAgenCategoria extends \yii\db\ActiveRecord
     public function getChildren()
     {
         return $this->hasMany(PeliAgenCategoria::className(), ['parent_id' => 'id'])
-            ->orderBy(['id' => SORT_ASC]); // Ordena los hijos por 'id'
+            ->orderBy(['codigo' => SORT_ASC]); // Ordena los hijos por 'id'
     }
     
-
+    public function getParent()
+    {
+        return $this->hasOne(PeliAgenCategoria::className(), ['id' => 'parent_id']);
+    }
 
     /**
      * {@inheritdoc}

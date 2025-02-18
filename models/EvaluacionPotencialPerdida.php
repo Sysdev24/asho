@@ -40,7 +40,7 @@ class EvaluacionPotencialPerdida extends \yii\db\ActiveRecord
             [['descripcion'], 'string'],
             [['descripcion', 'id_estatus'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['id_estatus'], 'default', 'value' => null],
+            [['id_estatus'], 'default', 'value' => 1],
             [['id_estatus'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,255}$/', 'message' => 'Solo se admiten letras.'],

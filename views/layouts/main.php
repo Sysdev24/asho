@@ -87,7 +87,7 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
 
         Yii::$app->user->can('roles/index') ? ['label' => 'Roles', 'url' => ['/roles/index']] : false,
 
-        Yii::$app->user->can('severidadpotencialperdida/index') ? ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']] : false,
+        //Yii::$app->user->can('severidadpotencialperdida/index') ? ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']] : false,
 
         Yii::$app->user->can('sujeafeccategoria/index') ? ['label' => 'Sujeto afectación', 'url' => ['/sujeafeccategoria/index']] : false,
 
