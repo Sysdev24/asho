@@ -53,8 +53,10 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'username')->textInput(['placeholder'=>'Ejemplo: A1234567']) ?>
      
-    <?= $form->field($model, 'password')->passwordInput(['placeholder'=>'Escriba su contraseña']) ?>
-    
+    <?= $form->field($model, 'password')->passwordInput([
+    'placeholder' => 'Escriba su contraseña',
+    'autocomplete' => 'off'
+]) ?>
     <?= $form->field($model, 'name', [
         'template' => "<div>{input}\n{error}</div>",
     ])->checkboxList(ArrayHelper::map(Yii::$app->authManager->getRoles(),'name','name'), [

@@ -79,7 +79,8 @@ class Personal extends \yii\db\ActiveRecord
             ['telefono', 'match', 'pattern' => '/^[0-9]{11}$/', 'message' => '* Número de teléfono no válido.'],
             [['correo'], 'required'],
             [['correo'], 'email', 'message' => '* El formato del correo electrónico no es válido.'],
-            ['correo', 'match', 'pattern' => '/^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|corpoelec\.gob\.ve)$/', 'message' => '* El correo electrónico debe ser: @gmail.com, @hotmail.com o @corpoelec.gob.ve.'],
+            //['correo', 'match', 'pattern' => '/^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|corpoelec\.gob\.ve)$/', 'message' => '* El correo electrónico debe ser: @gmail.com, @hotmail.com o @corpoelec.gob.ve.'],
+            ['correo', 'match', 'pattern' =>  '/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/'], // Expresión regular personalizada
             [['nombre', 'apellido', 'telefono', 'correo', 'ci', 'nro_empleado'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => '* No se permiten espacios al principio o al final.'],
 
                 
