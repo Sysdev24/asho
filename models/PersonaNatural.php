@@ -46,6 +46,8 @@ class PersonaNatural extends \yii\db\ActiveRecord
             [['id_estatus'], 'default', 'value' => 1],
             [['id_registro', 'id_estatus', 'cedula'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
+            ['telefono', 'match', 'pattern' => '/^[0-9]{11}$/', 'message' => '* Número de teléfono no válido.'],
+            [['nombre', 'apellido', 'telefono'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => '* No se permiten espacios al principio o al final.'],
         ];
     }
 
