@@ -72,36 +72,45 @@ $this->title = 'Roles';
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         $id = $model->name;
-                        $url = ['update', 'id'=>$id];
+                        if ($id === 'admin') {
+                            return ''; // No mostrar el botón de actualización para el rol "admin"
+                        }
+                        $url = ['update', 'id' => $id];
                         $link = Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
                             'title' => Yii::t('yii', 'Update'),
                             'aria-label' => Yii::t('yii', 'Update'),
                             'data-pjax' => '0',
                             'class' => 'me-1',
                         ]);
-                        return  $link;
+                        return $link;
                     },
                     'permisos' => function ($url, $model, $key) {
                         $id = $model->name;
-                        $url = ['permisos', 'id'=>$id];
+                        if ($id === 'admin') {
+                            return ''; // No mostrar el botón de permisos para el rol "admin"
+                        }
+                        $url = ['permisos', 'id' => $id];
                         $link = Html::a('<i class="fas fa-list"></i>', $url, [
                             'title' => Yii::t('app', 'Permisos'),
                             'aria-label' => Yii::t('app', 'Permisos'),
                             'data-pjax' => '0',
                             'class' => 'me-1',
                         ]);
-                        return  $link;
+                        return $link;
                     },
                     'delete' => function ($url, $model, $key) {
                         $id = $model->name;
-                        $url = ['delete', 'id'=>$id];
+                        if ($id === 'admin') {
+                            return ''; // No mostrar el botón de eliminación para el rol "admin"
+                        }
+                        $url = ['delete', 'id' => $id];
                         $link = Html::a('<i class="fas fa-trash-alt"></i>', $url, [
                             'title' => Yii::t('yii', 'Delete'),
                             'aria-label' => Yii::t('yii', 'Delete'),
                             'data-pjax' => '0',
                             'class' => 'me-1',
                             'data' => [
-                                'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
+                                'confirm' => Yii::t('app', '¿Está seguro que desea eliminar este ícono?'),
                                 'method' => 'post',
                             ],
                         ]);
@@ -109,6 +118,7 @@ $this->title = 'Roles';
                     },
                 ],
             ],
+            
         ],
     ]); ?>
 
