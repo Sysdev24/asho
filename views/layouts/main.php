@@ -51,17 +51,17 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
     $adminItems = array_filter([
         Yii::$app->user->can('afecpercategoria/index') ? ['label' => 'Afectacion Persona', 'url' => ['/afecpercategoria/index']] : false,
 
-        Yii::$app->user->can('cargo/index') ? ['label' => 'Cargo', 'url' => ['/cargo/index']] : false,
+        //Yii::$app->user->can('cargo/index') ? ['label' => 'Cargo', 'url' => ['/cargo/index']] : false,
 
         // Yii::$app->user->can('causainmediatadirectas/index') ? ['label' => 'Causa Inmediata Directas', 'url' => ['/causainmediatadirectas/index']] : false,
 
-        Yii::$app->user->can('clasificacionaccidente/index') ? ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']] : false,
+        //Yii::$app->user->can('clasificacionaccidente/index') ? ['label' => 'Clasificacion Accidente', 'url' => ['/clasificacionaccidente/index']] : false,
 
         // Yii::$app->user->can('causascb/index') ? ['label' => 'Causa Cb', 'url' => ['/causascb/index']] : false,
 
         Yii::$app->user->can('estados/index') ? ['label' => 'Estados', 'url' => ['/estados/index']] : false,
 
-        Yii::$app->user->can('estatus/index') ? ['label' => 'Estatus', 'url' => ['/estatus/index']] : false,
+        //Yii::$app->user->can('estatus/index') ? ['label' => 'Estatus', 'url' => ['/estatus/index']] : false,
 
         // Yii::$app->user->can('evaluacionpotencialperdida/index') ? ['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']] : false,
 
@@ -81,7 +81,7 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
 
         Yii::$app->user->can('personanatural/index') ? ['label' => 'Persona Natural', 'url' => ['/personanatural/index']] : false,
 
-        Yii::$app->user->can('regiones/index') ? ['label' => 'Regiones', 'url' => ['/regiones/index']] : false,
+        //Yii::$app->user->can('regiones/index') ? ['label' => 'Regiones', 'url' => ['/regiones/index']] : false,
 
         // Yii::$app->user->can('reglaoro/index') ? ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']] : false,
 

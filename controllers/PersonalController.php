@@ -33,9 +33,10 @@ class PersonalController extends Controller
                 'access' => [
                     'class' => AccessControl::class,
                     'only' => [
-                        'index', 'create', 'update', 'delete', 'permisos',
+                        'view', 'index', 'create', 'update', 'delete', 'permisos',
                     ], 
                     'rules' => [
+                        ['actions' => ['view'], 'allow' => true, 'roles' => ['personal/view']],
                         ['actions' => ['index'], 'allow' => true, 'roles' => ['personal/index']],
                         ['actions' => ['create'], 'allow' => true, 'roles' => ['personal/create']],
                         ['actions' => ['update'], 'allow' => true, 'roles' => ['personal/update']],
@@ -143,10 +144,19 @@ class PersonalController extends Controller
     public function actionToggleStatus($ci)
     {
         $model = $this->findModel($ci);
-        $model->id_estatus = ($model->id_estatus == 1) ? 2 : 1;
+        
+        if ($model->id_estatus == 1) {
+            $model->id_estatus = 2; // Desactivar
+            Yii::$app->session->setFlash('success', 'Se ha desactivado correctamente.');
+        } else {
+            $model->id_estatus = 1; // Activar
+            Yii::$app->session->setFlash('success', 'Se ha activado correctamente.');
+        }
+        
         $model->save(false); // Guardar sin validar
         return $this->redirect(['index']);
     }
+
 
     /**
      * Finds the Personal model based on its primary key value.

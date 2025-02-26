@@ -32,8 +32,8 @@ class RbacForm extends Model
             //['name', 'match', 'pattern' => '/^[a-z|0-9|\/-]*$/'],
             [['type', 'created_at', 'updated_at'], 'integer'],
             [['description', 'data'], 'string'],
-            [['name', 'rule_name'], 'string', 'max' => 64]
-
+            [['name', 'rule_name'], 'string', 'max' => 64],
+            [['id_estatus'], 'default', 'value' => 1],
         ];
     }
 
@@ -49,6 +49,18 @@ class RbacForm extends Model
             'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
             ], 
         ]; 
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            //para poner en mayúsculas
+            $this->name = mb_strtoupper($this->name);
+            $this->description = mb_strtoupper($this->description);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

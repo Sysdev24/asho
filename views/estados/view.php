@@ -39,6 +39,8 @@ $this->title = $model->descripcion;
                 'value' => function($model){
                     return   $model->regiones->descripcion;},
             ],
+
+            'codigo_region',
         ],
     ]) ?>
 

@@ -17,9 +17,9 @@ class RegistroSearch extends Registro
     public function rules()
     {
         return [
-            [['id_registro', 'id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'anno', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'integer'],
-            [['fecha_hora', 'lugar', 'nro_accidente', 'observaciones_60min', 'created_at', 'updated_at', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'recomendaciones_60m', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'safe'],
-            [['autorizado_60m', 'autorizado_24horas', 'cumple_regla_oro'], 'boolean'],
+            [['id_registro', 'id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'integer'],
+            [['fecha_hora', 'lugar', 'nro_accidente', 'observaciones_60min', 'created_at', 'updated_at', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'safe'],
+            [['autorizado_60m', 'autorizado_24horas'], 'boolean'],
         ];
     }
 
@@ -88,11 +88,9 @@ class RegistroSearch extends Registro
             'autorizado_24horas' => $this->autorizado_24horas,
             'cedula_valid_24horas' => $this->cedula_valid_24horas,
             'id_gerencia' => $this->id_gerencia,
-            'anno' => $this->anno,
             'correlativo' => $this->correlativo,
             'id_naturaleza_accidente' => $this->id_naturaleza_accidente,
             'id_requerimiento_trabajo_24h' => $this->id_requerimiento_trabajo_24h,
-            'cumple_regla_oro' => $this->cumple_regla_oro,
             'id_afec_per_categoria' => $this->id_afec_per_categoria,
         ]);
 
@@ -104,7 +102,6 @@ class RegistroSearch extends Registro
             ->andFilterWhere(['ilike', 'observaciones_24horas', $this->observaciones_24horas])
             ->andFilterWhere(['ilike', 'recomendaciones_24horas', $this->recomendaciones_24horas])
             ->andFilterWhere(['ilike', 'descripcion_accidente_60min', $this->descripcion_accidente_60min])
-            ->andFilterWhere(['ilike', 'recomendaciones_60m', $this->recomendaciones_60m])
             ->andFilterWhere(['ilike', 'ocurrencia_hecho_60m', $this->ocurrencia_hecho_60m])
             ->andFilterWhere(['ilike', 'acciones_tomadas_24h', $this->acciones_tomadas_24h])
             ->andFilterWhere(['ilike', 'observaciones_24h', $this->observaciones_24h])

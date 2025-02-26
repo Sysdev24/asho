@@ -67,8 +67,8 @@ class Personal extends \yii\db\ActiveRecord
             [['id_estatus'], 'default', 'value' => 1],
             [['ci','nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'integer'],
             [['nro_empleado'], 'unique'],
-            [['nro_empleado', 'id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'required'],
-            [['nombre', 'apellido', 'nacionalidad', 'telefono'], 'string'],
+            [['id_gerencia', 'id_estado', 'id_estatus', 'id_cargo'], 'required'],
+            [['nombre', 'apellido', 'nacionalidad', 'telefono', 'observacion'], 'string'],
             [['nombre', 'apellido', 'telefono', 'nacionalidad'], 'required'],
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
             [['id_cargo'], 'exist', 'skipOnError' => true, 'targetClass' => Cargo::class, 'targetAttribute' => ['id_cargo' => 'id_cargo']],
@@ -80,9 +80,10 @@ class Personal extends \yii\db\ActiveRecord
             [['correo'], 'required'],
             [['correo'], 'email', 'message' => '* El formato del correo electrónico no es válido.'],
             //['correo', 'match', 'pattern' => '/^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|corpoelec\.gob\.ve)$/', 'message' => '* El correo electrónico debe ser: @gmail.com, @hotmail.com o @corpoelec.gob.ve.'],
-            ['correo', 'match', 'pattern' =>  '/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/'], // Expresión regular personalizada
+            ['correo', 'match', 'pattern' =>  '/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)([a-zA-Z]{2,5})$/'], // Expresión regular personalizada
             [['nombre', 'apellido', 'telefono', 'correo', 'ci', 'nro_empleado'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => '* No se permiten espacios al principio o al final.'],
 
+            ['fecha_nac', 'validateAge'], // Añadir la validación personalizada
                 
         ];
     }
@@ -121,6 +122,7 @@ class Personal extends \yii\db\ActiveRecord
             'fecha_nac' => 'Fecha de Nacimiento',
             'nacionalidad' => 'Nacionalidad',
             'correo' => 'Correo',
+            'observacion' => 'Observacion',
         ];
     }
 
@@ -149,6 +151,17 @@ class Personal extends \yii\db\ActiveRecord
     public function getTelefonoFormateado()
     {
         return preg_replace('/(\d{4})(\d{4})(\d{3})/', '$1-$2-$3', $this->telefono);
+    }
+
+    public function validateAge($attribute, $params)
+    {
+        $dob = new \DateTime($this->$attribute);
+        $today = new \DateTime();
+        $age = $today->diff($dob)->y;
+
+        if ($age < 16) {
+            $this->addError($attribute, 'Debe ser mayor a 16 años para poder registrarse en el sistema.');
+        }
     }
 
     public function beforeSave($insert)

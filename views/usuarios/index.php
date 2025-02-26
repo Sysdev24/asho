@@ -113,7 +113,7 @@ $this->title = 'Usuario';
                 'class' => ActionColumn::className(),
                 //'hiddenFromExport' => true,
                 'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
-                'template' => '{view}{update}{delete}',
+                'template' => '{view}{update}{toggle-status}',
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         $url = ['view', 'id_usuario'=>$model->id_usuario];
@@ -135,31 +135,32 @@ $this->title = 'Usuario';
                         ]);
                         return  \Yii::$app->user->can('usuarios/update') ? $link : '';
                     },
-                    'delete' => function ($url, $model, $key) {
-                        $url = ['delete', 'id_usuario'=>$model->id_usuario];
-                        $link = Html::a('<i class="fa-solid fa-toggle-off"></i>', $url, [
-                            'title' => Yii::t('yii', 'Delete'),
-                            'aria-label' => Yii::t('yii', 'Delete'),
+                    'toggle-status' => function ($url, $model, $key) {
+                        if ($model->id_estatus == 1) {
+                            $url = ['toggle-status', 'id_usuario' => $model->id_usuario];
+                            $icon = '<i class="fa-solid fa-toggle-off"></i>';
+                            $title = Yii::t('yii', 'Desactivar');
+                            $confirmMessage = Yii::t('app', '¿Está seguro que desea desactivar este ítem?');
+                        } else {
+                            $url = ['toggle-status', 'id_usuario' => $model->id_usuario];
+                            $icon = '<i class="fa-solid fa-toggle-on"></i>';
+                            $title = Yii::t('yii', 'Activar');
+                            $confirmMessage = Yii::t('app', '¿Está seguro que desea activar este ítem?');
+                        }
+                        $link = Html::a($icon, $url, [
+                            'title' => $title,
+                            'aria-label' => $title,
                             'data-pjax' => '0',
                             'class' => 'mx-0',
                             'data' => [
-                                'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
+                                'confirm' => $confirmMessage,
                                 'method' => 'post',
                             ],
                         ]);
-                        return \Yii::$app->user->can('usuarios/delete') ? $link : '';
+                        return (\Yii::$app->user->can('usuarios/delete') || \Yii::$app->user->can('admin')) ? $link : '';
                     },
                 ],
-            ],
-
-
-            // [
-            //     'class' => ActionColumn::className(),
-            //     'urlCreator' => function ($action, Usuarios $model, $key, $index, $column) {
-            //         return Url::toRoute([$action, 'id_usuario' => $model->id_usuario]);
-            //     },
-            //     'contentOptions' => ['class' => 'col-lg-03 text-center', 'style' => 'width:100px'],
-            // ],
+            ],  
         ],
     ]); ?>
 

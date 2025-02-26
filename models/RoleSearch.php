@@ -44,6 +44,7 @@ class RoleSearch extends Model
         $list = AuthRbac::searchInArrayData(AuthRbac::getRoles(), [
             'name'=>$this->name, 'description'=>$this->description
         ]);
+        
 
         $dataProvider = new ArrayDataProvider([
             'allModels' => $list,

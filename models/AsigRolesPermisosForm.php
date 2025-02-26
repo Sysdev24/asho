@@ -127,7 +127,7 @@ class AsigRolesPermisosForm extends Model
         $list = [];
         foreach ($permisos as $permiso) {
             if ($conDescripcion) {
-                $list[$permiso->name] = $permiso->name . ' - ' . $permiso->description;
+                $list[$permiso->name] = $permiso->description;
             } else {
                 $list[] = $permiso->name;
             }

@@ -31,15 +31,15 @@ class EstatusSearch extends Estatus
         return Model::scenarios();
     }
 
-//Query para buscar el estatus (activo, inactivo, etc).
-    //Parametros: $data:$searchModel /  $id: id_estatus
-    public function buscarEstatus($data, $id) {
-        if ($data->estatus && $data->estatus->descripcion) {
-            return $data->estatus->descripcion;
-        } else {
-            return 'N/A'; // O el valor que desees mostrar cuando no hay estatus
-        }
-    }
+// //Query para buscar el estatus (activo, inactivo, etc).
+//     //Parametros: $data:$searchModel /  $id: id_estatus
+//     public function buscarEstatus($data, $id) {
+//         if ($data->estatus && $data->estatus->descripcion) {
+//             return $data->estatus->descripcion;
+//         } else {
+//             return 'N/A'; // O el valor que desees mostrar cuando no hay estatus
+//         }
+//     }
 
 
     /**
@@ -75,7 +75,8 @@ class EstatusSearch extends Estatus
         ]);
 
         $query->andFilterWhere(['ilike', 'siglas', $this->siglas])
-            ->andFilterWhere(['ilike', 'descripcion', $this->descripcion]);
+            //->andFilterWhere(['ilike', 'descripcion', $this->descripcion])
+            ->andFilterWhere(['not in', 'descripcion', ['ACTIVO', 'INACTIVO']]);
 
         return $dataProvider;
     }

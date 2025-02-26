@@ -95,7 +95,7 @@ $this->title = 'Roles';
                     'delete' => function ($url, $model, $key) {
                         $id = $model->name;
                         $url = ['delete', 'id'=>$id];
-                        $link = Html::a('<i class="fa-solid fa-toggle-off"></i>', $url, [
+                        $link = Html::a('<i class="fas fa-trash-alt"></i>', $url, [
                             'title' => Yii::t('yii', 'Delete'),
                             'aria-label' => Yii::t('yii', 'Delete'),
                             'data-pjax' => '0',

@@ -44,14 +44,28 @@ $this->title = 'Estado';
             'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
             ], 
 
+
             [   
                 'attribute' => 'descripcion',
                 'label' => 'Descripcion',
+                'contentOptions' => ['style' => 'width:30%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
-                ]
+                ],                    
             ],
+
+
+            [   
+                'attribute' => 'codigo_region',
+                'label' => 'Codigo Region',
+                'contentOptions' => ['style' => 'width:30%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],                    
+            ],
+
 
             //Esto es Para que muestre el estatus en vez del id almacenado en la tabla regiones
             [   
@@ -64,6 +78,9 @@ $this->title = 'Estado';
             'headerOptions' => ['class' => 'col-lg-03 text-center'],
             'contentOptions' => ['class' => 'col-lg-03 text-center'],
             ],
+
+            
+
 
             // [
             //     'class' => ActionColumn::className(),

@@ -43,7 +43,7 @@ class Estados extends \yii\db\ActiveRecord
             [['descripcion', 'id_estatus'], 'required'],
             [['id_regiones'], 'default', 'value' => null],
             [['id_estatus'], 'default', 'value' => 1],
-            [['id_estatus', 'id_regiones'], 'integer'],
+            [['id_estatus', 'id_regiones', 'codigo_region'], 'integer'],
             [['id_estatus', 'id_regiones'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
@@ -81,6 +81,7 @@ class Estados extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'id_regiones' => 'Regiones',
+            'codigo_region' => 'Codigo de Region',
         ];
     }
 

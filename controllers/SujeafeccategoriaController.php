@@ -33,9 +33,10 @@ class SujeafeccategoriaController extends Controller
                 'access' => [
                     'class' => AccessControl::class,
                     'only' => [
-                        'index', 'create', 'update', 'delete', 'permisos',
+                        'view', 'index', 'create', 'update', 'delete', 'permisos',
                     ], 
                     'rules' => [
+                        ['actions' => ['view'], 'allow' => true, 'roles' => ['sujeafeccategoria/view']],
                         ['actions' => ['index'], 'allow' => true, 'roles' => ['sujeafeccategoria/index']],
                         ['actions' => ['create'], 'allow' => true, 'roles' => ['sujeafeccategoria/create']],
                         ['actions' => ['update'], 'allow' => true, 'roles' => ['sujeafeccategoria/update']],

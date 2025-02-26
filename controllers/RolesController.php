@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\RbacForm;
 use app\models\RoleSearch;
+use app\models\AuthItem;
 use app\models\AsigRolesPermisosForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -87,13 +88,18 @@ class RolesController extends Controller
         $model = new RbacForm();
         $model->isNewRecord = true;
         $errorMessage = '';
-    
+
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-    
                 try {
                     $auth = Yii::$app->authManager;
-    
+                    $model->name = mb_strtoupper($model->name, 'UTF-8');
+                    $model->description = mb_strtoupper($model->description, 'UTF-8');
+
+                    // Convertir a mayúsculas antes de la validación
+                    $model->name = strtoupper($model->name);
+                    $model->description = strtoupper($model->description);
+
                     // Buscar si el rol ya existe
                     $existingRole = $auth->getRole($model->name);
                     if ($existingRole) {
@@ -113,7 +119,7 @@ class RolesController extends Controller
                 }
             }
         }
-    
+
         return $this->render('create', [
             'model' => $model,
             'errorMessage' => $errorMessage,
@@ -136,6 +142,8 @@ class RolesController extends Controller
 
             try {
                 $auth = Yii::$app->authManager;
+                $model->name = mb_strtoupper($model->name, 'UTF-8');
+                $model->description = mb_strtoupper($model->description, 'UTF-8');
                 $role = $auth->getRole($id);
                 $role->name = $model->name;
                 $role->description = $model->description;
@@ -179,7 +187,8 @@ class RolesController extends Controller
         if ($this->request->isPost && $model->load($this->request->post())) {
 
             if (!$errorMessage = $model->save()) {
-                return $this->redirect(['view', 'id' => $model->name]);
+            Yii::$app->session->setFlash('success', 'Se han asignado exitosamente los permisos.');
+                return $this->redirect(['index', 'id' => $model->name]);
             } 
         }
 

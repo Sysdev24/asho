@@ -7,6 +7,7 @@ use app\models\PersonanaturalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * PersonanaturalController implements the CRUD actions for PersonaNatural model.
@@ -22,11 +23,21 @@ class PersonanaturalController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => [
+                        'view', 'index',
+                    ], 
+                    'rules' => [
+                        ['actions' => ['view'], 'allow' => true, 'roles' => ['personanatural/view']],
+                        ['actions' => ['index'], 'allow' => true, 'roles' => ['personanatural/index']],
+                    ]
+                ]
             ]
         );
     }

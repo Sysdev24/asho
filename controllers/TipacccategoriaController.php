@@ -32,9 +32,10 @@ class TipacccategoriaController extends Controller
                 'access' => [
                     'class' => AccessControl::class,
                     'only' => [
-                        'index', 'create', 'update', 'delete', 'permisos',
+                        'view', 'index', 'create', 'update', 'delete', 'permisos',
                     ], 
                     'rules' => [
+                        ['actions' => ['view'], 'allow' => true, 'roles' => ['tipacccategoria/view']],
                         ['actions' => ['index'], 'allow' => true, 'roles' => ['tipacccategoria/index']],
                         ['actions' => ['create'], 'allow' => true, 'roles' => ['tipacccategoria/create']],
                         ['actions' => ['update'], 'allow' => true, 'roles' => ['tipacccategoria/update']],

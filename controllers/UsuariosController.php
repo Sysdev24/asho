@@ -36,9 +36,10 @@ class UsuariosController extends Controller
                 'access' => [
                     'class' => AccessControl::class,
                     'only' => [
-                        'index', 'create', 'update', 'delete', 'permisos',
+                        'view', 'index', 'create', 'update', 'delete', 'permisos',
                     ], 
                     'rules' => [
+                        ['actions' => ['view'], 'allow' => true, 'roles' => ['usuarios/view']],
                         ['actions' => ['index'], 'allow' => true, 'roles' => ['usuarios/index']],
                         ['actions' => ['create'], 'allow' => true, 'roles' => ['usuarios/create']],
                         ['actions' => ['update'], 'allow' => true, 'roles' => ['usuarios/update']],
@@ -198,23 +199,42 @@ class UsuariosController extends Controller
     {
         $transaction = Yii::$app->db->beginTransaction();
         try {
-            // Intentar eliminar el usuario
+            // Intentar eliminar (lógicamente) el usuario
             $model = $this->findModel($id_usuario);
+            $model->id_estatus = 2; // Eliminación lógica: cambiar el estado a inactivo
 
-            if (!$model->delete()) {
-                throw new \yii\db\Exception('No se pudo eliminar el usuario.');
+            if (!$model->save(false)) {
+                throw new \yii\db\Exception('No se pudo desactivar el usuario.');
             }
 
             $transaction->commit();
-            Yii::$app->session->setFlash('success', 'Usuario eliminado exitosamente.');
+            Yii::$app->session->setFlash('success', 'Se ha desactivado correctamente.');
         } catch (\yii\db\IntegrityException $e) {
             $transaction->rollBack();
-            Yii::$app->session->setFlash('error', 'Usuario posee una sesión activa, por favor cierre sesión antes de eliminarlo.');
+            Yii::$app->session->setFlash('error', 'Usuario posee una sesión activa, por favor cierre sesión antes de desactivarlo.');
         } catch (\Exception $e) {
             $transaction->rollBack();
-            Yii::$app->session->setFlash('error', 'Error al eliminar el usuario: ' . $e->getMessage());
+            Yii::$app->session->setFlash('error', 'Error al desactivar el usuario: ' . $e->getMessage());
         }
 
+        return $this->redirect(['index']);
+    }
+
+
+
+    public function actionToggleStatus($id_usuario)
+    {
+        $model = $this->findModel($id_usuario);
+        
+        if ($model->id_estatus == 1) {
+            $model->id_estatus = 2; // Desactivar
+            Yii::$app->session->setFlash('success', 'Se ha desactivado correctamente.');
+        } else {
+            $model->id_estatus = 1; // Activar
+            Yii::$app->session->setFlash('success', 'Se ha activado correctamente.');
+        }
+        
+        $model->save(false); // Guardar sin validar
         return $this->redirect(['index']);
     }
 

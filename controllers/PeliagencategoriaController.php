@@ -33,9 +33,10 @@ class PeliagencategoriaController extends Controller
                 'access' => [
                     'class' => AccessControl::class,
                     'only' => [
-                        'index', 'create', 'update', 'delete', 'permisos',
+                        'view', 'index', 'create', 'update', 'delete', 'permisos',
                     ], 
                     'rules' => [
+                        ['actions' => ['view'], 'allow' => true, 'roles' => ['peliagencategoria/view']],
                         ['actions' => ['index'], 'allow' => true, 'roles' => ['peliagencategoria/index']],
                         ['actions' => ['create'], 'allow' => true, 'roles' => ['peliagencategoria/create']],
                         ['actions' => ['update'], 'allow' => true, 'roles' => ['peliagencategoria/update']],

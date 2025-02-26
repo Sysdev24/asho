@@ -55,6 +55,7 @@ $this->title = $model->ci;
             'fecha_nac',
             'correo',
             //'id_registro',
+            'observacion',
         ],
     ]) ?>
 <!-- BOTON DE VOLVER-->

@@ -34,9 +34,10 @@ class AfecpercategoriaController extends Controller
                 'access' => [
                     'class' => AccessControl::class,
                     'only' => [
-                        'index', 'create', 'update', 'delete', 'permisos',
+                        'view','index', 'create', 'update', 'delete', 'permisos',
                     ], 
                     'rules' => [
+                        ['actions' => ['view'], 'allow' => true, 'roles' => ['afecpercategoria/view']],
                         ['actions' => ['index'], 'allow' => true, 'roles' => ['afecpercategoria/index']],
                         ['actions' => ['create'], 'allow' => true, 'roles' => ['afecpercategoria/create']],
                         ['actions' => ['update'], 'allow' => true, 'roles' => ['afecpercategoria/update']],

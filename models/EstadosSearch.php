@@ -21,7 +21,7 @@ class EstadosSearch extends Estados
     public function rules()
     {
         return [
-            [['id_estado', /*'id_estatus',*/ 'id_regiones'], 'integer'],
+            [['id_estado', /*'id_estatus',*/ 'id_regiones', 'codigo_region'], 'integer'],
             [['id_estatus'], 'safe'], //Se debe poner aqui para que pueda funcionar la busqueda
             [['descripcion', 'created_at', 'updated_at'], 'safe'],
         ];
@@ -92,9 +92,12 @@ class EstadosSearch extends Estados
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'id_regiones' => $this->id_regiones,
+            //'codigo_region' => $this->codigo_region,
         ]);
 
         $query->andFilterWhere(['ilike', 'descripcion', $this->descripcion]);
+        $query->andFilterWhere(['ilike', 'codigo_region', $this->codigo_region]);
+
 
         //Filtro para que no busque por id sino por la descripcion o el campo requerido
         $query->andFilterWhere(['ilike', new Expression('estatus.descripcion::text'), $this->id_estatus]);

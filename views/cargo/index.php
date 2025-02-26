@@ -18,10 +18,6 @@ $this->title = 'Cargos';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Crear Cargo', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
@@ -73,78 +69,45 @@ $this->title = 'Cargos';
 
             // [
             //     'class' => ActionColumn::className(),
-            //     //'hiddenFromExport' => true,
             //     'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
-            //     'template' => '{update}{delete}',
+            //     'template' => '{toggle-status}',
             //     'buttons' => [
-            //         'update' => function ($url, $model, $key) {
-            //             $url = ['update', 'id_cargo'=>$model->id_cargo];
-            //             $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
-            //                 'title' => Yii::t('yii', 'Update'),
-            //                 'aria-label' => Yii::t('yii', 'Update'),
-            //                 'data-pjax' => '0',
-            //                 'class' => 'me-1',
-            //             ]);
-            //             return  \Yii::$app->user->can('cargo/update') ? $link : '';
-            //         },
-            //         'delete' => function ($url, $model, $key) {
-            //             $url = ['delete', 'id_cargo'=>$model->id_cargo];
-            //             $link = Html::a('<i class="fa-solid fa-toggle-off"></i>', $url, [
-            //                 'title' => Yii::t('yii', 'Desactivar'),
-            //                 'aria-label' => Yii::t('yii', 'Delete'),
+            //         // 'update' => function ($url, $model, $key) {
+            //         //     $url = ['update', 'id_cargo'=>$model->id_cargo];
+            //         //     $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
+            //         //         'title' => Yii::t('yii', 'Update'),
+            //         //         'aria-label' => Yii::t('yii', 'Update'),
+            //         //         'data-pjax' => '0',
+            //         //         'class' => 'me-1',
+            //         //     ]);
+            //         //     return \Yii::$app->user->can('cargo/update') ? $link : '';
+            //         // },
+            //         'toggle-status' => function ($url, $model, $key) {
+            //             if ($model->id_estatus == 1) {
+            //                 $url = ['toggle-status', 'id_cargo' => $model->id_cargo];
+            //                 $icon = '<i class="fa-solid fa-toggle-off"></i>';
+            //                 $title = Yii::t('yii', 'Desactivar');
+            //                 $confirmMessage = Yii::t('app', '¿Está seguro que desea desactivar este ítem?');
+            //             } else {
+            //                 $url = ['toggle-status', 'id_cargo' => $model->id_cargo];
+            //                 $icon = '<i class="fa-solid fa-toggle-on"></i>';
+            //                 $title = Yii::t('yii', 'Activar');
+            //                 $confirmMessage = Yii::t('app', '¿Está seguro que desea activar este ítem?');
+            //             }
+            //             $link = Html::a($icon, $url, [
+            //                 'title' => $title,
+            //                 'aria-label' => $title,
             //                 'data-pjax' => '0',
             //                 'class' => 'mx-0',
             //                 'data' => [
-            //                     'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
+            //                     'confirm' => $confirmMessage,
             //                     'method' => 'post',
             //                 ],
             //             ]);
-            //             return \Yii::$app->user->can('cargo/delete') ? $link : '';
+            //             return (\Yii::$app->user->can('cargo/delete') || \Yii::$app->user->can('admin')) ? $link : '';
             //         },
             //     ],
             // ],
-
-            [
-                'class' => ActionColumn::className(),
-                'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
-                'template' => '{toggle-status}',
-                'buttons' => [
-                    // 'update' => function ($url, $model, $key) {
-                    //     $url = ['update', 'id_cargo'=>$model->id_cargo];
-                    //     $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
-                    //         'title' => Yii::t('yii', 'Update'),
-                    //         'aria-label' => Yii::t('yii', 'Update'),
-                    //         'data-pjax' => '0',
-                    //         'class' => 'me-1',
-                    //     ]);
-                    //     return \Yii::$app->user->can('cargo/update') ? $link : '';
-                    // },
-                    'toggle-status' => function ($url, $model, $key) {
-                        if ($model->id_estatus == 1) {
-                            $url = ['toggle-status', 'id_cargo' => $model->id_cargo];
-                            $icon = '<i class="fa-solid fa-toggle-off"></i>';
-                            $title = Yii::t('yii', 'Desactivar');
-                            $confirmMessage = Yii::t('app', '¿Está seguro que desea desactivar este ítem?');
-                        } else {
-                            $url = ['toggle-status', 'id_cargo' => $model->id_cargo];
-                            $icon = '<i class="fa-solid fa-toggle-on"></i>';
-                            $title = Yii::t('yii', 'Activar');
-                            $confirmMessage = Yii::t('app', '¿Está seguro que desea activar este ítem?');
-                        }
-                        $link = Html::a($icon, $url, [
-                            'title' => $title,
-                            'aria-label' => $title,
-                            'data-pjax' => '0',
-                            'class' => 'mx-0',
-                            'data' => [
-                                'confirm' => $confirmMessage,
-                                'method' => 'post',
-                            ],
-                        ]);
-                        return (\Yii::$app->user->can('cargo/delete') || \Yii::$app->user->can('admin')) ? $link : '';
-                    },
-                ],
-            ],
             
             
             

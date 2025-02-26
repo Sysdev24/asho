@@ -117,7 +117,6 @@ use yii\helpers\Url;
         'max' => date('Y-m-d'),
         'class' => 'form-control file',
         'placeholder' => '31/12/1990',
-        'required' => true,
     ]) ?>
 
 

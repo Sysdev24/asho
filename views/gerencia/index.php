@@ -19,9 +19,6 @@ $this->title = 'Gerencia';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Crear Gerencia', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -70,38 +67,38 @@ $this->title = 'Gerencia';
                 'contentOptions' => ['class' => 'col-lg-03 text-center'],
             ],
 
-            [
-                'class' => ActionColumn::className(),
-                //'hiddenFromExport' => true,
-                'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
-                'template' => '{toggle-status}',
-                'buttons' => [
-                    'toggle-status' => function ($url, $model, $key) {
-                        if ($model->id_estatus == 1) {
-                            $url = ['toggle-status', 'id_gerencia' => $model->id_gerencia];
-                            $icon = '<i class="fa-solid fa-toggle-off"></i>';
-                            $title = Yii::t('yii', 'Desactivar');
-                            $confirmMessage = Yii::t('app', '¿Está seguro que desea desactivar este ítem?');
-                        } else {
-                            $url = ['toggle-status', 'id_gerencia' => $model->id_gerencia];
-                            $icon = '<i class="fa-solid fa-toggle-on"></i>';
-                            $title = Yii::t('yii', 'Activar');
-                            $confirmMessage = Yii::t('app', '¿Está seguro que desea activar este ítem?');
-                        }
-                        $link = Html::a($icon, $url, [
-                            'title' => $title,
-                            'aria-label' => $title,
-                            'data-pjax' => '0',
-                            'class' => 'mx-0',
-                            'data' => [
-                                'confirm' => $confirmMessage,
-                                'method' => 'post',
-                            ],
-                        ]);
-                        return (\Yii::$app->user->can('gerencia/delete') || \Yii::$app->user->can('admin')) ? $link : '';
-                    },
-                ],
-            ],
+            // [
+            //     'class' => ActionColumn::className(),
+            //     //'hiddenFromExport' => true,
+            //     'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
+            //     'template' => '{toggle-status}',
+            //     'buttons' => [
+            //         'toggle-status' => function ($url, $model, $key) {
+            //             if ($model->id_estatus == 1) {
+            //                 $url = ['toggle-status', 'id_gerencia' => $model->id_gerencia];
+            //                 $icon = '<i class="fa-solid fa-toggle-off"></i>';
+            //                 $title = Yii::t('yii', 'Desactivar');
+            //                 $confirmMessage = Yii::t('app', '¿Está seguro que desea desactivar este ítem?');
+            //             } else {
+            //                 $url = ['toggle-status', 'id_gerencia' => $model->id_gerencia];
+            //                 $icon = '<i class="fa-solid fa-toggle-on"></i>';
+            //                 $title = Yii::t('yii', 'Activar');
+            //                 $confirmMessage = Yii::t('app', '¿Está seguro que desea activar este ítem?');
+            //             }
+            //             $link = Html::a($icon, $url, [
+            //                 'title' => $title,
+            //                 'aria-label' => $title,
+            //                 'data-pjax' => '0',
+            //                 'class' => 'mx-0',
+            //                 'data' => [
+            //                     'confirm' => $confirmMessage,
+            //                     'method' => 'post',
+            //                 ],
+            //             ]);
+            //             return (\Yii::$app->user->can('gerencia/delete') || \Yii::$app->user->can('admin')) ? $link : '';
+            //         },
+            //     ],
+            // ],
 
 
             // [

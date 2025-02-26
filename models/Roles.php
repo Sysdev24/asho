@@ -83,7 +83,9 @@ class Roles extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $this->descripcion = mb_strtoupper($this->descripcion);
+            //para poner en mayúsculas
+            $this->name = mb_strtoupper($this->name);
+            $this->description = mb_strtoupper($this->description);
             $this->guard_name = mb_strtoupper($this->guard_name);
             return true;
         } else {

@@ -33,9 +33,10 @@ class ExposicioncontaccategoriaController extends Controller
                 'access' => [
                     'class' => AccessControl::class,
                     'only' => [
-                        'index', 'create', 'update', 'delete', 'permisos',
+                        'view', 'index', 'create', 'update', 'delete', 'permisos',
                     ], 
                     'rules' => [
+                        ['actions' => ['view'], 'allow' => true, 'roles' => ['exposicioncontaccategoria/view']],
                         ['actions' => ['index'], 'allow' => true, 'roles' => ['exposicioncontaccategoria/index']],
                         ['actions' => ['create'], 'allow' => true, 'roles' => ['exposicioncontaccategoria/create']],
                         ['actions' => ['update'], 'allow' => true, 'roles' => ['exposicioncontaccategoria/update']],
