@@ -92,6 +92,15 @@ class UsuariosController extends Controller
     $model->scenario = Usuarios::SCENARIO_CREATE;
 
     if ($model->load($this->request->post())) {
+        // Verificar el estatus del personal antes de proceder
+        $personal = Personal::findOne(['ci' => $model->ci]);
+        if ($personal && $personal->id_estatus !== 1) { // Suponiendo que 1 es el estatus de ACTIVO
+            Yii::$app->session->setFlash('error', 'El personal debe estar ACTIVO para poder crear un usuario.');
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+
         // Encriptar la contraseña
         if ($model->password) {
             $model->setPassword($model->password);
@@ -100,9 +109,9 @@ class UsuariosController extends Controller
         // Si la validación pasa, inicia una transacción
         $transaction = Yii::$app->db->beginTransaction();
         try {
-            if ($model->save()) {
+            if ($model->validate() && $model->save()) {
                 $auth = Yii::$app->authManager;
-                foreach ($model->name as $rol) {
+                foreach ($model->name as $rol) { // Usar name directamente
                     $role = $auth->getRole($rol);
                     $auth->assign($role, $model->id_usuario);
                 }
@@ -115,8 +124,7 @@ class UsuariosController extends Controller
             }
         } catch (\Exception $e) {
             $transaction->rollBack();
-            Yii::error($e);
-            throw $e;
+            Yii::$app->session->setFlash('error', 'Error al guardar el usuario. Detalles del error: ' . $e->getMessage());
         }
     } else {
         $model->loadDefaultValues();
@@ -128,6 +136,7 @@ class UsuariosController extends Controller
 }
 
 
+
     /**
      * Updates an existing Usuarios model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -136,55 +145,57 @@ class UsuariosController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
 
-    public function actionUpdate($id_usuario)
-    {
-        $model = $this->findModel($id_usuario);
+     public function actionUpdate($id_usuario)
+{
+    $model = $this->findModel($id_usuario);
 
-        // Selecciona roles del usuario
-        $model->getUserRoles();
+    // Selecciona roles del usuario
+    $model->getUserRoles();
 
-        if ($model->load($this->request->post())) {
-            // Iniciar transacción
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                // Verificar si hay roles seleccionados
-                if (is_array($model->name) && count($model->name) > 0) {
-                    // Revocar todos los roles actuales
-                    $auth = Yii::$app->authManager;
-                    $auth->revokeAll($model->id_usuario);
+    if ($model->load($this->request->post())) {
+        // Iniciar transacción
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            // Verificar si hay roles seleccionados
+            if (is_array($model->name) && count($model->name) > 0) {
+                // Revocar todos los roles actuales
+                $auth = Yii::$app->authManager;
+                $auth->revokeAll($model->id_usuario);
 
-                    // Asignar los nuevos roles
-                    foreach ($model->name as $rol) {
-                        $role = $auth->getRole($rol);
-                        $auth->assign($role, $model->id_usuario);
-                    }
+                // Asignar los nuevos roles
+                foreach ($model->name as $rol) {
+                    $role = $auth->getRole($rol);
+                    $auth->assign($role, $model->id_usuario);
+                }
 
-                    if ($model->save()) {
-                        $transaction->commit();
-                        Yii::$app->session->setFlash('success', 'Actualización exitosa.');
-                        return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
-                    } else {
-                        $transaction->rollBack();
-                        Yii::$app->session->setFlash('error', 'Error al actualizar el usuario.');
-                        return $this->render('update', ['model' => $model]);
-                    }
+                // Verificar errores de validación antes de guardar
+                if ($model->validate() && $model->save()) {
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('success', 'Actualización exitosa.');
+                    return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
                 } else {
                     $transaction->rollBack();
-                    Yii::$app->session->setFlash('error', 'Debe seleccionar al menos un rol para el usuario.');
-                    return $this->render('update', ['model' => $model]);
+                    Yii::$app->session->setFlash('error', 'Error al actualizar el usuario: ' . implode(', ', $model->getErrorSummary(true)));
+                    return $this->render('update', ['model' => $model]); // Renderizar la vista con errores
                 }
-            } catch (yii\db\Exception $e) {
+            } else {
                 $transaction->rollBack();
-                Yii::error($e);
-                throw $e;
+                Yii::$app->session->setFlash('error', 'Debe seleccionar al menos un rol para el usuario.');
+                return $this->render('update', ['model' => $model]);
             }
+        } catch (yii\db\Exception $e) {
+            $transaction->rollBack();
+            Yii::error($e);
+            throw $e;
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-        
     }
+
+    return $this->render('update', [
+        'model' => $model,
+    ]);
+}
+
+     
 
 
 
@@ -225,7 +236,15 @@ class UsuariosController extends Controller
     public function actionToggleStatus($id_usuario)
     {
         $model = $this->findModel($id_usuario);
-        
+
+        if ($model->id_estatus == 2) { // Si se intenta activar el usuario
+            $personal = Personal::findOne(['ci' => $model->ci]);
+            if ($personal && $personal->id_estatus != 1) { // Suponiendo que 1 es el estatus de ACTIVO
+                Yii::$app->session->setFlash('error', 'Debe activar primero al personal antes de activar al usuario.');
+                return $this->redirect(['index']);
+            }
+        }
+
         if ($model->id_estatus == 1) {
             $model->id_estatus = 2; // Desactivar
             Yii::$app->session->setFlash('success', 'Se ha desactivado correctamente.');
@@ -233,10 +252,11 @@ class UsuariosController extends Controller
             $model->id_estatus = 1; // Activar
             Yii::$app->session->setFlash('success', 'Se ha activado correctamente.');
         }
-        
+
         $model->save(false); // Guardar sin validar
         return $this->redirect(['index']);
     }
+
 
 
     /**

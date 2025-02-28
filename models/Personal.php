@@ -99,6 +99,12 @@ class Personal extends \yii\db\ActiveRecord
             ], 
             'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
             ], 
+
+            /* AuditTrail Module */
+            'LoggableBehavior' => [
+                'class' => 'sammaye\audittrail\LoggableBehavior',
+                'ignored' => ['auth_key','password_hash', 'created_at', 'updated_at'],
+            ]
         ]; 
     }
         
@@ -125,6 +131,19 @@ class Personal extends \yii\db\ActiveRecord
             'observacion' => 'Observacion',
         ];
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if (!$insert && array_key_exists('id_estatus', $changedAttributes) && $this->id_estatus == 2) { // Suponiendo que 2 es el estatus de INACTIVO
+            $usuario = Usuarios::findOne(['ci' => $this->ci]);
+            if ($usuario) {
+                $usuario->id_estatus = 2; // Marcar al usuario como inactivo
+                $usuario->save(false, ['id_estatus']); // Guardar el estatus sin validaciones
+            }
+        }
+    }
+
 
     public function buscarInformacionPersona($ci)
     {

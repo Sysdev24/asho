@@ -56,7 +56,10 @@ use yii\helpers\Url;
     <?= $form->field($model, 'password')->passwordInput([
     'placeholder' => 'Escriba su contraseña',
     'autocomplete' => 'off'
-]) ?>
+    ]) ?>
+
+    <h2>Asignar rol</h2>
+
     <?= $form->field($model, 'name', [
         'template' => "<div>{input}\n{error}</div>",
     ])->checkboxList(ArrayHelper::map(Yii::$app->authManager->getRoles(),'name','name'), [
@@ -65,21 +68,9 @@ use yii\helpers\Url;
             'wrapperOptions' => ['class'=>'form-check'],
         ],
     ]) ?>
-    
-    <!-- Este if es para que lo que está dentro de él unicamente aparezca en actualizar -->
-    <?php if (!$model->isNewRecord): ?>
-    <?= $form->field($model, 'id_estatus')->dropDownList(
-        ArrayHelper::map(
-            Estatus::find()
-                ->where(['in', 'descripcion', ['ACTIVO', 'INACTIVO']])
-                ->all(),
-            'id_estatus',
-            'descripcion'
-        ),
-        ['prompt' => 'seleccionar status']
-    ); ?>
-    <?php endif; ?>
 
+    <?= $form->errorSummary($model); // Esto mostrará los errores del modelo ?>
+    
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>

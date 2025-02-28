@@ -48,6 +48,12 @@ class RbacForm extends Model
             ], 
             'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
             ], 
+
+            /* AuditTrail Module */
+            'LoggableBehavior' => [
+                'class' => 'sammaye\audittrail\LoggableBehavior',
+                'ignored' => ['auth_key','password_hash', 'created_at', 'updated_at'],
+            ]
         ]; 
     }
 

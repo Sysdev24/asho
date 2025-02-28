@@ -5,12 +5,10 @@ namespace app\models;
 use Yii;
 use app\utiles\sensibleMayuscMinuscValidator;
 
-use yii\base\NotSupportedException;
-use yii\models\LoginForm;
+
 use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
-use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
+
 
 /**
  * This is the model class for table "usuarios".
@@ -58,7 +56,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
-            [['username', 'password_hash', 'id_estatus'], 'required'],
+            [['username', 'password_hash'], 'required'],
             [['username', 'password', 'password_hash'], 'string', 'max' => 255],
             [['username' ], 'string'],
             [['username', 'authKey', 'accesstoken', 'nacionalidad'], 'string'],
@@ -84,22 +82,38 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['created_at', 'updated_at'], 'safe'],
 
             [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
+
+            ['id_estatus', 'validatePersonalBeforeActivating'],
         ];
     }
 
     //Para utilizar los campos created_at y updated_at
-    public function behaviors() 
+    public function behaviors()
     {
-         return [ TimestampBehavior::class => [
-             'class' => TimestampBehavior::class, 
-             'attributes' => [ 
-                ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'], 
-                ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'], 
-            ], 
-            'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
-            ], 
-        ]; 
+        return [
+            TimestampBehavior::class => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => function () {
+                    return date('Y-m-d H:i:s');
+                }, // Formato para datetime
+            ],
+
+            /* AuditTrail Module */
+            'LoggableBehavior' => [
+                'class' => 'sammaye\audittrail\LoggableBehavior',
+                'ignored' => ['auth_key','password_hash', 'updated_at', 'created_at'],
+            ]
+        ];
     }
+
+    
+
+
+
 
     public $name;
     public $password;
@@ -136,28 +150,63 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     } 
 
     public function beforeSave($insert)
-    {
-        if (parent::beforeSave($insert)) {
-            // Convertir a mayúsculas los campos específicos
-            $this->username = mb_strtoupper($this->username);
-            //$this->apellido = mb_strtoupper($this->apellido);
-    
-            // Generar claves de autenticación
-            if ($insert) {
-                $this->authKey = Yii::$app->security->generateRandomString();
-                $this->accesstoken = Yii::$app->security->generateRandomString();
+{
+    if (parent::beforeSave($insert)) {
+        if ($this->id_estatus == 1) { // Si se intenta activar el usuario
+            $personal = Personal::findOne(['ci' => $this->ci]);
+            if ($personal && $personal->id_estatus != 1) { // Suponiendo que 1 es el estatus de ACTIVO
+                $this->addError('id_estatus', 'Debe activar primero al personal antes de activar al usuario.');
+                return false; // Evitar guardar el modelo
             }
-    
-            // Encriptar contraseña
-            if ($this->password) {
-                $this->setPassword($this->password);
-            }
-            
-            return true;
-        } else {
-            return false;
+        }
+        
+        // Convertir a mayúsculas los campos específicos
+        $this->username = mb_strtoupper($this->username);
+        // $this->apellido = mb_strtoupper el apellido
+
+        // Generar claves de autenticación
+        if ($insert) {
+            $this->authKey = Yii::$app->security->generateRandomString();
+            $this->accesstoken = Yii::$app->security->generateRandomString();
+        }
+
+        // Encriptar contraseña
+        if ($this->password) {
+            $this->setPassword($this->password);
+        }
+
+        // Convertir roles a JSON si es un array y no es una creación
+        if (!$insert && is_array($this->name)) {
+            $this->name = json_encode($this->name);
+        }
+
+        return true;
+    } else {
+        return false;
+    }
+}
+
+public function afterFind()
+{
+    parent::afterFind();
+    if ($this->name) {
+        $this->name = json_decode($this->name, true); // Decodificamos el JSON a un array
+    }
+}
+
+// Método de validación para verificar el estatus del personal antes de activar el usuario
+public function validatePersonalBeforeActivating($attribute, $params)
+{
+    if ($this->id_estatus == 1) { // Si se intenta activar el usuario
+        $personal = Personal::findOne(['ci' => $this->ci]);
+        if ($personal && $personal->id_estatus != 1) { // Suponiendo que 1 es el estatus de ACTIVO
+            $this->addError($attribute, 'Debe activar primero al personal antes de activar al usuario.');
         }
     }
+}
+
+
+
 
     //Para invalidar las sesiones activas si se inicia una nueva. (Se llama en el SiteController)
     public function invalidatePreviousSessions()
@@ -169,6 +218,21 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             ])
             ->execute();
     }
+
+    public function getDirtyAttributes($names = null)
+    {
+        $dirtyAttributes = parent::getDirtyAttributes($names);
+
+        if (array_key_exists('name', $dirtyAttributes)) {
+            $dirtyAttributes['name'] = json_encode($dirtyAttributes['name']);
+        }
+
+        // var_dump($dirtyAttributes);
+        // exit;
+
+        return $dirtyAttributes;
+    }
+
     
     /**
      * Gets query for [[AuditTrails]].
@@ -292,42 +356,42 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         return $list;
     }
 
-public function getSystemRoles()
-{
-    $auth = Yii::$app->authManager;
-    $roles = $auth->getRoles();
-    $list = [];
-    foreach ($roles as $rol) {
-        $list[] = $rol->name;
-    }
-    return $list;
-}
-
-public function getUserRoles()
-{
-    // Obtiene los roles del usuario
-    $auth = Yii::$app->authManager;
-    $roleSelect = $auth->getRolesByUser($this->id_usuario);
-    $listRoles = [];
-    foreach ($roleSelect as $rol) {
-        $listRoles[] = $rol->name;
-    }
-    return $listRoles;
-}
-
-public function getRoleList()
-{
-    $auth = Yii::$app->authManager;
-    $idUsu = Yii::$app->user->identity->id;
-    $userRoles = $auth->getRolesByUser($idUsu);
-
-    $list = [];
-    foreach (self::getSystemRoles() as $role) {
-        $list[$role] = $role;
+    public function getSystemRoles()
+    {
+        $auth = Yii::$app->authManager;
+        $roles = $auth->getRoles();
+        $list = [];
+        foreach ($roles as $rol) {
+            $list[] = $rol->name;
+        }
+        return $list;
     }
 
-    return $list;
-}
+    public function getUserRoles()
+    {
+        // Obtiene los roles del usuario
+        $auth = Yii::$app->authManager;
+        $roleSelect = $auth->getRolesByUser($this->id_usuario);
+        $listRoles = [];
+        foreach ($roleSelect as $rol) {
+            $listRoles[] = $rol->name;
+        }
+        return $listRoles;
+    } 
+
+    public function getRoleList()
+    {
+        $auth = Yii::$app->authManager;
+        $idUsu = Yii::$app->user->identity->id;
+        $userRoles = $auth->getRolesByUser($idUsu);
+
+        $list = [];
+        foreach (self::getSystemRoles() as $role) {
+            $list[$role] = $role;
+        }
+
+        return $list;
+    }
 
     /**
      * {@inheritdoc}
@@ -381,13 +445,15 @@ public function getRoleList()
     //Cambio en la funcion para utilizar el modelo de nuestra BD 
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username]);
+        return static::findOne(['username' => $username, 'id_estatus' => 1]); // Solo usuarios activos
     }
+
 
 
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return $this->id_estatus == 1 && Yii::$app->security->validatePassword($password, $this->password_hash);
     }
+
     
 }

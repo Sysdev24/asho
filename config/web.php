@@ -45,7 +45,7 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
-            ],
+        ],
 
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
@@ -72,12 +72,9 @@ $config = [
              'db' => 'db',
              'class' => 'yii\web\DbSession',
             'sessionTable' => 'session', // nombre de la tabla de sesión. Por defecto 'session'.
-            // Se tuvo que colocar el nombre de la tabla fija porque mostraba error con el $params
 
-            //'sessionTable' => $params['session'], // nombre de la tabla de sesión. Por defecto 'session'.
             'writeCallback' => function ($session) {
                 return [
-                   //'user_id' => \Yii::$app->user->isGuest ? null : \Yii::$app->user->id,  --> Se comento esta linea generando error hay que revisar que funcion hace
                    'user_id' => \Yii::$app->user->id,
                    'ip' => \Yii::$app->request->userIP,
                    //'ip' => $_SERVER['REMOTE_ADDR'],
@@ -85,6 +82,10 @@ $config = [
                    'is_trusted' => $session->get('is_trusted', false),
                ];
             },
+
+            'cookieParams' => [
+            'httpOnly' => true,
+            ],
         ],
     
     

@@ -16,6 +16,7 @@ return array(
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
     'yii2mod\\rbac\\' => array($vendorDir . '/yii2mod/yii2-rbac'),
     'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
+    'sammaye\\audittrail\\' => array($vendorDir . '/sammaye/yii2-audittrail'),
     'pceuropa\\menu\\' => array($vendorDir . '/pceuropa/yii2-menu'),
     'kartik\\select2\\' => array($vendorDir . '/kartik-v/yii2-widget-select2/src'),
     'kartik\\plugins\\depdrop\\' => array($vendorDir . '/kartik-v/dependent-dropdown'),
