@@ -117,6 +117,10 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             Yii::$app->user->identity->invalidatePreviousSessions(); // Llamar a la función para invalidar sesiones anteriores
+            $user = Yii::$app->user->identity;
+            $user->session = 1; // Asumiendo que tienes un campo `session` en tu tabla de usuarios.
+            $user->save(false); // Guardar sin validar para evitar errores.
+            
             return $this->goBack();
         }
 
@@ -125,17 +129,34 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-
     /**
      * Logout action.
      *
      * @return Response
      */
-    public function actionLogout()
+    /*public function actionLogout()
     {
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }*/
+
+    public function actionLogout(){
+
+    // Obtener el usuario actual antes de cerrar la sesión
+    $user = Yii::$app->user->identity;
+
+    // Cerrar la sesión
+    Yii::$app->user->logout();
+
+    // Actualizar el estado de la sesión activa
+    if ($user) {
+        $user->session = 2; // Cambiar el estado a "sesión no activa"
+        $user->save(false); // Guardar sin validar para evitar errores
+    }
+
+    // Redirigir a la página de inicio
+    return $this->goHome();
     }
 
     /**
