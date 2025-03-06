@@ -25,7 +25,7 @@ class UsuariosSearch extends Usuarios
     {
         return [
             [['id_usuario', 'ci', 'id_estatus'], 'integer'],
-            [['username', 'password', 'created_at', 'updated_at', 'authKey', 'accesstoken', 'name', 'nacionalidad', 'item_name', 'nombre', 'apellido', 'gerencia'], 'safe'],
+            [['username', 'password', 'created_at', 'updated_at', 'authKey', 'accesstoken', 'name', 'nombre', 'apellido', 'gerencia'], 'safe'],
         ];
     }
 
@@ -89,14 +89,6 @@ class UsuariosSearch extends Usuarios
                     'desc' => ['personal.apellido' => SORT_DESC],
     
                 ],
-
-                'personal.nacionalidad' => [
-    
-                    'asc' => ['personal.nacionalidad' => SORT_ASC],
-    
-                    'desc' => ['personal.nacionalidad' => SORT_DESC],
-    
-                ],
             ],
     
         ]);
@@ -131,14 +123,12 @@ class UsuariosSearch extends Usuarios
         ->andFilterWhere(['ilike', 'password', $this->password])
         ->andFilterWhere(['ilike', 'authKey', $this->authKey])
         ->andFilterWhere(['ilike', 'accesstoken', $this->accesstoken])
-        ->andFilterWhere(['ilike', 'name', $this->name])
-        ->andFilterWhere(['ilike', 'item_name', $this->item_name]);
+        ->andFilterWhere(['ilike', 'name', $this->name]);
 
         // Filtrar por datos del personal asociado
         $query
         ->andFilterWhere(['ilike', 'personal.nombre', $this->nombre])
-        ->andFilterWhere(['ilike', 'personal.apellido', $this->apellido])
-        ->andFilterWhere(['ilike', 'personal.nacionalidad', $this->nacionalidad]);
+        ->andFilterWhere(['ilike', 'personal.apellido', $this->apellido]);
 
         //$query->andFilterWhere(['ilike', new Expression('personal.nombre::text'), $this->ci]);
 

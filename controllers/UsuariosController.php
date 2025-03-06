@@ -87,53 +87,54 @@ class UsuariosController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionCreate()
-{
-    $model = new Usuarios();
-    $model->scenario = Usuarios::SCENARIO_CREATE;
+    {
+        $model = new Usuarios();
+        $model->scenario = Usuarios::SCENARIO_CREATE;
 
-    if ($model->load($this->request->post())) {
-        // Verificar el estatus del personal antes de proceder
-        $personal = Personal::findOne(['ci' => $model->ci]);
-        if ($personal && $personal->id_estatus !== 1) { // Suponiendo que 1 es el estatus de ACTIVO
-            Yii::$app->session->setFlash('error', 'El personal debe estar ACTIVO para poder crear un usuario.');
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-
-        // Encriptar la contraseña
-        if ($model->password) {
-            $model->setPassword($model->password);
-        }
-
-        // Si la validación pasa, inicia una transacción
-        $transaction = Yii::$app->db->beginTransaction();
-        try {
-            if ($model->validate() && $model->save()) {
-                $auth = Yii::$app->authManager;
-                foreach ($model->name as $rol) { // Usar name directamente
-                    $role = $auth->getRole($rol);
-                    $auth->assign($role, $model->id_usuario);
-                }
-                $transaction->commit();
-                Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
-                return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
-            } else {
-                $transaction->rollBack();
-                Yii::$app->session->setFlash('error', 'Error al guardar el usuario. Detalles del error: ' . json_encode($model->errors));
+        if ($model->load($this->request->post())) {
+            // Verificar el estatus del personal antes de proceder
+            $personal = Personal::findOne(['ci' => $model->ci]);
+            if ($personal && $personal->id_estatus !== 1) { // Suponiendo que 1 es el estatus de ACTIVO
+                Yii::$app->session->setFlash('error', 'El personal debe estar ACTIVO para poder crear un usuario.');
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
             }
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            Yii::$app->session->setFlash('error', 'Error al guardar el usuario. Detalles del error: ' . $e->getMessage());
-        }
-    } else {
-        $model->loadDefaultValues();
-    }
 
-    return $this->render('create', [
-        'model' => $model,
-    ]);
-}
+            // Encriptar la contraseña
+            if ($model->password) {
+                $model->setPassword($model->password);
+            }
+
+            // Si la validación pasa, inicia una transacción
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                if ($model->validate() && $model->save()) {
+                    $auth = Yii::$app->authManager;
+                    foreach ($model->name as $rol) { // Usar name directamente
+                        $role = $auth->getRole($rol);
+                        $auth->assign($role, $model->id_usuario);
+                        
+                    }
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('success', 'Se ha creado exitosamente.');
+                    return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
+                } else {
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('error', 'Error al guardar el usuario. Detalles del error: ' . json_encode($model->errors));
+                }
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Error al guardar el usuario. Detalles del error: ' . $e->getMessage());
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
 
 
 
@@ -146,54 +147,54 @@ class UsuariosController extends Controller
      */
 
      public function actionUpdate($id_usuario)
-{
-    $model = $this->findModel($id_usuario);
-
-    // Selecciona roles del usuario
-    $model->getUserRoles();
-
-    if ($model->load($this->request->post())) {
-        // Iniciar transacción
-        $transaction = Yii::$app->db->beginTransaction();
-        try {
-            // Verificar si hay roles seleccionados
-            if (is_array($model->name) && count($model->name) > 0) {
-                // Revocar todos los roles actuales
-                $auth = Yii::$app->authManager;
-                $auth->revokeAll($model->id_usuario);
-
-                // Asignar los nuevos roles
-                foreach ($model->name as $rol) {
-                    $role = $auth->getRole($rol);
-                    $auth->assign($role, $model->id_usuario);
-                }
-
-                // Verificar errores de validación antes de guardar
-                if ($model->validate() && $model->save()) {
-                    $transaction->commit();
-                    Yii::$app->session->setFlash('success', 'Actualización exitosa.');
-                    return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
-                } else {
-                    $transaction->rollBack();
-                    Yii::$app->session->setFlash('error', 'Error al actualizar el usuario: ' . implode(', ', $model->getErrorSummary(true)));
-                    return $this->render('update', ['model' => $model]); // Renderizar la vista con errores
-                }
-            } else {
-                $transaction->rollBack();
-                Yii::$app->session->setFlash('error', 'Debe seleccionar al menos un rol para el usuario.');
-                return $this->render('update', ['model' => $model]);
-            }
-        } catch (yii\db\Exception $e) {
-            $transaction->rollBack();
-            Yii::error($e);
-            throw $e;
-        }
+     {
+         $model = $this->findModel($id_usuario);
+     
+         // Selecciona roles del usuario y convierte a array para el formulario
+         $model->name = $model->getUserRoles();
+     
+         if ($model->load($this->request->post())) {
+             // Iniciar transacción
+             $transaction = Yii::$app->db->beginTransaction();
+             try {
+                 // Verificar si hay roles seleccionados
+                 if (is_array($model->name) && count($model->name) > 0) {
+                     // Revocar todos los roles actuales
+                     $auth = Yii::$app->authManager;
+                     $auth->revokeAll($model->id_usuario);
+     
+                     // Asignar los nuevos roles
+                     foreach ($model->name as $rol) {
+                         $role = $auth->getRole($rol);
+                         $auth->assign($role, $model->id_usuario);
+                     }
+     
+                     if ($model->save()) {
+                         $transaction->commit();
+                         Yii::$app->session->setFlash('success', 'Actualización exitosa.');
+                         return $this->redirect(['index', 'id_usuario' => $model->id_usuario]);
+                     } else {
+                         $transaction->rollBack();
+                         Yii::$app->session->setFlash('error', 'Error al actualizar el usuario.');
+                         return $this->render('update', ['model' => $model]);
+                     }
+                 } else {
+                     $transaction->rollBack();
+                     Yii::$app->session->setFlash('error', 'Debe seleccionar al menos un rol para el usuario.');
+                     return $this->render('update', ['model' => $model]);
+                 }
+             } catch (yii\db\Exception $e) {
+                 $transaction->rollBack();
+                 Yii::error($e);
+                 throw $e;
+             }
+         }
+     
+         return $this->render('update', [
+             'model' => $model,
+         ]);
     }
-
-    return $this->render('update', [
-        'model' => $model,
-    ]);
-}
+     
 
      
 

@@ -99,7 +99,6 @@ class Personal extends \yii\db\ActiveRecord
             ], 
             'value' => function() { return date('Y-m-d H:i:s'); }, // Formato para datetime 
             ], 
-
             /* AuditTrail Module */
             'LoggableBehavior' => [
                 'class' => 'sammaye\audittrail\LoggableBehavior',

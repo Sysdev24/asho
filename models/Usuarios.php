@@ -59,10 +59,16 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['username', 'password_hash'], 'required'],
             [['username', 'password', 'password_hash'], 'string', 'max' => 255],
             [['username' ], 'string'],
-            [['username', 'authKey', 'accesstoken', 'nacionalidad'], 'string'],
+            [['username', 'authKey', 'accesstoken'], 'string'],
             [['username', 'password'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
 
-            ['password_hash', 'string', 'min' => 6],
+            ['password_hash', 'string', 'min' => 6, 'message' => 'La contraseña debe tener mínimo 6 caracteres.'],
+
+
+            
+            ['password', 'string', 'min' => 6, 'message' => 'La contraseña debe tener mínimo 6 caracteres.'],
+            ['password', 'required', 'message' => 'La contraseña es obligatoria.'],
+
 
             [['name'], 'each', 'rule' => ['string']],
             [['name'], 'required'],
@@ -81,7 +87,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
             [['created_at', 'updated_at'], 'safe'],
 
-            [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
+           // [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
 
             ['id_estatus', 'validatePersonalBeforeActivating'],
         ];
@@ -152,17 +158,9 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function beforeSave($insert)
 {
     if (parent::beforeSave($insert)) {
-        if ($this->id_estatus == 1) { // Si se intenta activar el usuario
-            $personal = Personal::findOne(['ci' => $this->ci]);
-            if ($personal && $personal->id_estatus != 1) { // Suponiendo que 1 es el estatus de ACTIVO
-                $this->addError('id_estatus', 'Debe activar primero al personal antes de activar al usuario.');
-                return false; // Evitar guardar el modelo
-            }
-        }
-        
         // Convertir a mayúsculas los campos específicos
         $this->username = mb_strtoupper($this->username);
-        // $this->apellido = mb_strtoupper el apellido
+        // $this->apellido = mb_strtoupper($this->apellido);
 
         // Generar claves de autenticación
         if ($insert) {
@@ -186,13 +184,14 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     }
 }
 
-public function afterFind()
-{
-    parent::afterFind();
-    if ($this->name) {
-        $this->name = json_decode($this->name, true); // Decodificamos el JSON a un array
+    public function afterFind()
+    {
+        parent::afterFind();
+        if ($this->name) {
+            $this->name = json_decode($this->name, true); // Decodificamos el JSON a un array
+        }
     }
-}
+
 
 // Método de validación para verificar el estatus del personal antes de activar el usuario
 public function validatePersonalBeforeActivating($attribute, $params)
@@ -311,15 +310,7 @@ public function validatePersonalBeforeActivating($attribute, $params)
         return $this->hasMany(AuthItem::class, ['name' => 'item_name'])->viaTable('auth_assignment', ['user_id' => 'id_usuario']);
     }
 
-    /**
-     * Gets query for [[Nacionalidad0]].
-     *
-     * @return \yii\db\ActiveQuery|NacionalidadQuery
-     */
-    public function getNacionalidad0()
-    {
-        return $this->hasOne(Nacionalidad::class, ['letra' => 'nacionalidad']);
-    }
+
 
     /**
      * Gets query for [[Name0]].
