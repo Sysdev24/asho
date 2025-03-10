@@ -11,15 +11,17 @@ use app\models\Registro;
  */
 class RegistroSearch extends Registro
 {
+    public $descripcion;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id_registro', 'id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'integer'],
+            [['id_registro', 'id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'integer'],
             [['fecha_hora', 'lugar', 'nro_accidente', 'observaciones_60min', 'created_at', 'updated_at', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'safe'],
             [['autorizado_60m', 'autorizado_24horas'], 'boolean'],
+            [['id_estado', 'descripcion'], 'safe'],
         ];
     }
 
@@ -50,6 +52,8 @@ class RegistroSearch extends Registro
     public function search($params)
     {
         $query = Registro::find();
+
+        $query = Registro::find()->joinWith('estado');
 
         // add conditions that should always apply here
 
@@ -92,6 +96,7 @@ class RegistroSearch extends Registro
             'id_naturaleza_accidente' => $this->id_naturaleza_accidente,
             'id_requerimiento_trabajo_24h' => $this->id_requerimiento_trabajo_24h,
             'id_afec_per_categoria' => $this->id_afec_per_categoria,
+            'id_exposicion_con_cat' => $this->id_exposicion_con_cat,
         ]);
 
         $query->andFilterWhere(['ilike', 'lugar', $this->lugar])
@@ -105,7 +110,8 @@ class RegistroSearch extends Registro
             ->andFilterWhere(['ilike', 'ocurrencia_hecho_60m', $this->ocurrencia_hecho_60m])
             ->andFilterWhere(['ilike', 'acciones_tomadas_24h', $this->acciones_tomadas_24h])
             ->andFilterWhere(['ilike', 'observaciones_24h', $this->observaciones_24h])
-            ->andFilterWhere(['ilike', 'validado_por_24h', $this->validado_por_24h]);
+            ->andFilterWhere(['ilike', 'validado_por_24h', $this->validado_por_24h])
+            ->andFilterWhere(['like', 'LOWER(estados.descripcion)', strtolower($this->descripcion)]);
 
         return $dataProvider;
     }

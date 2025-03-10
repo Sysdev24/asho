@@ -38,7 +38,14 @@ $this->title = $model->nro_accidente;
                 'attribute' => 'id_naturaleza_accidente',
                 'label' => 'Naturaleza del Accidente',
                 'value' => function($model){
-                    return   $model->naturalezaIncidente->descripcion;},
+                    return   $model->naturalezaAccidente->descripcion;},
+            ],
+
+            [   
+                'attribute' => 'id_estatus_proceso',
+                'label' => 'Estatus del proceso',
+                'value' => function($model){
+                    return   $model->estatusProceso->descripcion;},
             ],
 
             'fecha_hora',
@@ -49,7 +56,7 @@ $this->title = $model->nro_accidente;
             'autorizado_60m:boolean',
             'created_at',
             'updated_at',
-            'id_estatus_proceso',
+            //'id_estatus_proceso',
             //'id_region',
             'acciones_tomadas_60min',
             'cedula_reporta',

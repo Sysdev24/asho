@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use yii;
-use app\models\Personal;
 use app\models\Registro;
 use app\models\Estados;
 use app\models\NaturalezaAccidente;
@@ -13,7 +12,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
-use yii\web\Response;
+use app\models\Personal;
+use app\models\PersonaNatural;
 
 /**
  * RegistroController implements the CRUD actions for Registro model.
@@ -88,62 +88,75 @@ class RegistroController extends Controller
     public function actionCreate()
     {
         $model = new Registro();
+        //$model->scenario = Registro::SCENARIO_CREATE;
+        $modelPersonaNatural= new PersonaNatural();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
-                    // **1. Obtener el código de la región desde la tabla Estados**
-                    $estado = Estados::findOne($model->id_estado); // Supongo que `id_estado` está relacionado
-                    $codigoRegion = $estado !== null ? $estado->codigo_region : '00'; // Fallback a '00' si no hay región
-
-                    // **2. Obtener los dos últimos dígitos del año actual**
+                    // Obtener el año en formato YY
                     $year = date('y');
 
-                    // **3. Consultar el último registro del mismo año y región**
-                    $ultimoAccidente = Registro::find()
-                        ->where(['like', 'nro_accidente', $codigoRegion . '0' . $year . '%', false]) // Filtrar por código región y año
+                    // Buscar el último registro generado (si existe)
+                    $lastRegistro = Registro::find()
+                        ->where(['like', 'nro_accidente', '0' . $year . '%', false])
                         ->orderBy(['nro_accidente' => SORT_DESC])
                         ->one();
 
-                    // **4. Generar el correlativo**
-                    if ($ultimoAccidente) {
-                        // Extraer el correlativo del último registro (asumo que siempre tiene 5 dígitos)
-                        $ultimoCorrelativo = (int)substr($ultimoAccidente->nro_accidente, 5, 5); // 5 caracteres desde la posición 5
-                        $correlativo = str_pad($ultimoCorrelativo + 1, 5, '0', STR_PAD_LEFT); // Incrementar y formatear a 5 dígitos
+                    // Generar el correlativo
+                    if ($lastRegistro) {
+                        // Extraer el último correlativo y convertir a entero
+                        $lastCorrelativo = (int)substr($lastRegistro->nro_accidente, 3, 5);
+                        // Incrementar el correlativo y formatearlo a 5 dígitos
+                        $correlativo = str_pad($lastCorrelativo + 1, 5, '0', STR_PAD_LEFT);
                     } else {
-                        $correlativo = '00001'; // Si no hay registros previos, iniciar en '00001'
+                        // Comenzar el primer correlativo
+                        $correlativo = '00001';
                     }
 
-                    // **5. Obtener la descripción de la naturaleza desde la tabla NaturalezaAccidente**
+                    // Obtener el código de la naturaleza de la lesión
                     $naturalezaAccidente = NaturalezaAccidente::findOne($model->id_naturaleza_accidente);
-                    $descripcionNaturaleza = $naturalezaAccidente !== null ? $naturalezaAccidente->codigo : '';
+                    $codigoNaturaleza = $naturalezaAccidente !== null ? $naturalezaAccidente->codigo : '';
 
-                    // **6. Generar el número de accidente final**
-                    $model->nro_accidente = $codigoRegion . '0' . $year . $correlativo . $descripcionNaturaleza;
+                    // Generar el código completo (0 + año + correlativo + código naturaleza)
+                    $model->nro_accidente = '0' . $year . $correlativo . $codigoNaturaleza;
+                    $model->correlativo = $correlativo; // Asignar el correlativo al modelo
 
-                    // **7. Guardar el registro**
-                    if (!$model->save(false)) { // Guardar sin validación adicional
-                        throw new \yii\db\Exception('Error al guardar el registro: ' . json_encode($model->errors));
+                    // Guardar el registro con el nuevo código
+                    if (!$model->save(false)) {
+                        throw new \yii\db\Exception('No se pudo guardar el registro: ' . json_encode($model->errors));
                     }
 
                     $transaction->commit();
 
-                    Yii::$app->session->setFlash('success', 'Registro guardado exitosamente. Número de accidente: ' . $model->nro_accidente);
+                    //---------------
+                    if ($modelPersonaNatural->load($this->request->post())) {
+                        if(!empty($modelPersonaNatural->nombre)){
+                            //$modelPersonaNatural->cedula = $model->cedula_pers_accide;
+                            $modelPersonaNatural->id_registro= $model->id_registro;
+                            $modelPersonaNatural-> save();
+                        }
+                    }
+
+                    //----------------
+
+                    Yii::$app->session->setFlash('success', 'Registro guardado exitosamente. Código de accidente: ' . $model->nro_accidente);
                     return $this->redirect(['index', 'id_registro' => $model->id_registro]);
                 } catch (\Exception $e) {
                     $transaction->rollBack();
                     Yii::$app->session->setFlash('error', 'Error al guardar el registro: ' . $e->getMessage());
                 }
             }
+        } else {
+            $model->loadDefaultValues();
         }
 
         return $this->render('create', [
             'model' => $model,
+            'modelPersonaNatural' => $modelPersonaNatural
         ]);
     }
-
-
 
 
     
@@ -155,7 +168,7 @@ class RegistroController extends Controller
 
         if ($regionId) {
             $estados = Estados::find()
-                ->where(['id_regiones' => $regionId])
+                ->where(['id_regiones' => $regionId, 'id_estatus' => 1])
                 ->all();
 
             $estadosData = ArrayHelper::map($estados, 'id_estado', 'descripcion');
@@ -165,6 +178,8 @@ class RegistroController extends Controller
             return '';
         }
     }
+
+
 
     /**
      * Updates an existing Registro model.
@@ -176,6 +191,7 @@ class RegistroController extends Controller
     public function actionUpdate($id_registro)
     {
         $model = $this->findModel($id_registro);
+    $modelPersonaNatural= new PersonaNatural();
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
@@ -184,6 +200,7 @@ class RegistroController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'modelPersonaNatural' => $modelPersonaNatural
         ]);
     }
 
@@ -216,4 +233,30 @@ class RegistroController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    //Funcion paravalidar la cedula en el campo de busqueda del formulario.
+    public function actionValidarCedula()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            $cedula = Yii::$app->request->post('search');
+
+            // Validación básica de la cédula (puedes agregar más validaciones)
+            if (!is_numeric($cedula)) {
+                return ['error' => 'La cédula debe ser un número'];
+            }
+
+            $modelPersonal = new Personal();
+            $datosPersona = $modelPersonal->buscarPersonaRegistro($cedula);
+
+            if ($datosPersona) {
+                return $datosPersona;
+            } else {
+                return ['error' => 'Datos no encontrados. Por favor, registre al personal.',
+                        'cedula' => $cedula];
+            }
+        }
+    }
+
 }

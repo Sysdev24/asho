@@ -15,7 +15,8 @@ $this->title = 'Registro de Accidente';
     <br>
     <?= $this->render('_form', [
         'model' => $model,
-        'modelPersonaNatural' => $modelPersonaNatural
+        //'modelPersonaNatural' => $modelPersonaNatural,
+        //'personalData' => $personalData, // Pasar personalData a la vista
     ]) ?>
 
 <!-- BOTON DE VOLVER-->

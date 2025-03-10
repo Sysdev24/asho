@@ -1,10 +1,12 @@
 <?php
 
+use app\models\Estados;
 use app\models\Registro;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 
 /** @var yii\web\View $this */
 /** @var app\models\RegistroSearch $searchModel */
@@ -42,25 +44,47 @@ $this->title = 'Registros';
             'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
             ],
 
-            'id_registro',
-            [   
-                'attribute' => 'id_estado',
-                'label' => 'Estado',
-                'value' => function($model){
-                    return   $model->estado->descripcion;},
-            ],
-            'fecha_hora',
+            //'id_registro',
+
+            //'id_estado',
+
+            //'fecha_hora',
+
+                        
+            'cedula_reporta',
             //'lugar',
-            'nro_accidente',
+            [   
+                'attribute' => 'nro_accidente',
+                'label' => 'Numero de accidente',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
+
+            [
+                'attribute' => 'id_estado',
+                'value' => array($searchModel, 'buscarEstados'),
+                'filter' => Html::activeTextInput($searchModel, 'descripcion', [
+                'class' => 'form-control',
+                'placeholder' => 'Buscaqueda',
+                ]),
+
+            ],
+
+            [   
+                'attribute' => 'id_estatus_proceso',
+                'label' => 'Estatus',
+                'value' => function($model){
+                    return   $model->estatusProceso->descripcion;},
+            ],
             //'cedula_supervisor_60min',
             //'observaciones_60min',
             //'autorizado_60m:boolean',
             //'created_at',
             //'updated_at',
-            //'id_estatus_proceso',
             //'id_region',
             //'acciones_tomadas_60min',
-            //'cedula_reporta',
             //'cedula_pers_accide',
             //'cedula_validad_60min',
             //'id_magnitud',
@@ -94,7 +118,7 @@ $this->title = 'Registros';
                 'class' => ActionColumn::className(),
                 //'hiddenFromExport' => true,
                 'contentOptions' => ['class'=>'text-center align-middle', 'style'=>'min-width:110px;'],
-                'template' => '{view}{update}{delete}',
+                'template' => '{view}{update}',
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         $url = ['view', 'id_registro'=>$model->id_registro];
@@ -116,22 +140,8 @@ $this->title = 'Registros';
                         ]);
                         return  \Yii::$app->user->can('registro/update') ? $link : '';
                     },
-                    'delete' => function ($url, $model, $key) {
-                        $url = ['delete', 'id_registro'=>$model->id_registro];
-                        $link = Html::a('<i class="fa-solid fa-toggle-off"></i>', $url, [
-                            'title' => Yii::t('yii', 'Delete'),
-                            'aria-label' => Yii::t('yii', 'Delete'),
-                            'data-pjax' => '0',
-                            'class' => 'mx-0',
-                            'data' => [
-                                'confirm' => Yii::t('app', 'Está seguro que desea eliminar este ícono?'),
-                                'method' => 'post',
-                            ],
-                        ]);
-                        return \Yii::$app->user->can('registro/delete') ? $link : '';
-                    },
                 ],
-            ],
+            ], 
             
             
             

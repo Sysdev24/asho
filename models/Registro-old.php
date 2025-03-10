@@ -3,52 +3,57 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Expression; //Importante para usar expresiones SQL
+
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-
 /**
  * This is the model class for table "registro".
  *
  * @property int $id_registro clave unica del registro
- * @property int|null $id_estado clave unica de los estados
- * @property string|null $fecha_hora fecha y hora del registro
- * @property string|null $lugar lugar donde ocurrio el accidente descripcion 60 minutos
- * @property string|null $nro_accidente numero del correlativo del accidente
- * @property int|null $cedula_supervisor_60min Se archiva la cedula de quien registra
- * @property string|null $observaciones_60min observaciones que describen los hechos en 60 minutos
- * @property bool|null $autorizado_60m supervisor que autoriza en el tiempo de 60 minutos
+ * @property int|null $id_estado id del estado clave foranea
+ * @property string|null $fecha_hora fecha y hora del incidente
+ * @property string|null $lugar descripcion del lugar del hecho
+ * @property string|null $nro_accidente correlativo compuesto por region, año, correlativo, naturaleza del accidente
+ * @property int|null $cedula_supervisor_60min cedula del supervisor clave foranea de la tabla de persona
+ * @property string|null $observaciones_60min observaciones del accidente del primer registro (60 min.) o primera pantalla 
+ * @property bool|null $autorizado_60m valor verdadero si fue autorizaado o falso si no fue autorizado en el reporte de 60 minutos
  * @property string|null $created_at fecha y hora de creacion del registro
  * @property string|null $updated_at fecha y hora de la modificacion del registro
- * @property int|null $id_estatus_proceso clave unica del estatus
- * @property int|null $id_region clave unica de las regiones
- * @property string|null $acciones_tomadas_60min Acciones que se deben tomar en el rango de 60 minutos
- * @property int|null $cedula_reporta cedula de la persona que hace el reporte
- * @property int|null $cedula_pers_accide cedula de la persona que tiene el accidente
- * @property int|null $cedula_validad_60min cedula que valido el accidente en 60 minutos
- * @property int|null $id_magnitud clave unica de la magnitud
- * @property int|null $id_tipo_accidente clave unica del registro
- * @property int|null $id_tipo_trabajo clave unica del tipo de trabajo
- * @property int|null $id_peligro_agente clave unica de la tabla peli_agen_categoria
- * @property int|null $id_sujeto_afectacion id del sujeto de afectacion que tiene clave foranea de la tabla suje_afec_categoria
- * @property int|null $cedula_24horas quien registra el accidente en el proceso de 24 horas
- * @property string|null $acciones_tomadas_24horas acciones tomadas en el rango de 24 horas
- * @property string|null $observaciones_24horas observaciones de 24 horas
- * @property string|null $recomendaciones_24horas recomendaciones de 24 horas
- * @property bool|null $autorizado_24horas supervisor que autoriza en el tiempo de 24 horas
- * @property int|null $cedula_valid_24horas cedula que valido el accidente en 24 horas
- * @property string|null $descripcion_accidente_60min descripcion del accidente que ocurre en 60 minutos
- * @property int|null $id_gerencia Se registra el consecutivo de las gerencias de corpoelec
- * @property int|null $correlativo se  guarda el numero de correlativo del incidente
- * @property int|null $id_naturaleza_accidente id de la naturaleza del accidente
- * @property string|null $ocurrencia_hecho_60m descripcion del hecho de 60 minutos
- * @property string|null $acciones_tomadas_24h acciones tomadas en 24 horas
- * @property string|null $observaciones_24h observaciones de 24 horas
- * @property string|null $validado_por_24h valido el accidente en 24 horas
- * @property int|null $id_requerimiento_trabajo_24h id que se relaciona con la tabla estatus
- * @property int|null $id_afec_per_categoria id que se relaciona con la tabla afec_per_categoria
- * @property int|null $id_exposicion_con_cat id que se relaciona con la tabla exposicion_contac_categoria
+ * @property int|null $id_estatus_proceso id fel estatus del proceso clave foranea en la tabla estatus
+ * @property int|null $id_region id de la region del accidente
+ * @property string|null $acciones_tomadas_60min acciones tomados en el reporte de los primeros 60 minutos del accidente
+ * @property int|null $cedula_reporta cedula del quien reporte el accidente clave foranea de la tabla personal
+ * @property int|null $cedula_pers_accide ceddula de la persona que sufrio el accidente 
+ * @property int|null $cedula_validad_60min cedula de la persona que realiza el reporte en los primeros 60 minutos del accidente 
+ * @property int|null $id_magnitud id magnitud clave foranea de la tabla magnitud 
+ * @property int|null $id_tipo_accidente id del tipo de accidente clave foranea de la tabla tip_acc_categoria
+ * @property int|null $id_tipo_trabajo id del tipo de trabajo clave foranea de la tabla tipo de trabajo
+ * @property int|null $id_peligro_agente id del peligro y agente clave foranea de la tabla peli_agen_categoria
+ * @property int|null $id_sujeto_afectacion id del sujeto de afectacion clave foranea de la tabla suj_afec_categoria
+ * @property int|null $id_afecta_bienes_perso id de afectacion de bienes y procesos clave foranea de la tabla afectacion_bienes_procesos
+ * @property int|null $cedula_24horas cedula de la persona que reporta en 24 horas clave foranea de la tabla personal
+ * @property string|null $acciones_tomadas_24horas Acciones tomadas en el reporte de 24 horas 
+ * @property string|null $observaciones_24horas observaciones realizadas en el reporte de 24 horas
+ * @property string|null $recomendaciones_24horas recomendaciones dadas en el el reporte 24 horas 
+ * @property bool|null $autorizado_24horas valor verdadero si fue autorizaado o falso si no fue autorizado en el registro de 24 horas
+ * @property int|null $cedula_valid_24horas cedula de la persona que valida el registro de 24 horas
+ * @property string|null $descripcion_accidente_60min descripcion del accidente en el registro de 60 minutos
+ * @property int|null $id_gerencia id de la gerencia clave foranea de la tabla gerencia
+ * @property string|null $recomendaciones_60m recomendadaciones del registro de 60 minutos
+ * @property int|null $anno año del accidente para ser utilizado en el correlativo
+ * @property int|null $correlativo correlativo de los accidentes
+ * @property int|null $id_naturaleza_accidente id de la naturaleza del accidente clave foranea de la tabla naturaleza_incidente , ademas es parte del correlativo
+ * @property string|null $ocurrencia_hecho_60m se registra la ocurencia de los hechos en el registro de los 60 minutos
+ * @property string|null $acciones_tomadas_24h acciones tomadas en las primeras 24 horas del registro
+ * @property string|null $observaciones_24h observaciones de las primeras 24 horas del registro
+ * @property string|null $validado_por_24h validado por las primeras 24 horas del registro
+ * @property int|null $id_requerimiento_trabajo_24h id del requemiento del trabajo si, no, no aplica clave foranea de la tabla estatus
+ * @property bool|null $cumple_regla_oro si cumple o no las reglas de oro
+ * @property int|null $id_afec_per_categoria id del tipo de afectacion persona clave foranea de la tabla afec_per_categoria
  *
  * @property AfecPerCategoria $afecPerCategoria
+ * @property AfectacionBienesProcesos $afectaBienesPerso
  * @property Personal $cedula24horas
  * @property Personal $cedulaPersAccide
  * @property Personal $cedulaReporta
@@ -57,14 +62,12 @@ use yii\db\ActiveRecord;
  * @property Personal $cedulaValidad60min
  * @property Estados $estado
  * @property Estatus $estatusProceso
- * @property ExposicionContacCategoria $exposicionConCat
  * @property Gerencia $gerencia
  * @property Magnitud $magnitud
- * @property NaturalezaAccidente $naturalezaAccidente
+ * @property NaturalezaAccidente $naturalezaIncidente
  * @property PeliAgenCategoria $peligroAgente
  * @property PersonaNatural[] $personaNaturals
  * @property Regiones $region
- * @property RegistroAdicional[] $registroAdicionals
  * @property Estatus $requerimientoTrabajo24h
  * @property SujeAfecCategoria $sujetoAfectacion
  * @property TipAccCategoria $tipoAccidente
@@ -76,8 +79,7 @@ class Registro extends \yii\db\ActiveRecord
 
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
-
-
+    
     /**
      * {@inheritdoc}
      */
@@ -92,12 +94,13 @@ class Registro extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_estado', 'fecha_hora', 'lugar', 'nro_accidente', 'cedula_supervisor_60min', 'observaciones_60min', 'autorizado_60m', 'created_at', 'updated_at', 'id_region', 'acciones_tomadas_60min', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'autorizado_24horas', 'cedula_valid_24horas', 'descripcion_accidente_60min', 'id_gerencia', 'correlativo', 'id_naturaleza_accidente', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
-            [['id_estatus_proceso'], 'default', 'value' => 6],
-            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
-            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'integer'],
+            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia',  'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'default', 'value' => null],
+
+            [['id_estatus'], 'default', 'value' => 1],
+
+            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia',  'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria'], 'integer'],
             [['fecha_hora', 'created_at', 'updated_at'], 'safe'],
-            [['lugar', 'nro_accidente', 'observaciones_60min', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'string'],
+            [['lugar', 'nro_accidente', 'observaciones_60min', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'recomendaciones_60m', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'string'],
             [['autorizado_60m', 'autorizado_24horas'], 'boolean'],
             [['id_afec_per_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => AfecPerCategoria::class, 'targetAttribute' => ['id_afec_per_categoria' => 'id']],
             [['id_estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::class, 'targetAttribute' => ['id_estado' => 'id_estado']],
@@ -119,6 +122,7 @@ class Registro extends \yii\db\ActiveRecord
             [['id_tipo_accidente'], 'exist', 'skipOnError' => true, 'targetClass' => TipAccCategoria::class, 'targetAttribute' => ['id_tipo_accidente' => 'id']],
             [['id_tipo_trabajo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoTrabajo::class, 'targetAttribute' => ['id_tipo_trabajo' => 'id_tipo_trabajo']],
             [['id_tipo_trabajo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoTrabajo::class, 'targetAttribute' => ['id_tipo_trabajo' => 'id_tipo_trabajo']],
+            [['id_estado','id_region', 'lugar','id_gerencia','id_naturaleza_accidente'], 'required'],
         ];
     }
 
@@ -150,7 +154,7 @@ class Registro extends \yii\db\ActiveRecord
         return [
             'id_registro' => 'Id Registro',
             'id_estado' => 'Estado',
-            'fecha_hora' => 'Fecha y Hora',
+            'fecha_hora' => 'Fecha / Hora',
             'lugar' => 'Lugar',
             'nro_accidente' => 'Nro Accidente',
             'cedula_supervisor_60min' => 'Cedula Supervisor 60min',
@@ -158,8 +162,8 @@ class Registro extends \yii\db\ActiveRecord
             'autorizado_60m' => 'Autorizado 60m',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'id_estatus_proceso' => 'Estatus Proceso',
-            'id_region' => 'Region',
+            'id_estatus_proceso' => 'Id Estatus Proceso',
+            'id_region' => 'Región',
             'acciones_tomadas_60min' => 'Acciones Tomadas 60min',
             'cedula_reporta' => 'Cedula Reporta',
             'cedula_pers_accide' => 'Cedula Pers Accide',
@@ -176,9 +180,10 @@ class Registro extends \yii\db\ActiveRecord
             'autorizado_24horas' => 'Autorizado 24horas',
             'cedula_valid_24horas' => 'Cedula Valid 24horas',
             'descripcion_accidente_60min' => 'Descripcion Accidente 60min',
-            'id_gerencia' => 'Id Gerencia',
+            'id_gerencia' => 'Gerencia',
+            'recomendaciones_60m' => 'Recomendaciones 60m',
             'correlativo' => 'Correlativo',
-            'id_naturaleza_accidente' => 'Naturaleza Accidente',
+            'id_naturaleza_accidente' => 'Naturaleza Incidente',
             'ocurrencia_hecho_60m' => 'Ocurrencia Hecho 60m',
             'acciones_tomadas_24h' => 'Acciones Tomadas 24h',
             'observaciones_24h' => 'Observaciones 24h',
@@ -188,6 +193,7 @@ class Registro extends \yii\db\ActiveRecord
             'id_exposicion_con_cat' => 'Id Exposicion Con Cat',
         ];
     }
+
 
     public function beforeSave($insert)
     {
@@ -199,6 +205,7 @@ class Registro extends \yii\db\ActiveRecord
             return false;
         }
     }
+
 
     /**
      * Gets query for [[AfecPerCategoria]].
@@ -291,16 +298,6 @@ class Registro extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[ExposicionConCat]].
-     *
-     * @return \yii\db\ActiveQuery|ExposicioncontaccategoriaQuery
-     */
-    public function getExposicionConCat()
-    {
-        return $this->hasOne(ExposicionContacCategoria::class, ['id' => 'id_exposicion_con_cat']);
-    }
-
-    /**
      * Gets query for [[Gerencia]].
      *
      * @return \yii\db\ActiveQuery|GerenciaQuery
@@ -321,11 +318,11 @@ class Registro extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[NaturalezaAccidente]].
+     * Gets query for [[naturalezaIncidente]].
      *
      * @return \yii\db\ActiveQuery|NaturalezaaccidenteQuery
      */
-    public function getNaturalezaAccidente()
+    public function getnaturalezaIncidente()
     {
         return $this->hasOne(NaturalezaAccidente::class, ['id_naturaleza_accidente' => 'id_naturaleza_accidente']);
     }
@@ -428,5 +425,4 @@ class Registro extends \yii\db\ActiveRecord
     {
         return new RegistroQuery(get_called_class());
     }
-
 }

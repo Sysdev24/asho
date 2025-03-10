@@ -38,7 +38,7 @@ class UsuariosSearch extends Usuarios
         return Model::scenarios();
     }
 
-    //Query para buscar el estatus (activo, inactivo, etc).
+        //Query para buscar el estatus (activo, inactivo, etc).
         //Parametros: $data:$searchModel /  $id: id_estatus
         public function buscarEstatus($data, $id){
             $modelbuscar = Estatus::findOne($data->id_estatus);

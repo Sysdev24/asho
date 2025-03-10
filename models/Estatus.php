@@ -108,16 +108,6 @@ class Estatus extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[AfectacionBienesProcesos]].
-     *
-     * @return \yii\db\ActiveQuery|AfectacionbienesprocesosQuery
-     */
-    // public function getAfectacionBienesProcesos()
-    // {
-    //     return $this->hasMany(AfectacionBienesProcesos::class, ['id_estatus' => 'id_estatus'])->inverseOf('estatus');
-    // }
-
-    /**
      * Gets query for [[AfectacionPersonas]].
      *
      * @return \yii\db\ActiveQuery|AfectacionpersonaQuery
