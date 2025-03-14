@@ -65,7 +65,7 @@ use app\models\NaturalezaAccidente;
 
     <?= $form->field($model, 'cedula_validad_60min')->textInput() ?>
 
-    <?= $form->field($model, 'id_magnitud')->textInput() ?>
+    <!-- <?= $form->field($model, 'id_magnitud')->textInput() ?> LISTO -->
 
     <?= $form->field($model, 'id_tipo_accidente')->textInput() ?>
 

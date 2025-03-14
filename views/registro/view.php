@@ -48,6 +48,20 @@ $this->title = $model->nro_accidente;
                     return   $model->estatusProceso->descripcion;},
             ],
 
+            [   
+                'attribute' => 'id_magnitud',
+                'label' => 'Magnitud',
+                'value' => function($model){
+                    return   $model->magnitud->descripcion;},
+            ],
+
+            [   
+                'attribute' => 'id_gerencia',
+                'label' => 'Gerencia',
+                'value' => function($model){
+                    return   $model->gerencia->descripcion;},
+            ],
+
             'fecha_hora',
             'lugar',
             'nro_accidente',
@@ -62,7 +76,6 @@ $this->title = $model->nro_accidente;
             'cedula_reporta',
             'cedula_pers_accide',
             'cedula_validad_60min',
-            'id_magnitud',
             'id_tipo_accidente',
             'id_tipo_trabajo',
             'id_peligro_agente',
@@ -75,7 +88,6 @@ $this->title = $model->nro_accidente;
             'autorizado_24horas:boolean',
             'cedula_valid_24horas',
             'descripcion_accidente_60min',
-            'id_gerencia',
             'recomendaciones_60m',
             'anno',
             'correlativo',
