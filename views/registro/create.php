@@ -17,7 +17,7 @@ $this->title = 'Registro de Accidente';
         'model' => $model,
         'modelPersonaNatural' => $modelPersonaNatural,
         'personalData' => $personalData, // Pasar personalData a la vista
-        'gerenciaDescripcion' => $gerenciaDescripcion,
+        //'gerenciaDescripcion' => $gerenciaDescripcion,
         'magnitudes' => $magnitudes, // Pasar el array de magnitudes a la vista
     ]) ?>
 

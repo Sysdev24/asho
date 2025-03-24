@@ -90,141 +90,108 @@ class RegistroController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionCreate()
-{
-    $model = new Registro();
-    $modelPersonaNatural = new PersonaNatural();
-    $personalData = null; // Variable para almacenar los datos de Personal
+    {
+        $model = new Registro();
+        $modelPersonaNatural = new PersonaNatural();
+        $personalData = null; // Variable para almacenar los datos de Personal
 
-    if ($this->request->isPost) {
-        if ($model->load($this->request->post())) {
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                // **1. Obtener el código de la región desde la tabla Estados**
-                $estado = Estados::findOne($model->id_estado); // Supongo que `id_estado` está relacionado
-                $codigoRegion = $estado !== null ? $estado->codigo_region : '00'; // Fallback a '00' si no hay región
+        if ($this->request->isPost) {
 
-                // **2. Obtener los dos últimos dígitos del año actual**
-                $year = date('y');
+            Yii::debug("Datos POST recibidos: " . print_r($this->request->post(), true)); // Verifica los datos enviados
 
-                // **3. Consultar el último registro del mismo año y región**
-                $ultimoAccidente = Registro::find()
-                    ->where(['like', 'nro_accidente', $codigoRegion . '0' . $year . '%', false]) // Filtrar por código región y año
-                    ->orderBy(['nro_accidente' => SORT_DESC])
-                    ->one();
+            if ($model->load($this->request->post())) {
+                Yii::debug("Modelo cargado: " . print_r($model->attributes, true)); // Verifica los datos del modelo
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    // **1. Obtener el código de la región desde la tabla Estados**
+                    $estado = Estados::findOne($model->id_estado); // Supongo que `id_estado` está relacionado
+                    $codigoRegion = $estado !== null ? $estado->codigo_region : '00'; // Fallback a '00' si no hay región
 
-                // **4. Generar el correlativo**
-                if ($ultimoAccidente) {
-                    // Extraer el correlativo del último registro (asumo que siempre tiene 5 dígitos)
-                    $ultimoCorrelativo = (int)substr($ultimoAccidente->nro_accidente, 5, 5); // 5 caracteres desde la posición 5
-                    $correlativo = str_pad($ultimoCorrelativo + 1, 5, '0', STR_PAD_LEFT); // Incrementar y formatear a 5 dígitos
-                } else {
-                    $correlativo = '00001'; // Si no hay registros previos, iniciar en '00001'
-                }
+                    // **2. Obtener los dos últimos dígitos del año actual**
+                    $year = date('y');
 
-                // **5. Obtener la descripción de la naturaleza desde la tabla NaturalezaAccidente**
-                $naturalezaAccidente = NaturalezaAccidente::findOne($model->id_naturaleza_accidente);
-                $descripcionNaturaleza = $naturalezaAccidente !== null ? $naturalezaAccidente->codigo : '';
+                    // **3. Consultar el último registro del mismo año y región**
+                    $ultimoAccidente = Registro::find()
+                        ->where(['like', 'nro_accidente', $codigoRegion . '0' . $year . '%', false]) // Filtrar por código región y año
+                        ->orderBy(['nro_accidente' => SORT_DESC])
+                        ->one();
 
-                // **6. Generar el número de accidente final**
-                $model->nro_accidente = $codigoRegion . '0' . $year . $correlativo . $descripcionNaturaleza;
-
-                // **7. Asignar cedula_pers_accide en todos los casos**
-                $model->cedula_pers_accide = $this->request->post('Registro')['cedula_pers_accide'];
-
-                // **8. Asignar id_gerencia al modelo Registro**
-                $user = Yii::$app->user->identity;
-                $cedulaReporta = $user->ci;
-                $personal = Personal::findOne(['ci' => $cedulaReporta]);
-                if ($personal) {
-                    $model->id_gerencia = $personal->id_gerencia; // Asignar id_gerencia
-                }
-
-                switch ($model->id_naturaleza_accidente) {
-                    case 2: // LABORAL
-                    case 19: // NO LABORAL
-                    case 79: // TRANSITO
-                        $model->cedula_pers_accide = $this->request->post('cedula_pers_accide');
-                        break;
-
-                    case 31: // TERCERO RELACIONADO
-                    case 35: // TERCERO NO RELACIONADO
-                        // No guardes PersonaNatural aquí todavía
-                        break;
-
-                    case 61: // OPERACIONAL
-                        $cedula = $this->request->post('cedula_pers_accide');
-                        $personal = Personal::findOne(['ci' => $cedula]);
-                        if (!$personal) {
-                            // No guardes PersonaNatural aquí todavía
-                        } else {
-                            $model->cedula_pers_accide = $cedula;
-                        }
-                        break;
-                }
-
-                // **9. Guardar el registro principal**
-                if (!$model->save(false)) {
-                    throw new \yii\db\Exception('Error al guardar el registro: ' . json_encode($model->errors));
-                }
-
-                // **10. Guardar PersonaNatural después de que el registro principal tenga un ID**
-                if ($model->id_naturaleza_accidente == 31 || $model->id_naturaleza_accidente == 35) {
-                    $modelPersonaNatural->load($this->request->post());
-                    $modelPersonaNatural->id_registro = $model->id_registro;
-                    if (!$modelPersonaNatural->save(false)) {
-                        throw new \yii\db\Exception('Error al guardar Persona Natural: ' . json_encode($modelPersonaNatural->errors));
+                    // **4. Generar el correlativo**
+                    if ($ultimoAccidente) {
+                        // Extraer el correlativo del último registro (asumo que siempre tiene 5 dígitos)
+                        $ultimoCorrelativo = (int)substr($ultimoAccidente->nro_accidente, 5, 5); // 5 caracteres desde la posición 5
+                        $correlativo = str_pad($ultimoCorrelativo + 1, 5, '0', STR_PAD_LEFT); // Incrementar y formatear a 5 dígitos
+                    } else {
+                        $correlativo = '00001'; // Si no hay registros previos, iniciar en '00001'
                     }
-                }
 
-                if ($model->id_naturaleza_accidente == 61) {
-                    $cedula = $this->request->post('cedula_pers_accide');
-                    $personal = Personal::findOne(['ci' => $cedula]);
-                    if (!$personal) {
-                        $modelPersonaNatural->load($this->request->post());
-                        $modelPersonaNatural->id_registro = $model->id_registro;
-                        if (!$modelPersonaNatural->save(false)) {
-                            throw new \yii\db\Exception('Error al guardar Persona Natural: ' . json_encode($modelPersonaNatural->errors));
-                        }
+                    // **5. Obtener la descripción de la naturaleza desde la tabla NaturalezaAccidente**
+                    $naturalezaAccidente = NaturalezaAccidente::findOne($model->id_naturaleza_accidente);
+                    $descripcionNaturaleza = $naturalezaAccidente !== null ? $naturalezaAccidente->codigo : '';
+
+                    // **6. Generar el número de accidente final**
+                    $model->nro_accidente = $codigoRegion . '0' . $year . $correlativo . $descripcionNaturaleza;
+
+                    // **7. Asignar cedula_pers_accide en todos los casos**
+                    $model->cedula_pers_accide = $this->request->post('Registro')['cedula_pers_accide'];
+
+                    // **8. Validar y guardar según la naturaleza del accidente**
+                    switch ($model->id_naturaleza_accidente) {
+                        case 2: // LABORAL
+                        case 19: // NO LABORAL
+                        case 79: // TRANSITO
+                            // Verificar si la cédula existe en Personal
+                            $personal = Personal::findOne(['ci' => $model->cedula_pers_accide]);
+                            if (!$personal) {
+                                throw new \yii\db\Exception('La cédula no existe en la tabla Personal.');
+                            }
+                            // Asignar la cédula al campo cedula_pers_accide
+                            $model->cedula_pers_accide = $personal->ci;
+
+                            break;
+
+                        case 31: // TERCERO RELACIONADO
+                        case 35: // TERCERO NO RELACIONADO
+                            // Guardar PersonaNatural
+                            $modelPersonaNatural->load($this->request->post());
+                            $modelPersonaNatural->id_registro = $model->id_registro;
+                            if (!$modelPersonaNatural->save(false)) {
+                                throw new \yii\db\Exception('Error al guardar Persona Natural: ' . json_encode($modelPersonaNatural->errors));
+                            }
+                            break; 
+
+                        case 61: // OPERACIONAL
+                        case 92: // AMBIENTAL
+                            break;    
+
                     }
+
+                    // **9. Guardar el registro principal**
+                    if (!$model->save(false)) {
+                        throw new \yii\db\Exception('Error al guardar el registro: ' . json_encode($model->errors));
+                    }
+
+                    $transaction->commit();
+
+                    Yii::$app->session->setFlash('success', 'Registro guardado exitosamente. Número de accidente: ' . $model->nro_accidente);
+                    return $this->redirect(['index', 'id_registro' => $model->id_registro]);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('error', 'Error al guardar el registro: ' . $e->getMessage());
                 }
-
-                $transaction->commit();
-
-                Yii::$app->session->setFlash('success', 'Registro guardado exitosamente. Número de accidente: ' . $model->nro_accidente);
-                return $this->redirect(['index', 'id_registro' => $model->id_registro]);
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                Yii::$app->session->setFlash('error', 'Error al guardar el registro: ' . $e->getMessage());
             }
         }
+
+        // Obtener las magnitudes para el dropdown
+        $magnitudes = ArrayHelper::map(Magnitud::find()->all(), 'id_magnitud', 'descripcion');
+
+        return $this->render('create', [
+            'model' => $model,
+            'modelPersonaNatural' => $modelPersonaNatural,
+            'personalData' => $personalData, // Pasa los datos de Personal a la vista
+            'magnitudes' => $magnitudes, // Pasar el array de magnitudes a la vista
+        ]);
     }
-
-    // Obtener la cédula del usuario logeado
-    $user = Yii::$app->user->identity;
-    $cedulaReporta = $user->ci;
-
-    // Obtener la gerencia de la tabla Personal
-    $personal = Personal::findOne(['ci' => $cedulaReporta]);
-    $gerenciaId = $personal ? $personal->id_gerencia : null;
-
-    // Obtener la descripción de la gerencia
-    $gerenciaDescripcion = null;
-    if ($gerenciaId) {
-        $gerencia = Gerencia::findOne($gerenciaId);
-        $gerenciaDescripcion = $gerencia ? $gerencia->descripcion : null;
-    }
-
-    // Obtener las magnitudes para el dropdown
-    $magnitudes = ArrayHelper::map(Magnitud::find()->all(), 'id_magnitud', 'descripcion');
-
-    return $this->render('create', [
-        'model' => $model,
-        'modelPersonaNatural' => $modelPersonaNatural,
-        'personalData' => $personalData, // Pasa los datos de Personal a la vista
-        'gerenciaDescripcion' => $gerenciaDescripcion,
-        'magnitudes' => $magnitudes, // Pasar el array de magnitudes a la vista
-    ]);
-}
 
     public function actionGetEstados()
     {
@@ -302,21 +269,7 @@ class RegistroController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Registro model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id_registro Id Registro
-     * @return Registro the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id_registro)
-    {
-        if (($model = Registro::findOne(['id_registro' => $id_registro])) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
+    
 
     //Funcion paravalidar la cedula en el campo de busqueda del formulario.
     public function actionValidarCedula()
@@ -340,5 +293,21 @@ class RegistroController extends Controller
                 return ['error' => 'Datos no encontrados. Por favor, registre al personal.'];
             }
         }
+    }
+    
+    /**
+     * Finds the Registro model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param int $id_registro Id Registro
+     * @return Registro the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id_registro)
+    {
+        if (($model = Registro::findOne(['id_registro' => $id_registro])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

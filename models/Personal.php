@@ -158,9 +158,10 @@ class Personal extends \yii\db\ActiveRecord
     public function buscarPersonaRegistro($ci)
     {
         return (new \yii\db\Query())
-            ->select(['p.ci', 'p.nombre', 'p.apellido', 'p.telefono', 'p.nro_empleado', 'c.descripcion as cargo'])
+            ->select(['p.ci', 'p.nombre', 'p.apellido', 'p.telefono', 'p.nro_empleado', 'c.descripcion as cargo', 'g.descripcion as gerencia'])
             ->from('personal p')
             ->innerJoin('cargo c', 'c.id_cargo = p.id_cargo')
+            ->innerJoin('gerencia g', 'g.id_gerencia = p.id_gerencia')
             ->where(['p.ci' => $ci])
             ->one();
     }

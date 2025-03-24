@@ -76,6 +76,7 @@ class Registro extends \yii\db\ActiveRecord
 
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
+    public $searchCedula;
 
 
     /**
@@ -92,25 +93,26 @@ class Registro extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_estado', 'fecha_hora', 'lugar', 'nro_accidente', 'cedula_supervisor_60min', 'observaciones_60min', 'autorizado_60m', 'created_at', 'updated_at', 'id_region', 'acciones_tomadas_60min', 'cedula_reporta', /*'cedula_pers_accide',*/ 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'autorizado_24horas', 'cedula_valid_24horas', 'descripcion_accidente_60min', 'id_gerencia', 'correlativo', 'id_naturaleza_accidente', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
+            [['id_estado', 'fecha_hora', 'lugar', 'nro_accidente', 'cedula_supervisor_60min', 'observaciones_60min', 'autorizado_60m', 'created_at', 'updated_at', 'id_region', 'acciones_tomadas_60min', 'cedula_reporta', /*'cedula_pers_accide',*/ 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'autorizado_24horas', 'cedula_valid_24horas', 'descripcion_accidente_60min', /*'id_gerencia',*/ 'correlativo', 'id_naturaleza_accidente', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
             [['id_estatus_proceso'], 'default', 'value' => 6],
-            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', /*'cedula_pers_accide',*/ 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
+            [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', /*'id_gerencia',*/ 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
             [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'integer'],
-            [['fecha_hora', 'created_at', 'updated_at'], 'safe'],
+            [['fecha_hora', 'created_at', 'updated_at', 'cedula_pers_accide'], 'safe'],
             [['lugar', 'nro_accidente', 'observaciones_60min', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'string'],
             [['autorizado_60m', 'autorizado_24horas'], 'boolean'],
             [['id_afec_per_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => AfecPerCategoria::class, 'targetAttribute' => ['id_afec_per_categoria' => 'id']],
             [['id_estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::class, 'targetAttribute' => ['id_estado' => 'id_estado']],
+            [['id_estado'], 'required'],
             [['id_estatus_proceso'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus_proceso' => 'id_estatus']],
             [['id_requerimiento_trabajo_24h'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_requerimiento_trabajo_24h' => 'id_estatus']],
             [['id_exposicion_con_cat'], 'exist', 'skipOnError' => true, 'targetClass' => ExposicionContacCategoria::class, 'targetAttribute' => ['id_exposicion_con_cat' => 'id']],
-            [['id_gerencia'], 'exist', 'skipOnError' => true, 'targetClass' => Gerencia::class, 'targetAttribute' => ['id_gerencia' => 'id_gerencia']],
+           // [['id_gerencia'], 'exist', 'skipOnError' => true, 'targetClass' => Gerencia::class, 'targetAttribute' => ['id_gerencia' => 'id_gerencia']],
             [['id_magnitud'], 'exist', 'skipOnError' => true, 'targetClass' => Magnitud::class, 'targetAttribute' => ['id_magnitud' => 'id_magnitud']],
             [['id_naturaleza_accidente'], 'exist', 'skipOnError' => true, 'targetClass' => NaturalezaAccidente::class, 'targetAttribute' => ['id_naturaleza_accidente' => 'id_naturaleza_accidente']],
             [['id_peligro_agente'], 'exist', 'skipOnError' => true, 'targetClass' => PeliAgenCategoria::class, 'targetAttribute' => ['id_peligro_agente' => 'id']],
             [['cedula_supervisor_60min'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::class, 'targetAttribute' => ['cedula_supervisor_60min' => 'ci']],
             [['cedula_reporta'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::class, 'targetAttribute' => ['cedula_reporta' => 'ci']],
-            /*[['cedula_pers_accide'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::class, 'targetAttribute' => ['cedula_pers_accide' => 'ci']],*/
+            [['cedula_pers_accide'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::class, 'targetAttribute' => ['cedula_pers_accide' => 'ci']],
             [['cedula_validad_60min'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::class, 'targetAttribute' => ['cedula_validad_60min' => 'ci']],
             [['cedula_24horas'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::class, 'targetAttribute' => ['cedula_24horas' => 'ci']],
             [['cedula_valid_24horas'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::class, 'targetAttribute' => ['cedula_valid_24horas' => 'ci']],
@@ -119,6 +121,9 @@ class Registro extends \yii\db\ActiveRecord
             [['id_tipo_accidente'], 'exist', 'skipOnError' => true, 'targetClass' => TipAccCategoria::class, 'targetAttribute' => ['id_tipo_accidente' => 'id']],
             [['id_tipo_trabajo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoTrabajo::class, 'targetAttribute' => ['id_tipo_trabajo' => 'id_tipo_trabajo']],
             [['id_tipo_trabajo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoTrabajo::class, 'targetAttribute' => ['id_tipo_trabajo' => 'id_tipo_trabajo']],
+
+            [['searchCedula'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
+
         ];
     }
 

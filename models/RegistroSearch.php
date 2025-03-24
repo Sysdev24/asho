@@ -111,8 +111,7 @@ class RegistroSearch extends Registro
             ->andFilterWhere(['ilike', 'acciones_tomadas_24h', $this->acciones_tomadas_24h])
             ->andFilterWhere(['ilike', 'observaciones_24h', $this->observaciones_24h])
             ->andFilterWhere(['ilike', 'validado_por_24h', $this->validado_por_24h])
-            ->andFilterWhere(['like', 'LOWER(estados.descripcion)', strtolower($this->descripcion)]);
-
+            ->andFilterWhere(['ILIKE', 'estados.descripcion', $this->descripcion]);
         return $dataProvider;
     }
 }
