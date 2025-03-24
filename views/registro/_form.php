@@ -66,13 +66,10 @@ use yii\helpers\ArrayHelper;
     <h3>Sujeto de Afectación</h3>
     <br>
 
-     SUJETO DE AFECTACIÓN
+     <!-- SUJETO DE AFECTACIÓN -->
      <div id="sujeto-afectacion">
-        <!-- Campo para ingresar cédula -->
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" style="width: 150px;" id="searchCedula" name="searchCedula" 
-                pattern="[0-9]{8}" required placeholder="Ej. 12345678" 
-                oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        <div class="input-group mb-3" id="busqueda-cedula">
+            <input type="text" class="form-control" style="width: 150px;" id="searchCedula" name="searchCedula" pattern="[0-9]{8}" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             <button class="btn btn-primary" type="button" id="boton-validar-cedula">Validar</button>
         </div>
 
