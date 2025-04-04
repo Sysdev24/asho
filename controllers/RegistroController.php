@@ -96,8 +96,7 @@ class RegistroController extends Controller
         $personalData = null; // Variable para almacenar los datos de Personal
 
         if ($this->request->isPost) {
-
-            Yii::debug("Datos POST recibidos: " . print_r($this->request->post(), true)); // Verifica los datos enviados
+            Yii::info("Datos POST recibidos: " . print_r($this->request->post(), true)); // Verifica los datos enviados
 
             if ($model->load($this->request->post())) {
                 Yii::debug("Modelo cargado: " . print_r($model->attributes, true)); // Verifica los datos del modelo
@@ -133,9 +132,19 @@ class RegistroController extends Controller
                     $model->nro_accidente = $codigoRegion . '0' . $year . $correlativo . $descripcionNaturaleza;
 
                     // **7. Asignar cedula_pers_accide en todos los casos**
-                    $model->cedula_pers_accide = $this->request->post('Registro')['cedula_pers_accide'];
+                   // $model->cedula_pers_accide = $this->request->post('Registro')['cedula_pers_accide'];
 
-                    // **8. Validar y guardar según la naturaleza del accidente**
+                    // **8. Guardar el registro principal**
+                    Yii::info("Intentando guardar el registro principal...");
+                    if (!$model->save(false)) {
+                        throw new \yii\db\Exception('Error al guardar el registro principal: ' . json_encode($model->errors));
+                    }
+                    Yii::info("Registro principal guardado con éxito.");
+
+                    // **9. Obtener el ID del registro principal**
+                    $idRegistroPrincipal = $model->id_registro;
+
+                    // **10. Validar y guardar según la naturaleza del accidente**
                     switch ($model->id_naturaleza_accidente) {
                         case 2: // LABORAL
                         case 19: // NO LABORAL
@@ -154,7 +163,8 @@ class RegistroController extends Controller
                         case 35: // TERCERO NO RELACIONADO
                             // Guardar PersonaNatural
                             $modelPersonaNatural->load($this->request->post());
-                            $modelPersonaNatural->id_registro = $model->id_registro;
+                            $model->cedula_pers_accide = $modelPersonaNatural->cedula;
+                            $modelPersonaNatural->id_registro = $idRegistroPrincipal; // Asignar id_registro
                             if (!$modelPersonaNatural->save(false)) {
                                 throw new \yii\db\Exception('Error al guardar Persona Natural: ' . json_encode($modelPersonaNatural->errors));
                             }
@@ -162,11 +172,12 @@ class RegistroController extends Controller
 
                         case 61: // OPERACIONAL
                         case 92: // AMBIENTAL
-                            break;    
+                            $model->cedula_pers_accide = null; // No hay persona asociada
+                            break;   
 
                     }
 
-                    // **9. Guardar el registro principal**
+                    // **11. Guardar el registro principal**
                     if (!$model->save(false)) {
                         throw new \yii\db\Exception('Error al guardar el registro: ' . json_encode($model->errors));
                     }
@@ -176,8 +187,11 @@ class RegistroController extends Controller
                     Yii::$app->session->setFlash('success', 'Registro guardado exitosamente. Número de accidente: ' . $model->nro_accidente);
                     return $this->redirect(['index', 'id_registro' => $model->id_registro]);
                 } catch (\Exception $e) {
+                    
+                    yii::error("No guardo".$e);
                     $transaction->rollBack();
                     Yii::$app->session->setFlash('error', 'Error al guardar el registro: ' . $e->getMessage());
+
                 }
             }
         }

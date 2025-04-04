@@ -40,7 +40,14 @@ class PersonaNatural extends \yii\db\ActiveRecord
     {
         return [
             [['nombre', 'apellido', 'telefono', 'empresa'], 'string'],
-            [['nombre', 'apellido', 'telefono', 'empresa'], 'required'],
+            //[['nombre', 'apellido', 'telefono', 'empresa'], 'required'],
+            [['cedula', 'nombre', 'apellido', 'telefono', 'fecha_nac', 'empresa'], 'required', 'when' => function($model) {
+                $registro = Registro::findOne(['id_naturaleza_accidente' => Yii::$app->request->post('Registro')['id_naturaleza_accidente']]);
+                return $registro && !in_array($registro->id_naturaleza_accidente, [2, 19, 79, 61, 62]);
+            }, 'whenClient' => "function (attribute, value) {
+                var naturalezaId = $('#naturaleza-dropdown').val();
+                return !(naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79 || naturalezaId == 61 || naturalezaId == 62);
+            }"],
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
             [['id_registro', 'cedula'], 'default', 'value' => null],
             [['id_estatus'], 'default', 'value' => 1],

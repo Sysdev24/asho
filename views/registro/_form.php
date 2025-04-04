@@ -298,6 +298,12 @@ $this->registerJs(
             .fail(function() {
                 $('#origen-data').removeClass('text-success').addClass('text-danger').text('Error al validar la cédula.');
             });
+
+            // Verificar el estado del formulario antes de enviarlo
+        $('form').on('submit', function(e) {
+            console.log('Datos del formulario antes de enviar:', $(this).serialize());
+        });
+
         });
     });
     ",
