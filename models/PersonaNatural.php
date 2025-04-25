@@ -43,10 +43,10 @@ class PersonaNatural extends \yii\db\ActiveRecord
             //[['nombre', 'apellido', 'telefono', 'empresa'], 'required'],
             [['cedula', 'nombre', 'apellido', 'telefono', 'fecha_nac', 'empresa'], 'required', 'when' => function($model) {
                 $registro = Registro::findOne(['id_naturaleza_accidente' => Yii::$app->request->post('Registro')['id_naturaleza_accidente']]);
-                return $registro && !in_array($registro->id_naturaleza_accidente, [2, 19, 79, 61, 62]);
+                return $registro && !in_array($registro->id_naturaleza_accidente, [2, 19, 79, 61, 92]);
             }, 'whenClient' => "function (attribute, value) {
                 var naturalezaId = $('#naturaleza-dropdown').val();
-                return !(naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79 || naturalezaId == 61 || naturalezaId == 62);
+                return !(naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79 || naturalezaId == 61 || naturalezaId == 92);
             }"],
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
             [['id_registro', 'cedula'], 'default', 'value' => null],
@@ -55,6 +55,8 @@ class PersonaNatural extends \yii\db\ActiveRecord
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             ['telefono', 'match', 'pattern' => '/^[0-9]{11}$/', 'message' => '* Número de teléfono no válido.'],
             [['nombre', 'apellido', 'telefono'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => '* No se permiten espacios al principio o al final.'],
+
+            [['cedula', 'nombre', 'apellido', 'telefono', 'fecha_nac', 'empresa', 'id_registro'], 'safe'],
         ];
     }
 
@@ -101,9 +103,25 @@ class PersonaNatural extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $this->nombre = mb_strtoupper($this->nombre);
-            $this->apellido = mb_strtoupper($this->apellido);
-            $this->empresa = mb_strtoupper($this->empresa);
+            // Verifica si los atributos son arrays y los convierte a cadenas
+            if (is_array($this->nombre)) {
+                $this->nombre = implode(', ', array_map('strtoupper', $this->nombre));
+            } else {
+                $this->nombre = mb_strtoupper($this->nombre);
+            }
+
+            if (is_array($this->apellido)) {
+                $this->apellido = implode(', ', array_map('strtoupper', $this->apellido));
+            } else {
+                $this->apellido = mb_strtoupper($this->apellido);
+            }
+
+            if (is_array($this->empresa)) {
+                $this->empresa = implode(', ', array_map('strtoupper', $this->empresa));
+            } else {
+                $this->empresa = mb_strtoupper($this->empresa);
+            }
+
             return true;
         } else {
             return false;
