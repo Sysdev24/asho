@@ -13,7 +13,7 @@ use app\models\Estatus;
 /** @var app\models\GerenciaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Gerencia';
+$this->title = 'Gerencia y Procesos';
 ?>
 <div class="gerencia-index">
 

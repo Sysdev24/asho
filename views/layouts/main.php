@@ -49,7 +49,33 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
     ]);
     
     $adminItems = array_filter([
+        Yii::$app->user->can('tipacccategoria/index') ? ['label' => 'Tipo Accidente', 'url' => ['/tipacccategoria/index']] : false,
+
+        Yii::$app->user->can('tipotrabajo/index') ? ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']] : false,
+
+        Yii::$app->user->can('peliagencategoria/index') ? ['label' => 'Peligro Agente', 'url' => ['/peliagencategoria/index']] : false,
+
+        Yii::$app->user->can('exposicioncontaccategoria/index') ? ['label' => 'Exposicion o contacto', 'url' => ['/exposicioncontaccategoria/index']] : false,
+
+        Yii::$app->user->can('magnitud/index') ? ['label' => 'Magnitud', 'url' => ['/magnitud/index']] : false,
+
+        Yii::$app->user->can('sujeafeccategoria/index') ? ['label' => 'Sujeto afectación', 'url' => ['/sujeafeccategoria/index']] : false,
+
+        Yii::$app->user->can('naturalezaaccidente/index') ? ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']] : false,
+
+        Yii::$app->user->can('gerencia/index') ? ['label' => 'Gerencia y Procesos', 'url' => ['/gerencia/index']] : false,
+
         Yii::$app->user->can('afecpercategoria/index') ? ['label' => 'Afectacion Persona', 'url' => ['/afecpercategoria/index']] : false,
+
+        Yii::$app->user->can('estados/index') ? ['label' => 'Estados', 'url' => ['/estados/index']] : false,
+
+        Yii::$app->user->can('personal/index') ? ['label' => 'Personal', 'url' => ['/personal/index']] : false,
+
+        Yii::$app->user->can('personanatural/index') ? ['label' => 'Persona Natural', 'url' => ['/personanatural/index']] : false,
+
+        Yii::$app->user->can('roles/index') ? ['label' => 'Roles', 'url' => ['/roles/index']] : false,
+
+        Yii::$app->user->can('usuarios/index') ? ['label' => 'Usuarios', 'url' => ['/usuarios/index']] : false,
 
         //Yii::$app->user->can('cargo/index') ? ['label' => 'Cargo', 'url' => ['/cargo/index']] : false,
 
@@ -59,45 +85,21 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
 
         // Yii::$app->user->can('causascb/index') ? ['label' => 'Causa Cb', 'url' => ['/causascb/index']] : false,
 
-        Yii::$app->user->can('estados/index') ? ['label' => 'Estados', 'url' => ['/estados/index']] : false,
-
         //Yii::$app->user->can('estatus/index') ? ['label' => 'Estatus', 'url' => ['/estatus/index']] : false,
 
         // Yii::$app->user->can('evaluacionpotencialperdida/index') ? ['label' => 'Evaluacion Potencial Perdida', 'url' => ['/evaluacionpotencialperdida/index']] : false,
 
-        Yii::$app->user->can('exposicioncontaccategoria/index') ? ['label' => 'Exposicion o contacto', 'url' => ['/exposicioncontaccategoria/index']] : false,
-
-        Yii::$app->user->can('gerencia/index') ? ['label' => 'Gerencia', 'url' => ['/gerencia/index']] : false,
-
-        Yii::$app->user->can('magnitud/index') ? ['label' => 'Magnitud', 'url' => ['/magnitud/index']] : false,
-
-        Yii::$app->user->can('naturalezaaccidente/index') ? ['label' => 'Naturaleza Accidentes', 'url' => ['/naturalezaaccidente/index']] : false,
-
-        Yii::$app->user->can('peliagencategoria/index') ? ['label' => 'Peligro Agente', 'url' => ['/peliagencategoria/index']] : false,
-
         // Yii::$app->user->can('permisos/index') ? ['label' => 'Permisos', 'url' => ['/permisos/index']] : false,
-
-        Yii::$app->user->can('personal/index') ? ['label' => 'Personal', 'url' => ['/personal/index']] : false,
-
-        Yii::$app->user->can('personanatural/index') ? ['label' => 'Persona Natural', 'url' => ['/personanatural/index']] : false,
 
         //Yii::$app->user->can('regiones/index') ? ['label' => 'Regiones', 'url' => ['/regiones/index']] : false,
 
         // Yii::$app->user->can('reglaoro/index') ? ['label' => 'Regla Oro', 'url' => ['/reglaoro/index']] : false,
 
-        Yii::$app->user->can('roles/index') ? ['label' => 'Roles', 'url' => ['/roles/index']] : false,
-
         //Yii::$app->user->can('severidadpotencialperdida/index') ? ['label' => 'Severidad Potencial Perdida', 'url' => ['/severidadpotencialperdida/index']] : false,
 
-        Yii::$app->user->can('sujeafeccategoria/index') ? ['label' => 'Sujeto afectación', 'url' => ['/sujeafeccategoria/index']] : false,
-
-        Yii::$app->user->can('tipacccategoria/index') ? ['label' => 'Tipo Accidente', 'url' => ['/tipacccategoria/index']] : false,
 
         // Yii::$app->user->can('tipocontacto/index') ? ['label' => 'Tipo Contacto', 'url' => ['/tipocontacto/index']] : false,
-
-        Yii::$app->user->can('tipotrabajo/index') ? ['label' => 'Tipo Trabajo', 'url' => ['/tipotrabajo/index']] : false,
         
-        Yii::$app->user->can('usuarios/index') ? ['label' => 'Usuarios', 'url' => ['/usuarios/index']] : false,
     ]);
 
     $registerItems = array_filter([

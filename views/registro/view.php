@@ -77,7 +77,7 @@ $this->title = $model->nro_accidente;
         'attributes' => [
 
             'cedula_pers_accide',         
-            'id_gerencia',         
+            //'id_gerencia',         
 
             
 
