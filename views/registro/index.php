@@ -51,7 +51,14 @@ $this->title = 'Registros';
             //'fecha_hora',
 
                         
-            'cedula_reporta',
+            [   
+                'attribute' => 'cedula_reporta',
+                'label' => 'Cédula Reporta',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ]
+            ],
             //'lugar',
             [   
                 'attribute' => 'nro_accidente',
@@ -62,12 +69,34 @@ $this->title = 'Registros';
                 ]
             ],
 
+            // [
+            //     'attribute' => 'cedula_pers_accide',
+            //     'value' => function($model) {
+            //         // Verifica si la cédula está seteada, si no, devuelve 'N/A'
+            //         return $model->cedula_pers_accide ?: 'N/A';
+            //     },
+            //     'filterInputOptions' => ['class' => 'form-control', 'placeholder' => 'Busqueda'],
+            // ],
+
+            [
+                'attribute' => 'cedula_pers_accide',
+                'value' => function($model) {
+                    // Verifica si la cédula está seteada, si no, devuelve 'N/A'
+                    // Aquí asumimos que un valor de 1 en la base de datos indica 'N/A'
+                    if (is_null($model->cedula_pers_accide) || $model->cedula_pers_accide == 1) {
+                        return 'N/A';
+                    }
+                    return $model->cedula_pers_accide;
+                },
+                'filterInputOptions' => ['class' => 'form-control', 'placeholder' => 'Busqueda'],
+            ],
+
             [
                 'attribute' => 'id_estado',
                 'value' => array($searchModel, 'buscarEstados'),
                 'filter' => Html::activeTextInput($searchModel, 'descripcion', [
                 'class' => 'form-control',
-                'placeholder' => 'Buscaqueda',
+                'placeholder' => 'Busqueda',
                 ]),
 
             ],
@@ -75,17 +104,18 @@ $this->title = 'Registros';
             [   
                 'attribute' => 'id_estatus_proceso',
                 'label' => 'Estatus',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Busqueda',
+                ],
                 'value' => function($model){
                     return   $model->estatusProceso->descripcion;},
             ],
-            //'cedula_supervisor_60min',
-            //'observaciones_60min',
+
             //'autorizado_60m:boolean',
             //'created_at',
             //'updated_at',
             //'id_region',
-            //'acciones_tomadas_60min',
-            //'cedula_pers_accide',
             //'cedula_validad_60min',
             //'id_magnitud',
             //'id_tipo_accidente',

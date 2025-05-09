@@ -71,15 +71,17 @@ use yii\helpers\ArrayHelper;
         <i class="fa fa-plus"></i>
     </button>
 
+    <div id="sujeto-afectacion-container" class="d-none">
     <br>
     <h3>Sujeto(s) de Afectación</h3>
     <br>
+    </div>
 
     <!-- Contenedor para personas -->
     <div id="personas-container">
         <!-- Persona inicial -->
         <div class="persona-wrapper" data-index="0">
-            <div class="card mb-3">
+            <div class="card mb-3 d-none">
                 <div class="card-header">
                     <h5 class="card-title">Persona #1</h5>
                     <button type="button" class="btn btn-danger btn-sm float-right eliminar-persona" style="display: none;">
@@ -89,7 +91,7 @@ use yii\helpers\ArrayHelper;
                 <div class="card-body">
                     <!-- SUJETO DE AFECTACIÓN -->
                     <div class="sujeto-afectacion">
-                        <div class="input-group mb-3 busqueda-cedula">
+                        <div class="input-group mb-3 busqueda-cedula d-none">
                             <input type="text" class="form-control" style="width: 150px;" id="searchCedula_0" name="searchCedula[]" pattern="[0-9]{8}" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                             <button class="btn btn-primary validar-cedula-btn" type="button" data-index="0">
                                 Validar
@@ -149,9 +151,49 @@ use yii\helpers\ArrayHelper;
     </div>
 
     <!-- Botón para agregar otra persona -->
-    <button type="button" id="agregar-persona" class="btn btn-primary">
+    <button type="button" id="agregar-persona" class="btn btn-primary d-none">
         <i class="fa fa-plus"></i> Agregar otra persona
     </button>
+
+    <br>
+    <br>
+    <h3>Supervisor</h3>
+    <br>
+
+    <div class="supervisor">
+        <label for="searchCedulas" class="form-label">Cédula Supervisor</label>
+        <div class="input-group mb-3 buscar-cedula">
+        <input type="text" class="form-control" style="width: 150px;" id="searchCedulas" name="searchCedulas" pattern="[0-9]{8}" required placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        <button class="btn btn-primary" type="button" id="boton-validar-cedulas">Validar</button>
+        </div> 
+
+        <div class="container-resp-ajax">
+            <p><strong class="origen-data"></strong></p>
+            <div class="tabla-datos d-none">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="tit-cedula">Cédula del supervisor</th>
+                            <th scope="col" class="tit-nombre">Nombre</th>
+                            <th scope="col" class="tit-apellido">Apellido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="cedula"></td>
+                            <td class="nombre"></td>
+                            <td class="apellido"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?= $form->field($model, 'cedula_supervisor_60min')->hiddenInput()?> 
+    </div>
+
+    <?= $form->field($model, 'observaciones_60min')->textInput() ?>
+
+    <?= $form->field($model, 'acciones_tomadas_60min')->textInput() ?>
 
 
     <div class="form-group">
@@ -163,6 +205,8 @@ use yii\helpers\ArrayHelper;
 </div>
 
 <?php
+
+//Script para fecha/hora y combo de región/estadi
 $this->registerJs(
     "
     $(document).ready(function() {
@@ -314,119 +358,142 @@ $this->registerJs(
     "
     // Manejo de personas
     $(document).ready(function() {
-    var personaCounter = 1;
-    
-    // Agregar nueva persona
-    $('#agregar-persona').click(function() {
-        var newIndex = personaCounter++;
-        var newPersona = $('.persona-wrapper:first').clone();
-        
-        // Actualizar todos los IDs y nombres
-        newPersona.attr('data-index', newIndex);
-        newPersona.find('.card-title').text('Persona #' + (newIndex + 1));
-        newPersona.find('.eliminar-persona').show();
-        
-        // Limpiar campos
-        newPersona.find('input').val('');
-        newPersona.find('.tabla-datos').addClass('d-none');
-        newPersona.find('.origen-data').text('');
-        
-        // Actualizar IDs y nombres de los campos
-        newPersona.find('[id]').each(function() {
-            var oldId = $(this).attr('id');
-            if (oldId) {
-                $(this).attr('id', oldId.replace(/_0$/, '_' + newIndex));
-            }
-        });
-        
-        newPersona.find('[name]').each(function() {
-            var name = $(this).attr('name');
-            if (name && name.match(/\[\d+\]/)) {
-                $(this).attr('name', name.replace(/\[\d+\]/, '[' + newIndex + ']'));
-            }
-        });
-        
-        // Agregar al contenedor
-        $('#personas-container').append(newPersona);
-        
-        // Mostrar botón de eliminar en la primera persona si hay más de una
-        if (personaCounter > 1) {
-            $('.persona-wrapper:first .eliminar-persona').show();
-        }
-    });
-    
-    // Eliminar persona
-    $(document).on('click', '.eliminar-persona', function() {
-        var wrapper = $(this).closest('.persona-wrapper');
-        var index = wrapper.attr('data-index');
-        
-        // No permitir eliminar la última persona
-        if ($('.persona-wrapper').length > 1) {
-            wrapper.remove();
-            
-            // Reindexar los wrappers restantes
-            $('.persona-wrapper').each(function(i) {
-                $(this).attr('data-index', i);
-                $(this).find('.card-title').text('Persona #' + (i + 1));
-                
-                // Actualizar IDs y nombres
-                $(this).find('[id]').each(function() {
-                    var oldId = $(this).attr('id');
-                    if (oldId) {
-                        $(this).attr('id', oldId.replace(/_(\d+)$/, '_' + i));
-                    }
-                });
-                
-                $(this).find('[name]').each(function() {
-                    var name = $(this).attr('name');
-                    if (name && name.match(/\[\d+\]/)) {
-                        $(this).attr('name', name.replace(/\[\d+\]/, '[' + i + ']'));
-                    }
-                });
+        // Manejo de personas
+        var personaCounter = 1;
+
+        // Agregar nueva persona
+        $('#agregar-persona').click(function() {
+            var newIndex = personaCounter++;
+            var newPersona = $('.persona-wrapper:first').clone();
+
+            // Actualizar todos los IDs y nombres
+            newPersona.attr('data-index', newIndex);
+            newPersona.find('.card-title').text('Persona #' + (newIndex + 1));
+            newPersona.find('.eliminar-persona').show();
+
+            // Limpiar campos
+            newPersona.find('input').val('');
+            newPersona.find('.tabla-datos').addClass('d-none');
+            newPersona.find('.origen-data').text('');
+
+            // Actualizar IDs y nombres de los campos
+            newPersona.find('[id]').each(function() {
+                var oldId = $(this).attr('id');
+                if (oldId) {
+                    $(this).attr('id', oldId.replace(/_0$/, '_' + newIndex));
+                }
             });
-            
-            personaCounter--;
-            
-            // Ocultar botón de eliminar si solo queda una persona
-            if ($('.persona-wrapper').length === 1) {
-                $('.persona-wrapper .eliminar-persona').hide();
+
+            newPersona.find('[name]').each(function() {
+                var name = $(this).attr('name');
+                if (name && name.match(/\[\d+\]/)) {
+                    $(this).attr('name', name.replace(/\[\d+\]/, '[' + newIndex + ']'));
+                }
+            });
+
+            // Agregar al contenedor
+            $('#personas-container').append(newPersona);
+
+            // Mostrar botón de eliminar en la primera persona si hay más de una
+            if (personaCounter > 1) {
+                $('.persona-wrapper:first .eliminar-persona').show();
             }
-        }
-    });
-    
-    // Manejar cambio en naturaleza de accidente para todas las personas
-    $(document).on('change', '#naturaleza-dropdown, #naturaleza-dropdown-adicional', function() {
-        var naturalezaId = $('#naturaleza-dropdown').val();
-        
+        });
+
+        // Eliminar persona
+        $(document).on('click', '.eliminar-persona', function() {
+            var wrapper = $(this).closest('.persona-wrapper');
+            var index = wrapper.attr('data-index');
+
+            // No permitir eliminar la última persona
+            if ($('.persona-wrapper').length > 1) {
+                wrapper.remove();
+
+                // Reindexar los wrappers restantes
+                $('.persona-wrapper').each(function(i) {
+                    $(this).attr('data-index', i);
+                    $(this).find('.card-title').text('Persona #' + (i + 1));
+
+                    // Actualizar IDs y nombres
+                    $(this).find('[id]').each(function() {
+                        var oldId = $(this).attr('id');
+                        if (oldId) {
+                            $(this).attr('id', oldId.replace(/_(\d+)$/, '_' + i));
+                        }
+                    });
+
+                    $(this).find('[name]').each(function() {
+                        var name = $(this).attr('name');
+                        if (name && name.match(/\[\d+\]/)) {
+                            $(this).attr('name', name.replace(/\[\d+\]/, '[' + i + ']'));
+                        }
+                    });
+                });
+
+                personaCounter--;
+
+                // Ocultar botón de eliminar si solo queda una persona
+                if ($('.persona-wrapper').length === 1) {
+                    $('.persona-wrapper .eliminar-persona').hide();
+                }
+            }
+        });
+
+        // Manejar cambio en naturaleza de accidente para todas las personas
+        $(document).on('change', '#naturaleza-dropdown, #naturaleza-dropdown-adicional', function() {
+            var naturalezaId = $('#naturaleza-dropdown').val();
+            var sujetoAfectacionContainer = $('#sujeto-afectacion-container');
+            var btnAgregarPersona = $('#agregar-persona');
+
+            // IDs de naturalezas que NO deben mostrar el título (AMBIENTAL y OPERACIONAL)
+            var naturalezasSinTitulo = [61, 92];
+            var naturalezasSinPersonas = [61, 92]; // Mismos IDs que no permiten personas
+
             $('.persona-wrapper').each(function() {
                 var wrapper = $(this);
-                
+
                 // Limpiar campos
                 wrapper.find('.busqueda-cedula input').val('');
                 wrapper.find('.origen-data').text('');
                 wrapper.find('.tabla-datos').addClass('d-none');
                 wrapper.find('.registro-cedula_pers_accide').val('');
                 wrapper.find('.persona-natural input').val('');
-                
+
+                // Mostrar/ocultar título según naturaleza
+                if (naturalezaId && !naturalezasSinTitulo.includes(parseInt(naturalezaId))) {
+                    wrapper.find('.card').removeClass('d-none'); // Mostrar título
+                } else {
+                    wrapper.find('.card').addClass('d-none'); // Ocultar título
+                }
+
                 // Mostrar/ocultar secciones según naturaleza
                 if (naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79) { // LABORAL, NO LABORAL, TRANSITO
+                    wrapper.find('.busqueda-cedula').removeClass('d-none'); // Mostrar búsqueda de cédula
                     wrapper.find('.busqueda-cedula').show();
                     wrapper.find('.persona-natural').addClass('d-none');
                 } else if (naturalezaId == 31 || naturalezaId == 35) { // TERCERO RELACIONADO, TERCERO NO RELACIONADO
-                    wrapper.find('.busqueda-cedula').hide();
+                    wrapper.find('.busqueda-cedula').addClass('d-none');
                     wrapper.find('.persona-natural').removeClass('d-none');
                 } else { // OPERACIONAL, AMBIENTAL
-                    wrapper.find('.busqueda-cedula').hide();
+                    wrapper.find('.busqueda-cedula').addClass('d-none');
                     wrapper.find('.persona-natural').addClass('d-none');
                 }
             });
+
+            if (naturalezaId && !naturalezasSinPersonas.includes(parseInt(naturalezaId))) {
+                btnAgregarPersona.removeClass('d-none'); // Mostrar botón
+                sujetoAfectacionContainer.removeClass('d-none'); // Mostrar sección
+            } else {
+                btnAgregarPersona.addClass('d-none'); // Ocultar botón
+                sujetoAfectacionContainer.addClass('d-none'); // Ocultar sección
+            }
         });
     });
     ",
     View::POS_READY,
 );
 
-
+//Validacion de cedula personal
 $this->registerJs(
     "
     // Función para validar cédula usando event delegation
@@ -436,8 +503,9 @@ $this->registerJs(
         var search = wrapper.find('input[id^=\"searchCedula_\"]').val();
         var naturalezaId = $('#naturaleza-dropdown').val();
 
-        if (search.length < 8) {
-            alert('La cédula debe tener al menos 8 dígitos.');
+        // Validar que la cédula tenga al menos 8 dígitos y solo contenga dígitos
+        if (!/^[0-9]{8,}$/.test(search)) {
+            alert('La cédula debe tener al menos 8 dígitos y solo contener números.');
             return;
         }
 
@@ -513,5 +581,73 @@ $this->registerJs(
     ",
     View::POS_READY,
     'validacion-personas'
+);
+
+//Validar cedula del supervisor
+$this->registerJs(
+    "
+    // Función para mostrar mensajes
+    function mostrarMensaje(selector, mensaje, clase) {
+        $(selector)
+            .removeClass('text-secondary text-success text-danger text-info')
+            .addClass(clase)
+            .text(mensaje);
+    }
+
+    // Función para mostrar datos del personal
+    function mostrarDatosPersonales(datos) {
+        $('div.container-resp-ajax div.tabla-datos').removeClass('d-none');
+        $('div.container-resp-ajax div.tabla-datos table thead tr th.d-none').removeClass('d-none');
+        $('div.container-resp-ajax div.tabla-datos table tbody tr td.d-none').removeClass('d-none');
+        $('div.container-resp-ajax div.tabla-datos table tbody tr td.cedula').text(datos.ci);
+        $('div.container-resp-ajax div.tabla-datos table tbody tr td.nombre').text(datos.nombre);
+        $('div.container-resp-ajax div.tabla-datos table tbody tr td.apellido').text(datos.apellido);
+        $('#registro-cedula_supervisor_60min').val(datos.ci);
+    }
+
+    // Validando cédula
+    $('#boton-validar-cedulas').on('click', function(e) {
+        e.preventDefault();
+        var search = $('#searchCedulas').val();
+
+        // Validación de la longitud y formato de la cédula
+        if (!/^[0-9]{8,}$/.test(search)) {
+            mostrarMensaje('p strong#origen-data', 'La cédula debe tener al menos 8 dígitos y solo contener números.', 'text-danger');
+            return;
+        }
+
+        // Mostrar mensaje de espera
+        mostrarMensaje('p strong#origen-data', 'Espere...', 'text-secondary');
+
+        $.ajax({
+            url: '" . Url::toRoute('registro/validar-cedula') . "',
+            type: 'post',
+            dataType: 'json',
+            data: {search: search}
+        })
+        .done(function(response) {
+            if (!response.ci) {
+                mostrarMensaje('p strong#origen-data', 'La cédula no se encuentra en el sistema. Regístrela primero.', 'text-danger');
+                $('div.persona-natural').removeClass('d-none');
+                $('#personanatural-cedula').val(response.cedula);
+            } else {
+                mostrarMensaje('p strong#origen-data', 'Datos encontrados en Personal.', 'text-success');
+                mostrarDatosPersonales(response);
+            }
+        })
+        .fail(function() {
+            console.log('Error al enviar el ajax');
+            mostrarMensaje('p strong#origen-data', 'Error al validar la cédula. Inténtelo nuevamente.', 'text-danger');
+        });
+    });
+
+    // Inhabilitar botón en caso de que esté vacío el campo cédula
+    $('#boton-validar-cedulas').attr('disabled', true);
+    $('#searchCedulas').on('input', function(e) {
+        $('#boton-validar-cedulas').attr('disabled', $(this).val().length < 8);
+    });
+    ",
+    View::POS_READY,
+    'validacion_cedula_supervisor'
 );
 ?>

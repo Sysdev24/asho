@@ -48,6 +48,15 @@ class PersonaNatural extends \yii\db\ActiveRecord
                 var naturalezaId = $('#naturaleza-dropdown').val();
                 return !(naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79 || naturalezaId == 61 || naturalezaId == 92);
             }"],
+
+            //['cedula', 'string', 'length' => 8],
+            [['cedula'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
+
+
+            //['telefono', 'match', 'pattern' => '/^\d{4}\d{7}$/', 'message' => 'Formato: 04121234567'],
+
+            //['fecha_nac', 'date', 'format' => 'php:Y-m-d'],
+
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
             [['id_registro', 'cedula'], 'default', 'value' => null],
             [['id_estatus'], 'default', 'value' => 1],

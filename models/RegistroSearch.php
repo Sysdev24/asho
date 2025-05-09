@@ -21,7 +21,7 @@ class RegistroSearch extends Registro
             [['id_registro', 'id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'id_gerencia', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'integer'],
             [['fecha_hora', 'lugar', 'nro_accidente', 'observaciones_60min', 'created_at', 'updated_at', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'safe'],
             [['autorizado_60m', 'autorizado_24horas'], 'boolean'],
-            [['id_estado', 'descripcion'], 'safe'],
+            [['id_estado', 'descripcion', 'id_gerencia'], 'safe'],
         ];
     }
 

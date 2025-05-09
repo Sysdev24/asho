@@ -159,8 +159,8 @@ class Registro extends \yii\db\ActiveRecord
             'fecha_hora' => 'Fecha y Hora',
             'lugar' => 'Lugar',
             'nro_accidente' => 'Nro Accidente',
-            'cedula_supervisor_60min' => 'Cedula Supervisor 60min',
-            'observaciones_60min' => 'Observaciones 60min',
+            'cedula_supervisor_60min' => '',
+            'observaciones_60min' => 'Observaciones',
             'autorizado_60m' => 'Autorizado 60m',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -215,6 +215,7 @@ class Registro extends \yii\db\ActiveRecord
     {
         return $this->hasOne(AfecPerCategoria::class, ['id' => 'id_afec_per_categoria']);
     }
+    
 
     /**
      * Gets query for [[Cedula24horas]].

@@ -144,16 +144,16 @@ class Personal extends \yii\db\ActiveRecord
     }
 
 
-    public function buscarInformacionPersona($ci)
-    {
-        return (new \yii\db\Query())
-            ->select(['p.ci', 'p.nombre', 'p.apellido', 'p.correo', 'g.descripcion as gerencia', 'c.descripcion as cargo'])
-            ->from('personal p')
-            ->innerJoin('gerencia g', 'g.id_gerencia = p.id_gerencia')
-            ->innerJoin('cargo c', 'c.id_cargo = p.id_cargo')
-            ->where(['p.ci' => $ci])
-            ->one();
-    }
+    // public function buscarInformacionPersona($ci)
+    // {
+    //     return (new \yii\db\Query())
+    //         ->select(['p.ci', 'p.nombre', 'p.apellido', 'p.correo', 'g.descripcion as gerencia', 'c.descripcion as cargo'])
+    //         ->from('personal p')
+    //         ->innerJoin('gerencia g', 'g.id_gerencia = p.id_gerencia')
+    //         ->innerJoin('cargo c', 'c.id_cargo = p.id_cargo')
+    //         ->where(['p.ci' => $ci])
+    //         ->one();
+    // }
 
     public function buscarPersonaRegistro($ci)
     {
