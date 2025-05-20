@@ -59,9 +59,7 @@ class PersonaNatural extends \yii\db\ActiveRecord
 
             [['created_at', 'updated_at', 'fecha_nac'], 'safe'],
             [['id_registro', 'cedula'], 'default', 'value' => null],
-            [['id_estatus'], 'default', 'value' => 1],
-            [['id_registro', 'id_estatus', 'cedula'], 'integer'],
-            [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
+            [['id_registro', 'cedula'], 'integer'],
             ['telefono', 'match', 'pattern' => '/^[0-9]{11}$/', 'message' => '* Número de teléfono no válido.'],
             [['nombre', 'apellido', 'telefono'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => '* No se permiten espacios al principio o al final.'],
 
@@ -104,7 +102,6 @@ class PersonaNatural extends \yii\db\ActiveRecord
             'fecha_nac' => 'Fecha de Nacimiento',
             'id_registro' => 'ID Registro',
             'empresa' => 'Empresa',
-            'id_estatus' => 'Estatus',
             'cedula' => 'Cedula',
         ];
     }
@@ -135,16 +132,6 @@ class PersonaNatural extends \yii\db\ActiveRecord
         } else {
             return false;
         }
-    }
-
-    /**
-     * Gets query for [[Estatus]].
-     *
-     * @return \yii\db\ActiveQuery|EstatusQuery
-     */
-    public function getEstatus()
-    {
-        return $this->hasOne(Estatus::class, ['id_estatus' => 'id_estatus']);
     }
 
     /**

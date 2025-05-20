@@ -8,7 +8,8 @@ use app\models\Gerencia;
 /** @var yii\web\View $this */
 /** @var app\models\Registro $model */
 
-$this->title = $model->nro_accidente;
+
+$this->title = 'Número de accidente: ' . Html::encode($model->nro_accidente);
 ?>
 <div class="registro-view">
 
@@ -57,6 +58,23 @@ $this->title = $model->nro_accidente;
                     return   $model->naturalezaAccidente->descripcion;},
             ],
 
+            [
+                'attribute' => 'id_registro_adicional',
+                'label' => 'Naturaleza Adicional',
+                'value' => function($model) {
+                    // Verificar si el registro tiene naturaleza adicional
+                    if (!empty($model->registroAdicionals)) {
+                        foreach ($model->registroAdicionals as $registroAdicional) {
+                            if ($registroAdicional->naturalezaAccidente) {
+                                return $registroAdicional->naturalezaAccidente->descripcion;
+                            }
+                        }
+                    }
+                    return 'Sin Naturaleza Adicional';
+                },
+            ],
+            
+
             [   
                 'attribute' => 'id_magnitud',
                 'label' => 'Magnitud',
@@ -89,17 +107,33 @@ $this->title = $model->nro_accidente;
                 },
                 'filterInputOptions' => ['class' => 'form-control', 'placeholder' => 'Busqueda'],
             ],
-            
+
             [
-                'attribute' => 'id_gerencia',
-                'label' => 'Gerencia',
-                'value' => function($model){
-                    return $model->cedulaPersAccide && $model->cedulaPersAccide->gerencia
-                        ? $model->cedulaPersAccide->gerencia->descripcion
-                        : 'N/A';
-                },
+                'attribute' => 'nombre',
+                'label' => 'Nombre',
+                'value' => function($model) {
+                    if (!empty($model->personaNaturals)) {
+                        return $model->personaNaturals[0]->nombre; // Accede al primer elemento
+                    } elseif ($model->cedulaPersAccide) {
+                        return $model->cedulaPersAccide->nombre;
+                    }
+                    return 'Nombre no disponible';
+                }
             ],
-            
+
+            [
+                'attribute' => 'apellido',
+                'label' => 'Apellido',
+                'value' => function($model) {
+                    if (!empty($model->personaNaturals)) {
+                        return $model->personaNaturals[0]->apellido; // Accede al primer elemento
+                    } elseif ($model->cedulaPersAccide) {
+                        return $model->cedulaPersAccide->apellido;
+                    }
+                    return 'Apellido no disponible';
+                }
+            ],
+          
             
             [
                 'attribute' => 'fecha_nac',
@@ -169,9 +203,18 @@ $this->title = $model->nro_accidente;
             
                     return 'Fecha no disponible';
                 }
-            ],    
+            ],
 
-            
+            [
+                'attribute' => 'id_gerencia',
+                'label' => 'Gerencia',
+                'value' => function($model){
+                    return $model->cedulaPersAccide && $model->cedulaPersAccide->gerencia
+                        ? $model->cedulaPersAccide->gerencia->descripcion
+                        : 'N/A';
+                },
+            ],
+           
 
             // 'cedula_supervisor_60min',
             // 'observaciones_60min',
@@ -218,10 +261,20 @@ $this->title = $model->nro_accidente;
             <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            
+
             [
                 'attribute' => 'cedula_supervisor_60min',
-                'label' => 'Cédula del supervisor',
+                'label' => 'Cédula',
+            ],
+            
+            [
+                'attribute' => 'cedulaSupervisor60min.nombre',
+                'label' => 'Nombre',
+            ],
+
+            [
+                'attribute' => 'cedulaSupervisor60min.apellido',
+                'label' => 'Apellido',
             ],
 
             'observaciones_60min',

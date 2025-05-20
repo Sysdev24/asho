@@ -95,6 +95,8 @@ class Registro extends \yii\db\ActiveRecord
         return [
             [['cedula_pers_accide'], 'safe'], // Permite un array de cédulas
             [['id_estado', 'fecha_hora', 'lugar', 'nro_accidente', 'cedula_supervisor_60min', 'observaciones_60min', 'autorizado_60m', 'created_at', 'updated_at', 'id_region', 'acciones_tomadas_60min', 'cedula_reporta', /*'cedula_pers_accide',*/ 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'autorizado_24horas', 'cedula_valid_24horas', 'descripcion_accidente_60min', /*'id_gerencia',*/ 'correlativo', 'id_naturaleza_accidente', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
+
+            [['cedula_supervisor_60min', 'acciones_tomadas_60min', 'observaciones_60min', 'lugar'], 'required'],
             [['id_estatus_proceso'], 'default', 'value' => 6],
             [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', /*'id_gerencia',*/ 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
             [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'integer'],
@@ -124,6 +126,9 @@ class Registro extends \yii\db\ActiveRecord
             [['id_tipo_trabajo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoTrabajo::class, 'targetAttribute' => ['id_tipo_trabajo' => 'id_tipo_trabajo']],
 
             [['searchCedula'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
+
+            [['cedula_supervisor_60min'], 'validateSupervisorCedula'],
+
 
         ];
     }
@@ -203,6 +208,15 @@ class Registro extends \yii\db\ActiveRecord
             return true;
         } else {
             return false;
+        }
+    }
+
+    
+
+    public function validateSupervisorCedula($attribute, $params)
+    {
+        if ($this->cedula_pers_accide == $this->cedula_supervisor_60min) {
+            $this->addError($attribute, 'El supervisor no puede ser la persona afectada.');
         }
     }
 

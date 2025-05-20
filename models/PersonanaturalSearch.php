@@ -17,7 +17,7 @@ class PersonanaturalSearch extends PersonaNatural
     public function rules()
     {
         return [
-            [['id', 'id_registro', 'id_estatus', 'cedula'], 'integer'],
+            [['id', 'id_registro', 'cedula'], 'integer'],
             [['nombre', 'apellido', 'created_at', 'updated_at', 'telefono', 'fecha_nac', 'empresa'], 'safe'],
         ];
     }
@@ -29,14 +29,6 @@ class PersonanaturalSearch extends PersonaNatural
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
-    }
-
-    public function buscarEstatus($data, $id) {
-        if ($data->estatus && $data->estatus->descripcion) {
-            return $data->estatus->descripcion;
-        } else {
-            return 'N/A'; // O el valor que desees mostrar cuando no hay estatus
-        }
     }
 
     /**
@@ -71,7 +63,6 @@ class PersonanaturalSearch extends PersonaNatural
             'updated_at' => $this->updated_at,
             'fecha_nac' => $this->fecha_nac,
             'id_registro' => $this->id_registro,
-            'id_estatus' => $this->id_estatus,
             'cedula' => $this->cedula,
         ]);
 

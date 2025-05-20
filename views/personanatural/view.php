@@ -7,7 +7,8 @@ use yii\helpers\Url;
 /** @var yii\web\View $this */
 /** @var app\models\PersonaNatural $model */
 
-$this->title = $model->cedula;
+$this->title = 'Cédula persona natural: ' . Html::encode($model->cedula);
+
 
 \yii\web\YiiAsset::register($this);
 ?>
@@ -32,14 +33,6 @@ $this->title = $model->cedula;
             'fecha_nac',
             'id_registro',
             'empresa',
-          
-            [
-                'attribute' => 'id_estatus',
-                'label' => 'Estatus',
-                'value' => function ($model) {
-                    return $model->estatus ? $model->estatus->descripcion : 'N/A';
-                },
-            ],
             
         ],
     ]) ?>

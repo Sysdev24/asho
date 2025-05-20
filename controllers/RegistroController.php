@@ -101,7 +101,7 @@ class RegistroController extends Controller
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
                     // 1. Establecer el estatus de proceso inicial
-                    $model->id_estatus_proceso = 1; // Ajusta según tu lógica de negocio
+                    $model->id_estatus_proceso = 6; // Ajusta según tu lógica de negocio
 
                     // 2. Generar número de accidente
                     $estado = Estados::findOne($model->id_estado);
@@ -160,6 +160,7 @@ class RegistroController extends Controller
                         $registroAdicional->id_naturaleza_accidente = $_POST['naturaleza_adicional'];
                         $registroAdicional->id_estatus_proceso = $model->id_estatus_proceso; // Mismo estatus
                         $registroAdicional->id_magnitud = $model->id_magnitud;
+                        $registroAdicional->acciones_tomadas_60min = $model->acciones_tomadas_60min;
                         
                         if (!$registroAdicional->save()) {
                             throw new \yii\db\Exception('Error al guardar naturaleza adicional: ' . json_encode($registroAdicional->errors));
@@ -167,26 +168,45 @@ class RegistroController extends Controller
                     }
 
                     // 6. Manejar registros secundarios
+                    // 6. Manejar registros secundarios
                     if ($model->id_naturaleza_accidente == 31 || $model->id_naturaleza_accidente == 35) {
-                        // Personas Naturales
+                        // Personas Naturales - incluyendo la primera (índice 0)
                         foreach ($personasData as $index => $data) {
-                            if ($index === 0) continue; // Ya guardamos el principal
-                            
-                            $registroPersona = new Registro();
-                            $registroPersona->attributes = $model->attributes;
-                            $registroPersona->cedula_pers_accide = $data['cedula'];
-                            $registroPersona->id_estatus_proceso = $model->id_estatus_proceso; // Establecer estatus
-                            
-                            if (!$registroPersona->save(false)) {
-                                throw new \yii\db\Exception('Error al guardar registro secundario: ' . json_encode($registroPersona->errors));
-                            }
-                            
-                            $personaNatural = new PersonaNatural();
-                            $personaNatural->load($data, '');
-                            $personaNatural->id_registro = $registroPersona->id_registro;
-                            
-                            if (!$personaNatural->save()) {
-                                throw new \yii\db\Exception('Error al guardar Persona Natural: ' . json_encode($personaNatural->errors));
+                            if (!empty($data['cedula'])) {
+                                if ($index == 0) {
+                                    // Para la primera persona, asociarla al registro principal
+                                    $personaNatural = new PersonaNatural();
+                                    $personaNatural->attributes = $data;
+                                    $personaNatural->id_registro = $model->id_registro;
+                                    
+                                    if (!$personaNatural->save()) {
+                                        throw new \yii\db\Exception('Error al guardar Persona Natural: ' . json_encode($personaNatural->errors));
+                                    }
+                                    
+                                    // Actualizar el registro principal con la cédula
+                                    $model->cedula_pers_accide = $data['cedula'];
+                                    if (!$model->save(false)) {
+                                        throw new \yii\db\Exception('Error al actualizar registro principal: ' . json_encode($model->errors));
+                                    }
+                                } else {
+                                    // Para personas adicionales, crear nuevos registros
+                                    $registroPersona = new Registro();
+                                    $registroPersona->attributes = $model->attributes;
+                                    $registroPersona->cedula_pers_accide = $data['cedula'];
+                                    $registroPersona->id_estatus_proceso = $model->id_estatus_proceso;
+                                    
+                                    if (!$registroPersona->save(false)) {
+                                        throw new \yii\db\Exception('Error al guardar registro secundario: ' . json_encode($registroPersona->errors));
+                                    }
+                                    
+                                    $personaNatural = new PersonaNatural();
+                                    $personaNatural->attributes = $data;
+                                    $personaNatural->id_registro = $registroPersona->id_registro;
+                                    
+                                    if (!$personaNatural->save()) {
+                                        throw new \yii\db\Exception('Error al guardar Persona Natural adicional: ' . json_encode($personaNatural->errors));
+                                    }
+                                }
                             }
                         }
                     } else {
