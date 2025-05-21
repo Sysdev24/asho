@@ -69,15 +69,6 @@ $this->title = 'Registros';
                 ]
             ],
 
-            // [
-            //     'attribute' => 'cedula_pers_accide',
-            //     'value' => function($model) {
-            //         // Verifica si la cédula está seteada, si no, devuelve 'N/A'
-            //         return $model->cedula_pers_accide ?: 'N/A';
-            //     },
-            //     'filterInputOptions' => ['class' => 'form-control', 'placeholder' => 'Busqueda'],
-            // ],
-
             [
                 'attribute' => 'cedula_pers_accide',
                 'value' => function($model) {
