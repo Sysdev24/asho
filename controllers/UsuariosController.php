@@ -144,7 +144,7 @@ class UsuariosController extends Controller
      * @param int $id_usuario Id Usuario
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
-     */
+     **/
 
     public function actionUpdate($id_usuario)
     {

@@ -14,7 +14,7 @@ use yii\filters\AccessControl;
 
 
 /**
- * RolesController implements the CRUD actions for Roles model.
+ * RolesController implements the CRUD actions for Roles model
  */
 class RolesController extends Controller
 {

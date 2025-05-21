@@ -35,6 +35,7 @@ use yii\behaviors\TimestampBehavior;
  * @property Nacionalidad $nacionalidad0
  * @property AuthItem $name0
  * @property Session[] $sessions
+ * *
  */
 class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {

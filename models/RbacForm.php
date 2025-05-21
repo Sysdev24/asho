@@ -37,7 +37,7 @@ class RbacForm extends Model
         ];
     }
 
-    //Para utilizar los campos created_at y updated_at
+    //Para utilizar los campos created_at y updated_at.
     public function behaviors() 
     {
          return [ TimestampBehavior::class => [

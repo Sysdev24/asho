@@ -79,7 +79,7 @@ use yii\helpers\Url;
 </div>
 
 <?php
-// Registrar el script solo si el escenario es 'create'
+// Registrar el script solo si el escenario es 'create'.
 if ($model->scenario === 'create') {
     $this->registerJs(
         "
