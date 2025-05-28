@@ -31,7 +31,10 @@ $this->title = 'Número de accidente: ' . Html::encode($model->nro_accidente);
 
             'nro_accidente',
 
-            'cedula_reporta',
+            [
+              'attribute' => 'cedula_reporta',
+            'label' => 'Cédula Reporta',  
+            ],
 
             [   
                 'attribute' => 'id_region',
@@ -258,60 +261,80 @@ $this->title = 'Número de accidente: ' . Html::encode($model->nro_accidente);
                 <br>
             </div>
 
-            <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
+        <?= DetailView::widget([
+            'model' => $model,
+            'attributes' => [
 
-            [
-                'attribute' => 'cedula_supervisor_60min',
-                'label' => 'Cédula',
+                [
+                    'attribute' => 'cedula_supervisor_60min',
+                    'label' => 'Cédula',
+                ],
+                
+                [
+                    'attribute' => 'cedulaSupervisor60min.nombre',
+                    'label' => 'Nombre',
+                ],
+
+                [
+                    'attribute' => 'cedulaSupervisor60min.apellido',
+                    'label' => 'Apellido',
+                ],
+
+                // 'autorizado_60m:boolean',
+                //'created_at',
+                //'updated_at',
+                //'id_estatus_proceso',
+                //'id_region',
+                // 'cedula_validad_60min',
+                // 'id_tipo_accidente',
+                // 'id_tipo_trabajo',
+                // 'id_peligro_agente',
+                // 'id_sujeto_afectacion',
+                // 'id_afecta_bienes_perso',
+                // 'cedula_24horas',
+                // 'acciones_tomadas_24horas',
+                // 'observaciones_24horas',
+                // 'recomendaciones_24horas',
+                // 'autorizado_24horas:boolean',
+                // 'cedula_valid_24horas',
+                // 'recomendaciones_60m',
+                // 'anno',
+                // 'correlativo',
+                // //'id_naturaleza_accidente',
+                // 'ocurrencia_hecho_60m',
+                // 'acciones_tomadas_24h',
+                // 'observaciones_24h',
+                // 'validado_por_24h',
+                // 'id_requerimiento_trabajo_24h',
+                // 'cumple_regla_oro:boolean',
+                // 'id_afec_per_categoria',
             ],
-            
-            [
-                'attribute' => 'cedulaSupervisor60min.nombre',
-                'label' => 'Nombre',
+
+        ]) ?>
+
+            <div>
+                <br>
+                <h3>Detalles</h3>
+                <br>
+            </div>
+        <?= DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+
+                [
+                    'attribute' => 'acciones_tomadas_60min',
+                    'label' => 'Acciones tomadas',
+                ],
+
+                [
+                    'attribute' => 'observaciones_60min',
+                    'label' => 'Observaciones',
+                ],
+
+                'descripcion_accidente_60min',
             ],
 
-            [
-                'attribute' => 'cedulaSupervisor60min.apellido',
-                'label' => 'Apellido',
-            ],
-
-            'observaciones_60min',
-            'acciones_tomadas_60min',
-
-            // 'autorizado_60m:boolean',
-            //'created_at',
-            //'updated_at',
-            //'id_estatus_proceso',
-            //'id_region',
-            // 'cedula_validad_60min',
-            // 'id_tipo_accidente',
-            // 'id_tipo_trabajo',
-            // 'id_peligro_agente',
-            // 'id_sujeto_afectacion',
-            // 'id_afecta_bienes_perso',
-            // 'cedula_24horas',
-            // 'acciones_tomadas_24horas',
-            // 'observaciones_24horas',
-            // 'recomendaciones_24horas',
-            // 'autorizado_24horas:boolean',
-            // 'cedula_valid_24horas',
-            // 'descripcion_accidente_60min',
-            // 'recomendaciones_60m',
-            // 'anno',
-            // 'correlativo',
-            // //'id_naturaleza_accidente',
-            // 'ocurrencia_hecho_60m',
-            // 'acciones_tomadas_24h',
-            // 'observaciones_24h',
-            // 'validado_por_24h',
-            // 'id_requerimiento_trabajo_24h',
-            // 'cumple_regla_oro:boolean',
-            // 'id_afec_per_categoria',
-        ],
-
-    ]) ?>
+        ]) ?>
 
     <!-- BOTON DE VOLVER-->
    <?= Html::button('Atrás', ['class' => 'my-custom-button', 'onclick' => 'location.href=\''.Url::toRoute(["index"]).'\'']) ?>

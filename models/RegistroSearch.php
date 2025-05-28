@@ -11,6 +11,10 @@ use app\models\Registro;
  */
 class RegistroSearch extends Registro
 {
+
+    public $nombre;
+    public $apellido;
+
     public $descripcion;
     /**
      * {@inheritdoc}
@@ -22,6 +26,7 @@ class RegistroSearch extends Registro
             [['fecha_hora', 'lugar', 'nro_accidente', 'observaciones_60min', 'created_at', 'updated_at', 'acciones_tomadas_60min', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'descripcion_accidente_60min', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h'], 'safe'],
             [['autorizado_60m', 'autorizado_24horas'], 'boolean'],
             [['id_estado', 'descripcion', 'id_gerencia'], 'safe'],
+            [['nombre', 'apellido'], 'safe'],
         ];
     }
 
@@ -55,10 +60,45 @@ class RegistroSearch extends Registro
 
         $query = Registro::find()->joinWith('estado');
 
+        $query->joinWith(['personaNaturals', 'cedulaPersAccide']);
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+        ]);
+
+        $dataProvider->setSort([
+
+            'attributes' => [
+    
+                'id_estatus_proceso',
+
+                'id_estado',
+
+                'cedula_reporta',
+
+                'nro_accidente',
+
+                'cedula_pers_accide',
+    
+                'nombre' => [
+    
+                    'asc' => ['nombre' => SORT_ASC],
+    
+                    'desc' => ['nombre' => SORT_DESC],
+    
+                ],
+    
+                'apellido' => [
+    
+                    'asc' => ['apellido' => SORT_ASC],
+    
+                    'desc' => ['apellido' => SORT_DESC],
+    
+                ],
+            ],
+    
         ]);
 
         $this->load($params);
@@ -97,6 +137,18 @@ class RegistroSearch extends Registro
             'id_requerimiento_trabajo_24h' => $this->id_requerimiento_trabajo_24h,
             'id_afec_per_categoria' => $this->id_afec_per_categoria,
             'id_exposicion_con_cat' => $this->id_exposicion_con_cat,
+        ]);
+
+        // Búsqueda para nombre
+        $query->andFilterWhere(['or',
+        ['ilike', 'persona_natural.nombre', $this->nombre],
+        ['ilike', 'personal.nombre', $this->nombre]
+        ]);
+
+        // Búsqueda para apellido
+        $query->andFilterWhere(['or',
+            ['ilike', 'persona_natural.apellido', $this->apellido],
+            ['ilike', 'personal.apellido', $this->apellido]
         ]);
 
         $query->andFilterWhere(['ilike', 'lugar', $this->lugar])

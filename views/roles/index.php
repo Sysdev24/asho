@@ -76,7 +76,7 @@ $this->title = 'Roles';
                             return ''; // No mostrar el botón de actualización para el rol "admin"
                         }
                         $url = ['update', 'id' => $id];
-                        $link = Html::a('<i class="fas fa-pencil-alt"></i>', $url, [
+                        $link = Html::a('<i class="fas fa-edit me-1"></i>', $url, [
                             'title' => Yii::t('yii', 'Update'),
                             'aria-label' => Yii::t('yii', 'Update'),
                             'data-pjax' => '0',

@@ -57,20 +57,23 @@ $this->title = 'Registros';
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
-                ]
+                ],
+                'contentOptions' => ['style' => 'width:13%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
             ],
-            //'lugar',
+
             [   
                 'attribute' => 'nro_accidente',
-                'label' => 'Numero de accidente',
+                'label' => 'Nro Accidente',
                 'filterInputOptions' => [
                     'class' => 'form-control',
                     'placeholder' => 'Busqueda',
-                ]
+                ],
+                'contentOptions' => ['style' => 'width:16%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
             ],
 
             [
                 'attribute' => 'cedula_pers_accide',
+                'label' => 'C.I. Accidentado',
                 'value' => function($model) {
                     // Verifica si la cédula está seteada, si no, devuelve 'N/A'
                     // Aquí asumimos que un valor de 1 en la base de datos indica 'N/A'
@@ -79,12 +82,50 @@ $this->title = 'Registros';
                     }
                     return $model->cedula_pers_accide;
                 },
+                'contentOptions' => ['style' => 'width:13%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filterInputOptions' => ['class' => 'form-control', 'placeholder' => 'Busqueda'],
+            ],
+
+            [
+                'attribute' => 'nombre',
+                'label' => 'Nombre',
+                'value' => function($model) {
+                    if (!empty($model->personaNaturals)) {
+                        return $model->personaNaturals[0]->nombre; // Accede al primer elemento
+                    } elseif ($model->cedulaPersAccide) {
+                        return $model->cedulaPersAccide->nombre;
+                    }
+                    return 'Nombre no disponible';
+                },
+                'contentOptions' => ['style' => 'width:13%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'filter' => Html::activeTextInput($searchModel, 'nombre', [
+                'class' => 'form-control',
+                'placeholder' => 'Busqueda'
+            ]),
+            ],
+
+            [
+                'attribute' => 'apellido',
+                'label' => 'Apellido',
+                'value' => function($model) {
+                    if (!empty($model->personaNaturals)) {
+                        return $model->personaNaturals[0]->apellido; // Accede al primer elemento
+                    } elseif ($model->cedulaPersAccide) {
+                        return $model->cedulaPersAccide->apellido;
+                    }
+                    return 'Apellido no disponible';
+                },
+                'contentOptions' => ['style' => 'width:13%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
+                'filter' => Html::activeTextInput($searchModel, 'apellido', [
+                'class' => 'form-control',
+                'placeholder' => 'Busqueda'
+            ]),
             ],
 
             [
                 'attribute' => 'id_estado',
                 'value' => array($searchModel, 'buscarEstados'),
+                'contentOptions' => ['style' => 'width:16%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
                 'filter' => Html::activeTextInput($searchModel, 'descripcion', [
                 'class' => 'form-control',
                 'placeholder' => 'Busqueda',
@@ -101,6 +142,7 @@ $this->title = 'Registros';
                 ],
                 'value' => function($model){
                     return   $model->estatusProceso->descripcion;},
+                'contentOptions' => ['style' => 'width:16%; text-align: center; vertical-align: middle;'], // Cambia el tamaño de la columna
             ],
 
             //'autorizado_60m:boolean',

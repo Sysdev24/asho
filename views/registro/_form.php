@@ -92,7 +92,7 @@ use yii\helpers\ArrayHelper;
                     <!-- SUJETO DE AFECTACIÓN -->
                     <div class="sujeto-afectacion">
                         <div class="input-group mb-3 busqueda-cedula d-none">
-                            <input type="text" class="form-control" style="width: 150px;" id="searchCedula_0" name="searchCedula[]" pattern="[0-9]{8}" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            <input type="text" class="form-control" style="width: 150px;" id="searchCedula_0" name="searchCedula[]" pattern="[0-9]{8}" placeholder="Ingresar Cédula. Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                             <button class="btn btn-primary validar-cedula-btn" type="button" data-index="0">
                                 Validar
                             </button>
@@ -155,47 +155,66 @@ use yii\helpers\ArrayHelper;
         <i class="fa fa-plus"></i> Agregar otra persona
     </button>
 
-    <br>
+    <div id="sub-container">
     <br>
     <h3>Supervisor</h3>
     <br>
-
-    <div class="supervisor">
-    <label for="searchCedulas" class="form-label">Cédula Supervisor</label>
-    <div class="input-group mb-3 buscar-cedula">
-        <input type="text" class="form-control" style="width: 150px;" id="searchCedulas" name="searchCedulas" pattern="[0-9]{8}" required placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-        <button class="btn btn-primary" type="button" id="boton-validar-cedulas">Validar</button>
-    </div> 
-
-    <!-- Cambia estas clases a específicas para supervisor -->
-    <div class="container-resp-ajax-supervisor">
-        <p><strong class="origen-data-supervisor"></strong></p>
-        <div class="tabla-datos-supervisor d-none">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col" class="tit-cedula">Cédula del supervisor</th>
-                        <th scope="col" class="tit-nombre">Nombre</th>
-                        <th scope="col" class="tit-apellido">Apellido</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="cedula-supervisor"></td>
-                        <td class="nombre-supervisor"></td>
-                        <td class="apellido-supervisor"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
-    <?= $form->field($model, 'cedula_supervisor_60min')->hiddenInput()?> 
+
+    <!-- Campo Supervisor - Dependiente de la naturaleza -->
+    <div id="supervisor-container">
+        <div class="supervisor-wrapper">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="supervisor-buscar">
+                        <div class="input-group mb-3 busqueda-supervisor d-none">
+                            <input type="text" class="form-control" style="width: 150px;" id="searchCedulaSup" name="searchCedulaSup" pattern="[0-9]{8}" placeholder="Ingresar Cédula. Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            <button class="btn btn-primary" type="button" id="boton-validar-supervisor">Validar</button>
+                        </div>
+                        <div class="container-resp-ajax">
+                            <p><strong id="origen-data"></strong></p>
+                            <div class="tabla-datos d-none">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="tit-cedula">Cédula</th>
+                                            <th scope="col" class="tit-nombre">Nombre</th>
+                                            <th scope="col" class="tit-apellido">Apellido</th>
+                                            <th scope="col" class="tit-telefono">Telefono</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cedula"></td>
+                                            <td class="nombre"></td>
+                                            <td class="apellido"></td>
+                                            <td class="telefono"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <?= $form->field($model, 'cedula_supervisor_60min')->hiddenInput()->label(false) ?> <!-- Campo oculto para cédula -->
+                    </div>
+
+                    <!-- Supervisor Manual -->
+                    <div class="supervisor-manual d-none">
+                            <?= $form->field($modelPersonaNatural[0], "[0]cedula")->textInput() ?>
+                            <?= $form->field($modelPersonaNatural[0], "[0]nombre")->textInput() ?>
+                            <?= $form->field($modelPersonaNatural[0], "[0]apellido")->textInput() ?>
+                            <?= $form->field($modelPersonaNatural[0], "[0]telefono")->textInput(['placeholder' => 'Ejemplo: 0412-1234567']) ?>
+                            <?= $form->field($modelPersonaNatural[0], "[0]empresa")->textInput() ?>
+                        </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <?= $form->field($model, 'observaciones_60min')->textInput() ?>
 
     <?= $form->field($model, 'acciones_tomadas_60min')->textInput() ?>
 
+    <?= $form->field($model, 'descripcion_accidente_60min')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
@@ -688,175 +707,96 @@ $this->registerJs(
 //Validar cedula del supervisor
 $this->registerJs(
     "
-    // Función para mostrar mensajes del supervisor
-    function mostrarMensajeSupervisor(mensaje, clase) {
-        $('.origen-data-supervisor')
-            .removeClass('text-secondary text-success text-danger text-info')
-            .addClass(clase)
-            .text(mensaje);
-    }
-
-    // Función para mostrar datos del supervisor
-    function mostrarDatosSupervisor(datos) {
-        $('.tabla-datos-supervisor').removeClass('d-none');
-        $('.cedula-supervisor').text(datos.ci);
-        $('.nombre-supervisor').text(datos.nombre);
-        $('.apellido-supervisor').text(datos.apellido);
-        $('#registro-cedula_supervisor_60min').val(datos.ci);
-    }
-
-    // Función para ocultar datos del supervisor
-    function ocultarDatosSupervisor() {
-        $('.tabla-datos-supervisor').addClass('d-none');
-        $('#registro-cedula_supervisor_60min').val('');
-    }
-
-    // Función mejorada para obtener cédulas de personas afectadas
-    function obtenerCedulasAfectadas() {
-        var cedulas = [];
+    // Validación para supervisor
+    $(document).on('click', '#boton-validar-supervisor', function() {
+        var wrapper = $(this).closest('.supervisor-wrapper');
+        var search = $('#searchCedulaSup').val();
         var naturalezaId = $('#naturaleza-dropdown').val();
-        
-        // Para LABORAL, NO LABORAL y TRANSITO (2, 19, 79)
-        if ([2, 19, 79].includes(parseInt(naturalezaId))) {
-            // 1. Cédulas validadas en busqueda-cedula
-            $('.busqueda-cedula input[type=\"text\"]').each(function() {
-                if ($(this).val() && $(this).val().length >= 8) {
-                    cedulas.push($(this).val());
-                }
-            });
-            
-            // 2. Cédulas en campos ocultos
-            $('input[name^=\"Registro[cedula_pers_accide]\"]').each(function() {
-                if ($(this).val() && $(this).val().length >= 8) {
-                    cedulas.push($(this).val());
-                }
-            });
-        }
-        // Para TERCEROS (31, 35)
-        else if ([31, 35].includes(parseInt(naturalezaId))) {
-            $('.persona-natural input[id$=\"-cedula\"]').each(function() {
-                if ($(this).val() && $(this).val().length >= 8) {
-                    cedulas.push($(this).val());
-                }
-            });
-        }
-        
-        // 3. Cédulas mostradas en resultados (todas las naturalezas)
-        $('.cedula:not(.cedula-supervisor)').each(function() {
-            var cedula = $(this).text().trim();
-            if (cedula && cedula.length >= 8) {
-                cedulas.push(cedula);
-            }
-        });
-        
-        return [...new Set(cedulas)]; // Eliminar duplicados
-    }
 
-    // Función de validación principal mejorada
-    function validarSupervisorNoEsAfectado(mostrarMensaje = true) {
-        var cedulaSupervisor = $('#searchCedulas').val();
-        if (!cedulaSupervisor || cedulaSupervisor.length < 8) return true;
-        
-        var cedulasAfectadas = obtenerCedulasAfectadas();
-        var esDuplicada = cedulasAfectadas.includes(cedulaSupervisor);
-        
-        if (esDuplicada) {
-            if (mostrarMensaje) {
-                mostrarMensajeSupervisor('El supervisor no puede ser la persona afectada', 'text-danger');
-            }
-            ocultarDatosSupervisor();
-            return false;
-        }
-        return true;
-    }
-
-    // Función para forzar la validación con mensaje
-    function forzarValidacionSupervisor() {
-        var search = $('#searchCedulas').val();
-        if (search && search.length >= 8) {
-            validarSupervisorNoEsAfectado(true);
-        }
-    }
-
-    // Validación al hacer click en el botón
-    $('#boton-validar-cedulas').on('click', function(e) {
-        e.preventDefault();
-        var search = $('#searchCedulas').val();
-
-        if (!/^[0-9]{8,}$/.test(search)) {
-            mostrarMensajeSupervisor('La cédula debe tener al menos 8 dígitos', 'text-danger');
-            ocultarDatosSupervisor();
+        // Verificar duplicados antes de validar
+        if (verificarCedulasDuplicadas(wrapper)) {
             return;
         }
 
-        // Validar con mensaje
-        if (!validarSupervisorNoEsAfectado(true)) return;
+        if (!/^[0-9]{8,}$/.test(search)) {
+            wrapper.find('.origen-data').removeClass('text-success')
+                                      .addClass('text-danger')
+                                      .text('La cédula debe tener al menos 8 dígitos y solo contener números.');
+            return;
+        }
 
-        mostrarMensajeSupervisor('Validando...', 'text-secondary');
-        
-        $.ajax({
-            url: '" . Url::toRoute('registro/validar-cedula') . "',
-            type: 'post',
-            dataType: 'json',
-            data: {search: search}
-        })
-        .done(function(response) {
-            // Validar con mensaje
-            if (!validarSupervisorNoEsAfectado(true)) return;
-            
-            if (!response.ci) {
-                mostrarMensajeSupervisor('Cédula no encontrada', 'text-danger');
-                ocultarDatosSupervisor();
-            } else {
-                mostrarMensajeSupervisor('Datos encontrados', 'text-success');
-                mostrarDatosSupervisor(response);
-            }
-        })
-        .fail(function() {
-            mostrarMensajeSupervisor('Error en la validación', 'text-danger');
-            ocultarDatosSupervisor();
-        });
-    });
+        if (naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79) {
+            $.ajax({
+                url: '".Url::to(['registro/validar-cedula'])."',
+                type: 'post',
+                dataType: 'json',
+                data: {search: search}
+            })
+            .done(function(response) {
+                // Verificar nuevamente por si hubo cambios
+                if (verificarCedulasDuplicadas(wrapper)) {
+                    return;
+                }
 
-    // Ocultar datos cuando cambia la cédula del supervisor
-    $('#searchCedulas').on('change input', function() {
-        if ($(this).val().length >= 8) {
-            // Validar sin mostrar mensaje (para no mostrar el mensaje en cada tecla presionada)
-            validarSupervisorNoEsAfectado(false);
-        } else {
-            ocultarDatosSupervisor();
-            $('.origen-data-supervisor').text('').removeClass('text-danger text-success');
+                if (!response.ci) {
+                    wrapper.find('.origen-data').removeClass('text-success')
+                                              .addClass('text-danger')
+                                              .text('La cédula no se encuentra en el sistema.');
+                    wrapper.find('.registro-cedula_supervisor_60min').val('');
+                    return;
+                }
+
+                wrapper.find('.origen-data').removeClass('text-danger')
+                                          .addClass('text-success')
+                                          .text('Datos encontrados en Personal.');
+                wrapper.find('.tabla-datos').removeClass('d-none');
+                wrapper.find('.cedula').text(response.ci);
+                wrapper.find('.nombre').text(response.nombre);
+                wrapper.find('.apellido').text(response.apellido);
+                wrapper.find('.telefono').text(response.Telefono);
+                wrapper.find('.empresa').text(response.Empresa);
+                wrapper.find('.registro-cedula_supervisor_60min').val(response.ci);
+            })
+            .fail(function() {
+                wrapper.find('.origen-data')
+                    .removeClass('text-success')
+                    .addClass('text-danger')
+                    .text('Error al validar la cédula.');
+            });
         }
     });
 
-    // Eventos para validación en tiempo real (con mensaje cuando se agrega/modifica una persona afectada)
-    $(document).on('change keyup', [
-        '.busqueda-cedula input',
-        'input[name^=\"Registro[cedula_pers_accide]\"]',
-        '.persona-natural input[id$=\"-cedula\"]'
-    ].join(','), function() {
-        setTimeout(forzarValidacionSupervisor, 300); // Pequeño delay para asegurar que el valor esté actualizado
-    });
-
+    // Manejar cambio en naturaleza de accidente
     $(document).on('change', '#naturaleza-dropdown, #naturaleza-dropdown-adicional', function() {
-        setTimeout(forzarValidacionSupervisor, 300);
-    });
+        var naturalezaId = $('#naturaleza-dropdown').val();
+        var naturalezasSinPersonas = [61, 92];
+        
+        $('.supervisor-wrapper').each(function() {
+            var wrapper = $(this);
+            wrapper.find('input').val('');
+            wrapper.find('.tabla-datos').addClass('d-none');
+            wrapper.find('.origen-data, .help-block').text('').removeClass('text-danger text-success');
 
-    $(document).on('click', '#agregar-persona', function() {
-        setTimeout(forzarValidacionSupervisor, 500); // Mayor delay para permitir que se complete la adición
-    });
+            if (naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79) {
+                wrapper.find('.busqueda-supervisor').removeClass('d-none');
+                wrapper.find('.supervisor-manual').addClass('d-none');
+            } else if (naturalezaId == 31 || naturalezaId == 35) {
+                wrapper.find('.busqueda-supervisor').addClass('d-none');
+                wrapper.find('.supervisor-manual').removeClass('d-none');
+            } else {
+                wrapper.find('.busqueda-supervisor, .supervisor-manual').addClass('d-none');
+            }
+        });
 
-    // Control del botón
-    $('#boton-validar-cedulas').prop('disabled', true);
-    $('#searchCedulas').on('input', function() {
-        $('#boton-validar-cedulas').prop('disabled', $(this).val().length < 8);
-        if ($(this).val().length >= 8) {
-            validarSupervisorNoEsAfectado(false);
+        if (naturalezaId && !naturalezasSinPersonas.includes(parseInt(naturalezaId))) {
+            $('#agregar-persona, #sub-container').removeClass('d-none');
+        } else {
+            $('#agregar-persona, #sub-container').addClass('d-none');
         }
     });
     ",
     View::POS_READY,
-    'validacion_cedula_supervisor'
+    'validacion-supervisor'
 );
 
 ?>

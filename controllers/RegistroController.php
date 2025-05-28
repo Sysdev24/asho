@@ -294,7 +294,7 @@ class RegistroController extends Controller
     public function actionUpdate($id_registro)
     {
         $model = $this->findModel($id_registro);
-        $modelPersonaNatural= new PersonaNatural();
+        $modelPersonaNatural= PersonaNatural::find()->all();
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');

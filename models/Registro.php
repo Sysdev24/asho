@@ -171,7 +171,7 @@ class Registro extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'id_estatus_proceso' => 'Estatus Proceso',
             'id_region' => 'Region',
-            'acciones_tomadas_60min' => 'Acciones Tomadas 60min',
+            'acciones_tomadas_60min' => 'Acciones Tomadas',
             'cedula_reporta' => 'Cedula Reporta',
             'cedula_pers_accide' => 'Cedula Pers Accide',
             'cedula_validad_60min' => 'Cedula Validad 60min',
@@ -186,7 +186,7 @@ class Registro extends \yii\db\ActiveRecord
             'recomendaciones_24horas' => 'Recomendaciones 24horas',
             'autorizado_24horas' => 'Autorizado 24horas',
             'cedula_valid_24horas' => 'Cedula Valid 24horas',
-            'descripcion_accidente_60min' => 'Descripcion Accidente 60min',
+            'descripcion_accidente_60min' => 'Descripción del Accidente',
             'id_gerencia' => 'Id Gerencia',
             'correlativo' => 'Correlativo',
             'id_naturaleza_accidente' => 'Naturaleza Accidente',
@@ -201,15 +201,26 @@ class Registro extends \yii\db\ActiveRecord
     }
 
     public function beforeSave($insert)
-    {
+{
+    if (parent::beforeSave($insert)) {
+        // Para poner en mayúsculas
+        $this->lugar = mb_strtoupper($this->lugar);
+
+        //
         if (parent::beforeSave($insert)) {
-            //para poner en mayúsculas
-            $this->lugar = mb_strtoupper($this->lugar);
-            return true;
-        } else {
-            return false;
+            if ($insert) {
+                // Calcula el orden basado en el número de personas registradas para este id_registro
+                $ultimoOrden = self::find()->where(['id_registro' => $this->id_registro])->count();
+                $this->orden_persona = $ultimoOrden + 1; // Asigna el siguiente número de orden
+            }
         }
+
+        return true;
     }
+
+    return false;
+}
+
 
     
 
@@ -218,6 +229,11 @@ class Registro extends \yii\db\ActiveRecord
         if ($this->cedula_pers_accide == $this->cedula_supervisor_60min) {
             $this->addError($attribute, 'El supervisor no puede ser la persona afectada.');
         }
+    }
+
+    public function getPersonal()
+    {
+        return $this->hasOne(Personal::class, ['ci' => 'cedula_pers_accide']);
     }
 
     /**
