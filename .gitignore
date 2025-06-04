@@ -15,6 +15,8 @@ Thumbs.db
 # composer vendor dir
 /vendor
 
+/runtime
+
 # composer itself is not needed
 composer.phar
 
@@ -34,7 +36,6 @@ tests/_support/_generated
 
 # Directorios a ignorar
 web/assets/
-
 
 # Archivos a ignorar
 config/params.php

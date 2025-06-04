@@ -41,7 +41,7 @@ class PersonaNatural extends \yii\db\ActiveRecord
         return [
             [['nombre', 'apellido', 'telefono', 'empresa'], 'string'],
             //[['nombre', 'apellido', 'telefono', 'empresa'], 'required'],
-            [['cedula', 'nombre', 'apellido', 'telefono', 'fecha_nac', 'empresa'], 'required', 'when' => function($model) {
+            [['cedula', 'nombre', 'apellido', 'telefono', 'empresa'], 'required', 'when' => function($model) {
                 $registro = Registro::findOne(['id_naturaleza_accidente' => Yii::$app->request->post('Registro')['id_naturaleza_accidente']]);
                 return $registro && !in_array($registro->id_naturaleza_accidente, [2, 19, 79, 61, 92]);
             }, 'whenClient' => "function (attribute, value) {
@@ -62,6 +62,8 @@ class PersonaNatural extends \yii\db\ActiveRecord
             [['id_registro', 'cedula'], 'integer'],
             ['telefono', 'match', 'pattern' => '/^[0-9]{11}$/', 'message' => '* Número de teléfono no válido.'],
             [['nombre', 'apellido', 'telefono'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => '* No se permiten espacios al principio o al final.'],
+            //['nombre', 'apellido', 'telefono', 'filter' => 'trim'], //eliminar espacios
+            
 
             [['cedula', 'nombre', 'apellido', 'telefono', 'fecha_nac', 'empresa', 'id_registro'], 'safe'],
         ];

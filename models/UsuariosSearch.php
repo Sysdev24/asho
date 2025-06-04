@@ -108,7 +108,7 @@ class UsuariosSearch extends Usuarios
 
         // oculta estatus inactivo
         if( !(ArrayHelper::keyExists('admin', $userRoles, false)) ) {
-            $query->andFilterWhere(['id_estatus' => [1,4,5,6]]);
+            $query->andFilterWhere(['usuarios.id_estatus' => [1,4,5,6]]);
         }
 
         // grid filtering conditions

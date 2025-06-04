@@ -44,6 +44,11 @@ class RoleSearch extends Model
         $list = AuthRbac::searchInArrayData(AuthRbac::getRoles(), [
             'name'=>$this->name, 'description'=>$this->description
         ]);
+
+        // oculta estatus inactivo
+        // if( !(ArrayHelper::keyExists('admin', $userRoles, false)) ) {
+        //     $query->andFilterWhere(['id_estatus' => [1,4,5,6]]);
+        // }
         
 
         $dataProvider = new ArrayDataProvider([
@@ -68,8 +73,3 @@ $auth = \Yii::$app->authManager;
 // Busqueda dependiendo del usuario
 $userId = \Yii::$app->user->identity->id;
 $userRoles = $auth->getRolesByUser($userId);
-
-// oculta estatus inactivo
-if( !(ArrayHelper::keyExists('admin', $userRoles, false)) ) {
-    $query->andFilterWhere(['id_estatus' => [1,4,5,6]]);
-}

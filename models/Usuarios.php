@@ -43,6 +43,8 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
     public $searchCedula;
+    public $roles;
+
     /**
      * {@inheritdoc}
      */
@@ -61,7 +63,6 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['username', 'password', 'password_hash'], 'string', 'max' => 255],
             [['username' ], 'string'],
             [['username', 'authKey', 'accesstoken'], 'string'],
-            [['username', 'password'], 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
 
             ['password_hash', 'string', 'min' => 6, 'message' => 'La contraseña debe tener mínimo 6 caracteres.'],
 
@@ -71,8 +72,8 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             ['password', 'required', 'message' => 'La contraseña es obligatoria.'],
 
 
-            [['name'], 'each', 'rule' => ['string']],
-            [['name'], 'required'],
+            [['roles'], 'each', 'rule' => ['string']],
+            [['roles'], 'required'],
         	// ['name', 'in', 'range' => self::getSystemRoles(), 'allowArray' => true],
 
             [['ci'], 'unique'],
@@ -91,6 +92,8 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
            // [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
 
             ['id_estatus', 'validatePersonalBeforeActivating'],
+
+            ['username', 'filter', 'filter' => 'trim'],
         ];
     }
 
@@ -145,6 +148,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'name' => 'Roles',
+            'roles' => 'Roles',
             'authKey' => 'Auth Key',
             'accesstoken' => 'Accesstoken',
             'nacionalidad' => 'Nacionalidad',

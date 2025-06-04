@@ -46,7 +46,8 @@ class CausaInmediataDirectas extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'safe'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             [['descripcion'], 'required'],
-            ['descripcion', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+            ['descripcion', 'filter', 'filter' => 'trim'],
+
 
         ];
     }

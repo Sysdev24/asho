@@ -94,12 +94,15 @@ class RegistroController extends Controller
     {
         $model = new Registro();
         $modelPersonaNatural = [new PersonaNatural()];
+        $modelSupervisor = new PersonaNatural();
         $personalData = null;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
+                    // var_dump($model->cedula_supervisor_60min);
+                    // exit;
                     // 1. Establecer el estatus de proceso inicial
                     $model->id_estatus_proceso = 6; // Ajusta según tu lógica de negocio
 
@@ -122,6 +125,27 @@ class RegistroController extends Controller
                     
                     $nroAccidente = $codigoRegion . '0' . $year . $correlativo . $descripcionNaturaleza;
                     $model->nro_accidente = $nroAccidente;
+
+                    // Manejar el supervisor manual (no como array)
+                    $naturalezaId = $model->id_naturaleza_accidente;
+                    
+                    if ($naturalezaId == 31 || $naturalezaId == 35) {
+                        // Cargar datos del supervisor manual directamente
+                        if ($modelSupervisor->load($this->request->post())) {
+                            $modelSupervisor->id_registro = $model->id_registro;
+                            //$modelSupervisor->es_supervisor = 1; // Marcar como supervisor
+                            
+                            if (!$modelSupervisor->save()) {
+                                throw new \yii\db\Exception('Error al guardar supervisor: ' . json_encode($modelSupervisor->errors));
+                            }
+                            
+                            // Asignar cédula del supervisor al modelo principal
+                            $model->cedula_supervisor_60min = $modelSupervisor->cedula;
+                        }
+                    } else {
+                        // Para otros casos, usar la cédula del campo oculto
+                        $model->cedula_supervisor_60min = $this->request->post('Registro')['cedula_supervisor_60min'] ?? null;
+                    }
 
                     // 3. Obtener datos de personas
                     $personasData = $this->request->post('PersonaNatural', []);
@@ -167,7 +191,6 @@ class RegistroController extends Controller
                         }
                     }
 
-                    // 6. Manejar registros secundarios
                     // 6. Manejar registros secundarios
                     if ($model->id_naturaleza_accidente == 31 || $model->id_naturaleza_accidente == 35) {
                         // Personas Naturales - incluyendo la primera (índice 0)
@@ -240,6 +263,7 @@ class RegistroController extends Controller
         return $this->render('create', [
             'model' => $model,
             'modelPersonaNatural' => $modelPersonaNatural,
+            'modelSupervisor' => $modelSupervisor,
             'personalData' => $personalData,
             'magnitudes' => ArrayHelper::map(Magnitud::find()->all(), 'id_magnitud', 'descripcion'),
         ]);

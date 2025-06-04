@@ -111,7 +111,7 @@ class UsuariosController extends Controller
             try {
                 if ($model->validate() && $model->save()) {
                     $auth = Yii::$app->authManager;
-                    foreach ($model->name as $rol) { // Usar name directamente
+                    foreach ($model->roles as $rol) { // Usar name directamente
                         $role = $auth->getRole($rol);
                         $auth->assign($role, $model->id_usuario);
                         
@@ -157,20 +157,20 @@ class UsuariosController extends Controller
         }
 
         // Selecciona roles del usuario y convierte a array para el formulario
-        $model->name = $model->getUserRoles();
+        $model->roles = $model->getUserRoles();
 
         if ($model->load($this->request->post())) {
             // Iniciar transacción
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 // Verificar si hay roles seleccionados
-                if (is_array($model->name) && count($model->name) > 0) {
+                if (is_array($model->roles) && count($model->roles) > 0) {
                     // Revocar todos los roles actuales
                     $auth = Yii::$app->authManager;
                     $auth->revokeAll($model->id_usuario);
 
                     // Asignar los nuevos roles
-                    foreach ($model->name as $rol) {
+                    foreach ($model->roles as $rol) {
                         $role = $auth->getRole($rol);
                         $auth->assign($role, $model->id_usuario);
                     }

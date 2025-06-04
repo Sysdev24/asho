@@ -42,7 +42,7 @@ class Nacionalidad extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'safe'],
             [['letra'], 'unique'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
-            ['letra', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+            ['letra', 'filter', 'filter' => 'trim'], //eliminar espacios
 
         ];
     }

@@ -47,7 +47,8 @@ class TipAccCategoria extends \yii\db\ActiveRecord
             [['complete_name'], 'string', 'max' => 512],
             [['parent_path'], 'string', 'max' => 32],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
-            ['name', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+            ['name', 'filter', 'filter' => 'trim'], //eliminar espacios
+
         ];
     }
 

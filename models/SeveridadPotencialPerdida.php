@@ -50,7 +50,7 @@ class SeveridadPotencialPerdida extends \yii\db\ActiveRecord
             [['id_eva_pot_per'], 'exist', 'skipOnError' => true, 'targetClass' => EvaluacionPotencialPerdida::class, 'targetAttribute' => ['id_eva_pot_per' => 'id_eva_pot_per']],
             ['descripcion', 'match', 'pattern' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,255}$/', 'message' => 'Solo se admiten letras.'],
             [['descripcion'], sensibleMayuscMinuscValidator::class, 'on' => self::SCENARIO_CREATE],
-            ['descripcion', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+            ['descripcion', 'filter', 'filter' => 'trim'],
         ];
     }
 

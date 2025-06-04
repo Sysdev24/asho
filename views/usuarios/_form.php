@@ -60,7 +60,7 @@ use yii\helpers\Url;
 
     <h2>Asignar rol</h2>
 
-    <?= $form->field($model, 'name', [
+    <?= $form->field($model, 'roles', [
         'template' => "<div>{input}\n{error}</div>",
     ])->checkboxList(ArrayHelper::map(Yii::$app->authManager->getRoles(),'name','name'), [
         'itemOptions' => [

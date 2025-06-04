@@ -56,7 +56,8 @@ class SujeAfecCategoria extends \yii\db\ActiveRecord
 
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
             
-            ['name', 'match', 'pattern' => '/^\S+(?: \S+)*$/', 'message' => 'No se permiten espacios al principio o al final.'],
+            ['name', 'filter', 'filter' => 'trim'], //eliminar espacios
+
         ];
     }
 

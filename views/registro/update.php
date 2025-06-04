@@ -16,6 +16,7 @@ $this->title = 'Actualizar Registro: ' . $model->nro_accidente;
     <?= $this->render('_form', [
         'model' => $model,
         'modelPersonaNatural' => $modelPersonaNatural,
+        'modelSupervisor' => $modelSupervisor,
         //'personalData' => $personalData, // Pasar personalData a la vista
         //'gerenciaDescripcion' => $gerenciaDescripcion,
         //'magnitudes' => $magnitudes, // Pasar el array de magnitudes a la vista

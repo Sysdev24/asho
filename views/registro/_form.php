@@ -155,7 +155,7 @@ use yii\helpers\ArrayHelper;
         <i class="fa fa-plus"></i> Agregar otra persona
     </button>
 
-    <div id="sub-container">
+    <div id="sub-container titulo-sup d-none">
     <br>
     <h3>Supervisor</h3>
     <br>
@@ -164,7 +164,7 @@ use yii\helpers\ArrayHelper;
     <!-- Campo Supervisor - Dependiente de la naturaleza -->
     <div id="supervisor-container">
         <div class="supervisor-wrapper">
-            <div class="card mb-3">
+            <div class="card mb-3 contenedor d-none">
                 <div class="card-body">
                     <div class="supervisor-buscar">
                         <div class="input-group mb-3 busqueda-supervisor d-none">
@@ -180,7 +180,6 @@ use yii\helpers\ArrayHelper;
                                             <th scope="col" class="tit-cedula">Cédula</th>
                                             <th scope="col" class="tit-nombre">Nombre</th>
                                             <th scope="col" class="tit-apellido">Apellido</th>
-                                            <th scope="col" class="tit-telefono">Telefono</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -188,23 +187,22 @@ use yii\helpers\ArrayHelper;
                                             <td class="cedula"></td>
                                             <td class="nombre"></td>
                                             <td class="apellido"></td>
-                                            <td class="telefono"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <?= $form->field($model, 'cedula_supervisor_60min')->hiddenInput()->label(false) ?> <!-- Campo oculto para cédula -->
+                        <?= $form->field($model, 'cedula_supervisor_60min')->hiddenInput(['id' => 'cedula_supervisor_60min'])->label(false) ?> <!-- Campo oculto para cédula -->
                     </div>
 
                     <!-- Supervisor Manual -->
                     <div class="supervisor-manual d-none">
-                            <?= $form->field($modelPersonaNatural[0], "[0]cedula")->textInput() ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]nombre")->textInput() ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]apellido")->textInput() ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]telefono")->textInput(['placeholder' => 'Ejemplo: 0412-1234567']) ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]empresa")->textInput() ?>
-                        </div>
+                            <?= $form->field($modelSupervisor, "cedula")->textInput() ?>
+                            <?= $form->field($modelSupervisor, "nombre")->textInput() ?>
+                            <?= $form->field($modelSupervisor, "apellido")->textInput() ?>
+                            <?= $form->field($modelSupervisor, "telefono")->textInput(['placeholder' => 'Ejemplo: 0412-1234567']) ?>
+                            <?= $form->field($modelSupervisor, "empresa")->textInput() ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -707,7 +705,41 @@ $this->registerJs(
 //Validar cedula del supervisor
 $this->registerJs(
     "
-    // Validación para supervisor
+    // Función para verificar cédulas duplicadas
+    function verificarCedulasDuplicadas(currentWrapper) {
+        var cedulas = [];
+        var duplicado = false;
+        var currentCedula = currentWrapper.find('#searchCedulaSup').val();
+        
+        if (!currentCedula) return false;
+        
+        // Recoger todas las cédulas de los wrappers excepto el actual
+        $('.supervisor-wrapper').not(currentWrapper).each(function() {
+            var cedula = $(this).find('#searchCedulaSup').val();
+            if (cedula) {
+                cedulas.push(cedula);
+            }
+        });
+        
+        // Verificar si la cédula actual ya existe
+        if (cedulas.includes(currentCedula)) {
+            currentWrapper.find('.origen-data')
+                .removeClass('text-success')
+                .addClass('text-danger')
+                .text('Esta cédula ya ha sido ingresada para otra persona afectada.');
+            duplicado = true;
+        }
+        
+        return duplicado;
+    }
+    
+    // Validación en tiempo real al escribir en el campo de cédula
+    $(document).on('input', '#searchCedulaSup', function() {
+        var wrapper = $(this).closest('.supervisor-wrapper');
+        verificarCedulasDuplicadas(wrapper);
+    });
+
+    // Validación para supervisor (tu código existente modificado)
     $(document).on('click', '#boton-validar-supervisor', function() {
         var wrapper = $(this).closest('.supervisor-wrapper');
         var search = $('#searchCedulaSup').val();
@@ -725,7 +757,7 @@ $this->registerJs(
             return;
         }
 
-        if (naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79) {
+        if (naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79 || naturalezaId == 61 || naturalezaId == 92) {
             $.ajax({
                 url: '".Url::to(['registro/validar-cedula'])."',
                 type: 'post',
@@ -733,6 +765,8 @@ $this->registerJs(
                 data: {search: search}
             })
             .done(function(response) {
+                console.log('Respuesta del servidor:', response);
+                
                 // Verificar nuevamente por si hubo cambios
                 if (verificarCedulasDuplicadas(wrapper)) {
                     return;
@@ -742,7 +776,7 @@ $this->registerJs(
                     wrapper.find('.origen-data').removeClass('text-success')
                                               .addClass('text-danger')
                                               .text('La cédula no se encuentra en el sistema.');
-                    wrapper.find('.registro-cedula_supervisor_60min').val('');
+                    wrapper.find('#cedula_supervisor_60min').val('');
                     return;
                 }
 
@@ -755,7 +789,7 @@ $this->registerJs(
                 wrapper.find('.apellido').text(response.apellido);
                 wrapper.find('.telefono').text(response.Telefono);
                 wrapper.find('.empresa').text(response.Empresa);
-                wrapper.find('.registro-cedula_supervisor_60min').val(response.ci);
+                wrapper.find('#cedula_supervisor_60min').val(response.ci);
             })
             .fail(function() {
                 wrapper.find('.origen-data')
@@ -766,7 +800,7 @@ $this->registerJs(
         }
     });
 
-    // Manejar cambio en naturaleza de accidente
+    // Manejar cambio en naturaleza de accidente (tu código existente)
     $(document).on('change', '#naturaleza-dropdown, #naturaleza-dropdown-adicional', function() {
         var naturalezaId = $('#naturaleza-dropdown').val();
         var naturalezasSinPersonas = [61, 92];
@@ -777,12 +811,16 @@ $this->registerJs(
             wrapper.find('.tabla-datos').addClass('d-none');
             wrapper.find('.origen-data, .help-block').text('').removeClass('text-danger text-success');
 
-            if (naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79) {
+            if (naturalezaId == 2 || naturalezaId == 19 || naturalezaId == 79 || naturalezaId == 61 || naturalezaId == 92) {
                 wrapper.find('.busqueda-supervisor').removeClass('d-none');
                 wrapper.find('.supervisor-manual').addClass('d-none');
+                wrapper.find('.contenedor').removeClass('d-none');
+                wrapper.find('#sub-container').removeClass('d-none');
             } else if (naturalezaId == 31 || naturalezaId == 35) {
                 wrapper.find('.busqueda-supervisor').addClass('d-none');
                 wrapper.find('.supervisor-manual').removeClass('d-none');
+                wrapper.find('.contenedor').removeClass('d-none');
+                wrapper.find('#sub-container').removeClass('d-none');
             } else {
                 wrapper.find('.busqueda-supervisor, .supervisor-manual').addClass('d-none');
             }
@@ -791,7 +829,7 @@ $this->registerJs(
         if (naturalezaId && !naturalezasSinPersonas.includes(parseInt(naturalezaId))) {
             $('#agregar-persona, #sub-container').removeClass('d-none');
         } else {
-            $('#agregar-persona, #sub-container').addClass('d-none');
+            $('#agregar-persona, #sub-container').removeClass('d-none');
         }
     });
     ",
