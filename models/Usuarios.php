@@ -63,12 +63,15 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['username', 'password', 'password_hash'], 'string', 'max' => 255],
             [['username' ], 'string'],
             [['username', 'authKey', 'accesstoken'], 'string'],
+            [['username'], 'unique', 'message' => 'Este usuario ya fue utilizado.'],
+            [['username'], 'match', 'pattern' => '/^[A-Za-z]\d{6,7}$/', 'message' => 'El formato del código identificador es inválido. Debe ser una letra seguida de 6 o 7 números.'],
+            ['username', 'filter', 'filter' => 'trim'],
 
             ['password_hash', 'string', 'min' => 6, 'message' => 'La contraseña debe tener mínimo 6 caracteres.'],
 
 
-            
-            ['password', 'string', 'min' => 6, 'message' => 'La contraseña debe tener mínimo 6 caracteres.'],
+            ['password', 'string', 'min' => 6, 'tooShort' => 'La contraseña debe tener mínimo 6 caracteres.'],
+           //['password', 'string', 'min' => 6, 'message' => 'La contraseña debe tener mínimo 6 caracteres.'],
             ['password', 'required', 'message' => 'La contraseña es obligatoria.'],
 
 
@@ -86,14 +89,16 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['id_estatus'], 'default', 'value' => 1],
             [['id_estatus'], 'integer'],
             [['id_estatus'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus' => 'id_estatus']],
+            ['id_estatus', 'validatePersonalBeforeActivating'],
 
             [['created_at', 'updated_at'], 'safe'],
 
            // [['nacionalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Nacionalidad::class, 'targetAttribute' => ['nacionalidad' => 'letra']],
 
-            ['id_estatus', 'validatePersonalBeforeActivating'],
+          
 
-            ['username', 'filter', 'filter' => 'trim'],
+          
+           
         ];
     }
 
