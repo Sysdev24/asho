@@ -65,10 +65,11 @@ use yii\helpers\ArrayHelper;
             ['prompt' => 'Seleccionar Naturaleza de accidente', 'id' => 'naturaleza-dropdown']
         ) ?>
     </div>
+    
 
     <!-- Botón para agregar naturaleza adicional (inicialmente visible) -->
     <button type="button" id="agregar-naturaleza" class="btn btn-success" style="margin-bottom: 15px;">
-        <i class="fa fa-plus"></i>
+        <i class="fa fa-plus"></i> Agregar otra Naturaleza
     </button>
 
     <div id="sujeto-afectacion-container" class="d-none">
@@ -79,75 +80,77 @@ use yii\helpers\ArrayHelper;
 
     <!-- Contenedor para personas -->
     <div id="personas-container">
-        <!-- Persona inicial -->
-        <div class="persona-wrapper" data-index="0">
-            <div class="card mb-3 d-none">
-                <div class="card-header">
-                    <h5 class="card-title">Persona #1</h5>
-                    <button type="button" class="btn btn-danger btn-sm float-right eliminar-persona" style="display: none;">
-                        <i class="fa fa-trash"></i> Eliminar
-                    </button>
-                </div>
-                <div class="card-body">
-                    <!-- SUJETO DE AFECTACIÓN -->
-                    <div class="sujeto-afectacion">
-                        <div class="input-group mb-3 busqueda-cedula d-none">
-                            <input type="text" class="form-control" style="width: 150px;" id="searchCedula_0" name="searchCedula[]" pattern="[0-9]{8}" placeholder="Ingresar Cédula. Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                            <button class="btn btn-primary validar-cedula-btn" type="button" data-index="0">
-                                Validar
-                            </button>
-                        </div> 
+        <?php foreach ($modelPersonaNatural as $index => $personaNatural): ?>
+            <!-- Persona inicial -->
+            <div class="persona-wrapper" data-index="0">
+                <div class="card mb-3 d-none">
+                    <div class="card-header">
+                        <h5 class="card-title">Persona #1</h5>
+                        <button type="button" class="btn btn-danger btn-sm float-right eliminar-persona" style="display: none;">
+                            <i class="fa fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <!-- SUJETO DE AFECTACIÓN -->
+                        <div class="sujeto-afectacion">
+                            <div class="input-group mb-3 busqueda-cedula d-none">
+                                <input type="text" class="form-control" style="width: 150px;" id="searchCedula_0" name="searchCedula[]" pattern="[0-9]{8}" placeholder="Ingresar Cédula. Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                <button class="btn btn-primary validar-cedula-btn" type="button" data-index="0">
+                                    Validar
+                                </button>
+                            </div> 
 
-                        <div class="container-resp-ajax">
-                            <p><strong class="origen-data"></strong></p>
-                            <div class="tabla-datos d-none">
-                                <table class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" class="tit-cedula">Cédula</th>
-                                            <th scope="col" class="tit-nombre">Nombre</th>
-                                            <th scope="col" class="tit-apellido">Apellido</th>
-                                            <th scope="col" class="tit-cargo">Cargo</th>
-                                            <th scope="col" class="tit-gerencia">Gerencia</th>
-                                            <th scope="col" class="tit-nro_empleado">Nro. Empleado</th>
-                                            <th scope="col" class="tit-telefono">Telefono</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="cedula"></td>
-                                            <td class="nombre"></td>
-                                            <td class="apellido"></td>
-                                            <td class="cargo"></td>
-                                            <td class="gerencia"></td>
-                                            <td class="nro_empleado"></td>
-                                            <td class="telefono"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="container-resp-ajax">
+                                <p><strong class="origen-data"></strong></p>
+                                <div class="tabla-datos d-none">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="tit-cedula">Cédula</th>
+                                                <th scope="col" class="tit-nombre">Nombre</th>
+                                                <th scope="col" class="tit-apellido">Apellido</th>
+                                                <th scope="col" class="tit-cargo">Cargo</th>
+                                                <th scope="col" class="tit-gerencia">Gerencia</th>
+                                                <th scope="col" class="tit-nro_empleado">Nro. Empleado</th>
+                                                <th scope="col" class="tit-telefono">Telefono</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="cedula"></td>
+                                                <td class="nombre"></td>
+                                                <td class="apellido"></td>
+                                                <td class="cargo"></td>
+                                                <td class="gerencia"></td>
+                                                <td class="nro_empleado"></td>
+                                                <td class="telefono"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+
+                            <input type="hidden" class="registro-cedula_pers_accide" name="Registro[cedula_pers_accide][]">
                         </div>
 
-                        <input type="hidden" class="registro-cedula_pers_accide" name="Registro[cedula_pers_accide][]">
-                    </div>
-
-                    <!-- Persona Natural -->
-                    <div class="persona-natural d-none">
-                        <?= $form->field($modelPersonaNatural[0], "[0]cedula")->textInput() ?>
-                        <?= $form->field($modelPersonaNatural[0], "[0]nombre")->textInput() ?>
-                        <?= $form->field($modelPersonaNatural[0], "[0]apellido")->textInput() ?>
-                        <?= $form->field($modelPersonaNatural[0], "[0]telefono")->textInput(['placeholder' => 'Ejemplo: 0412-1234567']) ?>
-                        <?= $form->field($modelPersonaNatural[0], "[0]fecha_nac")->input('date', [
-                            'min' => '1000-01-01',
-                            'max' => date('Y-m-d'),
-                            'class' => 'form-control file',
-                            'placeholder' => '31/12/1990',
-                        ]) ?>
-                        <?= $form->field($modelPersonaNatural[0], "[0]empresa")->textInput() ?>
+                        <!-- Persona Natural -->
+                        <div class="persona-natural d-none">
+                            <?= $form->field($modelPersonaNatural[0], "[0]cedula")->textInput() ?>
+                            <?= $form->field($modelPersonaNatural[0], "[0]nombre")->textInput() ?>
+                            <?= $form->field($modelPersonaNatural[0], "[0]apellido")->textInput() ?>
+                            <?= $form->field($modelPersonaNatural[0], "[0]telefono")->textInput(['placeholder' => 'Ejemplo: 0412-1234567']) ?>
+                            <?= $form->field($modelPersonaNatural[0], "[0]fecha_nac")->input('date', [
+                                'min' => '1000-01-01',
+                                'max' => date('Y-m-d'),
+                                'class' => 'form-control file',
+                                'placeholder' => '31/12/1990',
+                            ]) ?>
+                            <?= $form->field($modelPersonaNatural[0], "[0]empresa")->textInput() ?>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 
     <!-- Botón para agregar otra persona -->
@@ -155,7 +158,7 @@ use yii\helpers\ArrayHelper;
         <i class="fa fa-plus"></i> Agregar otra persona
     </button>
 
-    <div id="sub-container titulo-sup d-none">
+    <div id="sub-container">
     <br>
     <h3>Supervisor</h3>
     <br>
@@ -207,7 +210,7 @@ use yii\helpers\ArrayHelper;
             </div>
         </div>
     </div>
-
+<br>
     <?= $form->field($model, 'observaciones_60min')->textInput() ?>
 
     <?= $form->field($model, 'acciones_tomadas_60min')->textInput() ?>
@@ -522,9 +525,13 @@ $this->registerJs(
         // Obtener todas las cédulas ingresadas (tanto de personal como naturales)
         $('.busqueda-cedula input[type=\"text\"], .persona-natural input[id$=\"-cedula\"]').each(function() {
             var cedula = $(this).val();
-            if (cedula && cedula.length >= 8) {
+            if (cedula &&Esta cédula ya está registrada en otra persona cedula.length >= 8) {
                 if (cedulasIngresadas.includes(cedula)) {
                     hayDuplicados = true;
+
+                    // Marcar campos duplicados
+                    $(this).addClass('is-invalid');
+
                     // Mostrar mensaje de error
                     var errorContainer = $(this).closest('.form-group').find('.help-block');
                     if (!errorContainer.length) {
@@ -549,6 +556,7 @@ $this->registerJs(
 
         // Verificar duplicados antes de validar
         if (verificarCedulasDuplicadas(wrapper)) {
+            wrapper.find('.tabla-datos').addClass('d-none'); // Oculta resultados de búsqueda
             return;
         }
 
@@ -620,11 +628,21 @@ $this->registerJs(
                 errorContainer = $(this).closest('.persona-wrapper').find('.origen-data');
             }
             
+            // if (count > 1) {
+            //     errorContainer.removeClass('text-success')
+            //                  .addClass('text-danger')
+            //                  .text('Esta cédula ya está registrada en otra persona');
+            // } else {
+            //     errorContainer.text('').removeClass('text-danger text-success');
+            // }
+
             if (count > 1) {
-                errorContainer.removeClass('text-success')
-                             .addClass('text-danger')
-                             .text('Esta cédula ya está registrada en otra persona');
+            $(this).addClass('is-invalid');
+            errorContainer.removeClass('text-success')
+                         .addClass('text-danger')
+                         .text('Esta cédula ya está registrada en otra persona');
             } else {
+                $(this).removeClass('is-invalid');
                 errorContainer.text('').removeClass('text-danger text-success');
             }
         }
@@ -705,6 +723,9 @@ $this->registerJs(
 //Validar cedula del supervisor
 $this->registerJs(
     "
+    // Ocultar el contenedor del supervisor al cargar la página
+    $('#sub-container').hide();
+
     // Función para verificar cédulas duplicadas
     function verificarCedulasDuplicadas(currentWrapper) {
         var cedulas = [];
@@ -804,6 +825,14 @@ $this->registerJs(
     $(document).on('change', '#naturaleza-dropdown, #naturaleza-dropdown-adicional', function() {
         var naturalezaId = $('#naturaleza-dropdown').val();
         var naturalezasSinPersonas = [61, 92];
+
+        if (naturalezaId) {
+            $('#sub-container').show();
+            $('.supervisor-container').show();
+        } else {
+            $('#sub-container').hide();
+            $('.supervisor-container').hide();
+        }
         
         $('.supervisor-wrapper').each(function() {
             var wrapper = $(this);

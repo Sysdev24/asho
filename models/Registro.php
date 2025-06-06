@@ -76,6 +76,9 @@ class Registro extends \yii\db\ActiveRecord
 
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
+    const SCENARIO_PRIMERA = 'primera';
+
+
     public $searchCedula;
 
 
@@ -87,16 +90,43 @@ class Registro extends \yii\db\ActiveRecord
         return 'registro';
     }
 
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_PRIMERA] = [
+            'acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'cedula_supervisor_60min', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'cedula_reporta', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'fecha_hora'
+        ];
+        $scenarios[self::SCENARIO_UPDATE] = [
+            'acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'cedula_supervisor_60min', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'cedula_pers_accide', 'cedula_supervisor_60min', 
+        ];
+        return $scenarios;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
+
+            [['acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'cedula_supervisor_60min', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'cedula_pers_accide', 'cedula_supervisor_60min', ], 'required', 'on' => self::SCENARIO_PRIMERA],
+
+            [['acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'cedula_reporta', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'fecha_hora'], 'required', 'on' => self::SCENARIO_UPDATE],
+
+           //Validació para que la cedula del supervisor solo sea requerido en las naturalezas que no sean id 31, 35
+           [['cedula_supervisor_60min'], 'required', 'when' => function($model) {
+            $registro = Registro::findOne(['id_naturaleza_accidente' => Yii::$app->request->post('Registro')['id_naturaleza_accidente']]);
+            return $registro && !in_array($registro->id_naturaleza_accidente, [31, 35]);
+            }, 'whenClient' => "function (attribute, value) {
+                var naturalezaId = $('#naturaleza-dropdown').val();
+                return !(naturalezaId == 31 || naturalezaId == 35);
+            }"],
+
+
+
             [['cedula_pers_accide', 'cedula_supervisor_60min'], 'safe'], // Permite un array de cédulas
             [['id_estado', 'fecha_hora', 'lugar', 'nro_accidente', 'cedula_supervisor_60min', 'observaciones_60min', 'autorizado_60m', 'created_at', 'updated_at', 'id_region', 'acciones_tomadas_60min', 'cedula_reporta', /*'cedula_pers_accide',*/ 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'acciones_tomadas_24horas', 'observaciones_24horas', 'recomendaciones_24horas', 'autorizado_24horas', 'cedula_valid_24horas', 'descripcion_accidente_60min', /*'id_gerencia',*/ 'correlativo', 'id_naturaleza_accidente', 'ocurrencia_hecho_60m', 'acciones_tomadas_24h', 'observaciones_24h', 'validado_por_24h', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
 
-            [['acciones_tomadas_60min', 'observaciones_60min', 'lugar'], 'required'],
             [['id_estatus_proceso'], 'default', 'value' => 6],
             [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', /*'id_gerencia',*/ 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'default', 'value' => null],
             [['id_estado', 'cedula_supervisor_60min', 'id_estatus_proceso', 'id_region', 'cedula_reporta', 'cedula_pers_accide', 'cedula_validad_60min', 'id_magnitud', 'id_tipo_accidente', 'id_tipo_trabajo', 'id_peligro_agente', 'id_sujeto_afectacion', 'cedula_24horas', 'cedula_valid_24horas', 'correlativo', 'id_naturaleza_accidente', 'id_requerimiento_trabajo_24h', 'id_afec_per_categoria', 'id_exposicion_con_cat'], 'integer'],
@@ -105,7 +135,6 @@ class Registro extends \yii\db\ActiveRecord
             [['autorizado_60m', 'autorizado_24horas'], 'boolean'],
             [['id_afec_per_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => AfecPerCategoria::class, 'targetAttribute' => ['id_afec_per_categoria' => 'id']],
             [['id_estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::class, 'targetAttribute' => ['id_estado' => 'id_estado']],
-            [['id_estado'], 'required'],
             [['id_estatus_proceso'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_estatus_proceso' => 'id_estatus']],
             [['id_requerimiento_trabajo_24h'], 'exist', 'skipOnError' => true, 'targetClass' => Estatus::class, 'targetAttribute' => ['id_requerimiento_trabajo_24h' => 'id_estatus']],
             [['id_exposicion_con_cat'], 'exist', 'skipOnError' => true, 'targetClass' => ExposicionContacCategoria::class, 'targetAttribute' => ['id_exposicion_con_cat' => 'id']],
@@ -126,19 +155,7 @@ class Registro extends \yii\db\ActiveRecord
             [['id_tipo_trabajo'], 'exist', 'skipOnError' => true, 'targetClass' => TipoTrabajo::class, 'targetAttribute' => ['id_tipo_trabajo' => 'id_tipo_trabajo']],
 
             [['searchCedula'], 'match', 'pattern' => '/^[0-9]{8}$/', 'message' => 'La cedula debe tener 8 dígitos.'],
-
-           // [['cedula_supervisor_60min'], 'validateSupervisorCedula'],
-
-        //    ['cedula_supervisor_60min', 'required', 'when' => function($model) {
-        //     return in_array($model->id_naturaleza, [2, 19, 79]);
-        //     }],
-
-           //[['cedula_supervisor_60min'], 'required'],
-           //[['cedula_supervisor_60min'], 'required', 'on' => self::SCENARIO_CREATE],
-
-
-
-
+           
         ];
     }
 
@@ -179,11 +196,11 @@ class Registro extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'id_estatus_proceso' => 'Estatus Proceso',
-            'id_region' => 'Region',
+            'id_region' => 'Región',
             'acciones_tomadas_60min' => 'Acciones Tomadas',
-            'cedula_reporta' => 'Cedula Reporta',
-            'cedula_pers_accide' => 'Cedula Pers Accide',
-            'cedula_validad_60min' => 'Cedula Validad 60min',
+            'cedula_reporta' => 'Cédula que Reporta',
+            'cedula_pers_accide' => 'C.I. Accidentado',
+            'cedula_validad_60min' => 'Cédula Validad 60min',
             'id_magnitud' => 'Magnitud',
             'id_tipo_accidente' => 'Id Tipo Accidente',
             'id_tipo_trabajo' => 'Id Tipo Trabajo',
@@ -228,6 +245,29 @@ class Registro extends \yii\db\ActiveRecord
         }
 
         return false;
+    }
+
+    public function GenerarNumeroAccidente(){
+        $estado = Estados::findOne($this->id_estado);
+        $codigoRegion = $estado ? $estado->codigo_region : '00';
+        $year = date('y');
+
+        $ultimoAccidente = Registro::find()
+            ->where(['like', 'nro_accidente', $codigoRegion . '0' . $year . '%', false])
+            ->orderBy(['nro_accidente' => SORT_DESC])
+            ->one();
+
+        $correlativo = $ultimoAccidente ? 
+            str_pad((int)substr($ultimoAccidente->nro_accidente, 5, 5) + 1, 5, '0', STR_PAD_LEFT) : 
+            '00001';
+
+        $naturalezaAccidente = NaturalezaAccidente::findOne($this->id_naturaleza_accidente);
+        $descripcionNaturaleza = $naturalezaAccidente ? $naturalezaAccidente->codigo : '';
+        
+        $this->nro_accidente  = $codigoRegion . '0' . $year . $correlativo . $descripcionNaturaleza;
+
+        return $this->nro_accidente;
+        
     }
 
 

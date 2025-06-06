@@ -96,35 +96,19 @@ class RegistroController extends Controller
         $modelPersonaNatural = [new PersonaNatural()];
         $modelSupervisor = new PersonaNatural();
         $personalData = null;
+        $model->scenario = Registro::SCENARIO_PRIMERA;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
-                    // var_dump($model->cedula_supervisor_60min);
-                    // exit;
+
                     // 1. Establecer el estatus de proceso inicial
                     $model->id_estatus_proceso = 6; // Ajusta según tu lógica de negocio
 
                     // 2. Generar número de accidente
-                    $estado = Estados::findOne($model->id_estado);
-                    $codigoRegion = $estado ? $estado->codigo_region : '00';
-                    $year = date('y');
-
-                    $ultimoAccidente = Registro::find()
-                        ->where(['like', 'nro_accidente', $codigoRegion . '0' . $year . '%', false])
-                        ->orderBy(['nro_accidente' => SORT_DESC])
-                        ->one();
-
-                    $correlativo = $ultimoAccidente ? 
-                        str_pad((int)substr($ultimoAccidente->nro_accidente, 5, 5) + 1, 5, '0', STR_PAD_LEFT) : 
-                        '00001';
-
-                    $naturalezaAccidente = NaturalezaAccidente::findOne($model->id_naturaleza_accidente);
-                    $descripcionNaturaleza = $naturalezaAccidente ? $naturalezaAccidente->codigo : '';
-                    
-                    $nroAccidente = $codigoRegion . '0' . $year . $correlativo . $descripcionNaturaleza;
-                    $model->nro_accidente = $nroAccidente;
+                    $model->GenerarNumeroAccidente();
 
                     // Manejar el supervisor manual (no como array)
                     $naturalezaId = $model->id_naturaleza_accidente;
@@ -133,7 +117,6 @@ class RegistroController extends Controller
                         // Cargar datos del supervisor manual directamente
                         if ($modelSupervisor->load($this->request->post())) {
                             $modelSupervisor->id_registro = $model->id_registro;
-                            //$modelSupervisor->es_supervisor = 1; // Marcar como supervisor
                             
                             if (!$modelSupervisor->save()) {
                                 throw new \yii\db\Exception('Error al guardar supervisor: ' . json_encode($modelSupervisor->errors));
@@ -180,7 +163,7 @@ class RegistroController extends Controller
                     if (isset($_POST['naturaleza_adicional'])) {
                         $registroAdicional = new RegistroAdicional();
                         $registroAdicional->id_registro = $idRegistroPrincipal;
-                        $registroAdicional->nro_accidente = $nroAccidente;
+                        $registroAdicional->nro_accidente = $model->nro_accidente;
                         $registroAdicional->id_naturaleza_accidente = $_POST['naturaleza_adicional'];
                         $registroAdicional->id_estatus_proceso = $model->id_estatus_proceso; // Mismo estatus
                         $registroAdicional->id_magnitud = $model->id_magnitud;
@@ -251,7 +234,7 @@ class RegistroController extends Controller
                     }
 
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', 'Registro guardado. N° Accidente: ' . $nroAccidente);
+                    Yii::$app->session->setFlash('success', 'Registro guardado. N° Accidente: ' . $model->nro_accidente);
                     return $this->redirect(['index', 'id_registro' => $model->id_registro]);
                 } catch (\Exception $e) {
                     $transaction->rollBack();
@@ -318,16 +301,24 @@ class RegistroController extends Controller
     public function actionUpdate($id_registro)
     {
         $model = $this->findModel($id_registro);
-        $modelPersonaNatural= PersonaNatural::find()->all();
+        $personasNaturales = PersonaNatural::find()->all();
+        $model->scenario = Registro::SCENARIO_UPDATE;
+        
+        // Asegurar que al menos hay un modelo disponible
+        $modelPersonaNatural = $personasNaturales ?: [new PersonaNatural()];
+        $modelSupervisor = new PersonaNatural();
+        $personalData = null;
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Actualizacion exitosa.');
+            Yii::$app->session->setFlash('success', 'Actualización exitosa.');
             return $this->redirect(['index', 'id_registro' => $model->id_registro]);
         }
 
         return $this->render('update', [
             'model' => $model,
             'modelPersonaNatural' => $modelPersonaNatural,
+            'modelSupervisor' => $modelSupervisor,
+            'personalData' => $personalData,
         ]);
     }
 

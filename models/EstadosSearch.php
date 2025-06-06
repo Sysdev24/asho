@@ -90,7 +90,7 @@ class EstadosSearch extends Estados
 
         // oculta estatus inactivo
         if( !(ArrayHelper::keyExists('admin', $userRoles, false)) ) {
-            $query->andFilterWhere(['id_estatus' => [1,4,5,6]]);
+            $query->andFilterWhere(['estados.id_estatus' => [1,4,5,6]]);
         }
 
         // grid filtering conditions

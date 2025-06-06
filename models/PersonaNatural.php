@@ -96,15 +96,15 @@ class PersonaNatural extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'nombre' => 'Nombre',
-            'apellido' => 'Apellido',
+            'nombre' => 'Nombres',
+            'apellido' => 'Apellidos',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'telefono' => 'Telefono',
+            'telefono' => 'Teléfono',
             'fecha_nac' => 'Fecha de Nacimiento',
             'id_registro' => 'ID Registro',
             'empresa' => 'Empresa',
-            'cedula' => 'Cedula',
+            'cedula' => 'Cédula',
         ];
     }
 
