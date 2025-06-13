@@ -80,77 +80,75 @@ use yii\helpers\ArrayHelper;
 
     <!-- Contenedor para personas -->
     <div id="personas-container">
-        <?php foreach ($modelPersonaNatural as $index => $personaNatural): ?>
-            <!-- Persona inicial -->
-            <div class="persona-wrapper" data-index="0">
-                <div class="card mb-3 d-none">
-                    <div class="card-header">
-                        <h5 class="card-title">Persona #1</h5>
-                        <button type="button" class="btn btn-danger btn-sm float-right eliminar-persona" style="display: none;">
-                            <i class="fa fa-trash"></i> Eliminar
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <!-- SUJETO DE AFECTACIÓN -->
-                        <div class="sujeto-afectacion">
-                            <div class="input-group mb-3 busqueda-cedula d-none">
-                                <input type="text" class="form-control" style="width: 150px;" id="searchCedula_0" name="searchCedula[]" pattern="[0-9]{8}" placeholder="Ingresar Cédula. Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                <button class="btn btn-primary validar-cedula-btn" type="button" data-index="0">
-                                    Validar
-                                </button>
-                            </div> 
+        <!-- Persona inicial -->
+        <div class="persona-wrapper" data-index="0">
+            <div class="card mb-3 d-none">
+                <div class="card-header">
+                    <h5 class="card-title">Persona #1</h5>
+                    <button type="button" class="btn btn-danger btn-sm float-right eliminar-persona" style="display: none;">
+                        <i class="fa fa-trash"></i> Eliminar
+                    </button>
+                </div>
+                <div class="card-body">
+                    <!-- SUJETO DE AFECTACIÓN -->
+                    <div class="sujeto-afectacion">
+                        <div class="input-group mb-3 busqueda-cedula d-none">
+                            <input type="text" class="form-control" style="width: 150px;" id="searchCedula_0" name="searchCedula[]" pattern="[0-9]{8}" placeholder="Ingresar Cédula. Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            <button class="btn btn-primary validar-cedula-btn" type="button" data-index="0">
+                                Validar
+                            </button>
+                        </div> 
 
-                            <div class="container-resp-ajax">
-                                <p><strong class="origen-data"></strong></p>
-                                <div class="tabla-datos d-none">
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="tit-cedula">Cédula</th>
-                                                <th scope="col" class="tit-nombre">Nombre</th>
-                                                <th scope="col" class="tit-apellido">Apellido</th>
-                                                <th scope="col" class="tit-cargo">Cargo</th>
-                                                <th scope="col" class="tit-gerencia">Gerencia</th>
-                                                <th scope="col" class="tit-nro_empleado">Nro. Empleado</th>
-                                                <th scope="col" class="tit-telefono">Telefono</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="cedula"></td>
-                                                <td class="nombre"></td>
-                                                <td class="apellido"></td>
-                                                <td class="cargo"></td>
-                                                <td class="gerencia"></td>
-                                                <td class="nro_empleado"></td>
-                                                <td class="telefono"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div class="container-resp-ajax">
+                            <p><strong class="origen-data"></strong></p>
+                            <div class="tabla-datos d-none">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="tit-cedula">Cédula</th>
+                                            <th scope="col" class="tit-nombre">Nombre</th>
+                                            <th scope="col" class="tit-apellido">Apellido</th>
+                                            <th scope="col" class="tit-cargo">Cargo</th>
+                                            <th scope="col" class="tit-gerencia">Gerencia</th>
+                                            <th scope="col" class="tit-nro_empleado">Nro. Empleado</th>
+                                            <th scope="col" class="tit-telefono">Telefono</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cedula"></td>
+                                            <td class="nombre"></td>
+                                            <td class="apellido"></td>
+                                            <td class="cargo"></td>
+                                            <td class="gerencia"></td>
+                                            <td class="nro_empleado"></td>
+                                            <td class="telefono"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <input type="hidden" class="registro-cedula_pers_accide" name="Registro[cedula_pers_accide][]">
                         </div>
 
-                        <!-- Persona Natural -->
-                        <div class="persona-natural d-none">
-                            <?= $form->field($modelPersonaNatural[0], "[0]cedula")->textInput() ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]nombre")->textInput() ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]apellido")->textInput() ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]telefono")->textInput(['placeholder' => 'Ejemplo: 0412-1234567']) ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]fecha_nac")->input('date', [
-                                'min' => '1000-01-01',
-                                'max' => date('Y-m-d'),
-                                'class' => 'form-control file',
-                                'placeholder' => '31/12/1990',
-                            ]) ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]empresa")->textInput() ?>
-                        </div>
+                        <input type="hidden" class="registro-cedula_pers_accide" name="Registro[cedula_pers_accide][]">
+                    </div>
+
+                    <!-- Persona Natural -->
+                    <div class="persona-natural d-none">
+                        <?= $form->field($modelPersonaNatural[0], "[0]cedula")->textInput() ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]nombre")->textInput() ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]apellido")->textInput() ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]telefono")->textInput(['placeholder' => 'Ejemplo: 0412-1234567']) ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]fecha_nac")->input('date', [
+                            'min' => '1000-01-01',
+                            'max' => date('Y-m-d'),
+                            'class' => 'form-control file',
+                            'placeholder' => '31/12/1990',
+                        ]) ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]empresa")->textInput() ?>
                     </div>
                 </div>
             </div>
-        <?php endforeach; ?>
+        </div>
     </div>
 
     <!-- Botón para agregar otra persona -->
@@ -175,7 +173,7 @@ use yii\helpers\ArrayHelper;
                             <button class="btn btn-primary" type="button" id="boton-validar-supervisor">Validar</button>
                         </div>
                         <div class="container-resp-ajax">
-                            <p><strong id="origen-data"></strong></p>
+                            <p><strong id="origen-data-supervisor"></strong></p>
                             <div class="tabla-datos d-none">
                                 <table class="table table-striped table-bordered">
                                     <thead>
@@ -521,17 +519,18 @@ $this->registerJs(
     function verificarCedulasDuplicadas(wrapperActual) {
         var cedulasIngresadas = [];
         var hayDuplicados = false;
+        var esPersonaNatural = false;
         
         // Obtener todas las cédulas ingresadas (tanto de personal como naturales)
         $('.busqueda-cedula input[type=\"text\"], .persona-natural input[id$=\"-cedula\"]').each(function() {
             var cedula = $(this).val();
-            if (cedula &&Esta cédula ya está registrada en otra persona cedula.length >= 8) {
+            if (cedula && cedula.length >= 8) {
                 if (cedulasIngresadas.includes(cedula)) {
                     hayDuplicados = true;
-
-                    // Marcar campos duplicados
-                    $(this).addClass('is-invalid');
-
+                    // Verificar si es persona natural
+                    if ($(this).closest('.persona-natural').length > 0) {
+                        esPersonaNatural = true;
+                    }
                     // Mostrar mensaje de error
                     var errorContainer = $(this).closest('.form-group').find('.help-block');
                     if (!errorContainer.length) {
@@ -545,7 +544,18 @@ $this->registerJs(
             }
         });
         
-        return hayDuplicados;
+        return {hayDuplicados: hayDuplicados, esPersonaNatural: esPersonaNatural};
+    }
+
+    // Función para verificar si el supervisor es la misma persona que se está ingresando
+    function verificarSupervisorVsPersona(cedulaIngresada) {
+        // Obtener la cédula del supervisor (ajusta este selector según tu HTML)
+        var cedulaSupervisor = $('#searchCedulaSup').val(); // Ejemplo: campo donde está la cédula del supervisor
+        
+        if (cedulaSupervisor && cedulaIngresada && cedulaSupervisor === cedulaIngresada) {
+            return true; // Son la misma persona
+        }
+        return false; // No son la misma persona
     }
 
     // Validación para personal
@@ -554,9 +564,20 @@ $this->registerJs(
         var search = wrapper.find('input[id^=\"searchCedula_\"]').val();
         var naturalezaId = $('#naturaleza-dropdown').val();
 
+        // Primero verificar si es el mismo que el supervisor
+        if (verificarSupervisorVsPersona(search)) {
+            wrapper.find('.origen-data').removeClass('text-success')
+                                    .addClass('text-danger')
+                                    .text('El supervisor no puede ser la misma persona que está ingresando');
+            wrapper.find('.tabla-datos').addClass('d-none');
+            wrapper.find('.cedula_supervisor_60min').val('');
+            return; // Detener la ejecución
+        }
+
+
         // Verificar duplicados antes de validar
-        if (verificarCedulasDuplicadas(wrapper)) {
-            wrapper.find('.tabla-datos').addClass('d-none'); // Oculta resultados de búsqueda
+        var verificacion = verificarCedulasDuplicadas(wrapper);
+        if (verificacion.hayDuplicados) {
             return;
         }
 
@@ -576,7 +597,8 @@ $this->registerJs(
             })
             .done(function(response) {
                 // Verificar nuevamente por si hubo cambios
-                if (verificarCedulasDuplicadas(wrapper)) {
+                var verificacion = verificarCedulasDuplicadas(wrapper);
+                if (verificacion.hayDuplicados) {
                     return;
                 }
 
@@ -628,24 +650,42 @@ $this->registerJs(
                 errorContainer = $(this).closest('.persona-wrapper').find('.origen-data');
             }
             
-            // if (count > 1) {
-            //     errorContainer.removeClass('text-success')
-            //                  .addClass('text-danger')
-            //                  .text('Esta cédula ya está registrada en otra persona');
-            // } else {
-            //     errorContainer.text('').removeClass('text-danger text-success');
-            // }
-
             if (count > 1) {
-            $(this).addClass('is-invalid');
-            errorContainer.removeClass('text-success')
-                         .addClass('text-danger')
-                         .text('Esta cédula ya está registrada en otra persona');
+                errorContainer.removeClass('text-success')
+                             .addClass('text-danger')
+                             .text('Esta cédula ya está registrada en otra persona');
             } else {
-                $(this).removeClass('is-invalid');
                 errorContainer.text('').removeClass('text-danger text-success');
             }
         }
+    });
+
+    //Validación para eliminar búsqueda si cambian la cédula en el campo search
+    $(document).on('change keyup', 'input[id^=searchCedula_]', function() {
+        var wrapper = $(this).closest('.persona-wrapper');
+        var searchCedula = $(this).val();
+
+        if (searchCedula.length === 0) {
+            // Limpiar la información de búsqueda cuando el campo se vacíe
+            wrapper.find('.origen-data').text('').removeClass('text-danger text-success');
+            wrapper.find('.tabla-datos').addClass('d-none');
+            wrapper.find('.cedula, .nombre, .apellido, .cargo, .gerencia, .nro_empleado, .telefono').text('');
+            wrapper.find('.registro-cedula_pers_accide').val('');
+        }
+    });
+
+    // Manejo del envío del formulario
+    $(document).on('beforeSubmit', 'form', function(e) {
+        var naturalezaId = $('#naturaleza-dropdown').val();
+        var verificacion = verificarCedulasDuplicadas();
+        
+        if (verificacion.hayDuplicados && verificacion.esPersonaNatural) {
+            // Mostrar mensaje de error global
+            alert('No se puede enviar el formulario. Existen cédulas duplicadas para personas naturales. Por favor corrija las cédulas duplicadas antes de enviar.');
+            return false;
+        }
+        
+        return true; // Permitir el envío si no hay duplicados o no son personas naturales
     });
 
     // Manejo de agregar/eliminar personas
@@ -726,55 +766,110 @@ $this->registerJs(
     // Ocultar el contenedor del supervisor al cargar la página
     $('#sub-container').hide();
 
-    // Función para verificar cédulas duplicadas
-    function verificarCedulasDuplicadas(currentWrapper) {
+    // Función para mostrar mensajes del supervisor
+    function mostrarMensajeSupervisor(mensaje, clase) {
+        $('#origen-data-supervisor')
+            .removeClass('text-secondary text-success text-danger text-info')
+            .addClass(clase)
+            .text(mensaje);
+    }
+
+    // Función para ocultar datos del supervisor
+    function ocultarDatosSupervisor() {
+        $('.tabla-datos-supervisor').addClass('d-none');
+        $('#registro-cedula_supervisor_60min').val('');
+    }
+
+    // Función mejorada para obtener cédulas de personas afectadas
+    function obtenerCedulasAfectadas() {
         var cedulas = [];
-        var duplicado = false;
-        var currentCedula = currentWrapper.find('#searchCedulaSup').val();
+        var naturalezaId = $('#naturaleza-dropdown').val();
         
-        if (!currentCedula) return false;
+        // Para LABORAL, NO LABORAL y TRANSITO (2, 19, 79)
+        if ([2, 19, 79].includes(parseInt(naturalezaId))) {
+            // 1. Cédulas validadas en busqueda-cedula
+            $('.busqueda-cedula input[type=\"text\"]').each(function() {
+                if ($(this).val() && $(this).val().length >= 8) {
+                    cedulas.push($(this).val());
+                }
+            });
+            
+            // 2. Cédulas en campos ocultos
+            $('input[name^=\"Registro[cedula_pers_accide]\"]').each(function() {
+                if ($(this).val() && $(this).val().length >= 8) {
+                    cedulas.push($(this).val());
+                }
+            });
+        }
+        // Para TERCEROS (31, 35)
+        else if ([31, 35].includes(parseInt(naturalezaId))) {
+            $('.persona-natural input[id$=\"-cedula\"]').each(function() {
+                if ($(this).val() && $(this).val().length >= 8) {
+                    cedulas.push($(this).val());
+                }
+            });
+        }
         
-        // Recoger todas las cédulas de los wrappers excepto el actual
-        $('.supervisor-wrapper').not(currentWrapper).each(function() {
-            var cedula = $(this).find('#searchCedulaSup').val();
-            if (cedula) {
+        // 3. Cédulas mostradas en resultados (todas las naturalezas)
+        $('.cedula:not(.cedula-supervisor)').each(function() {
+            var cedula = $(this).text().trim();
+            if (cedula && cedula.length >= 8) {
                 cedulas.push(cedula);
             }
         });
         
-        // Verificar si la cédula actual ya existe
-        if (cedulas.includes(currentCedula)) {
-            currentWrapper.find('.origen-data')
-                .removeClass('text-success')
-                .addClass('text-danger')
-                .text('Esta cédula ya ha sido ingresada para otra persona afectada.');
-            duplicado = true;
-        }
-        
-        return duplicado;
+        return [...new Set(cedulas)]; // Eliminar duplicados
     }
-    
-    // Validación en tiempo real al escribir en el campo de cédula
-    $(document).on('input', '#searchCedulaSup', function() {
-        var wrapper = $(this).closest('.supervisor-wrapper');
-        verificarCedulasDuplicadas(wrapper);
-    });
 
-    // Validación para supervisor (tu código existente modificado)
+    // Función de validación principal mejorada
+    function validarSupervisorNoEsAfectado(mostrarMensaje = true) {
+        var cedulaSupervisor = $('#searchCedulaSup').val().trim();
+        if (!cedulaSupervisor || cedulaSupervisor.length < 8) return true;
+
+        var cedulasAfectadas = obtenerCedulasAfectadas();
+        console.log('Cédulas afectadas:', cedulasAfectadas);  // Depuración
+
+        var esDuplicada = cedulasAfectadas.includes(cedulaSupervisor);
+        console.log('¿Supervisor es afectado?:', esDuplicada);  // Depuración
+
+        if (esDuplicada) {
+            if (mostrarMensaje) {
+                console.log('Mostrando mensaje de error');  // Depuración
+                mostrarMensajeSupervisor('El supervisor no puede ser la persona afectada', 'text-danger');
+            }
+            ocultarDatosSupervisor();
+            return false;
+        } else {
+            // Limpiar el mensaje de error cuando no es duplicada
+            mostrarMensajeSupervisor('', '');  // O usar una función para ocultar el mensaje
+            return true;
+        }
+    }
+
+
+    // Función para forzar la validación con mensaje
+    function forzarValidacionSupervisor() {
+        var search = $('#searchCedulaSup').val();
+        if (search && search.length >= 8) {
+            validarSupervisorNoEsAfectado(true);
+        }
+    }
+
+    // Validar cuando se hace clic en el botón de validar supervisor
     $(document).on('click', '#boton-validar-supervisor', function() {
         var wrapper = $(this).closest('.supervisor-wrapper');
         var search = $('#searchCedulaSup').val();
         var naturalezaId = $('#naturaleza-dropdown').val();
 
-        // Verificar duplicados antes de validar
-        if (verificarCedulasDuplicadas(wrapper)) {
-            return;
-        }
-
         if (!/^[0-9]{8,}$/.test(search)) {
             wrapper.find('.origen-data').removeClass('text-success')
                                       .addClass('text-danger')
                                       .text('La cédula debe tener al menos 8 dígitos y solo contener números.');
+            return;
+        }
+
+        // Primero validar que no sea una cédula de persona afectada
+        if (!validarSupervisorNoEsAfectado(true)) {
             return;
         }
 
@@ -787,17 +882,17 @@ $this->registerJs(
             })
             .done(function(response) {
                 console.log('Respuesta del servidor:', response);
-                
-                // Verificar nuevamente por si hubo cambios
-                if (verificarCedulasDuplicadas(wrapper)) {
-                    return;
-                }
 
                 if (!response.ci) {
                     wrapper.find('.origen-data').removeClass('text-success')
                                               .addClass('text-danger')
                                               .text('La cédula no se encuentra en el sistema.');
                     wrapper.find('#cedula_supervisor_60min').val('');
+                    return;
+                }
+
+                // Validar nuevamente por si acaso
+                if (!validarSupervisorNoEsAfectado(true)) {
                     return;
                 }
 
@@ -821,7 +916,61 @@ $this->registerJs(
         }
     });
 
-    // Manejar cambio en naturaleza de accidente (tu código existente)
+    // Validar cuando se agrega o modifica una persona afectada
+    $(document).on('change', '.busqueda-cedula input, .persona-natural input[id$=\"-cedula\"], input[name^=\"Registro[cedula_pers_accide]\"]', function() {
+        forzarValidacionSupervisor();
+    });
+
+    // Evento para limpiar el mensaje cuando la cédula del supervisor cambia y ya no es persona afectada
+    $(document).on('change keyup', '#searchCedulaSup', function() {
+        var searchCedula = $(this).val();
+        var origenData = $('.origen-data-supervisor');
+        
+        if (searchCedula.length === 0) {
+            // Limpiar todo si el campo está vacío
+            origenData.text('').removeClass('text-danger text-success');
+            $('.tabla-datos-supervisor').addClass('d-none');
+            $('#cedula_supervisor_60min').val('');
+        } else {
+            // Validar solo si tiene 8 o más dígitos
+            if (searchCedula.length >= 8) {
+                // Verificar si aún es una cédula de persona afectada
+                var cedulasAfectadas = obtenerCedulasAfectadas();
+                var sigueSiendoAfectada = cedulasAfectadas.includes(searchCedula);
+                
+                if (!sigueSiendoAfectada) {
+                    // Limpiar mensaje de error si ya no es persona afectada
+                    origenData.text('').removeClass('text-danger');
+                } else {
+                    // Mostrar mensaje si sigue siendo persona afectada
+                    mostrarMensajeSupervisor('El supervisor no puede ser la persona afectada', 'text-danger');
+                    ocultarDatosSupervisor();
+                }
+            }
+        }
+    });
+
+    // Evento para validar cuando cambian las cédulas de personas afectadas
+    $(document).on('change keyup', '.busqueda-cedula input, .persona-natural input[id$=\"-cedula\"], input[name^=\"Registro[cedula_pers_accide]\"]', function() {
+        var searchCedulaSup = $('#searchCedulaSup').val();
+        
+        // Solo validar si el supervisor tiene una cédula válida
+        if (searchCedulaSup && searchCedulaSup.length >= 8) {
+            var cedulasAfectadas = obtenerCedulasAfectadas();
+            var esAfectada = cedulasAfectadas.includes(searchCedulaSup);
+            
+            if (!esAfectada) {
+                // Limpiar mensaje si ya no coincide con ninguna persona afectada
+                $('.origen-data-supervisor').text('').removeClass('text-danger');
+            } else {
+                // Mostrar mensaje si ahora coincide con una persona afectada
+                mostrarMensajeSupervisor('El supervisor no puede ser la persona afectada', 'text-danger');
+                ocultarDatosSupervisor();
+            }
+        }
+    });
+
+    // Manejar cambio en naturaleza de accidente
     $(document).on('change', '#naturaleza-dropdown, #naturaleza-dropdown-adicional', function() {
         var naturalezaId = $('#naturaleza-dropdown').val();
         var naturalezasSinPersonas = [61, 92];
@@ -860,10 +1009,17 @@ $this->registerJs(
         } else {
             $('#agregar-persona, #sub-container').removeClass('d-none');
         }
+
+        // Forzar validación al cambiar la naturaleza
+        forzarValidacionSupervisor();
+    });
+
+    // Validar al cargar la página si ya hay datos
+    $(document).ready(function() {
+        forzarValidacionSupervisor();
     });
     ",
     View::POS_READY,
     'validacion-supervisor'
 );
-
 ?>

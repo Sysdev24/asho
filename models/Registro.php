@@ -90,17 +90,17 @@ class Registro extends \yii\db\ActiveRecord
         return 'registro';
     }
 
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_PRIMERA] = [
-            'acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'cedula_supervisor_60min', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'cedula_reporta', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'fecha_hora'
-        ];
-        $scenarios[self::SCENARIO_UPDATE] = [
-            'acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'cedula_supervisor_60min', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'cedula_pers_accide', 'cedula_supervisor_60min', 
-        ];
-        return $scenarios;
-    }
+    // public function scenarios()
+    // {
+    //     $scenarios = parent::scenarios();
+    //     $scenarios[self::SCENARIO_PRIMERA] = [
+    //         'acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'cedula_supervisor_60min', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'cedula_reporta', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'fecha_hora', 'cedula', 'ci'
+    //     ];
+    //     $scenarios[self::SCENARIO_UPDATE] = [
+    //         'acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'cedula_supervisor_60min', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'cedula_pers_accide', 'cedula_supervisor_60min', 
+    //     ];
+    //     return $scenarios;
+    // }
 
     /**
      * {@inheritdoc}
@@ -109,7 +109,7 @@ class Registro extends \yii\db\ActiveRecord
     {
         return [
 
-            [['acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'cedula_supervisor_60min', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'cedula_pers_accide', 'cedula_supervisor_60min', ], 'required', 'on' => self::SCENARIO_PRIMERA],
+            [['acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'cedula_pers_accide' ], 'required', 'on' => self::SCENARIO_PRIMERA],
 
             [['acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'cedula_reporta', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'fecha_hora'], 'required', 'on' => self::SCENARIO_UPDATE],
 
