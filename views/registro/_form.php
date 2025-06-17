@@ -496,31 +496,37 @@ $this->registerJs(
 
         // Manejo de cambio en naturaleza de accidente
         $(document).on('change', '#naturaleza-dropdown, #naturaleza-dropdown-adicional', function() {
-            var naturalezaId = $('#naturaleza-dropdown').val();
+            var naturalezaId = Number($('#naturaleza-dropdown').val()); // Convertir a número
             var naturalezasSinPersonas = [61, 92];
             var sujetoAfectacionContainer = $('#sujeto-afectacion-container');
             var btnAgregarPersona = $('#agregar-persona');
 
             $('.persona-wrapper').each(function() {
                 var wrapper = $(this);
-                wrapper.find('.busqueda-cedula input').val('');
+                wrapper.find('.busqueda-cedula input, .persona-natural input').val('');
                 wrapper.find('.origen-data').text('');
                 wrapper.find('.tabla-datos').addClass('d-none');
                 wrapper.find('.registro-cedula_pers_accide').val('');
-                wrapper.find('.persona-natural input').val('');
+
+                // Deshabilitar los campos si la naturaleza seleccionada está en naturalezasSinPersonas
+                if (naturalezasSinPersonas.includes(naturalezaId)) {
+                    wrapper.find('input, select, button').prop('disabled', true);
+                } else {
+                    wrapper.find('input, select, button').prop('disabled', false);
+                }
 
                 // Mostrar/ocultar título según naturaleza
-                if (naturalezaId && !naturalezasSinPersonas.includes(parseInt(naturalezaId))) {
+                if (!naturalezasSinPersonas.includes(naturalezaId)) {
                     wrapper.find('.card').removeClass('d-none');
                 } else {
                     wrapper.find('.card').addClass('d-none');
                 }
 
                 // Mostrar campos adecuados según naturaleza
-                if ([2, 19, 79].includes(parseInt(naturalezaId))) {
+                if ([2, 19, 79].includes(naturalezaId)) {
                     wrapper.find('.busqueda-cedula').removeClass('d-none');
                     wrapper.find('.persona-natural').addClass('d-none');
-                } else if ([31, 35].includes(parseInt(naturalezaId))) {
+                } else if ([31, 35].includes(naturalezaId)) {
                     wrapper.find('.busqueda-cedula').addClass('d-none');
                     wrapper.find('.persona-natural').removeClass('d-none');
                 } else {
@@ -528,7 +534,7 @@ $this->registerJs(
                 }
             });
 
-            if (naturalezaId && !naturalezasSinPersonas.includes(parseInt(naturalezaId))) {
+            if (!naturalezasSinPersonas.includes(naturalezaId)) {
                 btnAgregarPersona.removeClass('d-none');
                 sujetoAfectacionContainer.removeClass('d-none');
             } else {
