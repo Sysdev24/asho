@@ -164,7 +164,7 @@ use yii\helpers\ArrayHelper;
         <br>
         <label for="searchCedulas" class="form-label">Cédula Supervisor</label>
         <div class="input-group mb-3 buscar-cedula">
-            <input type="text" class="form-control" style="width: 150px;" id="searchCedulas" name="searchCedulas" pattern="[0-9]{8}" required placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <input type="text" class="form-control" style="width: 150px;" id="searchCedulas" name="searchCedulas" pattern="[0-9]{8}" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             <button class="btn btn-primary" type="button" id="boton-validar-cedulas">Validar</button>
         </div> 
 

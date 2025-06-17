@@ -109,18 +109,18 @@ class Registro extends \yii\db\ActiveRecord
     {
         return [
 
-            [['acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'cedula_pers_accide', 'cedula_supervisor_60min' ], 'required', 'on' => self::SCENARIO_PRIMERA],
+            [['acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'cedula_pers_accide'], 'required', 'on' => self::SCENARIO_PRIMERA],
 
             [['acciones_tomadas_60min', 'observaciones_60min', 'lugar', 'id_estado', 'id_region', 'id_magnitud', 'id_naturaleza_accidente', 'cedula_reporta', 'created_at', 'updated_at', 'descripcion_accidente_60min', 'fecha_hora'], 'required', 'on' => self::SCENARIO_UPDATE],
 
            //Validació para que la cedula del supervisor solo sea requerido en las naturalezas que no sean id 31, 35
-           [['cedula_supervisor_60min'], 'required', 'when' => function($model) {
-            $registro = Registro::findOne(['id_naturaleza_accidente' => Yii::$app->request->post('Registro')['id_naturaleza_accidente']]);
-            return $registro && !in_array($registro->id_naturaleza_accidente, [31, 35]);
-            }, 'whenClient' => "function (attribute, value) {
-                var naturalezaId = $('#naturaleza-dropdown').val();
-                return !(naturalezaId == 31 || naturalezaId == 35);
-            }"],
+        //    [['cedula_supervisor_60min'], 'required', 'when' => function($model) {
+        //     $registro = Registro::findOne(['id_naturaleza_accidente' => Yii::$app->request->post('Registro')['id_naturaleza_accidente']]);
+        //     return $registro && !in_array($registro->id_naturaleza_accidente, [31, 35]);
+        //     }, 'whenClient' => "function (attribute, value) {
+        //         var naturalezaId = $('#naturaleza-dropdown').val();
+        //         return !(naturalezaId == 31 || naturalezaId == 35);
+        //     }"],
 
 
 
