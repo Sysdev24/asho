@@ -245,17 +245,31 @@ $this->title = 'Número de accidente: ' . Html::encode($model->nro_accidente);
                 [
                     'attribute' => 'cedula_supervisor_60min',
                     'label' => 'Cédula',
+                    'value' => function ($model) {
+                        return !empty($model->cedula_supervisor_60min) ? $model->cedula_supervisor_60min : 'No aplica';
+                    },
                 ],
-                
+      
                 [
                     'attribute' => 'supervisor.nombre',
                     'label' => 'Nombre del Supervisor',
+                    'value' => function ($model) {
+                        return !empty($model->supervisor) && !empty($model->supervisor->nombre)
+                            ? $model->supervisor->nombre
+                            : 'No aplica';
+                    },
                 ],
-
+                
                 [
                     'attribute' => 'supervisor.apellido',
                     'label' => 'Apellido del Supervisor',
+                    'value' => function ($model) {
+                        return !empty($model->supervisor) && !empty($model->supervisor->apellido)
+                            ? $model->supervisor->apellido
+                            : 'No aplica';
+                    },
                 ],
+                
 
                 // 'autorizado_60m:boolean',
                 //'created_at',
