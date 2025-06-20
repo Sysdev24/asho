@@ -104,7 +104,7 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/m
 
     $registerItems = array_filter([
         Yii::$app->user->can('registro/index') ? ['label' => 'Registro 60min', 'url' => ['/registro/index']] : false,
-        Yii::$app->user->can('registro/index') ? ['label' => 'Registro 24 horas', 'url' => ['/registro/indexsegunda']] : false,
+        Yii::$app->user->can('registro/index') ? ['label' => 'Registro 24 horas', 'url' => ['/segundapantalla/index']] : false,
         // Yii::$app->user->can('registroreglaoro/index') ? ['label' => 'Registro Regla de Oro', 'url' => ['/registroreglaoro/index']] : false,
     ]);
     

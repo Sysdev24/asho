@@ -5,20 +5,17 @@ namespace app\controllers;
 use yii;
 use app\models\Magnitud;
 use app\models\RegistroAdicional;
-use app\models\Gerencia;
 use app\models\Cargo;
 use app\models\PersonaNatural;
 use app\models\Personal;
 use app\models\Registro;
 use app\models\Estados;
-use app\models\NaturalezaAccidente;
 use app\models\RegistroSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
-use yii\web\Response;
 
 /**
  * RegistroController implements the CRUD actions for Registro model.

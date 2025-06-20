@@ -496,51 +496,76 @@ $this->registerJs(
 
         // Manejo de cambio en naturaleza de accidente
         $(document).on('change', '#naturaleza-dropdown, #naturaleza-dropdown-adicional', function() {
-            var naturalezaId = Number($('#naturaleza-dropdown').val()); // Convertir a número
+            var naturalezasSeleccionadas = [];
+            var naturalezaPrincipal = Number($('#naturaleza-dropdown').val());
+            var naturalezaAdicional = $('#naturaleza-dropdown-adicional').length ? 
+                                Number($('#naturaleza-dropdown-adicional').val()) : null;
+            
+            if (naturalezaPrincipal) naturalezasSeleccionadas.push(naturalezaPrincipal);
+            if (naturalezaAdicional) naturalezasSeleccionadas.push(naturalezaAdicional);
+            
             var naturalezasSinPersonas = [61, 92];
             var sujetoAfectacionContainer = $('#sujeto-afectacion-container');
             var btnAgregarPersona = $('#agregar-persona');
 
-            $('.persona-wrapper').each(function() {
+            // Limpiar contenedores de secciones adicionales primero
+            $('.seccion-adicional').remove();
+            
+            $('.persona-wrapper').each(function(index) {
                 var wrapper = $(this);
-                wrapper.find('.busqueda-cedula input, .persona-natural input').val('');
-                wrapper.find('.origen-data').text('');
-                wrapper.find('.tabla-datos').addClass('d-none');
-                wrapper.find('.registro-cedula_pers_accide').val('');
-
-                // Deshabilitar los campos si la naturaleza seleccionada está en naturalezasSinPersonas
-                if (naturalezasSinPersonas.includes(naturalezaId)) {
-                    wrapper.find('input, select, button').prop('disabled', true);
-                } else {
-                    wrapper.find('input, select, button').prop('disabled', false);
+                
+                // Limpiar solo si no hay naturalezas seleccionadas
+                if (naturalezasSeleccionadas.length === 0) {
+                    wrapper.find('.busqueda-cedula input, .persona-natural input').val('');
+                    wrapper.find('.origen-data').text('');
+                    wrapper.find('.tabla-datos').addClass('d-none');
+                    wrapper.find('.registro-cedula_pers_accide').val('');
                 }
 
-                // Mostrar/ocultar título según naturaleza
-                if (!naturalezasSinPersonas.includes(naturalezaId)) {
-                    wrapper.find('.card').removeClass('d-none');
-                } else {
-                    wrapper.find('.card').addClass('d-none');
-                }
+                // Deshabilitar solo si alguna naturaleza está en naturalezasSinPersonas
+                var deshabilitar = naturalezasSeleccionadas.some(n => naturalezasSinPersonas.includes(n));
+                wrapper.find('input, select, button').prop('disabled', deshabilitar);
 
-                // Mostrar campos adecuados según naturaleza
-                if ([2, 19, 79].includes(naturalezaId)) {
+                // Mostrar/ocultar card según si hay naturalezas que requieren personas
+                var mostrarCard = !deshabilitar && naturalezasSeleccionadas.length > 0;
+                wrapper.find('.card').toggleClass('d-none', !mostrarCard);
+
+                // Determinar qué campos mostrar
+                var mostrarBusqueda = naturalezasSeleccionadas.some(n => [2, 19, 79].includes(n));
+                var mostrarNatural = naturalezasSeleccionadas.some(n => [31, 35].includes(n));
+                
+                // Si hay ambas naturalezas, crear una sección adicional para la segunda
+                if (mostrarBusqueda && mostrarNatural && index === 0) {
+                    // Clonar el wrapper original para la segunda sección
+                    var nuevoWrapper = wrapper.clone();
+                    nuevoWrapper.addClass('seccion-adicional');
+                    nuevoWrapper.find('.card-title').text('Persona (Tercero)');
+                    
+                    // Modificar los campos en la nueva sección
+                    nuevoWrapper.find('.busqueda-cedula').addClass('d-none');
+                    nuevoWrapper.find('.persona-natural').removeClass('d-none');
+                    
+                    // Insertar después del wrapper original
+                    wrapper.after(nuevoWrapper);
+                    
+                    // Modificar el wrapper original para mostrar solo búsqueda
+                    wrapper.find('.card-title').text('Persona (Laboral)');
                     wrapper.find('.busqueda-cedula').removeClass('d-none');
                     wrapper.find('.persona-natural').addClass('d-none');
-                } else if ([31, 35].includes(naturalezaId)) {
-                    wrapper.find('.busqueda-cedula').addClass('d-none');
-                    wrapper.find('.persona-natural').removeClass('d-none');
-                } else {
-                    wrapper.find('.busqueda-cedula, .persona-natural').addClass('d-none');
+                } 
+                else if (naturalezasSeleccionadas.length === 1) {
+                    // Comportamiento normal para una sola naturaleza
+                    wrapper.find('.busqueda-cedula').toggleClass('d-none', !mostrarBusqueda);
+                    wrapper.find('.persona-natural').toggleClass('d-none', !mostrarNatural);
+                    wrapper.find('.card-title').text('Persona #' + (index + 1));
                 }
             });
 
-            if (!naturalezasSinPersonas.includes(naturalezaId)) {
-                btnAgregarPersona.removeClass('d-none');
-                sujetoAfectacionContainer.removeClass('d-none');
-            } else {
-                btnAgregarPersona.addClass('d-none');
-                sujetoAfectacionContainer.addClass('d-none');
-            }
+            // Mostrar contenedor y botón si hay naturalezas que requieren personas
+            var mostrarContenedores = !naturalezasSeleccionadas.some(n => naturalezasSinPersonas.includes(n)) && 
+                                    naturalezasSeleccionadas.length > 0;
+            btnAgregarPersona.toggleClass('d-none', !mostrarContenedores);
+            sujetoAfectacionContainer.toggleClass('d-none', !mostrarContenedores);
         });
     });
     ",
