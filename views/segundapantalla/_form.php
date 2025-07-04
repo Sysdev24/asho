@@ -16,9 +16,14 @@ use app\models\PeliAgenCategoria;
     <?php $form = ActiveForm::begin(); ?>
 
 
-    <?= $form->field($model, 'id_estatus_proceso')->textInput() ?>
+    <?= Html::activeLabel($model, 'id_estatus_proceso') ?>
+    <?= Html::textInput('estatus', $model->estatusProceso->descripcion ?? 'No definido', [
+        'class' => 'form-control',
+        'readonly' => true
+    ]) ?>
+    <br>
 
-    <?= $form->field($model, 'cedula_pers_accide')->textInput() ?>
+    <?= $form->field($model, 'cedula_pers_accide')->textInput(['readonly' => true]) ?>
 
     <?= $form->field($model, 'cedula_validad_60min')->textInput() ?>
 

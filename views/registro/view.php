@@ -88,156 +88,99 @@ $this->title = 'Número de accidente: ' . Html::encode($model->nro_accidente);
         ]
     ]) ?>
 
-            <div>
-                <br>
-                <h3>Sujeto de afectacion</h3>
-                <br>
-            </div>
-
-        <?= DetailView::widget([
-            'model' => $model,
-            'attributes' => [
-
-                [
-                    'attribute' => 'cedula_pers_accide',
-                    'value' => function($model) {
-                        // Verifica si la cédula está seteada, si no, devuelve 'N/A'
-                        // Aquí asumimos que un valor de 1 en la base de datos indica 'N/A'
-                        if (is_null($model->cedula_pers_accide) || $model->cedula_pers_accide == 1) {
-                            return 'N/A';
-                        }
-                        return $model->cedula_pers_accide;
-                    },
-                    'filterInputOptions' => ['class' => 'form-control', 'placeholder' => 'Busqueda'],
-                ],
-
-                [
-                    'attribute' => 'nombre',
-                    'label' => 'Nombre',
-                    'value' => function($model) {
-                        if (!empty($model->personaNaturals)) {
-                            return $model->personaNaturals[0]->nombre; // Accede al primer elemento
-                        } elseif ($model->cedulaPersAccide) {
-                            return $model->cedulaPersAccide->nombre;
-                        }
-                        return 'Nombre no disponible';
-                    }
-                ],
-
-                [
-                    'attribute' => 'apellido',
-                    'label' => 'Apellido',
-                    'value' => function($model) {
-                        if (!empty($model->personaNaturals)) {
-                            return $model->personaNaturals[0]->apellido; // Accede al primer elemento
-                        } elseif ($model->cedulaPersAccide) {
-                            return $model->cedulaPersAccide->apellido;
-                        }
-                        return 'Apellido no disponible';
-                    }
-                ],
-
-                [
-                    'attribute' => 'nro_empleado',
-                    'label' => 'Nro Personal',
-                    'value' => function($model){
-                        return $model->cedulaPersAccide && $model->cedulaPersAccide->nro_empleado
-                            ? $model->cedulaPersAccide->nro_empleado
-                            : 'Nro personal no disponible';
-                    },
-                ],
-            
-                
-                [
-                    'attribute' => 'fecha_nac',
-                    'label' => 'Fecha Nacimiento',
-                    'value' => function($model) {
-                        // Buscar en personaNatural primero
-                        if (!empty($model->personaNaturals)) {
-                            foreach ($model->personaNaturals as $personaNatural) {
-                                if (!empty($personaNatural->fecha_nac)) {
-                                    return Yii::$app->formatter->asDate($personaNatural->fecha_nac, 'php:d-m-Y');
+    <br>
+    <h3>Sujeto(s) de afectacion</h3>
+    <br>
+    <!-- Mostrar siempre la tabla, independientemente del número de personas -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>C.I. Accidentado</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Nro Personal</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Edad</th>
+                    <th>Gerencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($relatedAccidents as $accident): ?>
+                    <tr>
+                        <td><?= is_null($accident->cedula_pers_accide) || $accident->cedula_pers_accide == 1 ? 'N/A' : $accident->cedula_pers_accide ?></td>
+                        <td>
+                            <?php if (!empty($accident->personaNaturals)): ?>
+                                <?= $accident->personaNaturals[0]->nombre ?>
+                            <?php elseif ($accident->cedulaPersAccide): ?>
+                                <?= $accident->cedulaPersAccide->nombre ?>
+                            <?php else: ?>
+                                Nombre no disponible
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if (!empty($accident->personaNaturals)): ?>
+                                <?= $accident->personaNaturals[0]->apellido ?>
+                            <?php elseif ($accident->cedulaPersAccide): ?>
+                                <?= $accident->cedulaPersAccide->apellido ?>
+                            <?php else: ?>
+                                Apellido no disponible
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?= $accident->cedulaPersAccide && $accident->cedulaPersAccide->nro_empleado 
+                                ? $accident->cedulaPersAccide->nro_empleado 
+                                : 'Nro personal no disponible' ?>
+                        </td>
+                        <td>
+                            <?php
+                            $fechaNac = null;
+                            if (!empty($accident->personaNaturals)) {
+                                foreach ($accident->personaNaturals as $personaNatural) {
+                                    if (!empty($personaNatural->fecha_nac)) {
+                                        $fechaNac = $personaNatural->fecha_nac;
+                                        break;
+                                    }
                                 }
+                            } elseif ($accident->cedulaPersAccide && !empty($accident->cedulaPersAccide->fecha_nac)) {
+                                $fechaNac = $accident->cedulaPersAccide->fecha_nac;
                             }
-                        }
-                        
-                        // Si no encontró en personaNatural, buscar en personal
-                        if (!empty($model->cedulaPersAccide) && !empty($model->cedulaPersAccide->fecha_nac)) {
-                            return Yii::$app->formatter->asDate($model->cedulaPersAccide->fecha_nac, 'php:d-m-Y');
-                        }
-                        
-                        if (!empty($model->cedulaReporta) && !empty($model->cedulaReporta->fecha_nac)) {
-                            return Yii::$app->formatter->asDate($model->cedulaReporta->fecha_nac, 'php:d-m-Y');
-                        }
-                
-                        return 'No disponible';
-                    }
-                ],
-
-                [
-                    'attribute' => 'edad',
-                    'value' => function($model) {
-                        // Determinar de qué tabla obtener la fecha de nacimiento
-                        $fechaNacimiento = null;
-                        
-                        // Primero verifica si hay una persona natural asociada
-                        if (!empty($model->personaNaturals)) {
-                            foreach ($model->personaNaturals as $personaNatural) {
-                                if (!empty($personaNatural->fecha_nac)) {
-                                    $fechaNacimiento = $personaNatural->fecha_nac;
-                                    break;
+                            
+                            echo $fechaNac ? Yii::$app->formatter->asDate($fechaNac, 'php:d-m-Y') : 'No disponible';
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            if (!empty($fechaNac)) {
+                                try {
+                                    $fechaNacimiento = new DateTime($fechaNac);
+                                    $hoy = new DateTime();
+                                    $diferencia = $hoy->diff($fechaNacimiento);
+                                    echo $diferencia->y;
+                                } catch (Exception $e) {
+                                    echo 'Error en fecha';
                                 }
+                            } else {
+                                echo 'No disponible';
                             }
-                        }
-                        
-                        // Si no encontró en personaNatural, verifica en personal
-                        if (empty($fechaNacimiento)) {
-                            if (!empty($model->cedulaPersAccide)) {
-                                $fechaNacimiento = $model->cedulaPersAccide->fecha_nac;
-                            } elseif (!empty($model->cedulaReporta)) {
-                                $fechaNacimiento = $model->cedulaReporta->fecha_nac;
-                            }
-                        }
-                
-                        // Mostrar en el log para debug
-                        Yii::info("Fecha obtenida: " . print_r($fechaNacimiento, true), 'application');
-                
-                        // Calcular la edad si la fecha de nacimiento está disponible
-                        if (!empty($fechaNacimiento)) {
-                            try {
-                                $fechaNac = new DateTime($fechaNacimiento);
-                                $hoy = new DateTime();
-                                $diferencia = $hoy->diff($fechaNac);
-                                return $diferencia->y;
-                            } catch (Exception $e) {
-                                Yii::error("Error al calcular la edad: " . $e->getMessage(), 'application');
-                                return 'Error en fecha';
-                            }
-                        }
-                
-                        return 'Fecha no disponible';
-                    }
-                ],
+                            ?>
+                        </td>
+                        <td>
+                            <?= $accident->cedulaPersAccide && $accident->cedulaPersAccide->gerencia
+                                ? $accident->cedulaPersAccide->gerencia->descripcion
+                                : 'N/A' ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
-                [
-                    'attribute' => 'id_gerencia',
-                    'label' => 'Gerencia',
-                    'value' => function($model){
-                        return $model->cedulaPersAccide && $model->cedulaPersAccide->gerencia
-                            ? $model->cedulaPersAccide->gerencia->descripcion
-                            : 'N/A';
-                    },
-                ],
-            ],
-
-        ]) ?>
-
-            <div>
-                <br>
-                <h3>Supervisor</h3>
-                <br>
-            </div>
-
+        <div>
+            <br>
+            <h3>Supervisor</h3>
+            <br>
+        </div>
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
@@ -269,45 +212,15 @@ $this->title = 'Número de accidente: ' . Html::encode($model->nro_accidente);
                             : 'No aplica';
                     },
                 ],
-                
-
-                // 'autorizado_60m:boolean',
-                //'created_at',
-                //'updated_at',
-                //'id_estatus_proceso',
-                //'id_region',
-                // 'cedula_validad_60min',
-                // 'id_tipo_accidente',
-                // 'id_tipo_trabajo',
-                // 'id_peligro_agente',
-                // 'id_sujeto_afectacion',
-                // 'id_afecta_bienes_perso',
-                // 'cedula_24horas',
-                // 'acciones_tomadas_24horas',
-                // 'observaciones_24horas',
-                // 'recomendaciones_24horas',
-                // 'autorizado_24horas:boolean',
-                // 'cedula_valid_24horas',
-                // 'recomendaciones_60m',
-                // 'anno',
-                // 'correlativo',
-                // //'id_naturaleza_accidente',
-                // 'ocurrencia_hecho_60m',
-                // 'acciones_tomadas_24h',
-                // 'observaciones_24h',
-                // 'validado_por_24h',
-                // 'id_requerimiento_trabajo_24h',
-                // 'cumple_regla_oro:boolean',
-                // 'id_afec_per_categoria',
             ],
 
         ]) ?>
 
-            <div>
-                <br>
-                <h3>Detalles</h3>
-                <br>
-            </div>
+        <div>
+            <br>
+            <h3>Detalles</h3>
+            <br>
+        </div>
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
@@ -322,7 +235,11 @@ $this->title = 'Número de accidente: ' . Html::encode($model->nro_accidente);
                     'label' => 'Observaciones',
                 ],
 
-                'descripcion_accidente_60min',
+                [
+                    'attribute' => 'descripcion_accidente_60min',
+                    'label' => 'Descripción del accidnete',
+                ],
+
             ],
 
         ]) ?>

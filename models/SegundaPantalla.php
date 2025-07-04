@@ -173,7 +173,7 @@ class SegundaPantalla extends \yii\db\ActiveRecord
             'autorizado_60m' => 'Autorizado 60m',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'id_estatus_proceso' => 'Id Estatus Proceso',
+            'id_estatus_proceso' => 'Estatus Proceso',
             'id_region' => 'Id Region',
             'acciones_tomadas_60min' => 'Acciones Tomadas 60min',
             'cedula_reporta' => 'Cedula Reporta',
