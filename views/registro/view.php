@@ -237,7 +237,7 @@ $this->title = 'Número de accidente: ' . Html::encode($model->nro_accidente);
 
                 [
                     'attribute' => 'descripcion_accidente_60min',
-                    'label' => 'Descripción del accidnete',
+                    'label' => 'Descripción del accidente',
                 ],
 
             ],

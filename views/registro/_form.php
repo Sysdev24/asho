@@ -19,10 +19,7 @@ use yii\helpers\ArrayHelper;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php if ($model->scenario === 'primera'): ?>
     <h3>Quien reporta</h3>
-    <?php endif; ?>
-
     <br>
 
     <?php
@@ -34,26 +31,24 @@ use yii\helpers\ArrayHelper;
     $model->cedula_reporta = $cedulaReporta;
     ?>
 
-    <?php if ($model->scenario === 'primera'): ?>
-        <div class="row">
-            <div class="col-md-9">
-                <?= $form->field($model, 'cedula_reporta')->textInput(['readonly' => true]) ?>
-            </div>
-            <div class="col-md-3">
-                <?= $form->field($model, 'fecha_hora')->textInput(['id' => 'registro-fecha_hora', 'readonly' => true]) ?>
-            </div>
+    <div class="row">
+        <div class="col-md-9">
+            <?= $form->field($model, 'cedula_reporta')->textInput(['readonly' => true]) ?>
         </div>
-        
-        <?= $form->field($model, 'id_region')->dropDownList(
-            ArrayHelper::map(Regiones::find()->where(['id_estatus' => 1])->all(), 'id_regiones', 'descripcion'),
-            ['prompt' => 'Seleccionar región', 'id' => 'region-dropdown']
-        ); ?>
+        <div class="col-md-3">
+            <?= $form->field($model, 'fecha_hora')->textInput(['id' => 'registro-fecha_hora', 'readonly' => true]) ?>
+        </div>
+    </div>
 
-        <?= $form->field($model, 'id_estado')->dropDownList(
-            [], // Inicialmente vacío
-            ['prompt' => 'Seleccionar estado', 'id' => 'estado-dropdown', 'disabled' => true,'required' => true]
-        ); ?>
-    <?php endif; ?>
+    <?= $form->field($model, 'id_region')->dropDownList(
+        ArrayHelper::map(Regiones::find()->where(['id_estatus' => 1])->all(), 'id_regiones', 'descripcion'),
+        ['prompt' => 'Seleccionar región', 'id' => 'region-dropdown']
+    ); ?>
+
+    <?= $form->field($model, 'id_estado')->dropDownList(
+        [], // Inicialmente vacío
+        ['prompt' => 'Seleccionar estado', 'id' => 'estado-dropdown', 'disabled' => true]
+    ); ?>
 
     <?= $form->field($model, 'lugar')->textInput() ?>
 
@@ -63,146 +58,159 @@ use yii\helpers\ArrayHelper;
     ); ?>
 
 
-    <?php if ($model->scenario === 'primera'): ?>
-        <div id="naturalezas-adicionales">
-            <?= $form->field($model, 'id_naturaleza_accidente')->dropDownList(
-                ArrayHelper::map(NaturalezaAccidente::find()->where(['id_estatus' => 1])->all(), 'id_naturaleza_accidente', 'descripcion'),
-                ['prompt' => 'Seleccionar Naturaleza de accidente', 'id' => 'naturaleza-dropdown']
-            ) ?>
-        </div>
 
-        <!-- Botón para agregar naturaleza adicional (inicialmente visible) -->
-        <button type="button" id="agregar-naturaleza" class="btn btn-success" style="margin-bottom: 15px;">
-            <i class="fa fa-plus"></i> Agregar otra naturaleza
-        </button>
-
-    <?php endif; ?>
-
-
-    <div id="sujeto-afectacion-container" class="d-none">
-        <br>
-        <h3>Sujeto(s) de Afectación</h3>
-        <br>
+    <div id="naturalezas-adicionales">
+        <?= $form->field($model, 'id_naturaleza_accidente')->dropDownList(
+            ArrayHelper::map(NaturalezaAccidente::find()->where(['id_estatus' => 1])->all(), 'id_naturaleza_accidente', 'descripcion'),
+            ['prompt' => 'Seleccionar Naturaleza de accidente', 'id' => 'naturaleza-dropdown']
+        ) ?>
     </div>
 
-        <!-- Contenedor para personas -->
-        <div id="personas-container">
-            <!-- Persona inicial -->
-            <div class="persona-wrapper" data-index="0">
-                <div class="card mb-3 d-none">
-                    <div class="card-header">
-                        <h5 class="card-title">Persona #1</h5>
-                        <button type="button" class="btn btn-danger btn-sm float-right eliminar-persona" style="display: none;">
-                            <i class="fa fa-trash"></i> Eliminar
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <!-- SUJETO DE AFECTACIÓN -->
-                        <div class="sujeto-afectacion">
-                            <div class="input-group mb-3 busqueda-cedula d-none">
-                                <input type="text" class="form-control" style="width: 150px;" id="searchCedula_0" name="searchCedula[]" pattern="[0-9]{8}" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                <button class="btn btn-primary validar-cedula-btn" type="button" data-index="0">
-                                    Validar
-                                </button>
-                            </div> 
+    <!-- Botón para agregar naturaleza adicional (inicialmente visible) -->
+    <button type="button" id="agregar-naturaleza" class="btn btn-success" style="margin-bottom: 15px;">
+        <i class="fa fa-plus"></i> Agregar otra naturaleza
+    </button>
 
-                            <div class="container-resp-ajax">
-                                <p><strong class="origen-data"></strong></p>
-                                <div class="tabla-datos d-none">
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="tit-cedula">Cédula</th>
-                                                <th scope="col" class="tit-nombre">Nombre</th>
-                                                <th scope="col" class="tit-apellido">Apellido</th>
-                                                <th scope="col" class="tit-cargo">Cargo</th>
-                                                <th scope="col" class="tit-gerencia">Gerencia</th>
-                                                <th scope="col" class="tit-nro_empleado">Nro. Empleado</th>
-                                                <th scope="col" class="tit-telefono">Telefono</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="cedula"></td>
-                                                <td class="nombre"></td>
-                                                <td class="apellido"></td>
-                                                <td class="cargo"></td>
-                                                <td class="gerencia"></td>
-                                                <td class="nro_empleado"></td>
-                                                <td class="telefono"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+    <div id="sujeto-afectacion-container" class="d-none">
+    <br>
+    <h3>Sujeto(s) de Afectación</h3>
+    <br>
+    </div>
+
+    <!-- Contenedor para personas -->
+    <div id="personas-container">
+        <!-- Persona inicial -->
+        <div class="persona-wrapper" data-index="0">
+            <div class="card mb-3 d-none">
+                <div class="card-header">
+                    <h5 class="card-title">Persona #1</h5>
+                    <button type="button" class="btn btn-danger btn-sm float-right eliminar-persona" style="display: none;">
+                        <i class="fa fa-trash"></i> Eliminar
+                    </button>
+                </div>
+                <div class="card-body">
+                    <!-- SUJETO DE AFECTACIÓN -->
+                    <div class="sujeto-afectacion">
+                        <div class="input-group mb-3 busqueda-cedula d-none">
+                            <input type="text" class="form-control" style="width: 150px;" id="searchCedula_0" name="searchCedula[]" pattern="[0-9]{8}" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            <button class="btn btn-primary validar-cedula-btn" type="button" data-index="0">
+                                Validar
+                            </button>
+                        </div> 
+
+                        <div class="container-resp-ajax">
+                            <p><strong class="origen-data"></strong></p>
+                            <div class="tabla-datos d-none">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="tit-cedula">Cédula</th>
+                                            <th scope="col" class="tit-nombre">Nombre</th>
+                                            <th scope="col" class="tit-apellido">Apellido</th>
+                                            <th scope="col" class="tit-cargo">Cargo</th>
+                                            <th scope="col" class="tit-gerencia">Gerencia</th>
+                                            <th scope="col" class="tit-nro_empleado">Nro. Empleado</th>
+                                            <th scope="col" class="tit-telefono">Telefono</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cedula"></td>
+                                            <td class="nombre"></td>
+                                            <td class="apellido"></td>
+                                            <td class="cargo"></td>
+                                            <td class="gerencia"></td>
+                                            <td class="nro_empleado"></td>
+                                            <td class="telefono"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <input type="hidden" class="registro-cedula_pers_accide" name="Registro[cedula_pers_accide][]">
                         </div>
 
-                        <!-- Persona Natural -->
-                        <div class="persona-natural d-none">
-                            <?= $form->field($modelPersonaNatural[0], "[0]cedula")->textInput() ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]nombre")->textInput() ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]apellido")->textInput() ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]telefono")->textInput(['placeholder' => 'Ejemplo: 0412-1234567']) ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]fecha_nac")->input('date', [
-                                'min' => '1000-01-01',
-                                'max' => date('Y-m-d'),
-                                'class' => 'form-control file',
-                                'placeholder' => '31/12/1990',
-                            ]) ?>
-                            <?= $form->field($modelPersonaNatural[0], "[0]empresa")->textInput() ?>
-                        </div>
+                        <input type="hidden" class="registro-cedula_pers_accide" name="Registro[cedula_pers_accide][]">
+                    </div>
+
+                    <!-- Persona Natural -->
+                    <div class="persona-natural d-none">
+                        <?= $form->field($modelPersonaNatural[0], "[0]cedula")->textInput() ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]nombre")->textInput() ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]apellido")->textInput() ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]telefono")->textInput(['placeholder' => 'Ejemplo: 0412-1234567']) ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]fecha_nac")->input('date', [
+                            'min' => '1000-01-01',
+                            'max' => date('Y-m-d'),
+                            'class' => 'form-control file',
+                            'placeholder' => '31/12/1990',
+                        ]) ?>
+                        <?= $form->field($modelPersonaNatural[0], "[0]empresa")->textInput() ?>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Botón para agregar otra persona -->
-        <button type="button" id="agregar-persona" class="btn btn-primary d-none">
-            <i class="fa fa-plus"></i> Agregar otra persona
-        </button>
+    <!-- Botón para agregar otra persona -->
+    <!-- <button type="button" id="agregar-persona" class="btn btn-primary d-none">
+        <i class="fa fa-plus"></i> Agregar otra persona
+    </button> -->
 
-        
-        <?php if ($model->scenario === 'primera'): ?>
-        <div class="supervisor">
-            <br>
-            <br>
-            <h3>Supervisor</h3>
-            <br>
-            <label for="searchCedulas" class="form-label">Cédula Supervisor</label>
-            <div class="input-group mb-3 buscar-cedula">
-                <input type="text" class="form-control" style="width: 150px;" id="searchCedulas" name="searchCedulas" pattern="[0-9]{8}" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                <button class="btn btn-primary" type="button" id="boton-validar-cedulas">Validar</button>
-            </div> 
+    <!-- Para agregar personal interno -->
+    <button id="agregar-personal"
+            type="button"
+            class="btn btn-primary d-none"
+            data-target="sujeto-afectacion">
+        <i class="fa fa-plus"></i> Agregar Personal Interno
+    </button>
 
-            <!-- Cambia estas clases a específicas para supervisor -->
-            <div class="container-resp-ajax-supervisor">
-                <p><strong class="origen-data-supervisor"></strong></p>
-                <div class="tabla-datos-supervisor d-none">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="tit-cedula">Cédula del supervisor</th>
-                                <th scope="col" class="tit-nombre">Nombre</th>
-                                <th scope="col" class="tit-apellido">Apellido</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="cedula-supervisor"></td>
-                                <td class="nombre-supervisor"></td>
-                                <td class="apellido-supervisor"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <?= $form->field($model, 'cedula_supervisor_60min')->hiddenInput(['id' => 'cedula_supervisor_60min'])->label(false) ?> <!-- Campo oculto para cédula -->
-        </div>
+    <!-- Para agregar persona natural -->
+    <button id="agregar-persona-natural"
+            type="button"
+            class="btn btn-primary d-none"
+            data-target="persona-natural">
+        <i class="fa fa-plus"></i> Agregar Persona Natural
+    </button>
+
+
+    
+
+    <div class="supervisor">
         <br>
-        <?php endif; ?>
+        <br>
+        <h3>Supervisor</h3>
+        <br>
+        <label for="searchCedulas" class="form-label">Cédula Supervisor</label>
+        <div class="input-group mb-3 buscar-cedula">
+            <input type="text" class="form-control" style="width: 150px;" id="searchCedulas" name="searchCedulas" pattern="[0-9]{8}" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <button class="btn btn-primary" type="button" id="boton-validar-cedulas">Validar</button>
+        </div> 
 
+        <!-- Cambia estas clases a específicas para supervisor -->
+        <div class="container-resp-ajax-supervisor">
+            <p><strong class="origen-data-supervisor"></strong></p>
+            <div class="tabla-datos-supervisor d-none">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="tit-cedula">Cédula del supervisor</th>
+                            <th scope="col" class="tit-nombre">Nombre</th>
+                            <th scope="col" class="tit-apellido">Apellido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="cedula-supervisor"></td>
+                            <td class="nombre-supervisor"></td>
+                            <td class="apellido-supervisor"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?= $form->field($model, 'cedula_supervisor_60min')->hiddenInput(['id' => 'cedula_supervisor_60min'])->label(false) ?> <!-- Campo oculto para cédula -->
+    </div>
+
+    <br>
     <?= $form->field($model, 'observaciones_60min')->textInput() ?>
 
     <?= $form->field($model, 'acciones_tomadas_60min')->textInput() ?>
@@ -249,54 +257,51 @@ $this->registerJs(
         }
 
         // Manejo de personas
-        // $('#agregar-persona').click(function() {
-        //     var newIndex = personaCounter++;
-        //     var newPersona = $('.persona-wrapper:first').clone();
-
-        //     newPersona.attr('data-index', newIndex);
-        //     newPersona.find('.card-title').text('Persona #' + (newIndex + 1));
-        //     newPersona.find('.eliminar-persona').show();
-        //     newPersona.find('input').val('');
-        //     newPersona.find('.tabla-datos').addClass('d-none');
-        //     newPersona.find('.origen-data').text('');
-
-        //     actualizarAtributos(newPersona, newIndex);
-        //     $('#personas-container').append(newPersona);
-
-        //     if (personaCounter > 1) {
-        //         $('.persona-wrapper:first .eliminar-persona').show();
-        //     }
-        // });
-
-        // Manejo de personas afectadas
-        $('#agregar-persona').click(function() {
-            var newIndex = $('.persona-wrapper').length;
+        // Clonar Personal Interno
+        $('#agregar-personal').click(function() {
+            var newIndex = personaCounter++;
             var newPersona = $('.persona-wrapper:first').clone();
-            
-            // Limpiar campos nuevos
+
+            newPersona.attr('data-index', newIndex);
+            newPersona.find('.card-title').text('Persona #' + (newIndex + 1));
+            newPersona.find('.eliminar-persona').show();
             newPersona.find('input').val('');
             newPersona.find('.tabla-datos').addClass('d-none');
             newPersona.find('.origen-data').text('');
-            newPersona.find('.eliminar-persona').show();
-            newPersona.find('.card-title').text('Persona #' + (newIndex + 1));
-            
-            // Actualizar atributos id y name con nuevo índice
-            newPersona.find('[id]').each(function() {
-                var oldId = $(this).attr('id');
-                if (oldId) {
-                    $(this).attr('id', oldId.replace(/\d+$/, newIndex));
-                }
-            });
-            newPersona.find('[name]').each(function() {
-                var name = $(this).attr('name');
-                if (name && name.includes('[')) {
-                    $(this).attr('name', name.replace(/$$(\d+)$$/, '[' + newIndex + ']'));
-                }
-            });
 
+            // Mostrar solo el bloque de sujeto de afectación
+            newPersona.find('.sujeto-afectacion').removeClass('d-none');
+            newPersona.find('.persona-natural').addClass('d-none');
+
+            actualizarAtributos(newPersona, newIndex);
             $('#personas-container').append(newPersona);
-            if ($('.persona-wrapper').length > 1) {
-                $('.persona-wrapper .eliminar-persona').show();
+
+            if (personaCounter > 1) {
+                $('.persona-wrapper:first .eliminar-persona').show();
+            }
+        });
+
+        // Clonar Persona Natural
+        $('#agregar-persona-natural').click(function() {
+            var newIndex = personaCounter++;
+            var newPersona = $('.persona-wrapper:first').clone();
+
+            newPersona.attr('data-index', newIndex);
+            newPersona.find('.card-title').text('Persona #' + (newIndex + 1));
+            newPersona.find('.eliminar-persona').show();
+            newPersona.find('input').val('');
+            newPersona.find('.tabla-datos').addClass('d-none');
+            newPersona.find('.origen-data').text('');
+
+            // Mostrar solo el bloque de persona natural
+            newPersona.find('.persona-natural').removeClass('d-none');
+            newPersona.find('.sujeto-afectacion').addClass('d-none');
+
+            actualizarAtributos(newPersona, newIndex);
+            $('#personas-container').append(newPersona);
+
+            if (personaCounter > 1) {
+                $('.persona-wrapper:first .eliminar-persona').show();
             }
         });
 
@@ -537,77 +542,53 @@ $this->registerJs(
 
         // Manejo de cambio en naturaleza de accidente
         $(document).on('change', '#naturaleza-dropdown, #naturaleza-dropdown-adicional', function() {
-            var naturalezasSeleccionadas = [];
-            var naturalezaPrincipal = Number($('#naturaleza-dropdown').val());
-            var naturalezaAdicional = $('#naturaleza-dropdown-adicional').length ? 
-                                Number($('#naturaleza-dropdown-adicional').val()) : null;
-            
-            if (naturalezaPrincipal) naturalezasSeleccionadas.push(naturalezaPrincipal);
-            if (naturalezaAdicional) naturalezasSeleccionadas.push(naturalezaAdicional);
-            
+            var naturalezaId = Number($('#naturaleza-dropdown').val());
             var naturalezasSinPersonas = [61, 92];
+            var naturalezasInternas = [2, 19, 79];
+            var naturalezasNaturales = [31, 35];
+
             var sujetoAfectacionContainer = $('#sujeto-afectacion-container');
-            var btnAgregarPersona = $('#agregar-persona');
 
-            // Limpiar contenedores de secciones adicionales primero
-            $('.seccion-adicional').remove();
-            
-            $('.persona-wrapper').each(function(index) {
+            // Ocultar ambos botones al inicio
+            $('#agregar-personal').addClass('d-none');
+            $('#agregar-persona-natural').addClass('d-none');
+
+            $('.persona-wrapper').each(function() {
                 var wrapper = $(this);
-                
-                // Limpiar solo si no hay naturalezas seleccionadas
-                if (naturalezasSeleccionadas.length === 0) {
-                    wrapper.find('.busqueda-cedula input, .persona-natural input').val('');
-                    wrapper.find('.origen-data').text('');
-                    wrapper.find('.tabla-datos').addClass('d-none');
-                    wrapper.find('.registro-cedula_pers_accide').val('');
-                }
 
-                // Deshabilitar solo si alguna naturaleza está en naturalezasSinPersonas
-                var deshabilitar = naturalezasSeleccionadas.some(n => naturalezasSinPersonas.includes(n));
-                wrapper.find('input, select, button').prop('disabled', deshabilitar);
+                // Reset campos
+                wrapper.find('.busqueda-cedula input, .persona-natural input').val('');
+                wrapper.find('.origen-data').text('');
+                wrapper.find('.tabla-datos').addClass('d-none');
+                wrapper.find('.registro-cedula_pers_accide').val('');
 
-                // Mostrar/ocultar card según si hay naturalezas que requieren personas
-                var mostrarCard = !deshabilitar && naturalezasSeleccionadas.length > 0;
-                wrapper.find('.card').toggleClass('d-none', !mostrarCard);
+                var disabled = naturalezasSinPersonas.includes(naturalezaId);
+                wrapper.find('input, select, button').prop('disabled', disabled);
+                wrapper.find('.card').toggleClass('d-none', disabled);
 
-                // Determinar qué campos mostrar
-                var mostrarBusqueda = naturalezasSeleccionadas.some(n => [2, 19, 79].includes(n));
-                var mostrarNatural = naturalezasSeleccionadas.some(n => [31, 35].includes(n));
-                
-                // Si hay ambas naturalezas, crear una sección adicional para la segunda
-                if (mostrarBusqueda && mostrarNatural && index === 0) {
-                    // Clonar el wrapper original para la segunda sección
-                    var nuevoWrapper = wrapper.clone();
-                    nuevoWrapper.addClass('seccion-adicional');
-                    nuevoWrapper.find('.card-title').text('Persona (Tercero)');
-                    
-                    // Modificar los campos en la nueva sección
-                    nuevoWrapper.find('.busqueda-cedula').addClass('d-none');
-                    nuevoWrapper.find('.persona-natural').removeClass('d-none');
-                    
-                    // Insertar después del wrapper original
-                    wrapper.after(nuevoWrapper);
-                    
-                    // Modificar el wrapper original para mostrar solo búsqueda
-                    wrapper.find('.card-title').text('Persona (Laboral)');
+                if (naturalezasInternas.includes(naturalezaId)) {
                     wrapper.find('.busqueda-cedula').removeClass('d-none');
                     wrapper.find('.persona-natural').addClass('d-none');
-                } 
-                else if (naturalezasSeleccionadas.length === 1) {
-                    // Comportamiento normal para una sola naturaleza
-                    wrapper.find('.busqueda-cedula').toggleClass('d-none', !mostrarBusqueda);
-                    wrapper.find('.persona-natural').toggleClass('d-none', !mostrarNatural);
-                    wrapper.find('.card-title').text('Persona #' + (index + 1));
+                    $('#agregar-personal').removeClass('d-none');
+                } else if (naturalezasNaturales.includes(naturalezaId)) {
+                    wrapper.find('.busqueda-cedula').addClass('d-none');
+                    wrapper.find('.persona-natural').removeClass('d-none');
+                    $('#agregar-persona-natural').removeClass('d-none');
+                } else {
+                    wrapper.find('.busqueda-cedula, .persona-natural').addClass('d-none');
                 }
             });
 
-            // Mostrar contenedor y botón si hay naturalezas que requieren personas
-            var mostrarContenedores = !naturalezasSeleccionadas.some(n => naturalezasSinPersonas.includes(n)) && 
-                                    naturalezasSeleccionadas.length > 0;
-            btnAgregarPersona.toggleClass('d-none', !mostrarContenedores);
-            sujetoAfectacionContainer.toggleClass('d-none', !mostrarContenedores);
+            // Mostrar u ocultar contenedor de sujeto de afectación
+            if (!naturalezasSinPersonas.includes(naturalezaId)) {
+                sujetoAfectacionContainer.removeClass('d-none');
+            } else {
+                sujetoAfectacionContainer.addClass('d-none');
+            }
         });
+
+
+
     });
     ",
     View::POS_READY,
@@ -801,7 +782,11 @@ $this->registerJs(
             }
         });
         
-        $(document).on('click', '#agregar-persona', function() {
+        $(document).on('click', '#agregar-personal', function() {
+            setTimeout(validarSupervisor, 500);
+        });
+
+        $(document).on('click', '#agregar-persona-natural', function() {
             setTimeout(validarSupervisor, 500);
         });
         
